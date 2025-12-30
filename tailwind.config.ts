@@ -119,7 +119,7 @@ export default {
         'float-2': 'float-2 12s ease-in-out infinite',
         'float-3': 'float-3 10s ease-in-out infinite',
         'float-4': 'float-4 6s ease-in-out infinite',
-        'border-shimmer': 'border-shimmer 4s linear infinite',
+        'border-shimmer': 'border-shimmer 3s linear infinite',
       },
     },
   },
