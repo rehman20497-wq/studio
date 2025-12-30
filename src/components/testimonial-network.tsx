@@ -23,7 +23,6 @@ type Line = {
 const THEME_CLASSES = [
     'theme-blue',
     'theme-teal',
-
     'theme-purple',
     'theme-green',
     'theme-orange',
@@ -31,7 +30,7 @@ const THEME_CLASSES = [
 
 export default function TestimonialNetwork() {
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [phase, setPhase] = useState<'IDLE' | 'FADEOUT' | 'LINE' | 'PROFILE' | 'POPOVER'>('IDLE');
+  const [phase, setPhase] = useState<'IDLE' | 'FADEOUT' | 'LINE' | 'CIRCLE' | 'PROFILE' | 'POPOVER'>('IDLE');
   
   const [visibleProfiles, setVisibleProfiles] = useState<Testimonial[]>([]);
   const [activeProfile, setActiveProfile] = useState<Testimonial | null>(null);
@@ -62,7 +61,6 @@ export default function TestimonialNetwork() {
     
     window.addEventListener('resize', updateDimensions);
     updateDimensions();
-    // A slight delay to ensure container is rendered before initial calculation
     const timeoutId = setTimeout(updateDimensions, 100);
 
     return () => {
@@ -138,13 +136,16 @@ export default function TestimonialNetwork() {
         await new Promise(r => setTimeout(r, 3000));
       }
   
-      setPhase('PROFILE');
+      setPhase('CIRCLE');
       if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
         setVisibleProfiles(prev => [...prev, currentProfile]);
       }
       setActiveProfile(currentProfile);
       
       await new Promise(r => setTimeout(r, 3000)); 
+      
+      setPhase('PROFILE');
+      await new Promise(r => setTimeout(r, 1000));
   
       setPhase('POPOVER');
       await new Promise(r => setTimeout(r, 6000)); 
@@ -212,7 +213,7 @@ export default function TestimonialNetwork() {
 
         {visibleProfiles.map((p) => {
             if (!p) return null;
-            const isNewlyActive = activeProfile?.id === p.id && phase === 'PROFILE';
+            const isNewlyActive = activeProfile?.id === p.id && phase === 'CIRCLE';
             
             return (
                 <circle
@@ -240,6 +241,7 @@ export default function TestimonialNetwork() {
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
         {visibleProfiles.map((p) => {
           if (!p || !p.coords) return null;
+          const isNewlyActive = activeProfile?.id === p.id;
           
           return (
           <div
@@ -247,7 +249,12 @@ export default function TestimonialNetwork() {
             className="absolute -translate-x-1/2 -translate-y-1/2"
             style={{ left: p.coords.x, top: p.coords.y }}
           >
-            <div className={cn('relative animate-zoom-in')}>
+            <div className={cn(
+                'relative',
+                isNewlyActive && phase === 'PROFILE' ? 'animate-zoom-in' : '',
+                isNewlyActive && phase !== 'PROFILE' ? 'opacity-0' : 'opacity-100',
+                !isNewlyActive ? 'opacity-100' : ''
+            )}>
               <div className="relative rounded-full border-2 border-background overflow-hidden" style={{ width: PROFILE_SIZE, height: PROFILE_SIZE }}>
                 <Image
                   src={p.image}
@@ -271,7 +278,7 @@ export default function TestimonialNetwork() {
             style={{ 
               left: activeProfile.coords.x,
               top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
-              transform: 'translateX(-50%)',
+              transform: 'translateX(-50%) translateY(-100%)',
             }}
         >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
