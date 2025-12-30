@@ -23,6 +23,7 @@ type Line = {
 const THEME_CLASSES = [
     'theme-blue',
     'theme-teal',
+
     'theme-purple',
     'theme-green',
     'theme-orange',
