@@ -142,6 +142,7 @@ export default function TestimonialNetwork() {
         setVisibleProfiles(prev => [...prev, currentProfile]);
       }
       setPhase('CIRCLE');
+      
       await new Promise(r => setTimeout(r, 3000)); 
       
       setPhase('PROFILE');
