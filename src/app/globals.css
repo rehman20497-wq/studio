@@ -42,27 +42,27 @@
   }
 
   .theme-blue {
-    --theme-primary: 217 91% 60%;
+    --theme-primary: 217 91% 80%;
     --theme-secondary: 216 100% 97%;
   }
 
   .theme-teal {
-    --theme-primary: 168 81% 43%;
+    --theme-primary: 168 81% 75%;
     --theme-secondary: 168 100% 97%;
   }
 
   .theme-purple {
-    --theme-primary: 262 84% 60%;
+    --theme-primary: 262 84% 85%;
     --theme-secondary: 262 100% 97%;
   }
 
   .theme-green {
-    --theme-primary: 142 76% 36%;
+    --theme-primary: 142 76% 78%;
     --theme-secondary: 142 100% 97%;
   }
 
   .theme-orange {
-    --theme-primary: 25 95% 53%;
+    --theme-primary: 25 95% 82%;
     --theme-secondary: 25 100% 97%;
   }
  

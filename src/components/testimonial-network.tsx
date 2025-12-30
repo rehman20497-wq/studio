@@ -189,6 +189,7 @@ export default function TestimonialNetwork() {
 
         {visibleProfiles.map((p) => {
             if (!p) return null;
+            const isNewlyActive = activeProfile?.id === p.id && phase === 'PROFILE';
             return (
                 <circle
                     key={`circle-${p.id}`}
@@ -203,8 +204,8 @@ export default function TestimonialNetwork() {
                     )}
                     style={{
                         strokeDasharray: CIRCLE_CIRCUMFERENCE,
-                        strokeDashoffset: (activeProfile?.id === p.id && phase === 'PROFILE') ? CIRCLE_CIRCUMFERENCE : 0,
-                        animation: (activeProfile?.id === p.id && phase === 'PROFILE') ? 'draw-circle 3s ease-out forwards' : 'none',
+                        strokeDashoffset: isNewlyActive ? CIRCLE_CIRCUMFERENCE : 0,
+                        animation: isNewlyActive ? 'draw-circle 3s ease-out forwards' : 'none',
                         filter: 'url(#glow)'
                     }}
                 />
@@ -240,7 +241,7 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-            className="absolute -translate-x-1/2 -translate-y-[calc(100%+32px)] w-64 p-4 rounded-lg animate-fade-scale-in
+            className="absolute -translate-x-1/2 -translate-y-[calc(100%+60px)] w-64 p-4 rounded-lg animate-fade-scale-in
             bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-theme-primary/10
             "
             style={{ left: activeProfile.coords.x, top: activeProfile.coords.y }}
