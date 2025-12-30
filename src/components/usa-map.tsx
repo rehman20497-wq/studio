@@ -7,7 +7,7 @@ const UsaMap = () => {
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
       <Image
-        src="/usa-map-outline-v2.png"
+        src="/USA.jpg"
         alt="USA Map"
         width={1000}
         height={625}
