@@ -134,9 +134,11 @@ export default function TestimonialNetwork() {
         
         setPhase('LINE');
         setLines(prev => [...prev, newLine]);
-        await new Promise(r => setTimeout(r, 3000));
       }
   
+      // This delay matches the line-draw animation duration
+      await new Promise(r => setTimeout(r, 3000));
+      
       setActiveProfile(currentProfile);
       if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
         setVisibleProfiles(prev => [...prev, currentProfile]);
