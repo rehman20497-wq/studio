@@ -291,7 +291,7 @@ export default function TestimonialNetwork() {
           style={
             {
               left: activeProfile.coords.x,
-              top: active_profile.coords.y,
+              top: activeProfile.coords.y,
               transform: `translate(-50%, calc(-100% - ${
                 CIRCLE_RADIUS + 12
               }px))`,
