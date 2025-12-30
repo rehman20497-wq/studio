@@ -7,7 +7,7 @@ const UsaMap = () => {
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
       <Image
-        src="https://storage.googleapis.com/stabl-media/usa-map-outline-v2.png"
+        src="/usa-map-outline-v2.png"
         alt="USA Map"
         width={1000}
         height={625}
