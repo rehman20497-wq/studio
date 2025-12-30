@@ -284,7 +284,7 @@ export default function TestimonialNetwork() {
           className="absolute z-50 w-64 animate-emerge-from-circle border-shimmer-effect"
           style={{
             left: activeProfile.coords.x,
-            top: active_profile.coords.y - CIRCLE_RADIUS - 12,
+            top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
             transform: 'translateX(-50%) translateY(-100%)',
             '--shimmer-angle': '0deg'
           } as React.CSSProperties}
