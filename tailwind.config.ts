@@ -78,8 +78,24 @@ export default {
           'to': { strokeDashoffset: '0' },
         },
         'fade-scale-in': {
-          'from': { opacity: '0', transform: 'scale(0.9) translateY(10px)' },
+          'from': { opacity: '0', transform: 'scale(0.95) translateY(-10px)' },
           'to': { opacity: '1', transform: 'scale(1) translateY(0)' },
+        },
+        'float-1': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        'float-2': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-15px)' },
+        },
+        'float-3': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-25px)' },
+        },
+        'float-4': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
       },
       animation: {
@@ -87,7 +103,11 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'zoom-in': 'zoom-in 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards',
         'draw-circle': 'draw-circle 1s ease-out forwards 0.3s',
-        'fade-scale-in': 'fade-scale-in 0.5s ease-out forwards',
+        'fade-scale-in': 'fade-scale-in 0.4s ease-out forwards',
+        'float-1': 'float-1 8s ease-in-out infinite',
+        'float-2': 'float-2 12s ease-in-out infinite',
+        'float-3': 'float-3 10s ease-in-out infinite',
+        'float-4': 'float-4 6s ease-in-out infinite',
       },
     },
   },

@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import Image from 'next/image';
 import { testimonials as allTestimonials, stateCoordinates } from '@/lib/testimonials';
-import UsaMap from './usa-map';
 import { cn } from '@/lib/utils';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -49,23 +48,32 @@ export default function TestimonialNetwork() {
 
   useEffect(() => {
     if (currentIndex === -1 || testimonials.length === 0) return;
-
+  
     const isNewSet = currentIndex > 0 && currentIndex % 5 === 0;
-
+  
     const runAnimation = async () => {
+      let startingProfile = visibleProfiles.length > 0 ? visibleProfiles[visibleProfiles.length - 1] : null;
+  
       if (isNewSet) {
         setPhase('FADEOUT');
         await new Promise(r => setTimeout(r, 1000));
-        setVisibleProfiles([]);
+        
+        // Keep the last profile of the previous set
+        if (startingProfile) {
+          setVisibleProfiles([startingProfile]);
+        }
         setLines([]);
         pathRefs.current = [];
       }
-
+  
       const currentProfile = testimonials[currentIndex];
-      const prevProfile = visibleProfiles.length > 0 ? visibleProfiles[visibleProfiles.length - 1] : testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length];
-
-      if (currentProfile && prevProfile) {
-        const start = isNewSet ? testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length].coords : prevProfile.coords;
+      
+      if (!startingProfile) {
+        startingProfile = testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length];
+      }
+  
+      if (currentProfile && startingProfile) {
+        const start = startingProfile.coords;
         const end = currentProfile.coords;
         const cx = (start.x + end.x) / 2 + (start.y - end.y) * 0.2;
         const cy = (start.y + end.y) / 2 + (end.x - start.x) * 0.2;
@@ -75,29 +83,25 @@ export default function TestimonialNetwork() {
         };
         
         setPhase('LINE');
-        if (isNewSet) {
-          setLines([newLine]);
-        } else {
-          setLines(prev => [...prev, newLine]);
-        }
+        setLines(prev => [...prev, newLine]);
         await new Promise(r => setTimeout(r, 1500));
       }
-
+  
       setPhase('PROFILE');
-      setVisibleProfiles(prev => isNewSet ? [currentProfile] : [...prev, currentProfile]);
+      setVisibleProfiles(prev => [...prev, currentProfile]);
       setActiveProfile(currentProfile);
       await new Promise(r => setTimeout(r, 1000));
-
+  
       setPhase('POPOVER');
-      await new Promise(r => setTimeout(r, 5000));
-
+      await new Promise(r => setTimeout(r, 4000)); // Shortened for better flow
+  
       setActiveProfile(null);
       setPhase('IDLE');
       await new Promise(r => setTimeout(r, 500));
-
+  
       setCurrentIndex(prev => (prev + 1) % testimonials.length);
     };
-
+  
     runAnimation();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, testimonials]);
@@ -109,18 +113,25 @@ export default function TestimonialNetwork() {
         const path = pathRefs.current[latestLineIndex];
         if(path) {
             path.classList.remove('line-draw');
-            //void path.offsetWidth; // Trigger reflow
+            void path.offsetWidth; 
             path.classList.add('line-draw');
         }
     }
-}, [lines]);
+  }, [lines]);
 
 
   return (
     <div className="relative w-[1000px] h-[625px] scale-[0.5] sm:scale-[0.7] md:scale-[0.8] lg:scale-100">
-      <UsaMap />
-
       <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 1000 625">
+        <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
         {lines.map((line, index) => (
           <path
             key={line.key}
@@ -129,7 +140,8 @@ export default function TestimonialNetwork() {
             fill="none"
             stroke="hsl(var(--primary))"
             strokeWidth="2"
-            className="drop-shadow-[0_0_4px_hsl(var(--primary))]"
+            className="line-draw"
+            style={{ filter: 'url(#glow)' }}
           />
         ))}
       </svg>
@@ -179,7 +191,7 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-            className="absolute -translate-x-1/2 -translate-y-[calc(100%+20px)] w-64 p-4 rounded-lg animate-fade-scale-in
+            className="absolute -translate-x-1/2 -translate-y-[calc(100%+24px)] w-64 p-4 rounded-lg animate-fade-scale-in
             bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-primary/10
             "
             style={{ left: activeProfile.coords.x, top: activeProfile.coords.y }}
