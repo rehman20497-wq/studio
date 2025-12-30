@@ -61,6 +61,8 @@ export default function TestimonialNetwork() {
         // Keep the last profile of the previous set
         if (startingProfile) {
           setVisibleProfiles([startingProfile]);
+        } else {
+          setVisibleProfiles([]);
         }
         setLines([]);
         pathRefs.current = [];
@@ -68,7 +70,7 @@ export default function TestimonialNetwork() {
   
       const currentProfile = testimonials[currentIndex];
       
-      if (!startingProfile) {
+      if (!startingProfile && currentIndex > 0) {
         startingProfile = testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length];
       }
   
@@ -88,12 +90,12 @@ export default function TestimonialNetwork() {
       }
   
       setPhase('PROFILE');
-      setVisibleProfiles(prev => [...prev, currentProfile]);
+      setVisibleProfiles(prev => [...prev.filter(p => p.id !== currentProfile.id), currentProfile]);
       setActiveProfile(currentProfile);
       await new Promise(r => setTimeout(r, 1000));
   
       setPhase('POPOVER');
-      await new Promise(r => setTimeout(r, 4000)); // Shortened for better flow
+      await new Promise(r => setTimeout(r, 4000)); 
   
       setActiveProfile(null);
       setPhase('IDLE');
@@ -191,7 +193,7 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-            className="absolute -translate-x-1/2 -translate-y-[calc(100%+24px)] w-64 p-4 rounded-lg animate-fade-scale-in
+            className="absolute -translate-x-1/2 -translate-y-[calc(100%+32px)] w-64 p-4 rounded-lg animate-fade-scale-in
             bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-primary/10
             "
             style={{ left: activeProfile.coords.x, top: activeProfile.coords.y }}
