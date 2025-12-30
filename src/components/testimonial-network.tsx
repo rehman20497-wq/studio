@@ -138,8 +138,6 @@ export default function TestimonialNetwork() {
         
         setPhase('LINE');
         setLines(prev => [...prev, newLine]);
-        
-        await new Promise(r => setTimeout(r, 3000));
       }
   
       
@@ -182,7 +180,7 @@ export default function TestimonialNetwork() {
 
   useEffect(() => {
     const latestLineIndex = lines.length - 1;
-    if (latestLineIndex >= 0 && pathRefs.current[latestLineIndex]) {
+    if (phase === 'LINE' && latestLineIndex >= 0 && pathRefs.current[latestLineIndex]) {
         const path = pathRefs.current[latestLineIndex];
         if(path) {
             path.classList.remove('line-draw');
@@ -190,7 +188,7 @@ export default function TestimonialNetwork() {
             path.classList.add('line-draw');
         }
     }
-  }, [lines]);
+  }, [lines, phase]);
 
 
   return (
@@ -283,10 +281,10 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-          className="absolute z-50 w-64 animate-fade-scale-in border-shimmer-effect"
+          className="absolute z-50 w-64 animate-emerge-from-circle border-shimmer-effect"
           style={{
             left: activeProfile.coords.x,
-            top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
+            top: active_profile.coords.y - CIRCLE_RADIUS - 12,
             transform: 'translateX(-50%) translateY(-100%)',
             '--shimmer-angle': '0deg'
           } as React.CSSProperties}
