@@ -30,16 +30,30 @@ export default function TestimonialNetwork() {
   const [lines, setLines] = useState<Line[]>([]);
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 1000, height: 625 });
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const { width, height } = containerRef.current.getBoundingClientRect();
+      setDimensions({ width, height });
+    }
+  }, []);
+
   const testimonials = useMemo(() => {
     return allTestimonials.map(t => {
       const imagePlaceholder = PlaceHolderImages.find(p => p.id === t.imageId);
+      const coords = stateCoordinates[t.state] || { x: 0.5, y: 0.5 };
       return {
         ...t,
-        coords: stateCoordinates[t.state],
+        coords: {
+          x: coords.x * dimensions.width,
+          y: coords.y * dimensions.height,
+        },
         image: imagePlaceholder?.imageUrl || `https://picsum.photos/seed/${t.id}/48/48`
       };
     });
-  }, []);
+  }, [dimensions.width, dimensions.height]);
 
   useEffect(() => {
     const startTimeout = setTimeout(() => setCurrentIndex(0), 500);
@@ -106,7 +120,7 @@ export default function TestimonialNetwork() {
       setPhase('IDLE');
       
       const nextIndex = (currentIndex + 1) % testimonials.length;
-      if (nextIndex % 5 !== 0) {
+      if (nextIndex % 5 !== 0 || nextIndex === 0) {
         await new Promise(r => setTimeout(r, 500));
       }
 
@@ -132,8 +146,8 @@ export default function TestimonialNetwork() {
 
 
   return (
-    <div className="relative w-[1000px] h-[625px] scale-[0.5] sm:scale-[0.7] md:scale-[0.8] lg:scale-100">
-      <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 1000 625">
+    <div ref={containerRef} className="relative w-full h-full">
+      <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none" viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
         <defs>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                 <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
@@ -159,6 +173,7 @@ export default function TestimonialNetwork() {
       
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
         {visibleProfiles.map((p) => {
+          if (!p) return null;
           const isProfileActive = activeProfile?.id === p.id && (phase === 'PROFILE' || phase === 'POPOVER');
           
           return (
