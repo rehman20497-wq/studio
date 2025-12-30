@@ -70,8 +70,13 @@ export default function TestimonialNetwork() {
   }, []);
 
   const testimonials = useMemo(() => {
+    const imagePlaceholders = PlaceHolderImages.reduce((acc, p) => {
+      acc[p.id] = p;
+      return acc;
+    }, {} as Record<string, typeof PlaceHolderImages[0]>);
+
     return allTestimonials.map(t => {
-      const imagePlaceholder = PlaceHolderImages.find(p => p.id === t.imageId);
+      const imagePlaceholder = imagePlaceholders[t.imageId];
       const coords = stateCoordinates[t.state] || { x: 0.5, y: 0.5 };
       return {
         ...t,
