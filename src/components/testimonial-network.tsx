@@ -56,7 +56,7 @@ export default function TestimonialNetwork() {
       }
 
       const currentProfile = testimonials[currentIndex];
-      const prevProfile = testimonials[currentIndex - 1] || testimonials[testimonials.length - 1];
+      const prevProfile = visibleProfiles.length > 0 ? visibleProfiles[visibleProfiles.length - 1] : testimonials[testimonials.length - 1];
 
       if (currentProfile && prevProfile) {
         const start = isNewSet ? testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length].coords : prevProfile.coords;
@@ -119,7 +119,6 @@ export default function TestimonialNetwork() {
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
         {visibleProfiles.map((p, idx) => {
           const isProfileActive = activeProfile?.id === p.id && phase === 'PROFILE';
-          const randomColorClass = ['stroke-blue-400', 'stroke-pink-400', 'stroke-green-400', 'stroke-yellow-400', 'stroke-purple-400'][p.id % 5];
           
           return (
           <div
