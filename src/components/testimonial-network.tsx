@@ -279,21 +279,23 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-            className="absolute z-50 w-64 p-4 rounded-lg animate-fade-scale-in
-            bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-theme-primary/10
-            "
-            style={{ 
-              left: activeProfile.coords.x,
-              top: activeProfile.coords.y,
-              transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 8}px))`,
-            }}
+          className="absolute z-50 animate-fade-scale-in"
+          style={{
+            left: activeProfile.coords.x,
+            top: activeProfile.coords.y,
+            transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 8}px))`,
+          }}
         >
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
-            <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
-            <div className="mt-3 text-right">
+          <div className="relative w-64 rounded-lg p-px bg-gradient-to-tr from-theme-primary/30 to-accent/30 animate-border-glow">
+            <div className="relative rounded-lg bg-background/80 backdrop-blur-md p-4">
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
+              <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
+              <div className="mt-3 text-right">
                 <p className="font-headline font-semibold text-theme-primary">{activeProfile.name}</p>
                 <p className="text-xs text-muted-foreground">{activeProfile.designation}</p>
+              </div>
             </div>
+          </div>
         </div>
       )}
       </div>
