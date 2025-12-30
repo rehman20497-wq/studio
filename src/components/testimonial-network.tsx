@@ -23,6 +23,9 @@ type Line = {
 const THEME_CLASSES = [
     'theme-blue',
     'theme-teal',
+    'theme-purple',
+    'theme-green',
+    'theme-orange',
 ];
 
 export default function TestimonialNetwork() {
@@ -108,7 +111,7 @@ export default function TestimonialNetwork() {
         
         setPhase('LINE');
         setLines(prev => [...prev, newLine]);
-        await new Promise(r => setTimeout(r, 1500));
+        await new Promise(r => setTimeout(r, 3000));
       }
   
       setPhase('PROFILE');
@@ -119,7 +122,7 @@ export default function TestimonialNetwork() {
       await new Promise(r => setTimeout(r, 1000));
   
       setPhase('POPOVER');
-      await new Promise(r => setTimeout(r, 4000)); 
+      await new Promise(r => setTimeout(r, 6000)); 
   
       setActiveProfile(null);
       setPhase('IDLE');
@@ -130,7 +133,7 @@ export default function TestimonialNetwork() {
         setPhase('FADEOUT');
         await new Promise(r => setTimeout(r, 1000));
         const lastProfile = testimonials[testimonials.length - 1];
-        setVisibleProfiles([lastProfile]);
+        setVisibleProfiles(lastProfile ? [lastProfile] : []);
         setLines([]);
         pathRefs.current = [];
       }

@@ -50,6 +50,21 @@
     --theme-primary: 168 81% 43%;
     --theme-secondary: 168 100% 97%;
   }
+
+  .theme-purple {
+    --theme-primary: 262 84% 60%;
+    --theme-secondary: 262 100% 97%;
+  }
+
+  .theme-green {
+    --theme-primary: 142 76% 36%;
+    --theme-secondary: 142 100% 97%;
+  }
+
+  .theme-orange {
+    --theme-primary: 25 95% 53%;
+    --theme-secondary: 25 100% 97%;
+  }
  
   .dark {
     --background: 233 63% 10%;
@@ -112,7 +127,7 @@
 .line-draw {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
-  animation: draw-line 1.5s ease-out forwards;
+  animation: draw-line 3s ease-out forwards;
 }
 
 @keyframes draw-line {
