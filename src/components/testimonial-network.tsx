@@ -58,7 +58,6 @@ export default function TestimonialNetwork() {
         setPhase('FADEOUT');
         await new Promise(r => setTimeout(r, 1000));
         
-        // Keep the last profile of the previous set
         if (startingProfile) {
           setVisibleProfiles([startingProfile]);
         } else {
@@ -71,7 +70,11 @@ export default function TestimonialNetwork() {
       const currentProfile = testimonials[currentIndex];
       
       if (!startingProfile && currentIndex > 0) {
-        startingProfile = testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length];
+        const prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+        startingProfile = testimonials[prevIndex];
+        if (!visibleProfiles.some(p => p.id === startingProfile!.id)) {
+            setVisibleProfiles(prev => [...prev, startingProfile!]);
+        }
       }
   
       if (currentProfile && startingProfile) {
@@ -90,7 +93,9 @@ export default function TestimonialNetwork() {
       }
   
       setPhase('PROFILE');
-      setVisibleProfiles(prev => [...prev.filter(p => p.id !== currentProfile.id), currentProfile]);
+      if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
+        setVisibleProfiles(prev => [...prev, currentProfile]);
+      }
       setActiveProfile(currentProfile);
       await new Promise(r => setTimeout(r, 1000));
   
@@ -99,9 +104,13 @@ export default function TestimonialNetwork() {
   
       setActiveProfile(null);
       setPhase('IDLE');
-      await new Promise(r => setTimeout(r, 500));
-  
-      setCurrentIndex(prev => (prev + 1) % testimonials.length);
+      
+      const nextIndex = (currentIndex + 1) % testimonials.length;
+      if (nextIndex % 5 !== 0) {
+        await new Promise(r => setTimeout(r, 500));
+      }
+
+      setCurrentIndex(nextIndex);
     };
   
     runAnimation();
@@ -150,7 +159,7 @@ export default function TestimonialNetwork() {
       
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
         {visibleProfiles.map((p) => {
-          const isProfileActive = activeProfile?.id === p.id && phase === 'PROFILE';
+          const isProfileActive = activeProfile?.id === p.id && (phase === 'PROFILE' || phase === 'POPOVER');
           
           return (
           <div
@@ -167,7 +176,7 @@ export default function TestimonialNetwork() {
                 className="rounded-full border-2 border-background object-cover"
                 data-ai-hint="person portrait"
               />
-              {isProfileActive && (
+              {isProfileActive && phase === 'PROFILE' && (
                 <svg
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-14 -rotate-90 overflow-visible"
                   viewBox="0 0 60 60"

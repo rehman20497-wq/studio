@@ -1,14 +1,14 @@
 export const stateCoordinates: { [key: string]: { x: number; y: number } } = {
-  'California': { x: 90, y: 300 },
-  'Washington': { x: 130, y: 80 },
-  'Texas': { x: 440, y: 460 },
-  'Florida': { x: 830, y: 520 },
-  'New York': { x: 840, y: 160 },
-  'Illinois': { x: 650, y: 250 },
-  'Colorado': { x: 350, y: 260 },
-  'Arizona': { x: 200, y: 360 },
-  'Georgia': { x: 740, y: 400 },
-  'Pennsylvania': { x: 800, y: 200 },
+  'California': { x: 80, y: 380 },
+  'Washington': { x: 120, y: 110 },
+  'Texas': { x: 420, y: 500 },
+  'Florida': { x: 800, y: 545 },
+  'New York': { x: 845, y: 180 },
+  'Illinois': { x: 650, y: 280 },
+  'Colorado': { x: 350, y: 290 },
+  'Arizona': { x: 210, y: 400 },
+  'Georgia': { x: 740, y: 420 },
+  'Pennsylvania': { x: 800, y: 230 },
 };
 
 export const testimonials = [
