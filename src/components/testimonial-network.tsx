@@ -43,10 +43,17 @@ export default function TestimonialNetwork() {
   const [themeClass, setThemeClass] = useState(THEME_CLASSES[0]);
 
   useEffect(() => {
-    if (containerRef.current) {
-      const { width, height } = containerRef.current.getBoundingClientRect();
-      setDimensions({ width, height });
-    }
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const { width, height } = containerRef.current.getBoundingClientRect();
+        setDimensions({ width, height });
+      }
+    };
+    
+    window.addEventListener('resize', updateDimensions);
+    updateDimensions();
+
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   const testimonials = useMemo(() => {
@@ -190,6 +197,8 @@ export default function TestimonialNetwork() {
         {visibleProfiles.map((p) => {
             if (!p) return null;
             const isNewlyActive = activeProfile?.id === p.id && phase === 'PROFILE';
+            const isAlreadyDrawn = visibleProfiles.slice(0, -1).some(vp => vp.id === p.id) || (visibleProfiles.length > 0 && activeProfile?.id !== p.id) || phase === 'POPOVER' || phase === 'IDLE';
+
             return (
                 <circle
                     key={`circle-${p.id}`}
@@ -200,7 +209,7 @@ export default function TestimonialNetwork() {
                     strokeWidth="3"
                     className={cn(
                         "stroke-theme-primary transition-opacity duration-1000",
-                        phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100'
+                        phase === 'FADEOUT' && visibleProfiles.length > 1 && p.id !== visibleProfiles[visibleProfiles.length-1].id ? 'opacity-0' : 'opacity-100'
                     )}
                     style={{
                         strokeDasharray: CIRCLE_CIRCUMFERENCE,
@@ -241,13 +250,13 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-            className="absolute w-64 p-4 rounded-lg animate-fade-scale-in
+            className="absolute z-50 w-64 p-4 rounded-lg animate-fade-scale-in
             bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-theme-primary/10
             "
             style={{ 
-              left: activeProfile.coords.x, 
-              top: activeProfile.coords.y,
-              transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 8}px))`
+              left: activeProfile.coords.x,
+              top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
+              transform: 'translateX(-50%)',
             }}
         >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
