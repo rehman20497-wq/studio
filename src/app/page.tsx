@@ -7,6 +7,7 @@ export default function Home() {
       <div className="relative w-1/2 h-screen flex items-center justify-center">
         <div className="relative w-full h-full">
           <UsaMap />
+          <div className="absolute inset-0 bg-background/50" />
           <div className="absolute inset-0">
             <TestimonialNetwork />
           </div>

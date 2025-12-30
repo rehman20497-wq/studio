@@ -134,10 +134,11 @@ export default function TestimonialNetwork() {
         
         setPhase('LINE');
         setLines(prev => [...prev, newLine]);
+        
+        // This delay matches the line-draw animation duration
+        await new Promise(r => setTimeout(r, 3000));
       }
   
-      // This delay matches the line-draw animation duration
-      await new Promise(r => setTimeout(r, 3000));
       
       setActiveProfile(currentProfile);
       if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
@@ -283,8 +284,8 @@ export default function TestimonialNetwork() {
             "
             style={{ 
               left: activeProfile.coords.x,
-              top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
-              transform: 'translateX(-50%)',
+              top: activeProfile.coords.y,
+              transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 8}px))`,
             }}
         >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
