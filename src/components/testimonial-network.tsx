@@ -121,7 +121,8 @@ export default function TestimonialNetwork() {
         setVisibleProfiles(prev => [...prev, currentProfile]);
       }
       setActiveProfile(currentProfile);
-      await new Promise(r => setTimeout(r, 1000));
+      
+      await new Promise(r => setTimeout(r, 3000)); 
   
       setPhase('POPOVER');
       await new Promise(r => setTimeout(r, 6000)); 
@@ -185,12 +186,35 @@ export default function TestimonialNetwork() {
             style={{ filter: 'url(#glow)' }}
           />
         ))}
+
+        {visibleProfiles.map((p) => {
+            if (!p) return null;
+            return (
+                <circle
+                    key={`circle-${p.id}`}
+                    cx={p.coords.x}
+                    cy={p.coords.y}
+                    r={CIRCLE_RADIUS}
+                    fill="none"
+                    strokeWidth="3"
+                    className={cn(
+                        "stroke-theme-primary transition-opacity duration-1000",
+                        phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100'
+                    )}
+                    style={{
+                        strokeDasharray: CIRCLE_CIRCUMFERENCE,
+                        strokeDashoffset: (activeProfile?.id === p.id && phase === 'PROFILE') ? CIRCLE_CIRCUMFERENCE : 0,
+                        animation: (activeProfile?.id === p.id && phase === 'PROFILE') ? 'draw-circle 3s ease-out forwards' : 'none',
+                        filter: 'url(#glow)'
+                    }}
+                />
+            );
+        })}
       </svg>
       
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
         {visibleProfiles.map((p) => {
           if (!p) return null;
-          const isProfileActive = activeProfile?.id === p.id && (phase === 'PROFILE' || phase === 'POPOVER');
           
           return (
           <div
@@ -198,7 +222,7 @@ export default function TestimonialNetwork() {
             className="absolute -translate-x-1/2 -translate-y-1/2"
             style={{ left: p.coords.x, top: p.coords.y }}
           >
-            <div className={cn('relative animate-zoom-in', isProfileActive ? 'z-10' : 'z-0')}>
+            <div className={cn('relative animate-zoom-in')}>
               <div className="relative rounded-full border-2 border-background overflow-hidden" style={{ width: PROFILE_SIZE, height: PROFILE_SIZE }}>
                 <Image
                   src={p.image}
@@ -209,25 +233,6 @@ export default function TestimonialNetwork() {
                   data-ai-hint="person portrait"
                 />
               </div>
-              {isProfileActive && phase === 'PROFILE' && (
-                <svg
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-24 w-24 -rotate-90 overflow-visible"
-                  viewBox="0 0 92 92"
-                >
-                  <circle
-                    cx="46"
-                    cy="46"
-                    r={CIRCLE_RADIUS}
-                    fill="none"
-                    strokeWidth="3"
-                    className={cn("animate-draw-circle", "stroke-theme-primary")}
-                    style={{
-                      strokeDasharray: CIRCLE_CIRCUMFERENCE,
-                      strokeDashoffset: CIRCLE_CIRCUMFERENCE,
-                    }}
-                  />
-                </svg>
-              )}
             </div>
           </div>
         )})}

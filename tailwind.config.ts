@@ -104,7 +104,7 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'zoom-in': 'zoom-in 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards',
-        'draw-circle': 'draw-circle 1s ease-out forwards 0.3s',
+        'draw-circle': 'draw-circle 3s ease-out forwards',
         'fade-scale-in': 'fade-scale-in 0.4s ease-out forwards',
         'float-1': 'float-1 8s ease-in-out infinite',
         'float-2': 'float-2 12s ease-in-out infinite',
