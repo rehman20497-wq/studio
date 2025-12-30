@@ -241,10 +241,14 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-            className="absolute -translate-x-1/2 -translate-y-[calc(100%+60px)] w-64 p-4 rounded-lg animate-fade-scale-in
+            className="absolute -translate-x-1/2 w-64 p-4 rounded-lg animate-fade-scale-in
             bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-theme-primary/10
             "
-            style={{ left: activeProfile.coords.x, top: activeProfile.coords.y }}
+            style={{ 
+              left: activeProfile.coords.x, 
+              top: activeProfile.coords.y,
+              transform: `translate(-50%, calc(-100% - ${PROFILE_SIZE / 2 + 16}px))`
+            }}
         >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
             <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
