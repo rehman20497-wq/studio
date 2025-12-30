@@ -40,6 +40,16 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
   }
+
+  .theme-blue {
+    --theme-primary: 217 91% 60%;
+    --theme-secondary: 216 100% 97%;
+  }
+
+  .theme-teal {
+    --theme-primary: 168 81% 43%;
+    --theme-secondary: 168 100% 97%;
+  }
  
   .dark {
     --background: 233 63% 10%;
@@ -75,6 +85,9 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --theme-primary: 183 100% 74%;
+    --theme-secondary: 233 63% 15%;
   }
 }
  
@@ -84,6 +97,15 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .stroke-theme-primary {
+    stroke: hsl(var(--theme-primary));
+  }
+  .shadow-theme-primary\/10 {
+    box-shadow: 0 10px 15px -3px hsl(var(--theme-primary) / 0.1), 0 4px 6px -4px hsl(var(--theme-primary) / 0.1);
+  }
+  .text-theme-primary {
+    color: hsl(var(--theme-primary));
   }
 }
 

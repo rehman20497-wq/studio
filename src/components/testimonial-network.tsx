@@ -20,6 +20,11 @@ type Line = {
   path: string;
 };
 
+const THEME_CLASSES = [
+    'theme-blue',
+    'theme-teal',
+];
+
 export default function TestimonialNetwork() {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [phase, setPhase] = useState<'IDLE' | 'FADEOUT' | 'LINE' | 'PROFILE' | 'POPOVER'>('IDLE');
@@ -32,6 +37,7 @@ export default function TestimonialNetwork() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1000, height: 625 });
+  const [themeClass, setThemeClass] = useState(THEME_CLASSES[0]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -69,13 +75,12 @@ export default function TestimonialNetwork() {
       let startingProfile = visibleProfiles.length > 0 ? visibleProfiles[visibleProfiles.length - 1] : null;
   
       if (isNewSet) {
+        setThemeClass(THEME_CLASSES[(currentIndex / 5) % THEME_CLASSES.length]);
         setPhase('FADEOUT');
         await new Promise(r => setTimeout(r, 1000));
         
         if (startingProfile) {
           setVisibleProfiles([startingProfile]);
-        } else {
-          setVisibleProfiles([]);
         }
         setLines([]);
         pathRefs.current = [];
@@ -120,10 +125,16 @@ export default function TestimonialNetwork() {
       setPhase('IDLE');
       
       const nextIndex = (currentIndex + 1) % testimonials.length;
-      if (nextIndex % 5 !== 0 || nextIndex === 0) {
-        await new Promise(r => setTimeout(r, 500));
+      if (nextIndex === 0 && testimonials.length > 0) {
+        setThemeClass(THEME_CLASSES[0]);
+        setPhase('FADEOUT');
+        await new Promise(r => setTimeout(r, 1000));
+        const lastProfile = testimonials[testimonials.length - 1];
+        setVisibleProfiles([lastProfile]);
+        setLines([]);
+        pathRefs.current = [];
       }
-
+      await new Promise(r => setTimeout(r, 500));
       setCurrentIndex(nextIndex);
     };
   
@@ -146,7 +157,7 @@ export default function TestimonialNetwork() {
 
 
   return (
-    <div ref={containerRef} className="relative w-full h-full">
+    <div ref={containerRef} className={cn("relative w-full h-full", themeClass)}>
       <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none" viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
         <defs>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -163,7 +174,7 @@ export default function TestimonialNetwork() {
             ref={el => pathRefs.current[index] = el}
             d={line.path}
             fill="none"
-            stroke="hsl(var(--primary))"
+            stroke="hsl(var(--theme-primary))"
             strokeWidth="2"
             className="line-draw"
             style={{ filter: 'url(#glow)' }}
@@ -202,7 +213,7 @@ export default function TestimonialNetwork() {
                     r={CIRCLE_RADIUS}
                     fill="none"
                     strokeWidth="3"
-                    className={cn("animate-draw-circle", "stroke-primary")}
+                    className={cn("animate-draw-circle", "stroke-theme-primary")}
                     style={{
                       strokeDasharray: CIRCLE_CIRCUMFERENCE,
                       strokeDashoffset: CIRCLE_CIRCUMFERENCE,
@@ -218,14 +229,14 @@ export default function TestimonialNetwork() {
       {activeProfile && phase === 'POPOVER' && (
         <div
             className="absolute -translate-x-1/2 -translate-y-[calc(100%+32px)] w-64 p-4 rounded-lg animate-fade-scale-in
-            bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-primary/10
+            bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-theme-primary/10
             "
             style={{ left: activeProfile.coords.x, top: activeProfile.coords.y }}
         >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
             <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
             <div className="mt-3 text-right">
-                <p className="font-headline font-semibold text-primary">{activeProfile.name}</p>
+                <p className="font-headline font-semibold text-theme-primary">{activeProfile.name}</p>
                 <p className="text-xs text-muted-foreground">{activeProfile.state}</p>
             </div>
         </div>
