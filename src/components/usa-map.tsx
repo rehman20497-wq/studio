@@ -10,8 +10,7 @@ const UsaMap = () => {
         src="/USA.jpg"
         alt="USA Map"
         layout="fill"
-        objectFit="cover"
-        className="opacity-20"
+        objectFit="contain"
       />
     </div>
   );
