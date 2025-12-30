@@ -137,12 +137,11 @@ export default function TestimonialNetwork() {
         await new Promise(r => setTimeout(r, 3000));
       }
   
-      setPhase('CIRCLE');
-      if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
-        setVisibleProfiles(prev => [...prev.filter(p => p.id !== currentProfile.id), currentProfile]);
-      }
       setActiveProfile(currentProfile);
-      
+      if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
+        setVisibleProfiles(prev => [...prev, currentProfile]);
+      }
+      setPhase('CIRCLE');
       await new Promise(r => setTimeout(r, 3000)); 
       
       setPhase('PROFILE');
@@ -223,10 +222,11 @@ export default function TestimonialNetwork() {
                     cy={p.coords.y}
                     r={CIRCLE_RADIUS}
                     fill="none"
+                    stroke="hsl(var(--theme-primary))"
                     strokeWidth="3"
                     className={cn(
-                        "stroke-theme-primary transition-opacity duration-1000",
-                        phase === 'FADEOUT' && visibleProfiles.length > 1 && p.id !== visibleProfiles[visibleProfiles.length-1].id ? 'opacity-0' : 'opacity-100'
+                        "transition-opacity duration-1000",
+                        phase === 'FADEOUT' && visibleProfiles.length > 1 && p.id !== visibleProfiles[visibleProfiles.length - 1].id ? 'opacity-0' : 'opacity-100'
                     )}
                     style={{
                         strokeDasharray: CIRCLE_CIRCUMFERENCE,
@@ -242,35 +242,35 @@ export default function TestimonialNetwork() {
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
         {visibleProfiles.map((p) => {
           if (!p || !p.coords) return null;
-          const isNewlyActive = activeProfile?.id === p.id;
-          const isVisible = isNewlyActive && (phase === 'PROFILE' || phase === 'POPOVER' || phase === 'IDLE');
+          const isActive = activeProfile?.id === p.id;
+          const isVisible = (isActive && (phase === 'PROFILE' || phase === 'POPOVER' || phase === 'IDLE')) || 
+                            (!isActive && visibleProfiles.some(vp => vp.id === p.id));
           
           return (
-          <div
-            key={p.id}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ left: p.coords.x, top: p.coords.y }}
-          >
-            <div className={cn(
-                'relative',
-                isNewlyActive && phase === 'PROFILE' ? 'animate-zoom-in' : '',
-                !isVisible && !isNewlyActive ? 'opacity-100' : '',
-                !isVisible && isNewlyActive ? 'opacity-0' : '',
-                isVisible ? 'opacity-100' : ''
-            )}>
-              <div className="relative rounded-full border-2 border-background overflow-hidden" style={{ width: PROFILE_SIZE, height: PROFILE_SIZE }}>
-                <Image
-                  src={p.image}
-                  alt={p.name}
-                  fill
-                  sizes={`${PROFILE_SIZE}px`}
-                  className="object-cover"
-                  data-ai-hint="person portrait"
-                />
+            <div
+              key={p.id}
+              className="absolute -translate-x-1/2 -translate-y-1/2"
+              style={{ left: p.coords.x, top: p.coords.y }}
+            >
+              <div className={cn(
+                  'relative transition-opacity duration-500',
+                  isActive && phase === 'PROFILE' ? 'animate-zoom-in' : '',
+                  isVisible ? 'opacity-100' : 'opacity-0'
+              )}>
+                <div className="relative rounded-full border-2 border-background overflow-hidden" style={{ width: PROFILE_SIZE, height: PROFILE_SIZE }}>
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    fill
+                    sizes={`${PROFILE_SIZE}px`}
+                    className="object-cover"
+                    data-ai-hint="person portrait"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        )})}
+          );
+        })}
       </div>
       
       {activeProfile && phase === 'POPOVER' && (
@@ -280,8 +280,8 @@ export default function TestimonialNetwork() {
             "
             style={{ 
               left: activeProfile.coords.x,
-              top: activeProfile.coords.y,
-              transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 12}px))`,
+              top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
+              transform: 'translateX(-50%)',
             }}
         >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
