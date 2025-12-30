@@ -285,17 +285,24 @@ export default function TestimonialNetwork() {
           className="absolute z-50 w-64 animate-emerge-from-circle border-shimmer-effect"
           style={{
             left: activeProfile.coords.x,
-            top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
-            transform: 'translateX(-50%) translateY(-100%)',
-            '--shimmer-angle': '0deg'
-          } as React.CSSProperties}
+            top: activeProfile.coords.y,
+            transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 12}px))`,
+          }}
         >
-          <div className="p-4 rounded-lg bg-background/80 backdrop-blur-md">
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border rotate-45" />
-            <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
+          <div className="relative p-4 rounded-xl bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-xl">
+            <div
+              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/10 backdrop-blur-xl border-r border-b border-white/20 rotate-45"
+            />
+            <p className="text-sm text-white/80 italic">
+              "{activeProfile.review}"
+            </p>
             <div className="mt-3 text-right">
-              <p className="font-headline font-semibold text-theme-primary">{activeProfile.name}</p>
-              <p className="text-xs text-muted-foreground">{activeProfile.designation}</p>
+              <p className="font-semibold text-theme-primary">
+                {activeProfile.name}
+              </p>
+              <p className="text-xs text-white/50">
+                {activeProfile.designation}
+              </p>
             </div>
           </div>
         </div>
