@@ -103,7 +103,8 @@ export default function TestimonialNetwork() {
         await new Promise(r => setTimeout(r, 1000));
         
         if (startingProfile) {
-            setVisibleProfiles([startingProfile]);
+             const newVisible = visibleProfiles.filter(p => p.id === startingProfile!.id);
+             setVisibleProfiles(newVisible);
         } else {
             setVisibleProfiles([]);
         }
@@ -117,7 +118,7 @@ export default function TestimonialNetwork() {
         const prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
         startingProfile = testimonials[prevIndex];
         if (!visibleProfiles.some(p => p.id === startingProfile!.id)) {
-            setVisibleProfiles(prev => [...prev, startingProfile!]);
+             setVisibleProfiles(prev => [...prev.filter(p => p.id !== startingProfile!.id), startingProfile!]);
         }
       }
   
@@ -138,7 +139,7 @@ export default function TestimonialNetwork() {
   
       setPhase('CIRCLE');
       if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
-        setVisibleProfiles(prev => [...prev, currentProfile]);
+        setVisibleProfiles(prev => [...prev.filter(p => p.id !== currentProfile.id), currentProfile]);
       }
       setActiveProfile(currentProfile);
       
@@ -242,6 +243,7 @@ export default function TestimonialNetwork() {
         {visibleProfiles.map((p) => {
           if (!p || !p.coords) return null;
           const isNewlyActive = activeProfile?.id === p.id;
+          const isVisible = isNewlyActive && (phase === 'PROFILE' || phase === 'POPOVER' || phase === 'IDLE');
           
           return (
           <div
@@ -252,8 +254,9 @@ export default function TestimonialNetwork() {
             <div className={cn(
                 'relative',
                 isNewlyActive && phase === 'PROFILE' ? 'animate-zoom-in' : '',
-                isNewlyActive && phase !== 'PROFILE' ? 'opacity-0' : 'opacity-100',
-                !isNewlyActive ? 'opacity-100' : ''
+                !isVisible && !isNewlyActive ? 'opacity-100' : '',
+                !isVisible && isNewlyActive ? 'opacity-0' : '',
+                isVisible ? 'opacity-100' : ''
             )}>
               <div className="relative rounded-full border-2 border-background overflow-hidden" style={{ width: PROFILE_SIZE, height: PROFILE_SIZE }}>
                 <Image
@@ -277,8 +280,8 @@ export default function TestimonialNetwork() {
             "
             style={{ 
               left: activeProfile.coords.x,
-              top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
-              transform: 'translateX(-50%) translateY(-100%)',
+              top: activeProfile.coords.y,
+              transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 12}px))`,
             }}
         >
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
