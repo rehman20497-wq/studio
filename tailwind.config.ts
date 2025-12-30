@@ -99,10 +99,6 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
         },
-        'border-glow': {
-          'from': { transform: 'rotate(0deg)' },
-          'to': { transform: 'rotate(360deg)' },
-        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -114,7 +110,6 @@ export default {
         'float-2': 'float-2 12s ease-in-out infinite',
         'float-3': 'float-3 10s ease-in-out infinite',
         'float-4': 'float-4 6s ease-in-out infinite',
-        'border-glow': 'border-glow 4s linear infinite',
       },
     },
   },
