@@ -83,9 +83,9 @@ export default function TestimonialNetwork() {
         await new Promise(r => setTimeout(r, 1000));
         
         if (startingProfile) {
-          setVisibleProfiles(prev => prev.filter(p => p.id === startingProfile?.id));
+            setVisibleProfiles([startingProfile]);
         } else {
-          setVisibleProfiles([]);
+            setVisibleProfiles([]);
         }
         setLines([]);
         pathRefs.current = [];
@@ -199,14 +199,16 @@ export default function TestimonialNetwork() {
             style={{ left: p.coords.x, top: p.coords.y }}
           >
             <div className={cn('relative animate-zoom-in', isProfileActive ? 'z-10' : 'z-0')}>
-              <Image
-                src={p.image}
-                alt={p.name}
-                width={PROFILE_SIZE}
-                height={PROFILE_SIZE}
-                className="rounded-full border-2 border-background object-cover"
-                data-ai-hint="person portrait"
-              />
+              <div className="relative rounded-full border-2 border-background overflow-hidden" style={{ width: PROFILE_SIZE, height: PROFILE_SIZE }}>
+                <Image
+                  src={p.image}
+                  alt={p.name}
+                  fill
+                  sizes={`${PROFILE_SIZE}px`}
+                  className="object-cover"
+                  data-ai-hint="person portrait"
+                />
+              </div>
               {isProfileActive && phase === 'PROFILE' && (
                 <svg
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-24 w-24 -rotate-90 overflow-visible"
