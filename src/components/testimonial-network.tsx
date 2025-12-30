@@ -146,6 +146,7 @@ export default function TestimonialNetwork() {
       if (!visibleProfiles.some(p => p.id === currentProfile.id)) {
         setVisibleProfiles(prev => [...prev, currentProfile]);
       }
+      
       setPhase('CIRCLE');
       
       await new Promise(r => setTimeout(r, 3000)); 
