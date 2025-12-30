@@ -283,18 +283,21 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-          className="absolute z-50 w-64 p-4 rounded-lg animate-fade-scale-in bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-theme-primary/10"
+          className="absolute z-50 w-64 animate-fade-scale-in border-shimmer-effect"
           style={{
             left: activeProfile.coords.x,
             top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
             transform: 'translateX(-50%)',
-          }}
+            '--shimmer-angle': '0deg'
+          } as React.CSSProperties}
         >
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border rotate-45" />
-          <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
-          <div className="mt-3 text-right">
-            <p className="font-headline font-semibold text-theme-primary">{activeProfile.name}</p>
-            <p className="text-xs text-muted-foreground">{activeProfile.designation}</p>
+          <div className="p-4 rounded-lg bg-background/80 backdrop-blur-md">
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border rotate-45" />
+            <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
+            <div className="mt-3 text-right">
+              <p className="font-headline font-semibold text-theme-primary">{activeProfile.name}</p>
+              <p className="text-xs text-muted-foreground">{activeProfile.designation}</p>
+            </div>
           </div>
         </div>
       )}
