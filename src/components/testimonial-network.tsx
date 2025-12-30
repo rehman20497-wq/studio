@@ -8,8 +8,8 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 type Coords = { x: number; y: number };
 
-const PROFILE_SIZE = 48;
-const CIRCLE_RADIUS = 28;
+const PROFILE_SIZE = 80;
+const CIRCLE_RADIUS = 44;
 const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 
 type TestimonialData = (typeof allTestimonials)[0];
@@ -59,7 +59,7 @@ export default function TestimonialNetwork() {
           x: coords.x * dimensions.width,
           y: coords.y * dimensions.height,
         },
-        image: imagePlaceholder?.imageUrl || `https://picsum.photos/seed/${t.id}/48/48`
+        image: imagePlaceholder?.imageUrl || `https://picsum.photos/seed/${t.id}/80/80`
       };
     });
   }, [dimensions.width, dimensions.height]);
@@ -83,7 +83,9 @@ export default function TestimonialNetwork() {
         await new Promise(r => setTimeout(r, 1000));
         
         if (startingProfile) {
-          setVisibleProfiles([startingProfile]);
+          setVisibleProfiles(prev => prev.filter(p => p.id === startingProfile?.id));
+        } else {
+          setVisibleProfiles([]);
         }
         setLines([]);
         pathRefs.current = [];
@@ -207,12 +209,12 @@ export default function TestimonialNetwork() {
               />
               {isProfileActive && phase === 'PROFILE' && (
                 <svg
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-14 -rotate-90 overflow-visible"
-                  viewBox="0 0 60 60"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-24 w-24 -rotate-90 overflow-visible"
+                  viewBox="0 0 92 92"
                 >
                   <circle
-                    cx="30"
-                    cy="30"
+                    cx="46"
+                    cy="46"
                     r={CIRCLE_RADIUS}
                     fill="none"
                     strokeWidth="3"
@@ -240,7 +242,7 @@ export default function TestimonialNetwork() {
             <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
             <div className="mt-3 text-right">
                 <p className="font-headline font-semibold text-theme-primary">{activeProfile.name}</p>
-                <p className="text-xs text-muted-foreground">{activeProfile.state}</p>
+                <p className="text-xs text-muted-foreground">{activeProfile.designation}</p>
             </div>
         </div>
       )}
