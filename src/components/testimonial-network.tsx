@@ -287,28 +287,27 @@ export default function TestimonialNetwork() {
       
       {activeProfile && phase === 'POPOVER' && (
         <div
-          className="absolute z-50 w-64 animate-emerge-from-circle border-shimmer-effect"
+          className="absolute z-50 w-64 animate-emerge-from-circle"
           style={
             {
               left: activeProfile.coords.x,
-              top: activeProfile.coords.y,
+              top: active_profile.coords.y,
               transform: `translate(-50%, calc(-100% - ${
                 CIRCLE_RADIUS + 12
               }px))`,
-              '--shimmer-angle': '0deg',
             } as React.CSSProperties
           }
         >
-          <div className="relative p-4 rounded-xl bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-xl">
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/10 backdrop-blur-xl border-r border-b border-white/20 rotate-45" />
-            <p className="text-sm text-white/80 italic">
+          <div className="relative p-4 rounded-xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border border-white/20 shadow-2xl">
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border-r border-b border-white/20 rotate-45" />
+            <p className="text-sm text-black dark:text-white/80 italic">
               "{activeProfile.review}"
             </p>
             <div className="mt-3 text-right">
-              <p className="font-semibold text-theme-primary">
+              <p className="font-semibold text-black dark:text-white">
                 {activeProfile.name}
               </p>
-              <p className="text-xs text-white/50">
+              <p className="text-xs text-black/60 dark:text-white/50">
                 {activeProfile.designation}
               </p>
             </div>
