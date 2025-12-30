@@ -5,11 +5,8 @@ export default function Home() {
   return (
     <main className="flex h-screen w-screen bg-background font-body overflow-hidden">
       {/* Left Column: Map */}
-      <div className="relative flex-1 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <UsaMap />
-        </div>
-        <div className="absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_20%,hsl(var(--background)))]"></div>
+      <div className="relative flex-1">
+        <UsaMap />
       </div>
 
       {/* Right Column: Testimonials */}
