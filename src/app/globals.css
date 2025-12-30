@@ -127,7 +127,7 @@
 .line-draw {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
-  animation: draw-line 3s ease-out forwards;
+  animation: draw-line 5s ease-out forwards;
 }
 
 @keyframes draw-line {

@@ -298,8 +298,8 @@ export default function TestimonialNetwork() {
             } as React.CSSProperties
           }
         >
-          <div className="relative p-4 rounded-xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border border-white/20 shadow-2xl">
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border-r border-b border-white/20 rotate-45" />
+          <div className="relative p-6 rounded-xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border border-white/20 shadow-2xl">
+            <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border-r border-b border-white/20 rotate-45" />
             <p className="text-sm text-black dark:text-white/80 italic">
               "{activeProfile.review}"
             </p>
