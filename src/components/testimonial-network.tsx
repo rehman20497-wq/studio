@@ -287,7 +287,7 @@ export default function TestimonialNetwork() {
           style={{
             left: activeProfile.coords.x,
             top: activeProfile.coords.y - CIRCLE_RADIUS - 12,
-            transform: 'translateX(-50%)',
+            transform: 'translateX(-60%) translateY(-10%)',
             '--shimmer-angle': '0deg'
           } as React.CSSProperties}
         >
