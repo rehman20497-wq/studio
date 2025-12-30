@@ -37,6 +37,7 @@ export default function TestimonialNetwork() {
 
   const [lines, setLines] = useState<Line[]>([]);
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
+  const lineKeyCounter = useRef(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1000, height: 625 });
@@ -127,7 +128,7 @@ export default function TestimonialNetwork() {
         const cx = (start.x + end.x) / 2 + (start.y - end.y) * 0.2;
         const cy = (start.y + end.y) / 2 + (end.x - start.x) * 0.2;
         const newLine = {
-            key: currentIndex,
+            key: lineKeyCounter.current++,
             path: `M${start.x},${start.y} Q${cx},${cy} ${end.x},${end.y}`,
         };
         
