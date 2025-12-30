@@ -16,6 +16,11 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 type TestimonialData = (typeof allTestimonials)[0];
 type Testimonial = TestimonialData & { coords: Coords, image: string };
 
+type Line = {
+  key: number;
+  path: string;
+};
+
 export default function TestimonialNetwork() {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [phase, setPhase] = useState<'IDLE' | 'FADEOUT' | 'LINE' | 'PROFILE' | 'POPOVER'>('IDLE');
@@ -23,8 +28,8 @@ export default function TestimonialNetwork() {
   const [visibleProfiles, setVisibleProfiles] = useState<Testimonial[]>([]);
   const [activeProfile, setActiveProfile] = useState<Testimonial | null>(null);
 
-  const [line, setLine] = useState<{ key: number; path: string } | null>(null);
-  const pathRef = useRef<SVGPathElement>(null);
+  const [lines, setLines] = useState<Line[]>([]);
+  const pathRefs = useRef<(SVGPathElement | null)[]>([]);
 
   const testimonials = useMemo(() => {
     return allTestimonials.map(t => {
@@ -52,22 +57,29 @@ export default function TestimonialNetwork() {
         setPhase('FADEOUT');
         await new Promise(r => setTimeout(r, 1000));
         setVisibleProfiles([]);
-        setLine(null);
+        setLines([]);
+        pathRefs.current = [];
       }
 
       const currentProfile = testimonials[currentIndex];
-      const prevProfile = visibleProfiles.length > 0 ? visibleProfiles[visibleProfiles.length - 1] : testimonials[testimonials.length - 1];
+      const prevProfile = visibleProfiles.length > 0 ? visibleProfiles[visibleProfiles.length - 1] : testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length];
 
       if (currentProfile && prevProfile) {
         const start = isNewSet ? testimonials[(currentIndex - 1 + testimonials.length) % testimonials.length].coords : prevProfile.coords;
         const end = currentProfile.coords;
         const cx = (start.x + end.x) / 2 + (start.y - end.y) * 0.2;
         const cy = (start.y + end.y) / 2 + (end.x - start.x) * 0.2;
-        setLine({
+        const newLine = {
             key: currentIndex,
             path: `M${start.x},${start.y} Q${cx},${cy} ${end.x},${end.y}`,
-        });
+        };
+        
         setPhase('LINE');
+        if (isNewSet) {
+          setLines([newLine]);
+        } else {
+          setLines(prev => [...prev, newLine]);
+        }
         await new Promise(r => setTimeout(r, 1500));
       }
 
@@ -87,37 +99,43 @@ export default function TestimonialNetwork() {
     };
 
     runAnimation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, testimonials]);
 
+
   useEffect(() => {
-    if (line && pathRef.current) {
-      const length = pathRef.current.getTotalLength();
-      pathRef.current.style.strokeDasharray = `${length}`;
-      pathRef.current.style.strokeDashoffset = `${length}`;
-      pathRef.current.classList.add('line-draw');
+    const latestLineIndex = lines.length - 1;
+    if (latestLineIndex >= 0 && pathRefs.current[latestLineIndex]) {
+        const path = pathRefs.current[latestLineIndex];
+        if(path) {
+            path.classList.remove('line-draw');
+            //void path.offsetWidth; // Trigger reflow
+            path.classList.add('line-draw');
+        }
     }
-  }, [line]);
+}, [lines]);
+
 
   return (
     <div className="relative w-[1000px] h-[625px] scale-[0.5] sm:scale-[0.7] md:scale-[0.8] lg:scale-100">
       <UsaMap />
 
       <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 1000 625">
-        {line && (
+        {lines.map((line, index) => (
           <path
             key={line.key}
-            ref={pathRef}
+            ref={el => pathRefs.current[index] = el}
             d={line.path}
             fill="none"
             stroke="hsl(var(--primary))"
             strokeWidth="2"
             className="drop-shadow-[0_0_4px_hsl(var(--primary))]"
           />
-        )}
+        ))}
       </svg>
       
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
-        {visibleProfiles.map((p, idx) => {
+        {visibleProfiles.map((p) => {
           const isProfileActive = activeProfile?.id === p.id && phase === 'PROFILE';
           
           return (
