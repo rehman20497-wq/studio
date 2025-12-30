@@ -46,14 +46,27 @@ export default function TestimonialNetwork() {
     const updateDimensions = () => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect();
-        setDimensions({ width, height });
+        const aspectRatio = 1000 / 625;
+        const containerHeight = width / aspectRatio;
+        
+        if (height > containerHeight) {
+            setDimensions({ width, height: containerHeight });
+        } else {
+            const containerWidth = height * aspectRatio;
+            setDimensions({ width: containerWidth, height });
+        }
       }
     };
     
     window.addEventListener('resize', updateDimensions);
     updateDimensions();
+    // A slight delay to ensure container is rendered before initial calculation
+    const timeoutId = setTimeout(updateDimensions, 100);
 
-    return () => window.removeEventListener('resize', updateDimensions);
+    return () => {
+        window.removeEventListener('resize', updateDimensions);
+        clearTimeout(timeoutId);
+    }
   }, []);
 
   const testimonials = useMemo(() => {
@@ -77,7 +90,7 @@ export default function TestimonialNetwork() {
   }, []);
 
   useEffect(() => {
-    if (currentIndex === -1 || testimonials.length === 0) return;
+    if (currentIndex === -1 || testimonials.length === 0 || dimensions.width === 0) return;
   
     const isNewSet = currentIndex > 0 && currentIndex % 5 === 0;
   
@@ -153,7 +166,7 @@ export default function TestimonialNetwork() {
   
     runAnimation();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, testimonials]);
+  }, [currentIndex, testimonials, dimensions.width]);
 
 
   useEffect(() => {
@@ -170,7 +183,8 @@ export default function TestimonialNetwork() {
 
 
   return (
-    <div ref={containerRef} className={cn("relative w-full h-full", themeClass)}>
+    <div ref={containerRef} className={cn("relative w-full h-full flex items-center justify-center", themeClass)}>
+     <div style={{ width: dimensions.width, height: dimensions.height }} className="relative">
       <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none" viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
         <defs>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -197,8 +211,7 @@ export default function TestimonialNetwork() {
         {visibleProfiles.map((p) => {
             if (!p) return null;
             const isNewlyActive = activeProfile?.id === p.id && phase === 'PROFILE';
-            const isAlreadyDrawn = visibleProfiles.slice(0, -1).some(vp => vp.id === p.id) || (visibleProfiles.length > 0 && activeProfile?.id !== p.id) || phase === 'POPOVER' || phase === 'IDLE';
-
+            
             return (
                 <circle
                     key={`circle-${p.id}`}
@@ -224,7 +237,7 @@ export default function TestimonialNetwork() {
       
       <div className={cn("transition-opacity duration-1000", phase === 'FADEOUT' ? 'opacity-0' : 'opacity-100')}>
         {visibleProfiles.map((p) => {
-          if (!p) return null;
+          if (!p || !p.coords) return null;
           
           return (
           <div
@@ -267,6 +280,7 @@ export default function TestimonialNetwork() {
             </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

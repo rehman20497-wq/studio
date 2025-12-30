@@ -5,12 +5,10 @@ export default function Home() {
   return (
     <main className="flex h-screen w-screen bg-background font-body overflow-hidden">
       <div className="relative w-1/2 h-screen flex items-center justify-center">
-        <div className="w-full" style={{ aspectRatio: '1000 / 625' }}>
-          <div className="relative w-full h-full">
-            <UsaMap />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <TestimonialNetwork />
-            </div>
+        <div className="relative w-full h-full">
+          <UsaMap />
+          <div className="absolute inset-0">
+            <TestimonialNetwork />
           </div>
         </div>
       </div>
