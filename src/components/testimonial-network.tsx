@@ -100,7 +100,7 @@ export default function TestimonialNetwork() {
 
   return (
     <div className="relative w-[1000px] h-[625px] scale-[0.5] sm:scale-[0.7] md:scale-[0.8] lg:scale-100">
-      <UsaMap stateCoords={Object.values(stateCoordinates)} />
+      <UsaMap />
 
       <svg className="absolute top-0 left-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 1000 625">
         {line && (
@@ -147,7 +147,7 @@ export default function TestimonialNetwork() {
                     r={CIRCLE_RADIUS}
                     fill="none"
                     strokeWidth="3"
-                    className={cn("animate-draw-circle", randomColorClass)}
+                    className={cn("animate-draw-circle", "stroke-primary")}
                     style={{
                       strokeDasharray: CIRCLE_CIRCUMFERENCE,
                       strokeDashoffset: CIRCLE_CIRCUMFERENCE,
@@ -163,15 +163,15 @@ export default function TestimonialNetwork() {
       {activeProfile && phase === 'POPOVER' && (
         <div
             className="absolute -translate-x-1/2 -translate-y-[calc(100%+20px)] w-64 p-4 rounded-lg animate-fade-scale-in
-            bg-primary/10 backdrop-blur-md border border-primary/30 shadow-2xl shadow-primary/20
+            bg-background/80 backdrop-blur-md border border-border shadow-2xl shadow-primary/10
             "
             style={{ left: activeProfile.coords.x, top: activeProfile.coords.y }}
         >
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-primary/30 transform rotate-45"></div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-inherit border-b border-r border-border transform rotate-45"></div>
             <p className="font-body text-sm text-foreground/80 italic">"{activeProfile.review}"</p>
             <div className="mt-3 text-right">
-                <p className="font-headline font-semibold text-primary-foreground">{activeProfile.name}</p>
-                <p className="text-xs text-primary-foreground/70">{activeProfile.state}</p>
+                <p className="font-headline font-semibold text-primary">{activeProfile.name}</p>
+                <p className="text-xs text-muted-foreground">{activeProfile.state}</p>
             </div>
         </div>
       )}
