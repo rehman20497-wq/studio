@@ -1,3 +1,4 @@
+
 "use client";
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -29,32 +30,44 @@ const testimonials = [
 
 const DURATION = 8000;
 
-const variants = {
-  enter: (direction: number) => ({
-    y: direction > 0 ? 20 : -20,
-    opacity: 0,
-    scale: 0.9,
-  }),
-  center: {
-    y: 0,
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
     opacity: 1,
-    scale: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
   },
-  exit: (direction: number) => ({
-    y: direction < 0 ? 20 : -20,
-    opacity: 0,
-    scale: 0.9,
-  }),
+};
+
+const itemVariants = {
+  image: {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
+    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.4, ease: 'easeIn' } },
+  },
+  details: {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    exit: { opacity: 0, y: -20, transition: { duration: 0.4, ease: 'easeIn' } },
+  },
+  review: {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    exit: { opacity: 0, y: 20, transition: { duration: 0.4, ease: 'easeIn' } },
+  },
+  progress: {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  }
 };
 
 export default function TestimonialCarousel() {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [[direction], setDirection] = useState([0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setDirection([1]);
       setIndex((prev) => (prev + 1) % testimonials.length);
     }, DURATION);
     return () => clearInterval(interval);
@@ -62,19 +75,17 @@ export default function TestimonialCarousel() {
 
   useEffect(() => {
     setProgress(0);
-    let frameId: number;
+    const frameId = requestAnimationFrame(animateProgress);
     let startTime = performance.now();
-
-    const animateProgress = (currentTime: number) => {
+    
+    function animateProgress(currentTime: number) {
       const elapsedTime = currentTime - startTime;
       const newProgress = Math.min((elapsedTime / DURATION) * 100, 100);
       setProgress(newProgress);
       if (elapsedTime < DURATION) {
-        frameId = requestAnimationFrame(animateProgress);
+        requestAnimationFrame(animateProgress);
       }
-    };
-
-    frameId = requestAnimationFrame(animateProgress);
+    }
 
     return () => cancelAnimationFrame(frameId);
   }, [index]);
@@ -86,31 +97,28 @@ export default function TestimonialCarousel() {
     const percentage = clickX / width;
     const newIndex = Math.floor(percentage * testimonials.length);
     if (newIndex !== index) {
-      setDirection([newIndex > index ? 1 : -1]);
       setIndex(newIndex);
     }
   };
   
   const currentTestimonial = testimonials[index];
-
   const barWidth = ((index / testimonials.length) * 100) + (progress / testimonials.length);
 
   return (
-    <div className="bg-[#E0F5F5] rounded-xl p-8 w-full max-w-lg">
-      <div className="flex items-center gap-6 overflow-hidden">
-        <AnimatePresence initial={false} custom={direction}>
+    <motion.div 
+      className="bg-[#E0F5F5] rounded-xl p-8 w-full max-w-lg"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <div className="flex items-center gap-6">
+        <AnimatePresence mode="wait">
           <motion.div
             key={index + '-image'}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
+            variants={itemVariants.image}
+            initial="hidden"
+            animate="visible"
             exit="exit"
-            transition={{
-              y: { type: 'spring', stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-              scale: { duration: 0.3 }
-            }}
             className="w-24 h-24 relative flex-shrink-0"
           >
             <Image
@@ -123,37 +131,34 @@ export default function TestimonialCarousel() {
             />
           </motion.div>
         </AnimatePresence>
-        <div className="flex-grow overflow-hidden h-[140px] relative">
-          <AnimatePresence initial={false} custom={direction}>
+        <div className="flex-grow overflow-hidden">
+          <AnimatePresence mode="wait">
             <motion.div
               key={index + '-text'}
-              custom={direction}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.4, ease: 'easeOut' } }}
-              exit={{ opacity: 0, y: -20, transition: { duration: 0.4, ease: 'easeIn' } }}
-              className="absolute inset-0"
+              className="h-[140px] relative"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={{
+                visible: { transition: { staggerChildren: 0.1 } },
+                exit: { transition: { staggerChildren: 0.1, staggerDirection: -1 } }
+              }}
             >
               <motion.p 
                 className="font-bold text-zinc-900"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.4 } }}
-                exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                variants={itemVariants.details}
               >
                 {currentTestimonial.name}
               </motion.p>
               <motion.p 
                 className="text-sm font-medium text-zinc-700"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.4 } }}
-                exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                variants={itemVariants.details}
               >
                 {currentTestimonial.title}
               </motion.p>
               <motion.p 
                 className="mt-2 text-sm text-zinc-600"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.4 } }}
-                exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
+                variants={itemVariants.review}
               >
                 {currentTestimonial.review}
               </motion.p>
@@ -161,7 +166,7 @@ export default function TestimonialCarousel() {
           </AnimatePresence>
         </div>
       </div>
-      <div className="mt-6">
+      <motion.div className="mt-6" variants={itemVariants.progress}>
         <div className="relative h-2 w-full bg-[#0badbf] rounded-full cursor-pointer" onClick={handleProgressClick}>
           <motion.div 
             className="absolute top-0 left-0 h-full bg-black rounded-full" 
@@ -175,11 +180,10 @@ export default function TestimonialCarousel() {
               <div
                 key={i}
                 className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full border border-black/20"
-                style={{ left: `${pos}%` }}
+                style={{ left: `${pos}%`, transform: 'translate(-50%, -50%)' }}
                 onClick={(e) => {
                   e.stopPropagation();
                   if (i !== index) {
-                    setDirection([i > index ? 1 : -1]);
                     setIndex(i);
                   }
                 }}
@@ -187,7 +191,7 @@ export default function TestimonialCarousel() {
             )
            })}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
