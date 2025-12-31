@@ -9,21 +9,21 @@ const testimonials = [
     title: 'on Customer Success',
     review:
       "With over 20 years of building innovative customer programs, Paula Weeks, Senior Director of FIFA World Cup 2026 Hospitality, brings this collaborative approach to one of soccer's largest events.",
-    image: '/paula-weeks.png',
+    image: 'https://picsum.photos/seed/paula/96/96',
   },
   {
     name: 'John Doe, Acme Corp',
     title: 'on Product Innovation',
     review:
       'Leveraging cutting-edge technology, John has consistently delivered products that redefine the market and exceed customer expectations.',
-    image: '/john-doe.png',
+    image: 'https://picsum.photos/seed/john/96/96',
   },
   {
     name: 'Jane Smith, Tech Solutions',
     title: 'on Engineering Excellence',
     review:
       'Jane’s leadership in the engineering department has led to unprecedented levels of stability and performance in our infrastructure.',
-    image: '/jane-smith.png',
+    image: 'https://picsum.photos/seed/jane/96/96',
   },
 ];
 
@@ -41,17 +41,21 @@ export default function TestimonialCarousel() {
   }, []);
 
   useEffect(() => {
-    setProgress(0);
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + 100 / (DURATION / 100);
-        if (newProgress >= 100) {
-          return 100;
-        }
-        return newProgress;
-      });
-    }, 100);
-    return () => clearInterval(progressInterval);
+    let frameId: number;
+    let startTime = performance.now();
+
+    const animateProgress = (currentTime: number) => {
+      const elapsedTime = currentTime - startTime;
+      const newProgress = Math.min((elapsedTime / DURATION) * 100, 100);
+      setProgress(newProgress);
+      if (elapsedTime < DURATION) {
+        frameId = requestAnimationFrame(animateProgress);
+      }
+    };
+
+    frameId = requestAnimationFrame(animateProgress);
+
+    return () => cancelAnimationFrame(frameId);
   }, [index]);
 
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -102,8 +106,12 @@ export default function TestimonialCarousel() {
         </div>
       </div>
       <div className="mt-6">
-        <div className="relative h-1 w-full bg-black/10 rounded-full cursor-pointer" onClick={handleProgressClick}>
-          <div className="absolute top-0 left-0 h-1 bg-black/60 rounded-full" style={{ width: `${progress}%` }}></div>
+        <div className="relative h-2 w-full bg-black/10 rounded-full cursor-pointer" onClick={handleProgressClick}>
+          <motion.div 
+            className="absolute top-0 left-0 h-full bg-black/60 rounded-full" 
+            style={{ width: `${progress}%` }}
+            transition={{ duration: 0.1, ease: 'linear' }}
+          />
            {testimonials.map((_, i) => {
              if (i === 0) return null;
             const pos = (i / testimonials.length) * 100;
@@ -111,7 +119,7 @@ export default function TestimonialCarousel() {
               <div
                 key={i}
                 className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full border border-black/20"
-                style={{ left: `calc(${pos}% - 6px)` }}
+                style={{ left: `${pos}%` }}
                 onClick={(e) => {
                   e.stopPropagation();
                   setIndex(i);
@@ -119,7 +127,6 @@ export default function TestimonialCarousel() {
               ></div>
             )
            })}
-           <div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full border-2 border-black/60" style={{ left: `calc(${progress}% - 6px)`}}></div>
         </div>
       </div>
     </div>
