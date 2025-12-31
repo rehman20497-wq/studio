@@ -136,7 +136,7 @@ export default function Header() {
         </a>
         .
       </div>
-      <div className="container mx-auto flex items-center justify-between py-4">
+      <div className="w-full px-[4%] flex items-center justify-between py-4">
         <div className="flex items-center gap-10">
           <a href="#" aria-label="Hugo logo">
             <HugoLogo />

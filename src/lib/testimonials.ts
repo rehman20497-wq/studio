@@ -9,6 +9,11 @@ export const stateCoordinates: { [key: string]: { x: number; y: number } } = {
     'Arizona': { x: 0.23, y: 0.65 },
     'Georgia': { x: 0.76, y: 0.68 },
     'Pennsylvania': { x: 0.82, y: 0.42 },
+    'North Carolina': { x: 0.8, y: 0.6 },
+    'Michigan': { x: 0.7, y: 0.35 },
+    'Ohio': { x: 0.75, y: 0.45 },
+    'Virginia': { x: 0.8, y: 0.5 },
+    'Massachusetts': { x: 0.88, y: 0.3 }
 };
 
 export const testimonials = [
