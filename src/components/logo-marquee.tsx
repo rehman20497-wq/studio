@@ -22,7 +22,7 @@ const logos = [
 
 const LogoMarquee: React.FC = () => {
     return (
-        <div className="bg-[#FEF9F2] py-12">
+        <div className="bg-[#FDEEC4] py-12">
             <div className="relative w-full overflow-hidden">
                 <div className="animate-marquee whitespace-nowrap flex">
                     {logos.map((logo, index) => (

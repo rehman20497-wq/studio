@@ -1,6 +1,7 @@
 import Header from "@/components/layout/header";
 import RightColumn from "@/components/layout/right-column";
 import LogoMarquee from "@/components/logo-marquee";
+import SuccessMission from "@/components/success-mission";
 import TestimonialNetwork from "@/components/testimonial-network";
 import UsaMap from "@/components/usa-map";
 
@@ -23,6 +24,7 @@ export default function Home() {
         </div>
       </main>
       <LogoMarquee />
+      <SuccessMission />
     </div>
   );
 }
