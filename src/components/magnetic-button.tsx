@@ -29,7 +29,7 @@ export default function MagneticButton({ children }: { children: React.ReactNode
       onMouseLeave={reset}
       animate={{ x, y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className="relative px-8 py-4 rounded-full bg-zinc-900 text-white shadow-lg overflow-hidden"
+      className="relative px-8 py-3 rounded-full bg-zinc-900 text-white shadow-lg overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

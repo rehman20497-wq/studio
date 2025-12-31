@@ -8,21 +8,21 @@ const testimonials = [
     name: "Paula Weeks, FIFA '26 Hospitality Director",
     title: 'on Customer Success',
     review:
-      "With over 20 years of building customer programs, Paula brings a collaborative approach to one of soccer's largest global events.",
+      "Paula's collaborative approach to customer programs has been instrumental in the success of one of soccer's largest global events.",
     image: 'https://picsum.photos/seed/paula/86/86',
   },
   {
     name: 'John Doe, Acme Corp',
     title: 'on Product Innovation',
     review:
-      'John consistently delivers products that redefine the market and exceed all of our customer expectations every single time.',
+      'John consistently delivers products that redefine the market, exceeding all customer expectations every single time.',
     image: 'https://picsum.photos/seed/john/86/86',
   },
   {
     name: 'Jane Smith, Tech Solutions',
     title: 'on Engineering Excellence',
     review:
-      'Jane’s leadership in the engineering department has led to unprecedented levels of stability and high performance in our infrastructure.',
+      'Jane’s leadership in engineering has led to unprecedented stability and high performance in our entire infrastructure.',
     image: 'https://picsum.photos/seed/jane/86/86',
   },
 ];
@@ -123,7 +123,7 @@ export default function TestimonialCarousel() {
             />
           </motion.div>
         </AnimatePresence>
-        <div className="flex-grow overflow-hidden h-36">
+        <div className="flex-grow overflow-hidden">
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={index + '-text'}

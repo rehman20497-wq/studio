@@ -24,11 +24,11 @@ export default function RightColumn() {
 
       <div className="mt-8">
         <MagneticButton>
-          <span className="text-lg font-medium">Build your Dream Team</span>
+          <span className="text-base font-medium">Build your Dream Team</span>
         </MagneticButton>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-8">
         <TestimonialCarousel />
       </div>
     </div>
