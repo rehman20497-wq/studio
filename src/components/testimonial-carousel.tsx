@@ -8,21 +8,21 @@ const testimonials = [
     name: "Paula Weeks, FIFA '26 Hospitality Director",
     title: 'on Customer Success',
     review:
-      "With over 20 years of building innovative customer programs, Paula Weeks, Senior Director of FIFA World Cup 2026 Hospitality, brings this collaborative approach to one of soccer's largest events.",
+      "With over 20 years of building customer programs, Paula brings a collaborative approach to one of soccer's largest global events.",
     image: 'https://picsum.photos/seed/paula/86/86',
   },
   {
     name: 'John Doe, Acme Corp',
     title: 'on Product Innovation',
     review:
-      'Leveraging cutting-edge technology, John has consistently delivered products that redefine the market and exceed customer expectations.',
+      'John consistently delivers products that redefine the market and exceed all of our customer expectations every single time.',
     image: 'https://picsum.photos/seed/john/86/86',
   },
   {
     name: 'Jane Smith, Tech Solutions',
     title: 'on Engineering Excellence',
     review:
-      'Jane’s leadership in the engineering department has led to unprecedented levels of stability and performance in our infrastructure.',
+      'Jane’s leadership in the engineering department has led to unprecedented levels of stability and high performance in our infrastructure.',
     image: 'https://picsum.photos/seed/jane/86/86',
   },
 ];
