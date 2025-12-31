@@ -61,6 +61,7 @@ export default function TestimonialCarousel() {
   }, []);
 
   useEffect(() => {
+    setProgress(0);
     let frameId: number;
     let startTime = performance.now();
 
@@ -122,7 +123,7 @@ export default function TestimonialCarousel() {
             />
           </motion.div>
         </AnimatePresence>
-        <div className="flex-grow overflow-hidden">
+        <div className="flex-grow overflow-hidden h-36">
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={index + '-text'}
