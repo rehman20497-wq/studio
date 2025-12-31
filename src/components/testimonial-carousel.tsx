@@ -42,9 +42,23 @@ const containerVariants = {
 
 const itemVariants = {
   image: {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
-    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.4, ease: 'easeIn' } },
+    hidden: { opacity: 0, scale: 0.5 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.34, 1.56, 0.64, 1]
+      } 
+    },
+    exit: { 
+      opacity: 0, 
+      scale: 0.5, 
+      transition: { 
+        duration: 0.4, 
+        ease: 'easeIn' 
+      } 
+    },
   },
   details: {
     hidden: { opacity: 0, y: -20 },
@@ -75,17 +89,19 @@ export default function TestimonialCarousel() {
 
   useEffect(() => {
     setProgress(0);
-    const frameId = requestAnimationFrame(animateProgress);
     let startTime = performance.now();
+    let frameId: number;
     
     function animateProgress(currentTime: number) {
       const elapsedTime = currentTime - startTime;
       const newProgress = Math.min((elapsedTime / DURATION) * 100, 100);
       setProgress(newProgress);
       if (elapsedTime < DURATION) {
-        requestAnimationFrame(animateProgress);
+        frameId = requestAnimationFrame(animateProgress);
       }
     }
+
+    frameId = requestAnimationFrame(animateProgress);
 
     return () => cancelAnimationFrame(frameId);
   }, [index]);
@@ -135,7 +151,7 @@ export default function TestimonialCarousel() {
           <AnimatePresence mode="wait">
             <motion.div
               key={index + '-text'}
-              className="h-[140px] relative"
+              className="relative"
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -156,12 +172,14 @@ export default function TestimonialCarousel() {
               >
                 {currentTestimonial.title}
               </motion.p>
-              <motion.p 
-                className="mt-2 text-sm text-zinc-600"
-                variants={itemVariants.review}
-              >
-                {currentTestimonial.review}
-              </motion.p>
+              <div className="h-[72px] mt-2">
+                 <motion.p 
+                  className="text-sm text-zinc-600"
+                  variants={itemVariants.review}
+                >
+                  {currentTestimonial.review}
+                </motion.p>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -171,7 +189,7 @@ export default function TestimonialCarousel() {
           <motion.div 
             className="absolute top-0 left-0 h-full bg-black rounded-full" 
             style={{ width: `${barWidth}%` }}
-            transition={{ duration: 0.1, ease: 'linear' }}
+            transition={{ duration: DURATION / 1000, ease: 'linear' }}
           />
            {testimonials.map((_, i) => {
              if (i === 0) return null;
