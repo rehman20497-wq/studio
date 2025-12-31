@@ -97,13 +97,13 @@ export default function TestimonialNetwork() {
   useEffect(() => {
     if (currentIndex === -1 || testimonials.length === 0 || dimensions.width === 0) return;
   
-    const isNewSet = currentIndex > 0 && currentIndex % 5 === 0;
+    const isNewSet = currentIndex > 0 && currentIndex % 9 === 0;
   
     const runAnimation = async () => {
       let startingProfile = visibleProfiles.length > 0 ? visibleProfiles[visibleProfiles.length - 1] : null;
   
       if (isNewSet) {
-        setThemeClass(THEME_CLASSES[(currentIndex / 5) % THEME_CLASSES.length]);
+        setThemeClass(THEME_CLASSES[(currentIndex / 9) % THEME_CLASSES.length]);
         setPhase('FADEOUT');
         await new Promise(r => setTimeout(r, 1000));
         
