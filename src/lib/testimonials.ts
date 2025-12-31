@@ -13,18 +13,20 @@ export const stateCoordinates: { [key: string]: { x: number; y: number } } = {
     'Michigan': { x: 0.7, y: 0.35 },
     'Ohio': { x: 0.75, y: 0.45 },
     'Virginia': { x: 0.8, y: 0.5 },
-    'Massachusetts': { x: 0.88, y: 0.3 }
+    'Massachusetts': { x: 0.88, y: 0.3 },
+    'Montana': { x: 0.3, y: 0.25 },
+    'North Dakota': { x: 0.45, y: 0.23 },
 };
 
 export const testimonials = [
   { id: 1, name: 'Sarah L.', state: 'California', designation: 'CEO, Acme Inc.', review: 'Absolutely transformed our workflow. A must-have tool for any serious team.', imageId: 'user1' },
-  { id: 2, name: 'Mike P.', state: 'Texas', designation: 'Product Manager, Innovate LLC', review: 'The support team is incredibly responsive. We got up and running in no time!', imageId: 'user2' },
+  { id: 2, name: 'Mike P.', state: 'Colorado', designation: 'Product Manager, Innovate LLC', review: 'The support team is incredibly responsive. We got up and running in no time!', imageId: 'user2' },
   { id: 3, name: 'Jessica T.', state: 'New York', designation: 'Lead Developer, Tech Solutions', review: 'Sleek design, powerful features. It has everything we need and more.', imageId: 'user3' },
   { id: 4, name: 'David H.', state: 'Florida', designation: 'Marketing Director, Growth Co.', review: 'I was skeptical at first, but this platform exceeded all my expectations. Highly recommend.', imageId: 'user4' },
   { id: 5, name: 'Emily R.', state: 'Washington', designation: 'CTO, Future Systems', review: 'A game-changer for our productivity. We\'re getting so much more done.', imageId: 'user5' },
   { id: 6, name: 'Chris B.', state: 'Illinois', designation: 'Founder, Startup Hub', review: 'The continuous updates and new features show a real commitment to excellence.', imageId: 'user6' },
-  { id: 7, name: 'Amanda G.', state: 'Pennsylvania', designation: 'Project Lead, Synergy Corp', review: 'Intuitive, fast, and reliable. It\'s the core of our daily operations now.', imageId: 'user7' },
-  { id: 8, name: 'James W.', state: 'Arizona', designation: 'IT Manager, Global Net', review: 'We\'ve tried other solutions, but nothing comes close to this level of quality.', imageId: 'user8' },
-  { id: 9, name: 'Megan K.', state: 'Georgia', designation: 'Operations Head, BuildIt', review: 'The analytics are incredibly insightful, helping us make better decisions.', imageId: 'user9' },
-  { id: 10, name: 'Brian F.', state: 'Colorado', designation: 'Senior Engineer, DataWorks', review: 'This tool is worth every penny. The ROI was almost immediate for our business.', imageId: 'user10' },
+  { id: 7, name: 'Amanda G.', state: 'Montana', designation: 'Project Lead, Synergy Corp', review: 'Intuitive, fast, and reliable. It\'s the core of our daily operations now.', imageId: 'user7' },
+  { id: 8, name: 'James W.', state: 'Texas', designation: 'IT Manager, Global Net', review: 'We\'ve tried other solutions, but nothing comes close to this level of quality.', imageId: 'user8' },
+  { id: 9, name: 'Megan K.', state: 'North Dakota', designation: 'Operations Head, BuildIt', review: 'The analytics are incredibly insightful, helping us make better decisions.', imageId: 'user9' },
+  { id: 10, name: 'Brian F.', state: 'Georgia', designation: 'Senior Engineer, DataWorks', review: 'This tool is worth every penny. The ROI was almost immediate for our business.', imageId: 'user10' },
 ];
