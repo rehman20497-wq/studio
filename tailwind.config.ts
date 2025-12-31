@@ -107,6 +107,10 @@ export default {
           'from': { '--shimmer-angle': '0deg' },
           'to': { '--shimmer-angle': '360deg' },
         },
+        'border-glow': {
+          'from': { '--shimmer-angle': '0deg' },
+          'to': { '--shimmer-angle': '360deg' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -120,6 +124,7 @@ export default {
         'float-3': 'float-3 10s ease-in-out infinite',
         'float-4': 'float-4 6s ease-in-out infinite',
         'border-shimmer': 'border-shimmer 3s linear infinite',
+        'border-glow': 'border-shimmer 4s linear infinite',
       },
     },
   },

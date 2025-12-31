@@ -157,3 +157,16 @@
   animation: border-shimmer 3s linear infinite;
   pointer-events: none;
 }
+
+.border-glow::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--shimmer-angle), transparent 20%, #F5D34A, #F5D34A, transparent 80%);
+  filter: blur(12px);
+  opacity: 0.8;
+  animation: border-shimmer 4s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
