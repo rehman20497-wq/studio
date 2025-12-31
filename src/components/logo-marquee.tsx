@@ -26,8 +26,8 @@ const LogoMarquee: React.FC = () => {
             <div className="relative w-full overflow-hidden">
                 <div className="animate-marquee whitespace-nowrap flex">
                     {logos.map((logo, index) => (
-                        <div key={index} className="mx-12 flex-shrink-0">
-                            <Image src={logo.src} alt={logo.alt} width={140} height={40} className="object-contain" />
+                        <div key={index} className="mx-10 flex-shrink-0">
+                            <Image src={logo.src} alt={logo.alt} width={120} height={40} className="object-contain" />
                         </div>
                     ))}
                 </div>
