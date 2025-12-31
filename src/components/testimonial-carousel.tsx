@@ -123,7 +123,7 @@ export default function TestimonialCarousel() {
             />
           </motion.div>
         </AnimatePresence>
-        <div className="flex-grow overflow-hidden">
+        <div className="flex-grow overflow-hidden h-[140px] relative">
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={index + '-text'}
@@ -131,6 +131,7 @@ export default function TestimonialCarousel() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.4, ease: 'easeOut' } }}
               exit={{ opacity: 0, y: -20, transition: { duration: 0.4, ease: 'easeIn' } }}
+              className="absolute inset-0"
             >
               <motion.p 
                 className="font-bold text-zinc-900"
@@ -149,7 +150,7 @@ export default function TestimonialCarousel() {
                 {currentTestimonial.title}
               </motion.p>
               <motion.p 
-                className="mt-2 text-sm text-zinc-600 h-16"
+                className="mt-2 text-sm text-zinc-600"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.4 } }}
                 exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
