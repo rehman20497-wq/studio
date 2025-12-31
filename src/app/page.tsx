@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header";
+import RightColumn from "@/components/layout/right-column";
 import TestimonialNetwork from "@/components/testimonial-network";
 import UsaMap from "@/components/usa-map";
 
@@ -16,8 +17,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-1/2 h-screen">
-          {/* Right column content goes here */}
+        <div className="w-1/2 h-screen bg-[#FEF9F2] flex items-center justify-center p-16">
+          <RightColumn />
         </div>
       </main>
     </div>

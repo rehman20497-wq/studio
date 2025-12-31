@@ -111,6 +111,13 @@ export default {
           'from': { '--shimmer-angle': '0deg' },
           'to': { '--shimmer-angle': '360deg' },
         },
+        'fade-in-up': {
+          'from': { opacity: '0', transform: 'translateY(20px)' },
+          'to': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'draw-underline': {
+          'to': { transform: 'scaleX(1)' }
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -125,8 +132,10 @@ export default {
         'float-4': 'float-4 6s ease-in-out infinite',
         'border-shimmer': 'border-shimmer 3s linear infinite',
         'border-glow': 'border-shimmer 4s linear infinite',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+        'draw-underline': 'draw-underline 0.5s ease-out 0.3s forwards',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('framer-motion')],
 } satisfies Config;
