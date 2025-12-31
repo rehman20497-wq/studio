@@ -117,7 +117,11 @@ export default {
         },
         'draw-underline': {
           'to': { transform: 'scaleX(1)' }
-        }
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -134,6 +138,7 @@ export default {
         'border-glow': 'border-shimmer 4s linear infinite',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'draw-underline': 'draw-underline 0.5s ease-out 0.3s forwards',
+        'marquee': 'marquee 30s linear infinite',
       },
     },
   },

@@ -1,5 +1,6 @@
 import Header from "@/components/layout/header";
 import RightColumn from "@/components/layout/right-column";
+import LogoMarquee from "@/components/logo-marquee";
 import TestimonialNetwork from "@/components/testimonial-network";
 import UsaMap from "@/components/usa-map";
 
@@ -17,10 +18,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-1/2 h-screen bg-[#FEF9F2] flex items-center justify-center py-[5%] px-16">
+        <div className="w-1/2 h-screen bg-[#FEF9F2] flex items-center justify-center">
           <RightColumn />
         </div>
       </main>
+      <LogoMarquee />
     </div>
   );
 }
