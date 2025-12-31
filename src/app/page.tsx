@@ -17,7 +17,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-1/2 h-screen bg-[#FEF9F2] flex items-center justify-center p-16">
+        <div className="w-1/2 h-screen bg-[#FEF9F2] flex items-center justify-center py-[5%] px-16">
           <RightColumn />
         </div>
       </main>

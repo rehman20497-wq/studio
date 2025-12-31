@@ -9,21 +9,21 @@ const testimonials = [
     title: 'on Customer Success',
     review:
       "With over 20 years of building innovative customer programs, Paula Weeks, Senior Director of FIFA World Cup 2026 Hospitality, brings this collaborative approach to one of soccer's largest events.",
-    image: 'https://picsum.photos/seed/paula/96/96',
+    image: 'https://picsum.photos/seed/paula/116/116',
   },
   {
     name: 'John Doe, Acme Corp',
     title: 'on Product Innovation',
     review:
       'Leveraging cutting-edge technology, John has consistently delivered products that redefine the market and exceed customer expectations.',
-    image: 'https://picsum.photos/seed/john/96/96',
+    image: 'https://picsum.photos/seed/john/116/116',
   },
   {
     name: 'Jane Smith, Tech Solutions',
     title: 'on Engineering Excellence',
     review:
       'Jane’s leadership in the engineering department has led to unprecedented levels of stability and performance in our infrastructure.',
-    image: 'https://picsum.photos/seed/jane/96/96',
+    image: 'https://picsum.photos/seed/jane/116/116',
   },
 ];
 
@@ -71,20 +71,20 @@ export default function TestimonialCarousel() {
 
   return (
     <div className="bg-[#E0F5F5] rounded-xl p-8 w-full max-w-lg">
-      <div className="flex items-start gap-6">
+      <div className="flex items-center gap-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={index + '-image'}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } }}
             exit={{ scale: 0, opacity: 0, transition: { duration: 0.4, ease: 'easeIn' } }}
-            className="w-24 h-24 relative flex-shrink-0"
+            className="w-28 h-28 relative flex-shrink-0"
           >
             <Image
               src={currentTestimonial.image}
               alt={currentTestimonial.name}
-              width={96}
-              height={96}
+              width={116}
+              height={116}
               className="rounded-full object-cover"
               data-ai-hint="person portrait"
             />
@@ -106,9 +106,9 @@ export default function TestimonialCarousel() {
         </div>
       </div>
       <div className="mt-6">
-        <div className="relative h-2 w-full bg-black/10 rounded-full cursor-pointer" onClick={handleProgressClick}>
+        <div className="relative h-2 w-full bg-[#0badbf] rounded-full cursor-pointer" onClick={handleProgressClick}>
           <motion.div 
-            className="absolute top-0 left-0 h-full bg-black/60 rounded-full" 
+            className="absolute top-0 left-0 h-full bg-black rounded-full" 
             style={{ width: `${progress}%` }}
             transition={{ duration: 0.1, ease: 'linear' }}
           />
