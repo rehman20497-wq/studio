@@ -6,7 +6,7 @@ import TestimonialCarousel from "@/components/testimonial-carousel";
 export default function RightColumn() {
   return (
     <div className="flex flex-col h-full justify-center">
-      <div className="animate-fade-in-up">
+      <div className="animate-fade-in-up mt-[7%]">
         <h2 className="text-xl font-medium">
           <span className="underline-draw">Outsourcing+</span>
         </h2>
@@ -28,7 +28,7 @@ export default function RightColumn() {
         </MagneticButton>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-16 mb-[7%]">
         <TestimonialCarousel />
       </div>
     </div>

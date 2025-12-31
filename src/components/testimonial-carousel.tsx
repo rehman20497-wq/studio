@@ -92,6 +92,8 @@ export default function TestimonialCarousel() {
   
   const currentTestimonial = testimonials[index];
 
+  const barWidth = ((index / testimonials.length) * 100) + (progress / testimonials.length);
+
   return (
     <div className="bg-[#E0F5F5] rounded-xl p-8 w-full max-w-lg">
       <div className="flex items-center gap-6 overflow-hidden">
@@ -161,7 +163,7 @@ export default function TestimonialCarousel() {
         <div className="relative h-2 w-full bg-[#0badbf] rounded-full cursor-pointer" onClick={handleProgressClick}>
           <motion.div 
             className="absolute top-0 left-0 h-full bg-black rounded-full" 
-            style={{ width: `${progress}%` }}
+            style={{ width: `${barWidth}%` }}
             transition={{ duration: 0.1, ease: 'linear' }}
           />
            {testimonials.map((_, i) => {
