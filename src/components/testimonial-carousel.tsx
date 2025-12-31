@@ -9,32 +9,52 @@ const testimonials = [
     title: 'on Customer Success',
     review:
       "With over 20 years of building innovative customer programs, Paula Weeks, Senior Director of FIFA World Cup 2026 Hospitality, brings this collaborative approach to one of soccer's largest events.",
-    image: 'https://picsum.photos/seed/paula/116/116',
+    image: 'https://picsum.photos/seed/paula/86/86',
   },
   {
     name: 'John Doe, Acme Corp',
     title: 'on Product Innovation',
     review:
       'Leveraging cutting-edge technology, John has consistently delivered products that redefine the market and exceed customer expectations.',
-    image: 'https://picsum.photos/seed/john/116/116',
+    image: 'https://picsum.photos/seed/john/86/86',
   },
   {
     name: 'Jane Smith, Tech Solutions',
     title: 'on Engineering Excellence',
     review:
       'Jane’s leadership in the engineering department has led to unprecedented levels of stability and performance in our infrastructure.',
-    image: 'https://picsum.photos/seed/jane/116/116',
+    image: 'https://picsum.photos/seed/jane/86/86',
   },
 ];
 
 const DURATION = 8000;
 
+const variants = {
+  enter: (direction: number) => ({
+    y: direction > 0 ? 20 : -20,
+    opacity: 0,
+    scale: 0.9,
+  }),
+  center: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (direction: number) => ({
+    y: direction < 0 ? 20 : -20,
+    opacity: 0,
+    scale: 0.9,
+  }),
+};
+
 export default function TestimonialCarousel() {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [[direction], setDirection] = useState([0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setDirection([1]);
       setIndex((prev) => (prev + 1) % testimonials.length);
     }, DURATION);
     return () => clearInterval(interval);
@@ -64,43 +84,75 @@ export default function TestimonialCarousel() {
     const width = rect.width;
     const percentage = clickX / width;
     const newIndex = Math.floor(percentage * testimonials.length);
-    setIndex(newIndex);
+    if (newIndex !== index) {
+      setDirection([newIndex > index ? 1 : -1]);
+      setIndex(newIndex);
+    }
   };
   
   const currentTestimonial = testimonials[index];
 
   return (
     <div className="bg-[#E0F5F5] rounded-xl p-8 w-full max-w-lg">
-      <div className="flex items-center gap-6">
-        <AnimatePresence mode="wait">
+      <div className="flex items-center gap-6 overflow-hidden">
+        <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={index + '-image'}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } }}
-            exit={{ scale: 0, opacity: 0, transition: { duration: 0.4, ease: 'easeIn' } }}
-            className="w-28 h-28 relative flex-shrink-0"
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              y: { type: 'spring', stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+              scale: { duration: 0.3 }
+            }}
+            className="w-24 h-24 relative flex-shrink-0"
           >
             <Image
               src={currentTestimonial.image}
               alt={currentTestimonial.name}
-              width={116}
-              height={116}
+              width={86}
+              height={86}
               className="rounded-full object-cover"
               data-ai-hint="person portrait"
             />
           </motion.div>
         </AnimatePresence>
-        <div className="flex-grow">
-          <AnimatePresence mode="wait">
+        <div className="flex-grow overflow-hidden">
+          <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={index + '-text'}
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.4, ease: 'easeOut' } }}
-              exit={{ scale: 0.95, opacity: 0, y: -10, transition: { duration: 0.4, ease: 'easeIn' } }}
+              custom={direction}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.4, ease: 'easeOut' } }}
+              exit={{ opacity: 0, y: -20, transition: { duration: 0.4, ease: 'easeIn' } }}
             >
-              <p className="font-bold text-zinc-900">{currentTestimonial.name}</p>
-              <p className="text-sm font-medium text-zinc-700">{currentTestimonial.title}</p>
-              <p className="mt-2 text-sm text-zinc-600">{currentTestimonial.review}</p>
+              <motion.p 
+                className="font-bold text-zinc-900"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.4 } }}
+                exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+              >
+                {currentTestimonial.name}
+              </motion.p>
+              <motion.p 
+                className="text-sm font-medium text-zinc-700"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.4 } }}
+                exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+              >
+                {currentTestimonial.title}
+              </motion.p>
+              <motion.p 
+                className="mt-2 text-sm text-zinc-600"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.4 } }}
+                exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
+              >
+                {currentTestimonial.review}
+              </motion.p>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -122,7 +174,10 @@ export default function TestimonialCarousel() {
                 style={{ left: `${pos}%` }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIndex(i);
+                  if (i !== index) {
+                    setDirection([i > index ? 1 : -1]);
+                    setIndex(i);
+                  }
                 }}
               ></div>
             )
