@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -127,6 +127,12 @@ const resources = [
 ];
 
 export default function Header() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <header className="w-full bg-[#FEF9F2] text-zinc-900 font-body">
       <div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
@@ -141,146 +147,148 @@ export default function Header() {
           <a href="#" aria-label="Hugo logo">
             <HugoLogo />
           </a>
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="relative w-[500px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
-                    <div className="grid grid-cols-2 gap-4">
-                      <ul className="flex flex-col gap-2 border-r pr-4">
-                        {solutions.map((item) => (
-                          <li key={item.title}>
-                            <NavigationMenuLink asChild>
-                              <a
-                                href={item.href}
-                                className="flex items-center gap-3 p-2 rounded-md hover:bg-yellow-100/50"
-                              >
-                                <item.icon className="w-5 h-5 text-zinc-600" />
-                                <span className="font-medium text-sm">
-                                  {item.title}
-                                </span>
-                                <ChevronRight className="w-4 h-4 ml-auto text-zinc-500" />
-                              </a>
-                            </NavigationMenuLink>
+          {isMounted && (
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="relative w-[500px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
+                      <div className="grid grid-cols-2 gap-4">
+                        <ul className="flex flex-col gap-2 border-r pr-4">
+                          {solutions.map((item) => (
+                            <li key={item.title}>
+                              <NavigationMenuLink asChild>
+                                <a
+                                  href={item.href}
+                                  className="flex items-center gap-3 p-2 rounded-md hover:bg-yellow-100/50"
+                                >
+                                  <item.icon className="w-5 h-5 text-zinc-600" />
+                                  <span className="font-medium text-sm">
+                                    {item.title}
+                                  </span>
+                                  <ChevronRight className="w-4 h-4 ml-auto text-zinc-500" />
+                                </a>
+                              </NavigationMenuLink>
+                            </li>
+                          ))}
+                        </ul>
+                        <ul className="flex flex-col gap-3 p-2">
+                          <li>
+                            <a
+                              href="#"
+                              className="text-sm font-medium hover:underline"
+                            >
+                              General Support
+                            </a>
                           </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="text-sm font-medium hover:underline"
+                            >
+                              Call Center Support
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="text-sm font-medium hover:underline"
+                            >
+                              Technical Support
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="text-sm font-medium hover:underline"
+                            >
+                              Live Chat Support
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="text-sm font-medium hover:underline"
+                            >
+                              Email Support
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Industries</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                      <ul className="space-y-1">
+                        {industries.map((item) => (
+                          <ListItem
+                            key={item.title}
+                            title={item.title}
+                            href={item.href}
+                            className="hover:bg-yellow-100/50"
+                          />
                         ))}
                       </ul>
-                      <ul className="flex flex-col gap-3 p-2">
-                        <li>
-                          <a
-                            href="#"
-                            className="text-sm font-medium hover:underline"
-                          >
-                            General Support
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="text-sm font-medium hover:underline"
-                          >
-                            Call Center Support
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="text-sm font-medium hover:underline"
-                          >
-                            Technical Support
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="text-sm font-medium hover:underline"
-                          >
-                            Live Chat Support
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="text-sm font-medium hover:underline"
-                          >
-                            Email Support
-                          </a>
-                        </li>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    className={navigationMenuTriggerStyle()}
+                    href="#"
+                  >
+                    Our Agents
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    className={navigationMenuTriggerStyle()}
+                    href="#"
+                  >
+                    Pricing
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                      <ul className="space-y-1">
+                        {company.map((item) => (
+                          <ListItem
+                            key={item.title}
+                            title={item.title}
+                            href={item.href}
+                             className="hover:bg-yellow-100/50"
+                          />
+                        ))}
                       </ul>
                     </div>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Industries</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
-                    <ul className="space-y-1">
-                      {industries.map((item) => (
-                        <ListItem
-                          key={item.title}
-                          title={item.title}
-                          href={item.href}
-                          className="hover:bg-yellow-100/50"
-                        />
-                      ))}
-                    </ul>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle()}
-                  href="#"
-                >
-                  Our Agents
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle()}
-                  href="#"
-                >
-                  Pricing
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Company</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
-                    <ul className="space-y-1">
-                      {company.map((item) => (
-                        <ListItem
-                          key={item.title}
-                          title={item.title}
-                          href={item.href}
-                           className="hover:bg-yellow-100/50"
-                        />
-                      ))}
-                    </ul>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
-                    <ul className="space-y-1">
-                      {resources.map((item) => (
-                        <ListItem
-                          key={item.title}
-                          title={item.title}
-                          href={item.href}
-                           className="hover:bg-yellow-100/50"
-                        />
-                      ))}
-                    </ul>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                      <ul className="space-y-1">
+                        {resources.map((item) => (
+                          <ListItem
+                            key={item.title}
+                            title={item.title}
+                            href={item.href}
+                             className="hover:bg-yellow-100/50"
+                          />
+                        ))}
+                      </ul>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
         </div>
         <Button className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6">
           Get Started
