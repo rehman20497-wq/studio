@@ -8,21 +8,21 @@ const testimonials = [
     name: "Paula Weeks, FIFA '26 Hospitality Director",
     title: 'on Customer Success',
     review:
-      "Paula's collaborative approach to customer programs has been instrumental in the success of one of soccer's largest global events.",
+      "Paula's collaborative approach has been instrumental in the success of one of soccer's largest global events.",
     image: 'https://picsum.photos/seed/paula/86/86',
   },
   {
     name: 'John Doe, Acme Corp',
     title: 'on Product Innovation',
     review:
-      'John consistently delivers products that redefine the market, exceeding all customer expectations every single time.',
+      'John consistently delivers products that redefine the market, exceeding all customer expectations every time.',
     image: 'https://picsum.photos/seed/john/86/86',
   },
   {
     name: 'Jane Smith, Tech Solutions',
     title: 'on Engineering Excellence',
     review:
-      'Jane’s leadership in engineering has led to unprecedented stability and high performance in our entire infrastructure.',
+      'Jane’s leadership in engineering has led to stability and high performance in our entire infrastructure.',
     image: 'https://picsum.photos/seed/jane/86/86',
   },
 ];
@@ -149,7 +149,7 @@ export default function TestimonialCarousel() {
                 {currentTestimonial.title}
               </motion.p>
               <motion.p 
-                className="mt-2 text-sm text-zinc-600"
+                className="mt-2 text-sm text-zinc-600 h-16"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.4 } }}
                 exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
