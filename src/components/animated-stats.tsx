@@ -85,10 +85,10 @@ export default function AnimatedStats() {
             </div>
             
             <div>
-                <div className="relative w-full mx-auto mt-12 grid grid-cols-10 items-start gap-[5%]">
+                <div className="relative w-full mx-auto grid grid-cols-10 items-center gap-[5%]">
                     <div className="col-span-3">
                         <div className="relative w-48 h-48 mx-auto">
-                            <div className="absolute -left-4 top-0 animate-float-1">
+                            <div className="absolute -left-2 top-4 animate-float-1">
                                 <FloatingIcon>
                                     <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M14 0L17.1432 10.1329L27.4894 10.1329L19.1731 16.3942L22.3163 26.527L14 20.2658L5.68369 26.527L8.82689 16.3942L0.51059 10.1329L10.8568 10.1329L14 0Z" fill="black"/>
@@ -102,7 +102,7 @@ export default function AnimatedStats() {
                                     </svg>
                                 </FloatingIcon>
                             </div>
-                            <div className="absolute right-4 bottom-0 animate-float-3">
+                            <div className="absolute -right-2 bottom-4 animate-float-3">
                                 <FloatingIcon>
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="black" strokeWidth="2"/>
@@ -113,7 +113,7 @@ export default function AnimatedStats() {
                             <div className="absolute inset-0 m-auto flex items-center justify-center">
                                 <div className="relative rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-[5px]">
                                     <div className="bg-white rounded-full p-[5px]">
-                                        <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden">
+                                        <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden border-[10px] border-white">
                                             <Image
                                                 src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                                                 alt="Agent Portrait"
@@ -141,7 +141,7 @@ export default function AnimatedStats() {
                         />
                     </div>
                 </div>
-                <div className='relative w-full flex justify-center'>
+                <div className='relative w-full flex justify-center -mt-4'>
                     <StatCard
                         title="Ticket Response Time"
                         value="DATA 1"
