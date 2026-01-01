@@ -104,7 +104,7 @@ const SuccessMission = () => {
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div className="max-w-xl">
-            <h2 className="text-4xl font-bold mb-6 font-headline">
+            <h2 className="text-[65px] font-bold mb-6 font-headline">
               You deserve better.
             </h2>
             <div className="space-y-4 text-zinc-700 text-lg">
