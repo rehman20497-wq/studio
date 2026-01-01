@@ -132,7 +132,7 @@ const SuccessMission = () => {
                   <div className="relative w-full max-w-sm h-48 mt-[4%] mx-auto">
                       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
                           <path
-                          d="M50 150 C 150 50, 250 50, 350 150"
+                          d="M20 150 C 150 20, 250 20, 380 150"
                           fill="none"
                           stroke="black"
                           strokeWidth="4"
@@ -141,26 +141,26 @@ const SuccessMission = () => {
                           className="animate-marching-ants"
                           />
                       </svg>
-                      <div className="absolute" style={{ top: '110px', left: '10px' }}>
+                      <div className="absolute" style={{ top: '110px', left: '-20px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
                           <span>SELECT</span>
                           <span>TEAM</span>
                           </div>
                       </div>
-                      <div className="absolute" style={{ top: '30px', left: '150px' }}>
+                      <div className="absolute" style={{ top: '10px', left: '150px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
                           LAUNCH
                           </div>
                       </div>
-                      <div className="absolute" style={{ top: '110px', right: '10px' }}>
+                      <div className="absolute" style={{ top: '110px', right: '-20px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
                           ITERATE
                           </div>
                       </div>
                   </div>
 
-                  <div className="relative text-center mt-2">
-                      <span className="absolute inset-0 text-6xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
+                  <div className="relative text-center mt-8">
+                      <span className="absolute inset-0 text-8xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
                       <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
                   </div>
               </div>
