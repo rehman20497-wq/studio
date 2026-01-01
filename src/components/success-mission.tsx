@@ -1,6 +1,8 @@
 
 
 "use client";
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import AnimatedStats from "@/components/animated-stats";
 import MagneticButton from "@/components/magnetic-button";
 
@@ -71,7 +73,36 @@ const DownArrow = () => (
   </svg>
 );
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.8 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 10,
+    }
+  },
+};
+
+
 const SuccessMission = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
   return (
     <div className="relative bg-[#FDEEC4] text-zinc-900">
       <div className="absolute top-0 left-0 w-full h-24 bg-[#FEF9F2]">
@@ -129,9 +160,14 @@ const SuccessMission = () => {
             </div>
           </div>
           <div className="flex justify-center items-center">
-            <div className="relative w-[548px] h-[548px] bg-white rounded-xl shadow-lg overflow-hidden">
-              <div className="absolute p-8 inset-0 z-10">
-                  <div className="relative w-full max-w-sm h-48 mx-auto -mt-4">
+            <div ref={ref} className="relative w-[548px] h-[548px] bg-white rounded-xl shadow-lg overflow-hidden">
+              <motion.div 
+                className="absolute p-8 inset-0 z-10 flex flex-col"
+                variants={containerVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+              >
+                  <motion.div variants={itemVariants} className="relative w-full max-w-sm h-48 mx-auto -mt-4">
                       <div className="absolute inset-0 w-full h-full z-0">
                         <svg className='w-full h-full' viewBox="0 0 400 200">
                             <path
@@ -161,14 +197,16 @@ const SuccessMission = () => {
                           ITERATE
                           </div>
                       </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="relative text-center mt-[-5%]">
+                  <motion.div variants={itemVariants} className="relative text-center mt-[-5%]">
                       <span className="absolute inset-0 text-9xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
                       <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
-                  </div>
-                  <AnimatedStats />
-              </div>
+                  </motion.div>
+                  <motion.div variants={itemVariants} className="flex-grow">
+                    <AnimatedStats />
+                  </motion.div>
+              </motion.div>
 
               <div className="absolute inset-x-0 bottom-0 h-[150px]">
                 <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
