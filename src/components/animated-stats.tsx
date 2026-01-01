@@ -77,15 +77,15 @@ const StatCard = ({
 
 export default function AnimatedStats() {
     return (
-        <div className="relative mt-8 w-full h-[320px]">
+        <div className="relative mt-8 w-full">
             <div className="absolute -bottom-16 -left-16 w-80 h-80">
                 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                     <path fill="#E0F5F5" d="M 100, 200 a 100,100 0 0,1 -100,-100 V 200 Z" />
                 </svg>
             </div>
             
-            <div className="relative h-full w-full">
-                <div className="absolute top-8 left-12 w-48 h-48">
+            <div className="relative w-fit mx-auto mt-12">
+                <div className="relative w-48 h-48">
                     <div className="absolute -left-4 top-0 animate-float-1">
                         <FloatingIcon>
                             <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,7 +133,7 @@ export default function AnimatedStats() {
                     progress={75}
                     percentageColor="bg-[#9AFEFF]"
                     path="M0,0 C15,0 15,30 25,30"
-                    className="absolute top-12 w-[300px] left-[14rem]"
+                    className="absolute top-0 left-full ml-6 w-[300px]"
                 />
                 <StatCard
                     title="Ticket Response Time"
@@ -143,7 +143,7 @@ export default function AnimatedStats() {
                     progress={40}
                     percentageColor="bg-[#9AFEFF]"
                     path="M25,0 C15,0 15,30 0,30"
-                    className="absolute top-[12rem] w-[350px] left-[10rem]"
+                    className="absolute top-full mt-10 left-full -ml-8 w-[350px]"
                 />
             </div>
         </div>
