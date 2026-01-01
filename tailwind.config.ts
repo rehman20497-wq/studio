@@ -122,6 +122,9 @@ export default {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        'marching-ants': {
+          'to': { 'stroke-dashoffset': '20' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -139,6 +142,7 @@ export default {
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'draw-underline': 'draw-underline 0.5s ease-out 0.3s forwards',
         'marquee': 'marquee 30s linear infinite',
+        'marching-ants': 'marching-ants 1s linear infinite'
       },
     },
   },

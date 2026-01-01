@@ -129,7 +129,7 @@ const SuccessMission = () => {
           <div className="flex justify-center items-center">
             <div className="relative w-[548px] h-[518px] bg-white rounded-t-xl shadow-lg overflow-hidden">
               <div className="absolute inset-0 p-8">
-                  <div className="relative w-full max-w-sm h-48">
+                  <div className="relative w-full max-w-sm h-48 mt-[4%]">
                       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
                           <path
                           d="M50 150 C 150 50, 250 50, 350 150"
@@ -138,6 +138,7 @@ const SuccessMission = () => {
                           strokeWidth="4"
                           strokeDasharray="10 10"
                           strokeLinecap="round"
+                          className="animate-marching-ants"
                           />
                       </svg>
                       <div className="absolute" style={{ top: '110px', left: '10px' }}>
@@ -159,7 +160,7 @@ const SuccessMission = () => {
                   </div>
 
                   <div className="relative text-center mt-2">
-                      <span className="absolute inset-0 text-[8rem] font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
+                      <span className="absolute inset-0 text-6xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
                       <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
                   </div>
               </div>
