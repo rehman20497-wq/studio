@@ -84,40 +84,40 @@ export default function AnimatedStats() {
                 </svg>
             </div>
             
-            <div className="relative w-fit mx-auto mt-12">
-                <div className="relative w-48 h-48">
-                    <div className="absolute -left-4 top-0 animate-float-1">
-                        <FloatingIcon>
-                            <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14 0L17.1432 10.1329L27.4894 10.1329L19.1731 16.3942L22.3163 26.527L14 20.2658L5.68369 26.527L8.82689 16.3942L0.51059 10.1329L10.8568 10.1329L14 0Z" fill="black"/>
-                            </svg>
-                        </FloatingIcon>
-                    </div>
-                    <div className="absolute right-0 top-8 animate-float-2">
-                        <FloatingIcon>
-                            <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M29.5 7.25C29.5 12.4875 25.125 21.25 15.25 23C5.375 21.25 1 12.4875 1 7.25C1 2.5 5.375 1 9.75 1C14.125 1 13 4.75 15.25 7.25C17.5 4.75 18.375 1 22.75 1C27.125 1 29.5 2.5 29.5 7.25Z" stroke="black" strokeWidth="2"/>
-                            </svg>
-                        </FloatingIcon>
-                    </div>
-                    <div className="absolute right-4 bottom-0 animate-float-3">
-                        <FloatingIcon>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="black" strokeWidth="2"/>
-                            </svg>
-                        </FloatingIcon>
-                    </div>
+            <div className="relative w-full mx-auto mt-12 grid grid-cols-10 items-center">
+                <div className="col-span-3">
+                    <div className="relative w-48 h-48 mx-auto">
+                        <div className="absolute -left-4 top-0 animate-float-1">
+                            <FloatingIcon>
+                                <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 0L17.1432 10.1329L27.4894 10.1329L19.1731 16.3942L22.3163 26.527L14 20.2658L5.68369 26.527L8.82689 16.3942L0.51059 10.1329L10.8568 10.1329L14 0Z" fill="black"/>
+                                </svg>
+                            </FloatingIcon>
+                        </div>
+                        <div className="absolute right-0 top-8 animate-float-2">
+                            <FloatingIcon>
+                                <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M29.5 7.25C29.5 12.4875 25.125 21.25 15.25 23C5.375 21.25 1 12.4875 1 7.25C1 2.5 5.375 1 9.75 1C14.125 1 13 4.75 15.25 7.25C17.5 4.75 18.375 1 22.75 1C27.125 1 29.5 2.5 29.5 7.25Z" stroke="black" strokeWidth="2"/>
+                                </svg>
+                            </FloatingIcon>
+                        </div>
+                        <div className="absolute right-4 bottom-0 animate-float-3">
+                            <FloatingIcon>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="black" strokeWidth="2"/>
+                                </svg>
+                            </FloatingIcon>
+                        </div>
 
-                    <div className="absolute inset-0 m-auto w-32 h-32 flex items-center justify-center">
-                        <div className="relative w-full h-full rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-2">
-                            <div className="p-4 bg-white rounded-full w-full h-full">
+                        <div className="absolute inset-0 m-auto w-32 h-32 flex items-center justify-center">
+                            <div className="relative w-full h-full rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-2">
                                 <div className="relative w-full h-full rounded-full overflow-hidden">
                                     <Image
                                         src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                                         alt="Agent Portrait"
-                                        width={80}
-                                        height={80}
-                                        className="object-cover w-full h-full"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        className="object-cover"
                                         data-ai-hint="man portrait"
                                     />
                                 </div>
@@ -126,15 +126,19 @@ export default function AnimatedStats() {
                     </div>
                 </div>
 
-                <StatCard
-                    title="Accuracy Score"
-                    value="DATA 1"
-                    percentage="+10%"
-                    progress={75}
-                    percentageColor="bg-[#9AFEFF]"
-                    path="M0,0 C15,0 15,30 25,30"
-                    className="absolute top-0 left-full ml-6 w-[300px]"
-                />
+                <div className="col-span-7">
+                    <StatCard
+                        title="Accuracy Score"
+                        value="DATA 1"
+                        percentage="+10%"
+                        progress={75}
+                        percentageColor="bg-[#9AFEFF]"
+                        path="M0,0 C15,0 15,30 25,30"
+                        className="w-[300px]"
+                    />
+                </div>
+            </div>
+             <div className='relative w-fit mx-auto'>
                 <StatCard
                     title="Ticket Response Time"
                     value="DATA 1"
@@ -143,7 +147,7 @@ export default function AnimatedStats() {
                     progress={40}
                     percentageColor="bg-[#9AFEFF]"
                     path="M25,0 C15,0 15,30 0,30"
-                    className="absolute top-full mt-10 left-full -ml-8 w-[350px]"
+                    className="top-full mt-10 left-full -ml-8 w-[350px]"
                 />
             </div>
         </div>
