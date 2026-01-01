@@ -129,7 +129,7 @@ const SuccessMission = () => {
             </div>
           </div>
           <div className="flex justify-center items-center">
-            <div className="relative w-[548px] h-[548px] bg-white rounded-t-xl shadow-lg overflow-hidden">
+            <div className="relative w-[548px] h-[548px] bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="absolute p-8 inset-0 z-10">
                   <div className="relative w-full max-w-sm h-48 mx-auto -mt-4">
                       <div className="absolute inset-0 w-full h-full z-0">
@@ -151,7 +151,7 @@ const SuccessMission = () => {
                           <span>TEAM</span>
                           </div>
                       </div>
-                      <div className="absolute z-10" style={{ top: '10px', left: '138px' }}>
+                      <div className="absolute z-10" style={{ top: '0px', left: '138px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
                           LAUNCH
                           </div>
