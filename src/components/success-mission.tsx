@@ -135,7 +135,7 @@ const SuccessMission = () => {
                       <div className="absolute inset-0 w-full h-full z-0">
                         <svg className='w-full h-full' viewBox="0 0 400 200">
                             <path
-                            d="M10 170 C 100 40, 300 40, 390 170"
+                            d="M10 170 C 100 20, 300 20, 390 170"
                             fill="none"
                             stroke="black"
                             strokeWidth="4"
@@ -151,7 +151,7 @@ const SuccessMission = () => {
                           <span>TEAM</span>
                           </div>
                       </div>
-                      <div className="absolute z-10" style={{ top: '0px', left: '138px' }}>
+                      <div className="absolute z-10" style={{ top: '10px', left: '138px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
                           LAUNCH
                           </div>
