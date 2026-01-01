@@ -151,7 +151,7 @@ const SuccessMission = () => {
                           <span>TEAM</span>
                           </div>
                       </div>
-                      <div className="absolute z-10" style={{ top: '10px', left: '150px' }}>
+                      <div className="absolute z-10" style={{ top: '10px', left: '138px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
                           LAUNCH
                           </div>
