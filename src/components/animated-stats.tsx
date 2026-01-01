@@ -107,14 +107,14 @@ export default function AnimatedStats() {
                         </div>
 
                         <div className="absolute inset-0 m-auto w-full h-full flex items-center justify-center">
-                            <div className="relative w-24 h-24 rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-1.5">
+                            <div className="relative w-28 h-28 rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-2">
                                 <div className="p-1 bg-white rounded-full w-full h-full">
                                     <div className="relative w-full h-full rounded-full overflow-hidden">
                                         <Image
                                             src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                                             alt="Agent Portrait"
-                                            width={60}
-                                            height={60}
+                                            width={80}
+                                            height={80}
                                             className="object-cover w-full h-full"
                                             data-ai-hint="man portrait"
                                         />
