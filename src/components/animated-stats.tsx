@@ -31,7 +31,7 @@ const StatCard = ({
 
   return (
     <div className={cn("relative", className)} ref={ref}>
-      <div className="relative z-10 rounded-xl bg-white/60 p-4 backdrop-blur-sm border border-cyan-200/50 shadow-lg w-full">
+      <div className="relative z-10 rounded-xl bg-white/60 p-4 backdrop-blur-sm border-2 border-[#00B4C6] shadow-lg w-full">
         <div className="flex justify-between items-center">
           <h3 className="font-semibold text-zinc-800 text-sm">{title}</h3>
           {time && <p className="font-mono text-xs text-zinc-600 font-semibold">{time}</p>}
