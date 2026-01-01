@@ -83,7 +83,7 @@ export default function AnimatedStats() {
             
             <div className="grid grid-cols-2 gap-6 items-center h-full">
                 <div className="relative h-full flex items-center justify-center">
-                    <div className="relative w-40 h-40">
+                    <div className="relative w-32 h-32">
                         <div className="absolute -left-4 top-0 animate-float-1">
                             <FloatingIcon>
                                 <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,7 @@ export default function AnimatedStats() {
                             </FloatingIcon>
                         </div>
 
-                        <div className="absolute inset-0 m-auto w-32 h-32">
+                        <div className="absolute inset-0 m-auto w-full h-full">
                             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-1.5">
                                 <div className="relative w-full h-full rounded-full overflow-hidden">
                                     <Image
@@ -121,7 +121,7 @@ export default function AnimatedStats() {
                         </div>
                     </div>
                 </div>
-                <div className="space-y-12 pr-4">
+                <div className="space-y-12 pr-4 w-[250px]">
                     <StatCard
                         title="Accuracy Score"
                         value="DATA 1"
