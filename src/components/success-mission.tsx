@@ -129,7 +129,7 @@ const SuccessMission = () => {
             <div className="absolute inset-x-0 bottom-0 h-[150px]">
               <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
                 <path 
-                  d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20 L400,150 L0,150 Z" 
+                  d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20 V150 H0 Z" 
                   fill="#E0F5F5"
                 />
                 <path 
