@@ -153,14 +153,14 @@ const SuccessMission = () => {
                           </div>
                       </div>
                       <div className="absolute" style={{ top: '110px', right: '-20px' }}>
-                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
+                          <div className="relative w-24 h-24 bg-[#F5D3A] rounded-full flex items-center justify-center font-bold text-sm">
                           ITERATE
                           </div>
                       </div>
                   </div>
 
-                  <div className="relative text-center mt-8">
-                      <span className="absolute inset-0 text-8xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
+                  <div className="relative text-center">
+                      <span className="absolute inset-0 text-9xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
                       <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
                   </div>
               </div>
