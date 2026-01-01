@@ -124,25 +124,29 @@ export default function AnimatedStats() {
                         </div>
                     </div>
                 </div>
-                <div className="pr-4 w-[250px] flex flex-col justify-start h-full pt-4">
+                <div className="pr-4 flex flex-col justify-start h-full pt-4">
                     <div className="space-y-12">
-                        <StatCard
-                            title="Accuracy Score"
-                            value="DATA 1"
-                            percentage="+10%"
-                            progress={75}
-                            percentageColor="bg-[#9AFEFF]"
-                            path="M0,0 C15,0 15,30 25,30"
-                        />
-                        <StatCard
-                            title="Ticket Response Time"
-                            value="DATA 1"
-                            percentage="-31%"
-                            time="08 MIN 34 SEC"
-                            progress={40}
-                            percentageColor="bg-[#9AFEFF]"
-                            path="M25,0 C15,0 15,30 0,30"
-                        />
+                        <div className="w-[250px]">
+                            <StatCard
+                                title="Accuracy Score"
+                                value="DATA 1"
+                                percentage="+10%"
+                                progress={75}
+                                percentageColor="bg-[#9AFEFF]"
+                                path="M0,0 C15,0 15,30 25,30"
+                            />
+                        </div>
+                        <div className="w-[400px]">
+                            <StatCard
+                                title="Ticket Response Time"
+                                value="DATA 1"
+                                percentage="-31%"
+                                time="08 MIN 34 SEC"
+                                progress={40}
+                                percentageColor="bg-[#9AFEFF]"
+                                path="M25,0 C15,0 15,30 0,30"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
