@@ -1,5 +1,7 @@
 
+
 "use client";
+import AnimatedStats from "@/components/animated-stats";
 import MagneticButton from "@/components/magnetic-button";
 
 const SquiggleUnderline = () => (
@@ -132,7 +134,7 @@ const SuccessMission = () => {
                   <div className="relative w-full max-w-sm h-48 mx-auto -mt-4">
                       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
                           <path
-                          d="M10 150 C 150 10, 250 10, 390 150"
+                          d="M10 150 C 100 -20, 300 -20, 390 150"
                           fill="none"
                           stroke="black"
                           strokeWidth="4"
@@ -163,6 +165,7 @@ const SuccessMission = () => {
                       <span className="absolute inset-0 text-9xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
                       <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
                   </div>
+                  <AnimatedStats />
               </div>
 
               <div className="absolute inset-x-0 bottom-0 h-[150px]">
