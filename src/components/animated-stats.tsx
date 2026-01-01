@@ -48,7 +48,7 @@ const StatCard = ({
           <p className="mt-1 text-xs font-semibold text-zinc-500">{value}</p>
         </div>
       </div>
-      <div className="absolute top-1/2 -right-6 -translate-y-1/2 z-20">
+      <div className="absolute -top-4 -right-6 z-20">
         <div className={`relative w-14 h-14 rounded-full flex items-center justify-center font-bold text-black border-2 border-black/80 shadow-md ${percentageColor}`}>
           {percentage}
         </div>
@@ -85,7 +85,7 @@ export default function AnimatedStats() {
             </div>
             
             <div>
-                <div className="relative w-full mx-auto mt-12 grid grid-cols-10 items-center gap-[5%]">
+                <div className="relative w-full mx-auto mt-12 grid grid-cols-10 items-start gap-[5%]">
                     <div className="col-span-3">
                         <div className="relative w-48 h-48 mx-auto">
                             <div className="absolute -left-4 top-0 animate-float-1">
@@ -141,7 +141,7 @@ export default function AnimatedStats() {
                         />
                     </div>
                 </div>
-                <div className='relative w-full mt-10 flex justify-center'>
+                <div className='relative w-full flex justify-center'>
                     <StatCard
                         title="Ticket Response Time"
                         value="DATA 1"
