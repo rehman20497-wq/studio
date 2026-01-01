@@ -81,7 +81,7 @@ export default function AnimatedStats() {
                 </svg>
             </div>
             
-            <div className="grid grid-cols-2 gap-6 items-center h-full">
+            <div className="grid grid-cols-2 gap-6 h-full">
                 <div className="relative h-full flex items-center justify-center">
                     <div className="relative w-32 h-32">
                         <div className="absolute -left-4 top-0 animate-float-1">
@@ -124,24 +124,26 @@ export default function AnimatedStats() {
                         </div>
                     </div>
                 </div>
-                <div className="space-y-12 pr-4 w-[250px]">
-                    <StatCard
-                        title="Accuracy Score"
-                        value="DATA 1"
-                        percentage="+10%"
-                        progress={75}
-                        percentageColor="bg-[#9AFEFF]"
-                        path="M0,0 C15,0 15,30 25,30"
-                    />
-                    <StatCard
-                        title="Ticket Response Time"
-                        value="DATA 1"
-                        percentage="-31%"
-                        time="08 MIN 34 SEC"
-                        progress={40}
-                        percentageColor="bg-[#9AFEFF]"
-                        path="M25,0 C15,0 15,30 0,30"
-                    />
+                <div className="pr-4 w-[250px] flex flex-col justify-center h-full">
+                    <div className="space-y-12">
+                        <StatCard
+                            title="Accuracy Score"
+                            value="DATA 1"
+                            percentage="+10%"
+                            progress={75}
+                            percentageColor="bg-[#9AFEFF]"
+                            path="M0,0 C15,0 15,30 25,30"
+                        />
+                        <StatCard
+                            title="Ticket Response Time"
+                            value="DATA 1"
+                            percentage="-31%"
+                            time="08 MIN 34 SEC"
+                            progress={40}
+                            percentageColor="bg-[#9AFEFF]"
+                            path="M25,0 C15,0 15,30 0,30"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
