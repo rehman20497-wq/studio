@@ -34,7 +34,7 @@ const StatCard = ({
       <div className="relative z-10 rounded-xl bg-white/60 p-4 backdrop-blur-sm border border-cyan-200/50 shadow-lg w-full">
         <div className="flex justify-between items-center">
           <h3 className="font-semibold text-zinc-800 text-sm">{title}</h3>
-          {time && <p className="font-mono text-xs text-zinc-600">{time}</p>}
+          {time && <p className="font-mono text-xs text-zinc-600 font-semibold">{time}</p>}
         </div>
         <div className="mt-3">
           <div className="h-2.5 w-full rounded-full bg-cyan-200/50">
@@ -113,7 +113,7 @@ export default function AnimatedStats() {
                             <div className="absolute inset-0 m-auto flex items-center justify-center">
                                 <div className="relative rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-[5px]">
                                     <div className="bg-white rounded-full p-[5px]">
-                                        <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden border-[10px] border-white">
+                                        <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden">
                                             <Image
                                                 src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                                                 alt="Agent Portrait"
@@ -150,12 +150,10 @@ export default function AnimatedStats() {
                         progress={40}
                         percentageColor="bg-[#9AFEFF]"
                         path="M25,0 C15,0 15,30 0,30"
-                        className="w-[350px]"
+                        className="w-[430px]"
                     />
                 </div>
             </div>
         </div>
     );
 }
-
-    
