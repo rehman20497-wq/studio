@@ -123,7 +123,8 @@ export default {
           '100%': { transform: 'translateX(-50%)' },
         },
         'marching-ants': {
-          'to': { 'stroke-dashoffset': '20' },
+          'from': { 'stroke-dashoffset': '20' },
+          'to': { 'stroke-dashoffset': '0' },
         }
       },
       animation: {

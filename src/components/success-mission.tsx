@@ -129,7 +129,7 @@ const SuccessMission = () => {
           <div className="flex justify-center items-center">
             <div className="relative w-[548px] h-[518px] bg-white rounded-t-xl shadow-lg overflow-hidden">
               <div className="absolute inset-0 p-8">
-                  <div className="relative w-full max-w-sm h-48 mt-[4%]">
+                  <div className="relative w-full max-w-sm h-48 mt-[4%] mx-auto">
                       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
                           <path
                           d="M50 150 C 150 50, 250 50, 350 150"
