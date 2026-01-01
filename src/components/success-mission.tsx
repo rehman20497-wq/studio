@@ -2,6 +2,7 @@
 
 "use client";
 import { useRef } from 'react';
+import Image from "next/image";
 import { motion, useInView } from 'framer-motion';
 import AnimatedStats from "@/components/animated-stats";
 import MagneticButton from "@/components/magnetic-button";
@@ -104,34 +105,46 @@ const SuccessMission = () => {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <div className="relative bg-[#FDEEC4] text-zinc-900">
+    <div className="relative bg-[#ffea97] text-zinc-900">
       <div className="absolute top-0 left-0 w-full h-24 bg-[#FEF9F2]">
         <svg
           className="w-full h-full"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
-          <path d="M0,100 C40,0 60,0 100,100 Z" fill="#FDEEC4" />
+          <path d="M0,100 C40,0 60,0 100,100 Z" fill="#ffea97" />
         </svg>
       </div>
 
       <div className="relative pt-32 pb-24 pl-[10%] pr-8">
-        <h1 className="text-6xl md:text-7xl font-bold text-center mb-24 font-headline">
-          <span className="relative inline-block">
-            Your
-            <SquiggleUnderline />
-            <UpArrow />
-          </span>{" "}
-          success is{" "}
-          <span className="relative inline-block">
-            our
-            <SquiggleUnderline />
-          </span>{" "}
-          <span className="relative inline-block">
-            mission
-            <DownArrow />
-          </span>
-        </h1>
+        {/* 
+<h1 className="text-6xl md:text-7xl font-bold text-center mb-24 font-headline">
+  <span className="relative inline-block">
+    Your
+    <SquiggleUnderline />
+    <UpArrow />
+  </span>{" "}
+  success is{" "}
+  <span className="relative inline-block">
+    our
+    <SquiggleUnderline />
+  </span>{" "}
+  <span className="relative inline-block">
+    mission
+    <DownArrow />
+  </span>
+</h1>
+*/}
+<div className="relative -ml-[10%] w-[110%] flex justify-center mb-24">
+  <Image
+    src="/success-title.svg"
+    alt="Your success is our mission"
+    width={900}
+    height={200}
+    className="object-contain"
+    priority
+  />
+</div>
 
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div className="max-w-xl">
@@ -232,7 +245,7 @@ const SuccessMission = () => {
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
-          <path d="M0,0 C40,100 60,100 100,0 Z" fill="#FDEEC4" />
+          <path d="M0,0 C40,100 60,100 100,0 Z" fill="#ffea97" />
         </svg>
       </div>
     </div>
