@@ -84,7 +84,7 @@ const SuccessMission = () => {
         </svg>
       </div>
 
-      <div className="relative pt-32 pb-24 px-8 md:px-16 lg:px-24">
+      <div className="relative pt-32 pb-24 pl-[10%] pr-8">
         <h1 className="text-6xl md:text-7xl font-bold text-center mb-24 font-headline">
           <span className="relative inline-block">
             Your
