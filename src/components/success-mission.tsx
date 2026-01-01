@@ -125,10 +125,7 @@ const SuccessMission = () => {
               </MagneticButton>
             </div>
           </div>
-          <div className="relative h-[450px]">
-            <div className="absolute inset-x-0 top-0 h-[400px] bg-white rounded-t-xl shadow-lg">
-               {/* Content for the top white part will go here */}
-            </div>
+          <div className="relative h-[450px] bg-white rounded-t-xl shadow-lg overflow-hidden">
             <div className="absolute inset-x-0 bottom-0 h-[150px]">
               <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
                 <path 
@@ -143,6 +140,7 @@ const SuccessMission = () => {
                 />
               </svg>
             </div>
+             {/* Content for the card will go here */}
           </div>
         </div>
       </div>
