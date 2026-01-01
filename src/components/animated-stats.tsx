@@ -81,8 +81,8 @@ export default function AnimatedStats() {
                 </svg>
             </div>
             
-            <div className="grid grid-cols-2 gap-6 h-full">
-                <div className="relative h-full flex items-center justify-center">
+            <div className="grid grid-cols-2 gap-6 h-full items-start">
+                <div className="relative h-full flex justify-center pt-4">
                     <div className="relative w-32 h-32">
                         <div className="absolute -left-4 top-0 animate-float-1">
                             <FloatingIcon>
@@ -108,7 +108,7 @@ export default function AnimatedStats() {
 
                         <div className="absolute inset-0 m-auto w-full h-full flex items-center justify-center">
                             <div className="relative w-28 h-28 rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-2">
-                                <div className="p-1 bg-white rounded-full w-full h-full">
+                                <div className="p-4 bg-white rounded-full w-full h-full">
                                     <div className="relative w-full h-full rounded-full overflow-hidden">
                                         <Image
                                             src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
@@ -124,7 +124,7 @@ export default function AnimatedStats() {
                         </div>
                     </div>
                 </div>
-                <div className="pr-4 w-[250px] flex flex-col justify-center h-full">
+                <div className="pr-4 w-[250px] flex flex-col justify-start h-full pt-4">
                     <div className="space-y-12">
                         <StatCard
                             title="Accuracy Score"
