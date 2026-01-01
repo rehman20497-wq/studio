@@ -84,7 +84,7 @@ export default function AnimatedStats() {
                 </svg>
             </div>
             
-            <div className="relative w-full mx-auto mt-12 grid grid-cols-10 items-center">
+            <div className="relative w-full mx-auto mt-12 grid grid-cols-10 items-center gap-[5%]">
                 <div className="col-span-3">
                     <div className="relative w-48 h-48 mx-auto">
                         <div className="absolute -left-4 top-0 animate-float-1">
@@ -109,9 +109,9 @@ export default function AnimatedStats() {
                             </FloatingIcon>
                         </div>
 
-                        <div className="absolute inset-0 m-auto w-32 h-32 flex items-center justify-center">
-                            <div className="relative w-full h-full rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-2">
-                                <div className="relative w-full h-full rounded-full overflow-hidden">
+                        <div className="absolute inset-0 m-auto flex items-center justify-center">
+                            <div className="relative rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-[15px]">
+                                <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden">
                                     <Image
                                         src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                                         alt="Agent Portrait"
