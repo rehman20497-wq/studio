@@ -1,3 +1,4 @@
+
 "use client";
 import MagneticButton from "@/components/magnetic-button";
 
@@ -125,56 +126,58 @@ const SuccessMission = () => {
               </MagneticButton>
             </div>
           </div>
-          <div className="relative h-[450px] bg-white rounded-t-xl shadow-lg overflow-hidden">
-             <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-                <div className="relative w-full max-w-sm h-48">
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
-                        <path
-                        d="M50 150 C 150 50, 250 50, 350 150"
-                        fill="none"
-                        stroke="black"
-                        strokeWidth="4"
-                        strokeDasharray="10 10"
-                        strokeLinecap="round"
-                        />
-                    </svg>
-                    <div className="absolute" style={{ top: '110px', left: '10px' }}>
-                        <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
-                        <span>SELECT</span>
-                        <span>TEAM</span>
-                        </div>
-                    </div>
-                    <div className="absolute" style={{ top: '30px', left: '150px' }}>
-                        <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
-                        LAUNCH
-                        </div>
-                    </div>
-                    <div className="absolute" style={{ top: '110px', right: '10px' }}>
-                        <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
-                        ITERATE
-                        </div>
-                    </div>
-                </div>
+          <div className="flex justify-center items-center">
+            <div className="relative w-[548px] h-[518px] bg-white rounded-t-xl shadow-lg overflow-hidden">
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
+                  <div className="relative w-full max-w-sm h-48">
+                      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
+                          <path
+                          d="M50 150 C 150 50, 250 50, 350 150"
+                          fill="none"
+                          stroke="black"
+                          strokeWidth="4"
+                          strokeDasharray="10 10"
+                          strokeLinecap="round"
+                          />
+                      </svg>
+                      <div className="absolute" style={{ top: '110px', left: '10px' }}>
+                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
+                          <span>SELECT</span>
+                          <span>TEAM</span>
+                          </div>
+                      </div>
+                      <div className="absolute" style={{ top: '30px', left: '150px' }}>
+                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
+                          LAUNCH
+                          </div>
+                      </div>
+                      <div className="absolute" style={{ top: '110px', right: '10px' }}>
+                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
+                          ITERATE
+                          </div>
+                      </div>
+                  </div>
 
-                <div className="relative text-center mt-4">
-                    <span className="absolute inset-0 text-[10rem] font-bold text-[#F5D34A]/40 -translate-y-10" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
-                    <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
-                </div>
-            </div>
+                  <div className="relative text-center mt-4">
+                      <span className="absolute inset-0 text-[10rem] font-bold text-[#F5D34A]/40 -translate-y-10" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
+                      <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
+                  </div>
+              </div>
 
-            <div className="absolute inset-x-0 bottom-0 h-[150px]">
-              <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
-                <path 
-                  d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20 V150 H0 Z" 
-                  fill="#E0F5F5"
-                />
-                <path 
-                  d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20" 
-                  fill="none" 
-                  stroke="white" 
-                  strokeWidth="3"
-                />
-              </svg>
+              <div className="absolute inset-x-0 bottom-0 h-[150px]">
+                <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
+                  <path 
+                    d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20 V150 H0 Z" 
+                    fill="#E0F5F5"
+                  />
+                  <path 
+                    d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20" 
+                    fill="none" 
+                    stroke="white" 
+                    strokeWidth="3"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
