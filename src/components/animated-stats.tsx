@@ -110,23 +110,25 @@ export default function AnimatedStats() {
                         </div>
 
                         <div className="absolute inset-0 m-auto flex items-center justify-center">
-                            <div className="relative rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-[15px] border-[10px] border-white">
-                                <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden">
-                                    <Image
-                                        src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
-                                        alt="Agent Portrait"
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 33vw"
-                                        className="object-cover"
-                                        data-ai-hint="man portrait"
-                                    />
+                            <div className="relative rounded-full bg-gradient-to-b from-[#00B4C6] to-[#40E0D0] p-1">
+                                <div className="bg-white rounded-full p-[10px]">
+                                    <div className="relative w-[70px] h-[70px] rounded-full overflow-hidden">
+                                        <Image
+                                            src="https://images.unsplash.com/photo-1594672830234-ba4cfe1202dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY3MDEwODkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                                            alt="Agent Portrait"
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                            className="object-cover"
+                                            data-ai-hint="man portrait"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="col-span-7 ml-[15%]">
+                <div className="col-span-7 mr-[10%]">
                     <StatCard
                         title="Accuracy Score"
                         value="DATA 1"
