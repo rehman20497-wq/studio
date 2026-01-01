@@ -125,8 +125,24 @@ const SuccessMission = () => {
               </MagneticButton>
             </div>
           </div>
-          <div>
-            {/* Placeholder for Lottie animation */}
+          <div className="relative h-[450px]">
+            <div className="absolute inset-x-0 top-0 h-[400px] bg-white rounded-t-xl shadow-lg">
+               {/* Content for the top white part will go here */}
+            </div>
+            <div className="absolute inset-x-0 bottom-0 h-[150px]">
+              <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
+                <path 
+                  d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20 L400,150 L0,150 Z" 
+                  fill="#E0F5F5"
+                />
+                <path 
+                  d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20" 
+                  fill="none" 
+                  stroke="white" 
+                  strokeWidth="3"
+                />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
