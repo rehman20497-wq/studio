@@ -129,7 +129,7 @@ const SuccessMission = () => {
           <div className="flex justify-center items-center">
             <div className="relative w-[548px] h-[518px] bg-white rounded-t-xl shadow-lg overflow-hidden">
               <div className="absolute inset-0 p-8">
-                  <div className="relative w-full max-w-sm h-48 mt-[4%] mx-auto">
+                  <div className="relative w-full max-w-sm h-48 mx-auto">
                       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
                           <path
                           d="M20 150 C 150 20, 250 20, 380 150"
@@ -159,7 +159,7 @@ const SuccessMission = () => {
                       </div>
                   </div>
 
-                  <div className="relative text-center mt-4">
+                  <div className="relative text-center mt-2">
                       <span className="absolute inset-0 text-9xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
                       <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
                   </div>
