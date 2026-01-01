@@ -132,7 +132,7 @@ const SuccessMission = () => {
                   <div className="relative w-full max-w-sm h-48 mx-auto -mt-4">
                       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
                           <path
-                          d="M20 150 C 150 20, 250 20, 380 150"
+                          d="M10 150 C 150 10, 250 10, 390 150"
                           fill="none"
                           stroke="black"
                           strokeWidth="4"
@@ -141,7 +141,7 @@ const SuccessMission = () => {
                           className="animate-marching-ants"
                           />
                       </svg>
-                      <div className="absolute" style={{ top: '110px', left: '-20px' }}>
+                      <div className="absolute" style={{ top: '110px', left: '-30px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
                           <span>SELECT</span>
                           <span>TEAM</span>
@@ -152,8 +152,8 @@ const SuccessMission = () => {
                           LAUNCH
                           </div>
                       </div>
-                      <div className="absolute" style={{ top: '110px', right: '-20px' }}>
-                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
+                      <div className="absolute" style={{ top: '110px', right: '-30px' }}>
+                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
                           ITERATE
                           </div>
                       </div>
