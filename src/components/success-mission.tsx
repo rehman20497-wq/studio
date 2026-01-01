@@ -132,29 +132,31 @@ const SuccessMission = () => {
             <div className="relative w-[548px] h-[548px] bg-white rounded-t-xl shadow-lg overflow-hidden">
               <div className="absolute p-8 inset-0 z-10">
                   <div className="relative w-full max-w-sm h-48 mx-auto -mt-4">
-                      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
-                          <path
-                          d="M10 150 C 100 -20, 300 -20, 390 150"
-                          fill="none"
-                          stroke="black"
-                          strokeWidth="4"
-                          strokeDasharray="10 10"
-                          strokeLinecap="round"
-                          className="animate-marching-ants"
-                          />
-                      </svg>
-                      <div className="absolute" style={{ top: '110px', left: '-30px' }}>
+                      <div className="absolute inset-0 w-full h-full z-0">
+                        <svg className='w-full h-full' viewBox="0 0 400 200">
+                            <path
+                            d="M10 150 C 100 -20, 300 -20, 390 150"
+                            fill="none"
+                            stroke="black"
+                            strokeWidth="4"
+                            strokeDasharray="10 10"
+                            strokeLinecap="round"
+                            className="animate-marching-ants"
+                            />
+                        </svg>
+                      </div>
+                      <div className="absolute z-10" style={{ top: '110px', left: '-30px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
                           <span>SELECT</span>
                           <span>TEAM</span>
                           </div>
                       </div>
-                      <div className="absolute" style={{ top: '10px', left: '150px' }}>
+                      <div className="absolute z-10" style={{ top: '10px', left: '150px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
                           LAUNCH
                           </div>
                       </div>
-                      <div className="absolute" style={{ top: '110px', right: '-30px' }}>
+                      <div className="absolute z-10" style={{ top: '110px', right: '-30px' }}>
                           <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
                           ITERATE
                           </div>
