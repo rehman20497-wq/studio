@@ -252,10 +252,14 @@
 @keyframes snake-animation {
   /* First Lap */
   0% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; opacity: 1; }
-  48% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; opacity: 1; }
+  32% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; opacity: 1; }
 
   /* Second Lap */
-  48.1% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; opacity: 1; }
+  32.1% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; opacity: 1; }
+  64% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; opacity: 1; }
+
+  /* Third Lap */
+  64.1% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; opacity: 1; }
   96% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; opacity: 1; }
   
   /* Disappear into dot and fade out */
