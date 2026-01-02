@@ -10,28 +10,28 @@ import TestimonialProgressBar from './testimonial-progress-bar';
 
 const testimonials = [
   {
-    logo: <Image src="https://picsum.photos/seed/meta/100/30" alt="Meta Logo" width={100} height={30} className="object-contain" data-ai-hint="company logo" />,
+    logo: <Image src="/meta.png" alt="Meta Logo" width={100} height={30} className="object-contain" />,
     text: "We're constantly trying to bring the best the market has to offer to support our global business operations by identifying suppliers with the exact solution we need to solve our problem. In this case, we found an incredible partner in Hugo.",
-    author: 'Jason T.',
+    author: 'Sarah L.',
     title: 'Director, Global Supplier Diversity',
-    image: 'https://storage.googleapis.com/aiv-content/1773012975971.webp',
-    imageHint: 'man smiling',
+    image: '/logos/Sarah.jpg',
+    imageHint: 'woman smiling',
   },
   {
-    logo: <Image src="https://picsum.photos/seed/gift-health/100/30" alt="GiftHealth Logo" width={100} height={30} className="object-contain" data-ai-hint="company logo" />,
+    logo: <Image src="/consensys.png" alt="Consensys Logo" width={100} height={30} className="object-contain" />,
     text: "Hugo's team is top-notch. Their proactive approach and deep understanding of our needs have been a game changer for our operations. We couldn't be happier with the results.",
-    author: 'Maria G.',
-    title: 'COO, GiftHealth',
-    image: 'https://storage.googleapis.com/aiv-content/1773012975971.webp',
-    imageHint: 'man smiling',
+    author: 'Chris B.',
+    title: 'COO, Consensys',
+    image: '/logos/chris.jpg',
+    imageHint: 'man portrait',
   },
     {
-    logo: <Image src="https://picsum.photos/seed/attentive/100/30" alt="Attentive Logo" width={100} height={30} className="object-contain" data-ai-hint="company logo" />,
+    logo: <Image src="/sakara.png" alt="Sakara Logo" width={100} height={30} className="object-contain" />,
     text: "The level of detail and commitment from Hugo is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
-    author: 'David L.',
-    title: 'Head of Support, Attentive',
-    image: 'https://storage.googleapis.com/aiv-content/1773012975971.webp',
-    imageHint: 'man smiling',
+    author: 'Quo T.',
+    title: 'Head of Support, Sakara',
+    image: '/logos/quo.jpg',
+    imageHint: 'woman portrait',
   },
 ];
 
@@ -225,5 +225,7 @@ export default function NewTestimonialSection() {
     </div>
   );
 }
+
+    
 
     
