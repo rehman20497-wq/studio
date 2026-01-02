@@ -236,7 +236,7 @@
 
 /* Data & AI Icon Animation */
 .snake-path {
-  stroke-dashoffset: 0;
+  stroke-dashoffset: 1;
   opacity: 0;
 }
 
@@ -251,11 +251,12 @@
 
 @keyframes snake-animation {
   from {
-    stroke-dashoffset: 0;
-    stroke-dasharray: 80 1000;
+    stroke-dasharray: 0 1000;
+  }
+  98% {
+    stroke-dasharray: 1000 0;
   }
   to {
-    stroke-dashoffset: -1080;
-    stroke-dasharray: 80 1000;
+    stroke-dasharray: 1000 0;
   }
 }
