@@ -195,3 +195,26 @@
     transform: scaleX(1);
   }
 }
+
+.fluid-arc {
+  stroke: #a5f3fc; /* Lighter blue for default state */
+  stroke-dasharray: 35;
+  stroke-dashoffset: 35;
+}
+
+.group:hover .fluid-arc {
+  stroke: #0badbf;
+  animation: fluid-fill 2s ease-in-out infinite;
+}
+
+@keyframes fluid-fill {
+  0% {
+    stroke-dashoffset: 35;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -35;
+  }
+}
