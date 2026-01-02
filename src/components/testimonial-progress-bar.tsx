@@ -17,7 +17,7 @@ const TestimonialProgressBar = ({
     const segments = Array.from({ length: totalItems });
 
     return (
-        <div className="w-full h-2 flex items-center rounded-full overflow-hidden">
+        <div className="w-full h-1.5 flex items-center rounded-full overflow-hidden">
             {segments.map((_, i) => (
                 <div
                     key={i}
@@ -29,9 +29,9 @@ const TestimonialProgressBar = ({
                             <div className="w-full h-full bg-black" />
                         )}
                         {i === currentIndex && (
-                            <div className="w-full h-full bg-black">
+                            <div className="w-full h-full bg-[#F5D34A]">
                                 <motion.div
-                                    className="h-full bg-[#F5D34A]"
+                                    className="h-full bg-black"
                                     initial={{ width: 0 }}
                                     animate={{ width: '100%' }}
                                     transition={{ duration: duration / 1000, ease: 'linear' }}
