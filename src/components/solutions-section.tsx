@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { CustomerSupportIcon } from './icons/customer-support-icon';
@@ -64,7 +65,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
     <motion.div
       variants={cardVariants}
       className={cn(
-        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2',
+        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 min-h-[420px]',
         color
       )}
     >
@@ -78,22 +79,45 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
   );
 };
 
-const DashedLine = ({ className }: { className: string }) => (
-    <svg className={cn("absolute -top-10 w-48 h-20 text-black/50", className)} viewBox="0 0 200 80">
-        <motion.path
-            d="M 10,70 C 50,10 150,10 190,70"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="4"
-            strokeDasharray="10 10"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 1, ease: 'easeInOut' }}
-        />
-    </svg>
-)
+const DashedLine = ({ className, delay = 0 }: { className: string; delay?: number }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.5 });
+    const [isDrawn, setIsDrawn] = useState(false);
+
+    useEffect(() => {
+        if (isInView) {
+            const timer = setTimeout(() => setIsDrawn(true), (delay + 1) * 1000); // Wait for draw-in animation
+            return () => clearTimeout(timer);
+        }
+    }, [isInView, delay]);
+
+    return (
+        <svg ref={ref} className={cn("absolute -top-10 w-48 h-20 text-black/50", className)} viewBox="0 0 200 80">
+            <motion.path
+                d="M 10,70 C 50,10 150,10 190,70"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeDasharray="10 10"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                animate={isInView ? { pathLength: 1 } : {}}
+                transition={{ duration: 1, ease: 'easeInOut', delay }}
+            />
+            {isDrawn && (
+                 <path
+                    d="M 10,70 C 50,10 150,10 190,70"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeDasharray="10 10"
+                    strokeLinecap="round"
+                    className="animate-marching-ants"
+                />
+            )}
+        </svg>
+    )
+}
 
 export default function SolutionsSection() {
   const ref = useRef(null);
@@ -108,11 +132,11 @@ export default function SolutionsSection() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <DashedLine className="left-1/4 -translate-x-1/2 hidden lg:block" />
-          <DashedLine className="left-1/2 -translate-x-1/2 hidden lg:block" />
-          <DashedLine className="left-3/4 -translate-x-1/2 hidden lg:block" />
-           <DashedLine className="bottom-[-6.5rem] left-[37.5%] -translate-x-1/2 hidden lg:block rotate-180" />
-          <DashedLine className="bottom-[-6.5rem] left-[62.5%] -translate-x-1/2 hidden lg:block rotate-180" />
+          <DashedLine className="left-1/4 -translate-x-1/2 hidden lg:block" delay={0} />
+          <DashedLine className="left-1/2 -translate-x-1/2 hidden lg:block" delay={0.2} />
+          <DashedLine className="left-3/4 -translate-x-1/2 hidden lg:block" delay={0.4} />
+           <DashedLine className="bottom-[-6.5rem] left-[37.5%] -translate-x-1/2 hidden lg:block rotate-180" delay={0.6} />
+          <DashedLine className="bottom-[-6.5rem] left-[62.5%] -translate-x-1/2 hidden lg:block rotate-180" delay={0.8} />
           
           {solutions.map((solution) => (
             <SolutionCard key={solution.title} {...solution} />
