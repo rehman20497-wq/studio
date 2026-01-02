@@ -65,7 +65,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
     <motion.div
       variants={cardVariants}
       className={cn(
-        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 min-h-[420px] border-glow',
+        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 min-h-[450px] border-glow',
         color
       )}
     >
@@ -95,7 +95,6 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                 initial={{ pathLength: 0 }}
                 animate={isInView ? { 
                   pathLength: 1,
-                  strokeDashoffset: [20, 0]
                 } : {}}
                 transition={{
                     pathLength: { duration: 3.5, ease: 'easeInOut', delay },
@@ -107,6 +106,10 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                       ease: 'linear',
                     },
                 }}
+                style={{
+                    animation: isInView ? 'marching-ants 1s linear infinite' : 'none',
+                    animationDelay: `${delay + 3.5}s`,
+                }}
             />
         </svg>
     )
@@ -117,17 +120,17 @@ export default function SolutionsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-cream py-24 px-[4%] overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section ref={ref} className="bg-cream py-24 px-[2%] overflow-hidden">
+      <div className="mx-auto">
         <motion.div
           className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <DashedLine className="-top-10 left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
-          <DashedLine className="-bottom-12 left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.5} path="M 10,10 C 50,70 150,70 190,10" viewBox="0 0 200 80"/>
-          <DashedLine className="-top-10 left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={1} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
+          <DashedLine className="absolute -top-10 left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
+          <DashedLine className="absolute -bottom-12 left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={1} path="M 10,10 C 50,70 150,70 190,10" viewBox="0 0 200 80"/>
+          <DashedLine className="absolute -top-10 left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={2} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
           
           {solutions.map((solution) => (
             <SolutionCard key={solution.title} {...solution} />
