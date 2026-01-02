@@ -18,6 +18,7 @@ export default {
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        cream: '#FEFDFB',
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
@@ -93,7 +94,7 @@ export default {
           '50%': { transform: 'translateY(-20px)' },
         },
         'float-2': {
-          '0%, 100%': { transform: 'translateY(0)' },
+          '0%, 100%': { transform: 'translateY(-15px)' },
           '50%': { transform: 'translateY(-15px)' },
         },
         'float-3': {
