@@ -27,19 +27,19 @@ export const CustomerSupportIcon = ({ className = '' }) => (
           d="M32,10 A22,22 0 0 0 10.34,32"
         />
         <path
-          className="fluid-arc"
+          className="fluid-arc delay-150"
           d="M32,16 A16,16 0 0 1 47.76,32"
         />
         <path
-          className="fluid-arc"
+          className="fluid-arc delay-150"
           d="M32,16 A16,16 0 0 0 16.24,32"
         />
         <path
-          className="fluid-arc"
+          className="fluid-arc delay-300"
           d="M32,22 A10,10 0 0 1 41.85,32"
         />
         <path
-          className="fluid-arc"
+          className="fluid-arc delay-300"
           d="M32,22 A10,10 0 0 0 22.15,32"
         />
       </g>
