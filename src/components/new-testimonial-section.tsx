@@ -171,7 +171,7 @@ export default function NewTestimonialSection() {
         </div>
 
         {/* Right Side: Testimonial Content */}
-        <div className="w-2/3 h-64 flex flex-col justify-center">
+        <div className="w-[60%] mr-[5%] h-64 flex flex-col justify-center">
             <AnimatePresence mode="wait">
                  <motion.div
                     key={index}

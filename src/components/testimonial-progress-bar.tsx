@@ -17,7 +17,7 @@ const TestimonialProgressBar = ({
     const segments = Array.from({ length: totalItems });
 
     return (
-        <div className="w-full h-2 flex items-center">
+        <div className="w-full h-2 flex items-center rounded-full overflow-hidden">
             {segments.map((_, i) => (
                 <div
                     key={i}
