@@ -128,8 +128,8 @@ export default function NewTestimonialSection() {
                     animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
                     transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
                 >
-                    <circle cx="180" cy="180" r="110" fill="white" stroke="#F5D34A" strokeWidth="20"/>
-                    <circle cx="270" cy="270" r="30" fill="none" stroke="#F5D34A" strokeWidth="20"/>
+                    <circle cx="200" cy="200" r="110" fill="white" stroke="#F5D34A" strokeWidth="20"/>
+                    <circle cx="335" cy="269" r="35" fill="none" stroke="#F5D34A" strokeWidth="17"/>
                 </motion.svg>
             </div>
             
@@ -141,14 +141,15 @@ export default function NewTestimonialSection() {
                 animate="visible"
                 exit="exit"
               >
-                <div className="relative w-[210px] h-[210px] rounded-full overflow-hidden">
+                
+                <div className="relative w-[180px] h-[180px] rounded-full overflow-hidden">
                   <Image
                       src={currentTestimonial.image}
                       alt={currentTestimonial.author}
                       fill
                       className="object-cover"
                       data-ai-hint={currentTestimonial.imageHint}
-                      sizes="210px"
+                      sizes="180px"
                   />
                 </div>
               </motion.div>

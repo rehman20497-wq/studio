@@ -5,6 +5,7 @@ import NewTestimonialSection from "@/components/new-testimonial-section";
 import SuccessMission from "@/components/success-mission";
 import TestimonialNetwork from "@/components/testimonial-network";
 import UsaMap from "@/components/usa-map";
+import GrowthSection from "@/components/growth-section";
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
       <LogoMarquee />
       <SuccessMission />
       <NewTestimonialSection />
+      <GrowthSection />
     </div>
   );
 }
