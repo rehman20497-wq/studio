@@ -82,15 +82,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
 const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string; delay?: number, path: string, viewBox: string }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.5 });
-    const [isDrawn, setIsDrawn] = useState(false);
-
-    useEffect(() => {
-        if (isInView) {
-            const timer = setTimeout(() => setIsDrawn(true), (delay + 1) * 1000); // Wait for draw-in animation
-            return () => clearTimeout(timer);
-        }
-    }, [isInView, delay]);
-
+    
     return (
         <svg ref={ref} className={cn("absolute w-full h-20 text-black/50", className)} viewBox={viewBox} preserveAspectRatio="none">
             <motion.path
@@ -103,18 +95,8 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                 initial={{ pathLength: 0 }}
                 animate={isInView ? { pathLength: 1 } : {}}
                 transition={{ duration: 1, ease: 'easeInOut', delay }}
+                className="animate-marching-ants"
             />
-            {isDrawn && (
-                 <path
-                    d={path}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    strokeDasharray="10 10"
-                    strokeLinecap="round"
-                    className="animate-marching-ants"
-                />
-            )}
         </svg>
     )
 }
@@ -124,8 +106,8 @@ export default function SolutionsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-cream py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section ref={ref} className="bg-cream py-24 px-[4%]">
+      <div>
         <motion.div
           className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={containerVariants}
