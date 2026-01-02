@@ -116,49 +116,57 @@ export default function NewTestimonialSection() {
       >
         {/* Left Side: Image */}
         <div className="relative w-1/3 flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute -inset-4 flex items-center justify-center">
             <svg
               width="280"
               height="280"
               viewBox="0 0 280 280"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-[280px] h-[280px]"
+              className="w-full h-full"
             >
               <motion.path
-                d="M130.5 229C185.399 229 229.5 184.912 229.5 130C229.5 75.0883 185.399 31 130.5 31C75.6015 31 31.5 75.0883 31.5 130C31.5 184.912 75.6015 229 130.5 229Z"
+                d="M140 259C205.821 259 259 205.821 259 140C259 74.1791 205.821 21 140 21C74.1791 21 21 74.1791 21 140C21 205.821 74.1791 259 140 259Z"
                 stroke="#F5D34A"
                 strokeWidth="20"
                  initial={{ pathLength: 0, opacity: 0 }}
                  animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
                  transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
               />
-              <motion.circle cx="240" cy="205" r="20" stroke="#F5D34A" strokeWidth="20"
+              <motion.path
+                d="M244 205C255.046 205 264 196.046 264 185C264 173.954 255.046 165 244 165C232.954 165 224 173.954 224 185C224 196.046 232.954 205 244 205Z"
+                stroke="#F5D34A"
+                strokeWidth="20"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
                 transition={{ duration: 1.5, delay: 1.1, ease: "easeInOut" }}
               />
             </svg>
           </div>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={index + '-image'}
-              className="relative w-[210px] h-[210px] rounded-full overflow-hidden"
-              variants={imageVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              <Image
-                  src={currentTestimonial.image}
-                  alt={currentTestimonial.author}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={currentTestimonial.imageHint}
-                  sizes="210px"
-              />
-            </motion.div>
-          </AnimatePresence>
+          <div className="relative w-[210px] h-[210px] rounded-full bg-[#c0f5fa]">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={index + '-image'}
+                  variants={imageVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                >
+                  <div className="relative w-[210px] h-[210px] rounded-full overflow-hidden">
+                    <Image
+                        src={currentTestimonial.image}
+                        alt={currentTestimonial.author}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={currentTestimonial.imageHint}
+                        sizes="210px"
+                    />
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
 
         {/* Right Side: Testimonial Content */}
