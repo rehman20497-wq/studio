@@ -9,8 +9,9 @@ export const CustomerSupportIcon = ({ className = '' }) => (
     <path
       d="M14.5 49.5 A 22 22 0 0 1 49.5 49.5"
       stroke="#06B6D4"
-      strokeWidth="12"
+      strokeWidth="15"
       strokeLinecap="round"
+      transform="rotate(50 32 32)"
     />
   </svg>
 );
