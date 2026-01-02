@@ -8,9 +8,8 @@ export const CustomerSupportIcon = ({ className = '' }) => (
   >
     <g transform="rotate(50 32 32)">
       <path
-        className="customer-support-arc"
+        className="customer-support-arc customer-support-arc-color"
         d="M14.5 33 A19 19 0 0 1 49.5 33"
-        stroke="#06B6D4"
         strokeWidth="6"
         strokeLinecap="round"
         style={{
@@ -19,10 +18,8 @@ export const CustomerSupportIcon = ({ className = '' }) => (
         }}
       />
       <path
-        className="customer-support-arc"
+        className="customer-support-arc customer-support-arc-color"
         d="M22 33 A12 12 0 0 1 42 33"
-        stroke="#06B6D4"
-        strokeOpacity="0.6"
         strokeWidth="6"
         strokeLinecap="round"
         style={{
@@ -31,10 +28,8 @@ export const CustomerSupportIcon = ({ className = '' }) => (
         }}
       />
       <path
-        className="customer-support-arc"
+        className="customer-support-arc customer-support-arc-color"
         d="M27.5 33 A6 6 0 0 1 36.5 33"
-        stroke="#06B6D4"
-        strokeOpacity="0.3"
         strokeWidth="6"
         strokeLinecap="round"
         style={{

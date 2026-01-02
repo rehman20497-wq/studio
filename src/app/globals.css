@@ -122,6 +122,26 @@
   .text-theme-primary {
     color: hsl(var(--theme-primary));
   }
+  .customer-support-arc-color {
+    stroke: #99D9E1;
+    transition: stroke 0.3s ease-in-out;
+  }
+  .customer-support-arc-color:nth-child(2) {
+    stroke-opacity: 0.7;
+  }
+  .customer-support-arc-color:nth-child(3) {
+    stroke-opacity: 0.4;
+  }
+  .group:hover .customer-support-arc-color {
+    stroke: #06B6D4;
+    stroke-opacity: 1;
+  }
+  .group:hover .customer-support-arc-color:nth-child(2) {
+    stroke-opacity: 0.6;
+  }
+  .group:hover .customer-support-arc-color:nth-child(3) {
+    stroke-opacity: 0.3;
+  }
 }
 
 .line-draw {
