@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -60,15 +61,56 @@ const cardVariants = {
   },
 };
 
+const AnimatedBorder = ({ radius = 24 }: { radius?: number }) => {
+  return (
+    <svg
+      className="absolute inset-0 pointer-events-none"
+      width="100%"
+      height="100%"
+    >
+      <rect
+        x="1"
+        y="1"
+        width="calc(100% - 2px)"
+        height="calc(100% - 2px)"
+        rx={radius}
+        ry={radius}
+        fill="none"
+        stroke="url(#borderGlow)"
+        strokeWidth="2"
+        strokeDasharray="1 200"
+      >
+        <animate
+          attributeName="stroke-dashoffset"
+          from="0"
+          to="-201"
+          dur="2.5s"
+          repeatCount="indefinite"
+        />
+      </rect>
+
+      <defs>
+        <linearGradient id="borderGlow" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="transparent" />
+          <stop offset="50%" stopColor="white" />
+          <stop offset="100%" stopColor="transparent" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+};
+
+
 const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]) => {
   return (
     <motion.div
       variants={cardVariants}
       className={cn(
-        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 min-h-[450px] border-glow',
+        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 overflow-hidden',
         color
       )}
     >
+      <AnimatedBorder radius={24} />
       <div className="h-16 w-16 mb-6 flex items-center justify-center">{icon}</div>
       <h3 className="text-xl font-bold text-zinc-900 mb-4">{title}</h3>
       <p className="text-zinc-600 text-sm mb-8 flex-grow">{description}</p>
@@ -86,30 +128,27 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
     return (
         <svg ref={ref} className={cn("absolute w-full h-20 text-black/50", className)} viewBox={viewBox} preserveAspectRatio="none">
             <motion.path
-                d={path}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeDasharray="10 10"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={isInView ? { 
-                  pathLength: 1,
-                } : {}}
-                transition={{
-                    pathLength: { duration: 3.5, ease: 'easeInOut', delay },
-                    strokeDashoffset: {
-                      delay: delay + 3.5,
-                      duration: 1,
-                      repeat: Infinity,
-                      repeatType: 'loop',
-                      ease: 'linear',
-                    },
-                }}
-                style={{
-                    animation: isInView ? 'marching-ants 1s linear infinite' : 'none',
-                    animationDelay: `${delay + 3.5}s`,
-                }}
+              d={path}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeDasharray="10 10"
+              strokeDashoffset={200}
+              strokeLinecap="round"
+              animate={
+                isInView
+                  ? {
+                      strokeDashoffset: [200, 0, -20],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: 3.5,
+                ease: 'easeInOut',
+                delay,
+                repeat: Infinity,
+                repeatType: 'loop',
+              }}
             />
         </svg>
     )
