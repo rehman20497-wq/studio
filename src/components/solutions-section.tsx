@@ -92,7 +92,7 @@ const DashedLine = ({ className, delay = 0 }: { className: string; delay?: numbe
     }, [isInView, delay]);
 
     return (
-        <svg ref={ref} className={cn("absolute -top-10 w-48 h-20 text-black/50", className)} viewBox="0 0 200 80">
+        <svg ref={ref} className={cn("absolute -top-10 w-full h-20 text-black/50", className)} viewBox="0 0 200 80" preserveAspectRatio="none">
             <motion.path
                 d="M 10,70 C 50,10 150,10 190,70"
                 fill="none"
@@ -132,11 +132,9 @@ export default function SolutionsSection() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <DashedLine className="left-1/4 -translate-x-1/2 hidden lg:block" delay={0} />
-          <DashedLine className="left-1/2 -translate-x-1/2 hidden lg:block" delay={0.2} />
-          <DashedLine className="left-3/4 -translate-x-1/2 hidden lg:block" delay={0.4} />
-           <DashedLine className="bottom-[-6.5rem] left-[37.5%] -translate-x-1/2 hidden lg:block rotate-180" delay={0.6} />
-          <DashedLine className="bottom-[-6.5rem] left-[62.5%] -translate-x-1/2 hidden lg:block rotate-180" delay={0.8} />
+          <DashedLine className="left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0} />
+          <DashedLine className="left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.2} />
+          <DashedLine className="left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.4} />
           
           {solutions.map((solution) => (
             <SolutionCard key={solution.title} {...solution} />
