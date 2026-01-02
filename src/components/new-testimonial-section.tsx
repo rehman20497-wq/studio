@@ -120,8 +120,8 @@ export default function NewTestimonialSection() {
           <div className="absolute -inset-4">
             <svg
               width="280"
-              height="240"
-              viewBox="0 0 280 240"
+              height="280"
+              viewBox="0 0 280 280"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="w-full h-full"
