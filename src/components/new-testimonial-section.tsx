@@ -4,7 +4,6 @@
 import Image from 'next/image';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { MetaLogo } from './logos/meta-logo';
 import { QuoteIcon } from './quote-icon';
 import TestimonialProgressBar from './testimonial-progress-bar';
 
@@ -116,15 +115,15 @@ export default function NewTestimonialSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         {/* Left Side: Image */}
-        <div className="relative w-1/3">
-          <div className="absolute -inset-4">
+        <div className="relative w-1/3 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center">
             <svg
               width="280"
               height="280"
               viewBox="0 0 280 280"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full"
+              className="w-[280px] h-[280px]"
             >
               <motion.path
                 d="M130.5 229C185.399 229 229.5 184.912 229.5 130C229.5 75.0883 185.399 31 130.5 31C75.6015 31 31.5 75.0883 31.5 130C31.5 184.912 75.6015 229 130.5 229Z"
@@ -152,20 +151,22 @@ export default function NewTestimonialSection() {
           <AnimatePresence mode="wait">
             <motion.div
               key={index + '-image'}
-              className="relative w-[210px] h-[210px] mx-auto rounded-full overflow-hidden"
+              className="relative w-[210px] h-[210px] rounded-full bg-[#c0f5fa] p-[15px]"
               variants={imageVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
-              <Image
-                  src={currentTestimonial.image}
-                  alt={currentTestimonial.author}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={currentTestimonial.imageHint}
-                  sizes="210px"
-              />
+              <div className="relative w-full h-full rounded-full overflow-hidden">
+                <Image
+                    src={currentTestimonial.image}
+                    alt={currentTestimonial.author}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={currentTestimonial.imageHint}
+                    sizes="210px"
+                />
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -225,7 +226,3 @@ export default function NewTestimonialSection() {
     </div>
   );
 }
-
-    
-
-    
