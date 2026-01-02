@@ -234,3 +234,37 @@
     stroke-dashoffset: -201;
 }
 
+/* Data & AI Icon Animation */
+.snake-path {
+  stroke-dashoffset: 0;
+  opacity: 0;
+}
+
+.group:hover .data-ai-static rect {
+  stroke: #FCA5A5;
+}
+.group:hover .data-ai-static rect[fill] {
+  fill: #FCA5A5;
+}
+
+.group:hover .snake-path {
+  opacity: 1;
+  animation: snake-animation 6s ease-in-out infinite;
+}
+
+@keyframes snake-animation {
+  /* First Lap */
+  0% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; }
+  20% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; }
+
+  /* Second Lap */
+  25% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; }
+  45% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; }
+  
+  /* Disappear into dot */
+  50% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; }
+  
+  /* Hold and fade out */
+  51%, 100% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; opacity: 0; }
+}
+
