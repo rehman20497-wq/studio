@@ -62,42 +62,50 @@ const cardVariants = {
 };
 
 const AnimatedBorder = ({ radius = 24 }: { radius?: number }) => {
-  return (
-    <svg
-      className="absolute inset-0 pointer-events-none"
-      width="100%"
-      height="100%"
-    >
-      <rect
-        x="1"
-        y="1"
-        width="calc(100% - 2px)"
-        height="calc(100% - 2px)"
-        rx={radius}
-        ry={radius}
-        fill="none"
-        stroke="url(#borderGlow)"
-        strokeWidth="2"
-        strokeDasharray="1 200"
-      >
-        <animate
-          attributeName="stroke-dashoffset"
-          from="0"
-          to="-201"
-          dur="2.5s"
-          repeatCount="indefinite"
-        />
-      </rect>
+    const ref = useRef(null);
+    const isInView = useInView(ref, { amount: 0.6 });
 
-      <defs>
-        <linearGradient id="borderGlow" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="transparent" />
-          <stop offset="50%" stopColor="white" />
-          <stop offset="100%" stopColor="transparent" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
+    return (
+        <>
+          {isInView && (
+            <svg
+                className="absolute inset-0 pointer-events-none"
+                width="100%"
+                height="100%"
+                ref={ref}
+            >
+                <rect
+                    x="1"
+                    y="1"
+                    width="calc(100% - 2px)"
+                    height="calc(100% - 2px)"
+                    rx={radius}
+                    ry={radius}
+                    fill="none"
+                    stroke="url(#borderGlow)"
+                    strokeWidth="2"
+                    strokeDasharray="1 200"
+                >
+                    <animate
+                    attributeName="stroke-dashoffset"
+                    from="0"
+                    to="-201"
+                    dur="2.5s"
+                    repeatCount="indefinite"
+                    />
+                </rect>
+
+                <defs>
+                    <linearGradient id="borderGlow" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="50%" stopColor="white" />
+                    <stop offset="100%" stopColor="transparent" />
+                    </linearGradient>
+                </defs>
+            </svg>
+          )}
+        </>
+    )
 };
 
 
@@ -143,7 +151,7 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                   : {}
               }
               transition={{
-                duration: 5,
+                duration: 10,
                 ease: 'easeInOut',
                 delay,
                 repeat: Infinity,
@@ -167,9 +175,9 @@ export default function SolutionsSection() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <DashedLine className="absolute -top-10 left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
-          <DashedLine className="absolute -bottom-12 left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={1} path="M 10,10 C 50,70 150,70 190,10" viewBox="0 0 200 80"/>
-          <DashedLine className="absolute -top-10 left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={2} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
+          <DashedLine className="absolute -top-10 left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
+          <DashedLine className="absolute -bottom-12 left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" path="M 10,10 C 50,70 150,70 190,10" viewBox="0 0 200 80"/>
+          <DashedLine className="absolute -top-10 left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
           
           {solutions.map((solution) => (
             <SolutionCard key={solution.title} {...solution} />
