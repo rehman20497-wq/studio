@@ -246,21 +246,23 @@
 
 .group:hover .snake-path {
   opacity: 1;
-  animation: snake-animation 6s ease-in-out infinite;
+  animation: snake-animation 25s ease-in-out infinite;
 }
 
 @keyframes snake-animation {
   /* First Lap */
-  0% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; }
-  20% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; }
+  0% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; opacity: 1; }
+  40% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; opacity: 1; }
 
   /* Second Lap */
-  25% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; }
-  45% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; }
+  40.1% { stroke-dashoffset: 0; stroke-dasharray: 80 1000; opacity: 1; }
+  80% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; opacity: 1; }
   
   /* Disappear into dot */
-  50% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; }
+  80.1% { stroke-dashoffset: -1000; stroke-dasharray: 80 1000; opacity: 1; }
+  90% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; opacity: 1; }
   
-  /* Hold and fade out */
-  51%, 100% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; opacity: 0; }
+  /* Hold dot and fade out */
+  90.1% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; opacity: 1; }
+  100% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; opacity: 0; }
 }
