@@ -53,8 +53,6 @@ export const DataAiIcon = () => {
                 height={innerHeight}
                 rx={innerRadius}
                 fill="#FCA5A5"
-                stroke="#FCA5A5"
-                strokeWidth={innerStroke}
                 className="transition-colors duration-300"
             />
         </g>

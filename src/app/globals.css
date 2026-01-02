@@ -240,11 +240,8 @@
   opacity: 0;
 }
 
-.group:hover .data-ai-static rect {
+.group:hover .data-ai-static rect[stroke] {
   stroke: #FCA5A5;
-}
-.group:hover .data-ai-static rect[fill] {
-  fill: #FCA5A5;
 }
 
 .group:hover .snake-path {
@@ -267,4 +264,3 @@
   /* Hold and fade out */
   51%, 100% { stroke-dashoffset: -1000; stroke-dasharray: 1 1000; opacity: 0; }
 }
-
