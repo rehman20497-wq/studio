@@ -223,3 +223,14 @@
     stroke-dashoffset: 0;
   }
 }
+
+.animated-border {
+  stroke-dasharray: 1 200;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 2.5s infinite linear;
+}
+
+.group:hover .animated-border {
+    stroke-dashoffset: -201;
+}
+

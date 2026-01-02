@@ -84,15 +84,8 @@ const AnimatedBorder = ({ radius = 24 }: { radius?: number }) => {
                     fill="none"
                     stroke="url(#borderGlow)"
                     strokeWidth="2"
-                    strokeDasharray="1 200"
+                    className="animated-border"
                 >
-                    <animate
-                    attributeName="stroke-dashoffset"
-                    from="0"
-                    to="-201"
-                    dur="2.5s"
-                    repeatCount="indefinite"
-                    />
                 </rect>
 
                 <defs>
@@ -118,7 +111,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
         color
       )}
     >
-      <AnimatedBorder radius={24} />
+      <AnimatedBorder radius={16} />
       <div className="mb-6 flex items-center justify-center">{icon}</div>
       <h3 className="text-xl font-bold text-zinc-900 mb-4">{title}</h3>
       <p className="text-zinc-600 text-sm mb-8 flex-grow">{description}</p>
