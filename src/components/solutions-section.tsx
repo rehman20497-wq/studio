@@ -79,7 +79,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
   );
 };
 
-const DashedLine = ({ className, delay = 0 }: { className: string; delay?: number }) => {
+const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string; delay?: number, path: string, viewBox: string }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.5 });
     const [isDrawn, setIsDrawn] = useState(false);
@@ -92,9 +92,9 @@ const DashedLine = ({ className, delay = 0 }: { className: string; delay?: numbe
     }, [isInView, delay]);
 
     return (
-        <svg ref={ref} className={cn("absolute -top-10 w-full h-20 text-black/50", className)} viewBox="0 0 200 80" preserveAspectRatio="none">
+        <svg ref={ref} className={cn("absolute w-full h-20 text-black/50", className)} viewBox={viewBox} preserveAspectRatio="none">
             <motion.path
-                d="M 10,70 C 50,10 150,10 190,70"
+                d={path}
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="4"
@@ -106,7 +106,7 @@ const DashedLine = ({ className, delay = 0 }: { className: string; delay?: numbe
             />
             {isDrawn && (
                  <path
-                    d="M 10,70 C 50,10 150,10 190,70"
+                    d={path}
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="4"
@@ -132,9 +132,9 @@ export default function SolutionsSection() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <DashedLine className="left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0} />
-          <DashedLine className="left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.2} />
-          <DashedLine className="left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.4} />
+          <DashedLine className="-top-10 left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
+          <DashedLine className="-bottom-12 left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.2} path="M 10,10 C 50,70 150,70 190,10" viewBox="0 0 200 80"/>
+          <DashedLine className="-top-10 left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.4} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
           
           {solutions.map((solution) => (
             <SolutionCard key={solution.title} {...solution} />
