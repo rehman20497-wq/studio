@@ -17,7 +17,7 @@ const TestimonialProgressBar = ({
     const segments = Array.from({ length: totalItems });
 
     return (
-        <div className="w-full h-6 flex items-center rounded-full overflow-hidden">
+        <div className="w-full h-1.5 flex items-center rounded-full overflow-hidden">
             {segments.map((_, i) => (
                 <div
                     key={i}
@@ -43,7 +43,7 @@ const TestimonialProgressBar = ({
                         )}
                     </div>
                     {i < totalItems - 1 && (
-                        <div className="w-4 h-4 rounded-full bg-white z-10 -ml-2 -mr-2 shrink-0" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-white z-10 -ml-1 -mr-1 shrink-0" />
                     )}
                 </div>
             ))}
