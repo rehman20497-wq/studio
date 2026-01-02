@@ -16,14 +16,13 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      duration: 0.8,
-      ease: [0.25, 1, 0.5, 1],
+      duration: 0.5,
+      ease: 'easeOut',
     },
   },
 };
@@ -32,12 +31,12 @@ const Underline = ({ children, delay }: { children: React.ReactNode; delay: numb
   <span className="relative inline-block">
     {children}
     <svg
-      className="absolute -bottom-1.5 left-0 w-full h-2.5 overflow-visible"
-      viewBox="0 0 100 10"
+      className="absolute -bottom-1 left-0 w-full h-2 overflow-visible"
+      viewBox="0 0 100 8"
       preserveAspectRatio="none"
     >
       <motion.path
-        d="M 1,6 C 20,2 80,2 99,6"
+        d="M 1,5 C 20,2 80,2 99,5"
         fill="none"
         stroke="hsl(var(--primary))"
         strokeWidth="2"
