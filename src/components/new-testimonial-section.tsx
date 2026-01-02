@@ -14,7 +14,7 @@ const testimonials = [
     text: "We're constantly trying to bring the best the market has to offer to support our global business operations by identifying suppliers with the exact solution we need to solve our problem. In this case, we found an incredible partner in Hugo.",
     author: 'Jason T.',
     title: 'Director, Global Supplier Diversity',
-    image: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYW4lMjBzbWlsaW5nfGVufDB8fHx8MTc2NzA0OTYyM3ww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://storage.googleapis.com/aiv-content/1773012975971.webp',
     imageHint: 'man smiling',
   },
   {
@@ -22,16 +22,16 @@ const testimonials = [
     text: "Hugo's team is top-notch. Their proactive approach and deep understanding of our needs have been a game changer for our operations. We couldn't be happier with the results.",
     author: 'Maria G.',
     title: 'COO, GiftHealth',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb3J0cmFpdCUyMHdvbWFufGVufDB8fHx8MTc3MjczNzQ5OHww&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'woman portrait',
+    image: 'https://storage.googleapis.com/aiv-content/1773012975971.webp',
+    imageHint: 'man smiling',
   },
     {
     logo: <div className="text-2xl font-bold">ATTENTIVE</div>,
     text: "The level of detail and commitment from Hugo is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
     author: 'David L.',
     title: 'Head of Support, Attentive',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzI3Mzc1Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    imageHint: 'man portrait',
+    image: 'https://storage.googleapis.com/aiv-content/1773012975971.webp',
+    imageHint: 'man smiling',
   },
 ];
 
