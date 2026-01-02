@@ -63,7 +63,7 @@ const cardVariants = {
 
 const AnimatedBorder = ({ radius = 24 }: { radius?: number }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { amount: 0.6 });
+    const isInView = useInView(ref, { amount: 0.6, once: true });
 
     return (
         <>
@@ -114,7 +114,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
     <motion.div
       variants={cardVariants}
       className={cn(
-        'relative bg-white rounded-2xl p-8 h-full min-h-[450px] flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 overflow-hidden',
+        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 overflow-hidden',
         color
       )}
     >
@@ -152,7 +152,7 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
               }
               transition={{
                 duration: 10,
-                ease: 'easeInOut',
+                ease: 'linear',
                 delay,
                 repeat: Infinity,
                 repeatType: 'loop',
@@ -167,7 +167,7 @@ export default function SolutionsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-cream py-24 px-[4%] overflow-hidden">
+    <section ref={ref} className="bg-cream pb-24 px-[4%] overflow-hidden">
       <div className="mx-auto">
         <motion.div
           className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
