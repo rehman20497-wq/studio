@@ -253,10 +253,7 @@
   from {
     stroke-dasharray: 0 1000;
   }
-  98% {
-    stroke-dasharray: 1000 0;
-  }
   to {
-    stroke-dasharray: 1000 0;
+    stroke-dasharray: 980 1000;
   }
 }
