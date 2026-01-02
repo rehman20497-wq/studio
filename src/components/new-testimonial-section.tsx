@@ -10,7 +10,7 @@ import TestimonialProgressBar from './testimonial-progress-bar';
 
 const testimonials = [
   {
-    logo: <MetaLogo />,
+    logo: <Image src="https://picsum.photos/seed/meta/100/30" alt="Meta Logo" width={100} height={30} className="object-contain" data-ai-hint="company logo" />,
     text: "We're constantly trying to bring the best the market has to offer to support our global business operations by identifying suppliers with the exact solution we need to solve our problem. In this case, we found an incredible partner in Hugo.",
     author: 'Jason T.',
     title: 'Director, Global Supplier Diversity',
@@ -18,7 +18,7 @@ const testimonials = [
     imageHint: 'man smiling',
   },
   {
-    logo: <div className="text-2xl font-bold">GIFT<span className='text-rose-500'>HEALTH</span></div>,
+    logo: <Image src="https://picsum.photos/seed/gift-health/100/30" alt="GiftHealth Logo" width={100} height={30} className="object-contain" data-ai-hint="company logo" />,
     text: "Hugo's team is top-notch. Their proactive approach and deep understanding of our needs have been a game changer for our operations. We couldn't be happier with the results.",
     author: 'Maria G.',
     title: 'COO, GiftHealth',
@@ -26,7 +26,7 @@ const testimonials = [
     imageHint: 'man smiling',
   },
     {
-    logo: <div className="text-2xl font-bold">ATTENTIVE</div>,
+    logo: <Image src="https://picsum.photos/seed/attentive/100/30" alt="Attentive Logo" width={100} height={30} className="object-contain" data-ai-hint="company logo" />,
     text: "The level of detail and commitment from Hugo is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
     author: 'David L.',
     title: 'Head of Support, Attentive',
@@ -225,3 +225,5 @@ export default function NewTestimonialSection() {
     </div>
   );
 }
+
+    
