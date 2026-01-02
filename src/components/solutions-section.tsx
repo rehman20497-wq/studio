@@ -94,7 +94,21 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
                 animate={isInView ? { pathLength: 1 } : {}}
-                transition={{ duration: 1.5, ease: 'easeInOut', delay }}
+                transition={{
+                    pathLength: { duration: 1.5, ease: 'easeInOut', delay },
+                    strokeDashoffset: {
+                      delay: delay + 1.5,
+                      duration: 1,
+                      repeat: Infinity,
+                      repeatType: 'loop',
+                      ease: 'linear',
+                    },
+                }}
+                variants={{
+                  animate: {
+                    strokeDashoffset: [0, 20],
+                  },
+                }}
             />
         </svg>
     )
@@ -106,7 +120,7 @@ export default function SolutionsSection() {
 
   return (
     <section ref={ref} className="bg-cream py-24 px-[4%]">
-      <div>
+      <div className="max-w-7xl mx-auto">
         <motion.div
           className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={containerVariants}
@@ -114,8 +128,8 @@ export default function SolutionsSection() {
           animate={isInView ? 'visible' : 'hidden'}
         >
           <DashedLine className="-top-10 left-[25%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
-          <DashedLine className="-bottom-12 left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.2} path="M 10,10 C 50,70 150,70 190,10" viewBox="0 0 200 80"/>
-          <DashedLine className="-top-10 left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.4} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
+          <DashedLine className="-bottom-12 left-[50%] -translate-x-1/2 w-1/4 hidden lg:block" delay={0.5} path="M 10,10 C 50,70 150,70 190,10" viewBox="0 0 200 80"/>
+          <DashedLine className="-top-10 left-[75%] -translate-x-1/2 w-1/4 hidden lg:block" delay={1} path="M 10,70 C 50,10 150,10 190,70" viewBox="0 0 200 80"/>
           
           {solutions.map((solution) => (
             <SolutionCard key={solution.title} {...solution} />
