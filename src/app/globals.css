@@ -137,10 +137,10 @@
     stroke-opacity: 1;
   }
   .group:hover .customer-support-arc-color:nth-child(2) {
-    stroke-opacity: 0.6;
+    stroke-opacity: 1;
   }
   .group:hover .customer-support-arc-color:nth-child(3) {
-    stroke-opacity: 0.3;
+    stroke-opacity: 1;
   }
 }
 
