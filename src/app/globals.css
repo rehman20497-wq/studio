@@ -246,7 +246,7 @@
 
 .group:hover .snake-path {
   opacity: 1;
-  animation: snake-animation 2s linear infinite;
+  animation: snake-animation 7s linear infinite;
 }
 
 @keyframes snake-animation {
