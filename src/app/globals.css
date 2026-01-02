@@ -197,9 +197,9 @@
 }
 
 .fluid-arc {
-  stroke: #a5f3fc; /* Lighter blue for default state */
+  stroke: transparent;
   stroke-dasharray: 35;
-  stroke-dashoffset: 0;
+  stroke-dashoffset: 35;
 }
 
 .group:hover .fluid-arc {
