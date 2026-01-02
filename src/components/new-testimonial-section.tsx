@@ -142,7 +142,7 @@ export default function NewTestimonialSection() {
                 animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
                 transition={{ duration: 1.5, delay: 0.8, ease: "easeInOut" }}
               />
-              <motion.circle cx="216" cy="130" r="34" stroke="#F5D34A" strokeWidth="20"
+              <motion.circle cx="216" cy="190" r="34" stroke="#F5D34A" strokeWidth="20"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
                 transition={{ duration: 1.5, delay: 1.1, ease: "easeInOut" }}
