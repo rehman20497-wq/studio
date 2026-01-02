@@ -65,7 +65,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
     <motion.div
       variants={cardVariants}
       className={cn(
-        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 min-h-[420px]',
+        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 min-h-[420px] border-glow',
         color
       )}
     >
@@ -93,21 +93,19 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                 strokeDasharray="10 10"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
-                animate={isInView ? { pathLength: 1 } : {}}
+                animate={isInView ? { 
+                  pathLength: 1,
+                  strokeDashoffset: [20, 0]
+                } : {}}
                 transition={{
-                    pathLength: { duration: 1.5, ease: 'easeInOut', delay },
+                    pathLength: { duration: 3.5, ease: 'easeInOut', delay },
                     strokeDashoffset: {
-                      delay: delay + 1.5,
+                      delay: delay + 3.5,
                       duration: 1,
                       repeat: Infinity,
                       repeatType: 'loop',
                       ease: 'linear',
                     },
-                }}
-                variants={{
-                  animate: {
-                    strokeDashoffset: [0, 20],
-                  },
                 }}
             />
         </svg>
@@ -119,7 +117,7 @@ export default function SolutionsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-cream py-24 px-[4%]">
+    <section ref={ref} className="bg-cream py-24 px-[4%] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"

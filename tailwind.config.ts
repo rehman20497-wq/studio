@@ -109,10 +109,6 @@ export default {
           'from': { '--shimmer-angle': '0deg' },
           'to': { '--shimmer-angle': '360deg' },
         },
-        'border-glow': {
-          'from': { '--shimmer-angle': '0deg' },
-          'to': { '--shimmer-angle': '360deg' },
-        },
         'fade-in-up': {
           'from': { opacity: '0', transform: 'translateY(20px)' },
           'to': { opacity: '1', transform: 'translateY(0)' },
