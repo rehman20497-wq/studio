@@ -1,6 +1,4 @@
-
 import React from 'react';
-import { cn } from '@/lib/utils';
 
 export const DataAiIcon = () => {
   const outerWidth = 110;
@@ -18,10 +16,20 @@ export const DataAiIcon = () => {
 
   const outerX = outerStroke / 2;
   const outerY = outerStroke / 2;
-  
-  const outerCircumference = 2 * ((outerWidth - outerStroke) + (outerHeight - outerStroke));
-  const innerCircumference = 2 * ((innerWidth - innerStroke) + (innerHeight - innerStroke));
 
+  // ✅ Normalized inner rect geometry (used everywhere)
+  const innerRect = {
+    x: innerX + innerStroke / 2,
+    y: innerY + innerStroke / 2,
+    width: innerWidth - innerStroke,
+    height: innerHeight - innerStroke,
+  };
+
+  const outerCircumference =
+    2 * ((outerWidth - outerStroke) + (outerHeight - outerStroke));
+
+  const innerCircumference =
+    2 * ((innerWidth - innerStroke) + (innerHeight - innerStroke));
 
   return (
     <div className="relative" style={{ width: outerWidth, height: outerHeight }}>
@@ -35,59 +43,53 @@ export const DataAiIcon = () => {
       >
         {/* Static background rectangles */}
         <g className="data-ai-static">
-            <rect
-                x={outerX}
-                y={outerY}
-                width={outerWidth - outerStroke}
-                height={outerHeight - outerStroke}
-                rx={outerRadius}
-                stroke="#D9480F"
-                strokeWidth={outerStroke}
-                fill="none"
-                className="transition-colors duration-300"
-            />
-            <rect
-                x={innerX}
-                y={innerY}
-                width={innerWidth}
-                height={innerHeight}
-                rx={innerRadius}
-                stroke="#D9480F"
-                fill="none"
-                className="transition-colors duration-300"
-            />
-        </g>
-        
-        {/* Animated "snake" paths */}
-        <g className="data-ai-snake">
-             <rect
-                x={outerX}
-                y={outerY}
-                width={outerWidth - outerStroke}
-                height={outerHeight - outerStroke}
-                rx={outerRadius}
-                stroke="#D9480F"
-                strokeWidth={outerStroke}
-                fill="none"
-                strokeLinecap="round"
-                className="snake-path"
-                style={{ strokeDasharray: `80 ${outerCircumference}` }}
-            />
-            <rect
-                x={innerX + innerStroke/2}
-                y={innerY + innerStroke/2}
-                width={innerWidth - innerStroke}
-                height={innerHeight - innerStroke}
-                rx={innerRadius}
-                stroke="#D9480F"
-                strokeWidth={innerStroke}
-                fill="none"
-                strokeLinecap="round"
-                className="snake-path"
-                style={{ strokeDasharray: `60 ${innerCircumference}` }}
-            />
+          <rect
+            x={outerX}
+            y={outerY}
+            width={outerWidth - outerStroke}
+            height={outerHeight - outerStroke}
+            rx={outerRadius}
+            stroke="#D9480F"
+            strokeWidth={outerStroke}
+            fill="none"
+          />
+
+          <rect
+            {...innerRect}
+            rx={innerRadius}
+            stroke="#D9480F"
+            strokeWidth={innerStroke}
+            fill="none"
+          />
         </g>
 
+        {/* Animated "snake" paths */}
+        <g className="data-ai-snake">
+          <rect
+            x={outerX}
+            y={outerY}
+            width={outerWidth - outerStroke}
+            height={outerHeight - outerStroke}
+            rx={outerRadius}
+            stroke="#D9480F"
+            strokeWidth={outerStroke}
+            fill="none"
+            strokeLinecap="round"
+            className="snake-path"
+            style={{ strokeDasharray: `80 ${outerCircumference}` }}
+          />
+
+          <rect
+            {...innerRect}
+            rx={innerRadius}
+            stroke="#D9480F"
+            strokeWidth={innerStroke}
+            fill="none"
+            strokeLinecap="round"
+            className="snake-path"
+            style={{ strokeDasharray: `60 ${innerCircumference}` }}
+          />
+        </g>
       </svg>
     </div>
   );
