@@ -2,8 +2,8 @@ import React from 'react';
 
 export const CustomerSupportIcon = () => (
   <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 40C18.6274 33.3726 26.8228 30 35.5 30" stroke="#06B6D4" strokeWidth="6" strokeLinecap="round"/>
-    <path d="M18 50C22.4183 45.5817 28.5031 43 35 43" stroke="#06B6D4" strokeWidth="6" strokeLinecap="round" strokeOpacity="0.6"/>
-    <path d="M24 60C27.1819 56.8181 31.526 55 35.5 55" stroke="#06B6D4" strokeWidth="6" strokeLinecap="round" strokeOpacity="0.3"/>
+    <path d="M4 50C16.3754 37.6246 31.6917 31 48 31" stroke="#06B6D4" strokeWidth="6" strokeLinecap="round"/>
+    <path d="M12 50C20.2825 41.7175 30.2013 37 40.5 37" stroke="#06B6D4" strokeOpacity="0.6" strokeWidth="6" strokeLinecap="round"/>
+    <path d="M20 50C25.5228 44.4772 32.3411 41 39.5 41" stroke="#06B6D4" strokeOpacity="0.3" strokeWidth="6" strokeLinecap="round"/>
   </svg>
 );
