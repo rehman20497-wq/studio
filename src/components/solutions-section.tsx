@@ -89,13 +89,12 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                 d={path}
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="4"
+                strokeWidth="2"
                 strokeDasharray="10 10"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
                 animate={isInView ? { pathLength: 1 } : {}}
-                transition={{ duration: 1, ease: 'easeInOut', delay }}
-                className="animate-marching-ants"
+                transition={{ duration: 1.5, ease: 'easeInOut', delay }}
             />
         </svg>
     )
