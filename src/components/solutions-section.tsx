@@ -167,7 +167,7 @@ export default function SolutionsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-cream pb-24 px-[4%] overflow-hidden">
+    <section ref={ref} className="bg-cream pt-[2%] pb-24 px-[4%] overflow-hidden">
       <div className="mx-auto">
         <motion.div
           className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
