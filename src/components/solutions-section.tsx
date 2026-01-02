@@ -119,7 +119,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
       )}
     >
       <AnimatedBorder radius={24} />
-      <div className="h-16 w-16 mb-6 flex items-center justify-center">{icon}</div>
+      <div className="mb-6 flex items-center justify-center">{icon}</div>
       <h3 className="text-xl font-bold text-zinc-900 mb-4">{title}</h3>
       <p className="text-zinc-600 text-sm mb-8 flex-grow">{description}</p>
       <button className="bg-black text-white font-semibold py-2 px-6 rounded-full w-fit hover:bg-zinc-800 transition-colors">
