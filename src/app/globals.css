@@ -195,3 +195,27 @@
     transform: scaleX(1);
   }
 }
+
+@layer utilities {
+  .group:hover .customer-support-arc {
+    animation: fill-unfill-arc 2s ease-in-out infinite;
+  }
+  .group:hover .customer-support-arc:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  .group:hover .customer-support-arc:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes fill-unfill-arc {
+  0% {
+    stroke-dashoffset: 104;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 104;
+  }
+}

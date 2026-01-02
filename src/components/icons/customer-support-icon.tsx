@@ -6,27 +6,41 @@ export const CustomerSupportIcon = ({ className = '' }) => (
     className={`block w-[140px] h-[140px] ${className}`}
     preserveAspectRatio="xMidYMid meet"
   >
-    {/* Rotate INSIDE, not on SVG */}
     <g transform="rotate(50 32 32)">
       <path
-        d="M14 31.5 A19 19 0 0 1 50 31.5"
+        className="customer-support-arc"
+        d="M14.5 33 A19 19 0 0 1 49.5 33"
         stroke="#06B6D4"
         strokeWidth="6"
         strokeLinecap="round"
+        style={{
+          strokeDasharray: 104,
+          strokeDashoffset: 104,
+        }}
       />
       <path
-        d="M21.5 31.5 A12 12 0 0 1 42.5 31.5"
+        className="customer-support-arc"
+        d="M22 33 A12 12 0 0 1 42 33"
         stroke="#06B6D4"
         strokeOpacity="0.6"
         strokeWidth="6"
         strokeLinecap="round"
+        style={{
+          strokeDasharray: 63,
+          strokeDashoffset: 63,
+        }}
       />
       <path
-        d="M27 31.5 A6 6 0 0 1 37 31.5"
+        className="customer-support-arc"
+        d="M27.5 33 A6 6 0 0 1 36.5 33"
         stroke="#06B6D4"
         strokeOpacity="0.3"
         strokeWidth="6"
         strokeLinecap="round"
+        style={{
+          strokeDasharray: 29,
+          strokeDashoffset: 29,
+        }}
       />
     </g>
   </svg>
