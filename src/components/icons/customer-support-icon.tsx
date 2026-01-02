@@ -9,20 +9,20 @@ export const CustomerSupportIcon = ({ className = '' }) => (
     {/* Rotate INSIDE, not on SVG */}
     <g transform="rotate(50 32 32)">
       <path
-        d="M13 31.5 A20 20 0 0 1 51 31.5"
+        d="M14 31.5 A19 19 0 0 1 50 31.5"
         stroke="#06B6D4"
         strokeWidth="6"
         strokeLinecap="round"
       />
       <path
-        d="M19.5 31.5 A14 14 0 0 1 44.5 31.5"
+        d="M21.5 31.5 A12 12 0 0 1 42.5 31.5"
         stroke="#06B6D4"
         strokeOpacity="0.6"
         strokeWidth="6"
         strokeLinecap="round"
       />
       <path
-        d="M25 31.5 A8 8 0 0 1 39 31.5"
+        d="M27 31.5 A6 6 0 0 1 37 31.5"
         stroke="#06B6D4"
         strokeOpacity="0.3"
         strokeWidth="6"
