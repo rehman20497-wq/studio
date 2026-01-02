@@ -120,7 +120,7 @@ export default function SolutionsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-cream py-24 px-[2%] overflow-hidden">
+    <section ref={ref} className="bg-cream py-24 px-[4%] overflow-hidden">
       <div className="mx-auto">
         <motion.div
           className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
