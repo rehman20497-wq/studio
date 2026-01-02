@@ -152,20 +152,24 @@ export default function NewTestimonialSection() {
           <AnimatePresence mode="wait">
             <motion.div
               key={index + '-image'}
-              className="relative w-[210px] h-[210px] mx-auto rounded-full bg-[#9AFEFF] overflow-hidden flex items-center justify-center"
+              className="relative w-[210px] h-[210px] mx-auto rounded-full bg-[#9AFEFF] p-1.5"
               variants={imageVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
-              <Image
-                src={currentTestimonial.image}
-                alt={currentTestimonial.author}
-                width={180}
-                height={180}
-                className="rounded-full object-cover"
-                data-ai-hint={currentTestimonial.imageHint}
-              />
+              <div className="w-full h-full rounded-full bg-white p-1.5">
+                <div className="w-full h-full rounded-full overflow-hidden">
+                    <Image
+                        src={currentTestimonial.image}
+                        alt={currentTestimonial.author}
+                        fill
+                        className="object-cover"
+                        data-ai-hint={currentTestimonial.imageHint}
+                        sizes="180px"
+                    />
+                </div>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
