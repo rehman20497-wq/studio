@@ -106,7 +106,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
     <motion.div
       variants={cardVariants}
       className={cn(
-        'relative bg-white rounded-2xl p-8 h-full flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 overflow-hidden',
+        'relative bg-white rounded-2xl p-8 h-full min-h-[450px] flex flex-col text-center items-center shadow-lg border-2 border-opacity-60 overflow-hidden',
         color
       )}
     >
@@ -143,7 +143,7 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
                   : {}
               }
               transition={{
-                duration: 3.5,
+                duration: 5,
                 ease: 'easeInOut',
                 delay,
                 repeat: Infinity,
