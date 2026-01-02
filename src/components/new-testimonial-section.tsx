@@ -159,7 +159,7 @@ export default function NewTestimonialSection() {
               exit="exit"
             >
               <div className="w-full h-full rounded-full bg-white p-1.5">
-                <div className="w-full h-full rounded-full overflow-hidden">
+                <div className="w-full h-full rounded-full overflow-hidden relative">
                     <Image
                         src={currentTestimonial.image}
                         alt={currentTestimonial.author}
