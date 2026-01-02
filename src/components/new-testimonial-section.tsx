@@ -118,7 +118,7 @@ export default function NewTestimonialSection() {
         <div className="relative w-1/3 flex items-center justify-center">
           <div className="relative w-[340px] h-[340px] flex items-center justify-center">
 
-            <div className="absolute -inset-4">
+            <div className="absolute -inset-8">
                  <motion.svg 
                     viewBox="0 0 400 400" 
                     fill="none" 
@@ -128,34 +128,31 @@ export default function NewTestimonialSection() {
                     animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
                     transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
                 >
-                    <path d="M305 200.5C305 141.93 256.07 93 197.5 93C138.93 93 90 141.93 90 200.5C90 259.07 138.93 308 197.5 308C236.08 308 269.434 289.37 289.435 260.985" stroke="#F5D34A" strokeWidth="20"/>
-                    <circle cx="289" cy="260" r="18" fill="#F5D34A"/>
+                    <circle cx="180" cy="180" r="110" fill="white" stroke="#F5D34A" strokeWidth="20"/>
+                    <circle cx="270" cy="270" r="30" fill="none" stroke="#F5D34A" strokeWidth="20"/>
                 </motion.svg>
             </div>
-
-            <div className="relative w-[240px] h-[240px] rounded-full bg-[#F5D34A] p-2">
-                 <AnimatePresence mode="wait">
-                    <motion.div
-                        key={index + '-image'}
-                        className="w-full h-full"
-                        variants={imageVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                    >
-                      <div className="relative w-full h-full rounded-full overflow-hidden">
-                        <Image
-                            src={currentTestimonial.image}
-                            alt={currentTestimonial.author}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={currentTestimonial.imageHint}
-                            sizes="224px"
-                        />
-                      </div>
-                    </motion.div>
-                </AnimatePresence>
-            </div>
+            
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={index + '-image'}
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <div className="relative w-[210px] h-[210px] rounded-full overflow-hidden">
+                  <Image
+                      src={currentTestimonial.image}
+                      alt={currentTestimonial.author}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={currentTestimonial.imageHint}
+                      sizes="210px"
+                  />
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
