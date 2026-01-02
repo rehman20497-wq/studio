@@ -116,55 +116,47 @@ export default function NewTestimonialSection() {
       >
         {/* Left Side: Image */}
         <div className="relative w-1/3 flex items-center justify-center">
-          <div className="absolute -inset-4 flex items-center justify-center">
-            <svg
-              width="280"
-              height="280"
-              viewBox="0 0 280 280"
+          <div className="relative w-[340px] h-[340px]">
+            <motion.svg
+              viewBox="0 0 340 340"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full"
+              className="absolute inset-0 w-full h-full"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
+              transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
             >
-              <motion.path
-                d="M140 259C205.821 259 259 205.821 259 140C259 74.1791 205.821 21 140 21C74.1791 21 21 74.1791 21 140C21 205.821 74.1791 259 140 259Z"
+              <path
+                d="M280.5 170.5C280.5 109.914 231.086 60.5 170.5 60.5C109.914 60.5 60.5 109.914 60.5 170.5C60.5 231.086 109.914 280.5 170.5 280.5C203.499 280.5 233.153 267.433 253.281 246.335C259.083 240.232 265.418 234.341 272.5 229.5C272.5 240.851 263.351 250 252 250C240.649 250 231.5 240.851 231.5 229.5C231.5 218.149 240.649 209 252 209C259.489 209 266.015 213.729 269.458 219.789"
                 stroke="#F5D34A"
                 strokeWidth="20"
-                 initial={{ pathLength: 0, opacity: 0 }}
-                 animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
-                 transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
               />
-              <motion.path
-                d="M244 205C255.046 205 264 196.046 264 185C264 173.954 255.046 165 244 165C232.954 165 224 173.954 224 185C224 196.046 232.954 205 244 205Z"
-                stroke="#F5D34A"
-                strokeWidth="20"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={ isInView ? { pathLength: 1, opacity: 1 } : {}}
-                transition={{ duration: 1.5, delay: 1.1, ease: "easeInOut" }}
-              />
-            </svg>
-          </div>
-          <div className="relative w-[210px] h-[210px] rounded-full bg-[#c0f5fa]">
+            </motion.svg>
+
             <div className="absolute inset-0 flex items-center justify-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={index + '-image'}
-                  variants={imageVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
-                  <div className="relative w-[210px] h-[210px] rounded-full overflow-hidden">
-                    <Image
-                        src={currentTestimonial.image}
-                        alt={currentTestimonial.author}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={currentTestimonial.imageHint}
-                        sizes="210px"
-                    />
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+                <div className="relative w-[240px] h-[240px] rounded-full bg-[#c0f5fa] p-4">
+                     <AnimatePresence mode="wait">
+                        <motion.div
+                            key={index + '-image'}
+                            className="w-full h-full"
+                            variants={imageVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <div className="relative w-full h-full rounded-full overflow-hidden">
+                                <Image
+                                    src={currentTestimonial.image}
+                                    alt={currentTestimonial.author}
+                                    fill
+                                    className="object-cover"
+                                    data-ai-hint={currentTestimonial.imageHint}
+                                    sizes="210px"
+                                />
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
             </div>
           </div>
         </div>
