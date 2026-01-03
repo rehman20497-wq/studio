@@ -44,7 +44,7 @@ export const TrustSafetyIcon = () => {
                         strokeWidth="12"
                         fill="none"
                         strokeDasharray={circumference}
-                        strokeDashoffset={0}
+                        strokeDashoffset={circumference}
                         strokeLinecap="round"
                         transform="rotate(-90 51 62.5) scale(1, -1) translate(0, -125)"
                     />
