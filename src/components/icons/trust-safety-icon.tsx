@@ -7,8 +7,8 @@ export const TrustSafetyIcon = () => {
     const offset = circumference - (fillPercentage / 100) * circumference;
 
     return (
-        <svg width="140" height="105" viewBox="0 0 140 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g transform="rotate(50 70 52.5)">
+        <svg width="145" height="115" viewBox="0 0 145 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g transform="rotate(50 72.5 57.5)">
                 {/* Left circle (solid) */}
                 <circle cx="51" cy="52.5" r={radius} stroke="#A78BFA" strokeWidth="12"/>
 
