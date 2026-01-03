@@ -29,13 +29,15 @@ export default function MagneticButton({ children }: { children: React.ReactNode
       onMouseLeave={reset}
       animate={{ x, y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className="relative px-8 py-3 rounded-full bg-zinc-900 text-white shadow-lg overflow-hidden"
+      className="group relative px-8 py-3 rounded-full bg-zinc-900 text-white shadow-lg overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ scale: 1.05 }}
     >
-      {children}
+      <span className="relative z-10 transition-colors duration-300 group-hover:text-yellow-400">
+        {children}
+      </span>
     </motion.button>
   );
 }

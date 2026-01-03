@@ -8,6 +8,7 @@ import UsaMap from "@/components/usa-map";
 import GrowthSection from "@/components/growth-section";
 import SolutionsSection from "@/components/solutions-section";
 import BrushStrokes from "@/components/brush-strokes";
+import IntegrationSection from "@/components/integration-section";
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
       <div className="bg-[#FEF9F2]">
         <BrushStrokes />
       </div>
+      <IntegrationSection />
     </div>
   );
 }
