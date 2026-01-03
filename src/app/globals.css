@@ -231,21 +231,23 @@
     transition: transform 0.5s ease-in-out;
 }
 
+/* Delay the slide until after the fill animations */
 .group:hover .do-circle-group {
     transition-delay: 1.4s;
 }
 
+/* Slide each circle to the center on hover */
 .group:hover #circle-1 {
-    transform: translate(21px, 21px);
+    transform: translate(22.5px, 22.5px);
 }
 .group:hover #circle-2 {
-    transform: translate(-21px, 21px);
+    transform: translate(-22.5px, 22.5px);
 }
 .group:hover #circle-3 {
-    transform: translate(21px, -21px);
+    transform: translate(22.5px, -22.5px);
 }
 .group:hover #circle-4 {
-    transform: translate(-21px, -21px);
+    transform: translate(-22.5px, -22.5px);
 }
 
 
