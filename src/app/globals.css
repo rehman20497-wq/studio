@@ -213,6 +213,20 @@
   transition-delay: 0.6s;
 }
 
+.left-circle-group,
+.right-circle-group {
+  transition: transform 0.5s ease-in-out;
+  transition-delay: 1s;
+}
+
+.group:hover .left-circle-group {
+  transform: translateX(19px);
+}
+
+.group:hover .right-circle-group {
+  transform: translateX(-19px);
+}
+
 
 .animated-border {
   stroke-dasharray: 1 200;

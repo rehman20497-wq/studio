@@ -10,7 +10,7 @@ export const TrustSafetyIcon = () => {
         <svg width="145" height="125" viewBox="0 0 145 125" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="rotate(50 72.5 62.5)">
                 {/* Left Circle Group (starts 75% filled) */}
-                <g>
+                <g className="left-circle-group">
                     {/* Background outline for the left circle */}
                     <circle 
                         cx="51" 
@@ -51,7 +51,7 @@ export const TrustSafetyIcon = () => {
                 </g>
                 
                 {/* Right Circle Group (starts empty, fills on hover) */}
-                <g>
+                <g className="right-circle-group">
                     {/* Background for the right circle */}
                     <circle 
                         cx="89" 
