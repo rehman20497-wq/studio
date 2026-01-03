@@ -3,6 +3,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import BrushStrokes from './brush-strokes';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -78,6 +79,7 @@ export default function GrowthSection() {
           <Underline delay={1.4}>awful</Underline>.
         </motion.p>
       </motion.div>
+      <BrushStrokes />
     </section>
   );
 }

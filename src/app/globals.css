@@ -285,4 +285,18 @@
 
 .group:hover .fluid-arc {
   stroke-dashoffset: 0 !important;
+  animation: fluid-fill 1.5s ease-in-out infinite;
+  stroke: #0badbf;
+}
+.group:hover .fluid-arc {
+  
+  animation: fluid-fill 1.5s ease-in-out infinite;
+}
+
+.group:hover .delay-150 {
+  animation-delay: 0.15s;
+}
+
+.group:hover .delay-300 {
+  animation-delay: 0.3s;
 }
