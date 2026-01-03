@@ -9,14 +9,11 @@ export const TrustSafetyIcon = () => {
     return (
         <svg width="145" height="125" viewBox="0 0 145 125" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="rotate(50 72.5 62.5)">
-                {/* Left circle (solid) */}
-                <circle cx="51" cy="62.5" r={radius} stroke="#A78BFA" strokeWidth="12"/>
-
-                {/* Right circle (interlocking and 75% filled) */}
+                {/* Left circle (interlocking and 75% filled) */}
                 <g>
                     {/* Lighter background for the 25% gap */}
                     <circle 
-                        cx="89" 
+                        cx="51" 
                         cy="62.5" 
                         r={radius} 
                         stroke="#C4B5FD" 
@@ -24,16 +21,19 @@ export const TrustSafetyIcon = () => {
                     />
                     {/* Darker foreground for the 75% fill */}
                     <circle 
-                        cx="89" 
+                        cx="51" 
                         cy="62.5" 
                         r={radius} 
                         stroke="#A78BFA" 
                         strokeWidth="12"
                         strokeDasharray={circumference}
                         strokeDashoffset={offset}
-                        transform="rotate(-90 89 62.5)"
+                        strokeLinecap="round"
+                        transform="rotate(-90 51 62.5)"
                     />
                 </g>
+                {/* Right circle (solid) */}
+                <circle cx="89" cy="62.5" r={radius} stroke="#A78BFA" strokeWidth="12"/>
             </g>
         </svg>
     );
