@@ -9,6 +9,7 @@ import { CustomerSupportIcon } from './icons/customer-support-icon';
 import { DataAiIcon } from './icons/data-ai-icon';
 import { TrustSafetyIcon } from './icons/trust-safety-icon';
 import { DigitalOperationsIcon } from './icons/digital-operations-icon';
+import BrushStrokes from './brush-strokes';
 
 const solutions = [
   {
@@ -177,6 +178,7 @@ export default function SolutionsSection() {
           ))}
         </motion.div>
       </div>
+      <BrushStrokes />
     </section>
   );
 }
