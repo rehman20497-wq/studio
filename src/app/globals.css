@@ -201,7 +201,7 @@
 }
 
 .fluid-arc-delayed {
-    transition: stroke-dashoffset 0.2s ease-out 0.6s;
+    transition: stroke-dashoffset 0.8s ease-out 0.6s;
 }
 
 .group:hover .fluid-arc {
