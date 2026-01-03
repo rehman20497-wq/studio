@@ -40,14 +40,14 @@ export default function BrushStrokes() {
     <div className="relative my-12 space-y-4">
        <div className="stroke-[#D4EDCC]">
         <BrushStroke 
-          d="M-20 40 C 280 10, 1160 10, 1460 40"
+          d="M-20 40 C 280 20, 1160 60, 1460 40"
           from="right"
           duration={1.5}
         />
        </div>
        <div className="stroke-[#C0E7F9]">
         <BrushStroke 
-          d="M-20 40 C 280 70, 1160 70, 1460 40"
+          d="M-20 40 C 280 60, 1160 20, 1460 40"
           from="left"
           duration={1.5}
           delay={0.3}
