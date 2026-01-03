@@ -178,7 +178,6 @@ export default function SolutionsSection() {
           ))}
         </motion.div>
       </div>
-      <BrushStrokes />
     </section>
   );
 }

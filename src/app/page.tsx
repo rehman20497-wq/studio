@@ -7,6 +7,7 @@ import TestimonialNetwork from "@/components/testimonial-network";
 import UsaMap from "@/components/usa-map";
 import GrowthSection from "@/components/growth-section";
 import SolutionsSection from "@/components/solutions-section";
+import BrushStrokes from "@/components/brush-strokes";
 
 export default function Home() {
   return (
@@ -31,6 +32,9 @@ export default function Home() {
       <NewTestimonialSection />
       <GrowthSection />
       <SolutionsSection />
+      <div className="bg-[#FEF9F2]">
+        <BrushStrokes />
+      </div>
     </div>
   );
 }
