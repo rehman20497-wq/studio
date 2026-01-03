@@ -7,31 +7,31 @@ export const TrustSafetyIcon = () => {
     const offset = circumference - (fillPercentage / 100) * circumference;
 
     return (
-        <svg width="140" height="105" viewBox="0 0 130 95" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g transform="rotate(50 65 47.5)">
+        <svg width="140" height="105" viewBox="0 0 140 105" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g transform="rotate(50 70 52.5)">
                 {/* Left circle (solid) */}
-                <circle cx="46" cy="47.5" r={radius} stroke="#A78BFA" strokeWidth="12"/>
+                <circle cx="51" cy="52.5" r={radius} stroke="#A78BFA" strokeWidth="12"/>
 
                 {/* Right circle (interlocking and 75% filled) */}
                 <g>
                     {/* Lighter background for the 25% gap */}
                     <circle 
-                        cx="84" 
-                        cy="47.5" 
+                        cx="89" 
+                        cy="52.5" 
                         r={radius} 
                         stroke="#C4B5FD" 
                         strokeWidth="12"
                     />
                     {/* Darker foreground for the 75% fill */}
                     <circle 
-                        cx="84" 
-                        cy="47.5" 
+                        cx="89" 
+                        cy="52.5" 
                         r={radius} 
                         stroke="#A78BFA" 
                         strokeWidth="12"
                         strokeDasharray={circumference}
                         strokeDashoffset={offset}
-                        transform="rotate(-90 84 47.5)"
+                        transform="rotate(-90 89 52.5)"
                     />
                 </g>
             </g>
