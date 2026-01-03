@@ -197,32 +197,21 @@
 }
 
 .fluid-arc {
-  stroke: transparent;
-  stroke-dasharray: 35;
-  stroke-dashoffset: 35;
+  transition: stroke-dashoffset 0.8s ease-out;
+}
+
+.fluid-arc-delayed {
+    transition: stroke-dashoffset 0.2s ease-out 0.6s;
 }
 
 .group:hover .fluid-arc {
-  stroke: #0badbf;
-  animation: fluid-fill 1.5s ease-in-out infinite;
+  stroke-dashoffset: 0;
 }
 
-.group:hover .delay-150 {
-  animation-delay: 0.15s;
+.group:hover .fluid-arc-delayed {
+  stroke-dashoffset: 0;
 }
 
-.group:hover .delay-300 {
-  animation-delay: 0.3s;
-}
-
-@keyframes fluid-fill {
-  from {
-    stroke-dashoffset: 35;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
 
 .animated-border {
   stroke-dasharray: 1 200;
