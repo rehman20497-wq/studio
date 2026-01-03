@@ -10,10 +10,10 @@ export const DigitalOperationsIcon = () => {
     const strokeDashoffset = circumference * (1 - fillPercentage / 100);
 
     const positions = [
-        { cx: circleRadius, cy: circleRadius },
-        { cx: size - circleRadius, cy: circleRadius },
-        { cx: circleRadius, cy: size - circleRadius },
-        { cx: size - circleRadius, cy: size - circleRadius },
+        { cx: circleRadius + 5, cy: circleRadius + 5 },
+        { cx: size - circleRadius - 5, cy: circleRadius + 5 },
+        { cx: circleRadius + 5, cy: size - circleRadius - 5 },
+        { cx: size - circleRadius - 5, cy: size - circleRadius - 5 },
     ];
 
     return (
