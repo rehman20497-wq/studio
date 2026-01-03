@@ -259,3 +259,7 @@
     stroke-dasharray: 980 1000;
   }
 }
+
+.group:hover .fluid-arc {
+  stroke-dashoffset: 0 !important;
+}
