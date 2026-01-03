@@ -227,6 +227,27 @@
   transform: translateX(-19px);
 }
 
+.do-circle-group {
+    transition: transform 0.5s ease-in-out;
+}
+
+.group:hover .do-circle-group {
+    transition-delay: 1.4s;
+}
+
+.group:hover #circle-1 {
+    transform: translate(21px, 21px);
+}
+.group:hover #circle-2 {
+    transform: translate(-21px, 21px);
+}
+.group:hover #circle-3 {
+    transform: translate(21px, -21px);
+}
+.group:hover #circle-4 {
+    transform: translate(-21px, -21px);
+}
+
 
 .animated-border {
   stroke-dasharray: 1 200;
