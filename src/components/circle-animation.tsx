@@ -52,7 +52,7 @@ export default function CircleAnimation() {
       className="relative flex items-center justify-center bg-[#FEF9F2] p-8 rounded-xl h-full"
     >
       <motion.svg
-        viewBox={`0 0 ${TOTAL_WIDTH} ${TOTAL_HEIGHT}`}
+        viewBox={`-10 -10 ${TOTAL_WIDTH + 20} ${TOTAL_HEIGHT + 20}`}
         width="100%"
         height="100%"
         initial="hidden"
