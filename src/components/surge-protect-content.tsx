@@ -73,9 +73,9 @@ export default function SurgeProtectContent() {
           {listItems.map((item, index) => (
             <li
               key={index}
-              className="flex items-start text-[19px] leading-[25.5px] group"
+              className="flex items-center text-[19px] leading-[25.5px] group"
             >
-              <span className="text-2xl mr-2 mt-[-2px] transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900">&#8226;</span>
+              <span className="text-2xl mr-2 transform -translate-y-px transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900">&#8226;</span>
               <span className="transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900">
                 {item}
               </span>
