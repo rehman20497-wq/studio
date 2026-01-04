@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -48,30 +47,37 @@ export default function CustomAccordion() {
     <Accordion
       type="single"
       collapsible
-      className="w-full space-y-4"
       value={value}
       onValueChange={setValue}
+      className="w-full space-y-4"
     >
-      {faqs.map((faq) => (
-        <AccordionItem
-          key={faq.value}
-          value={faq.value}
-          className={cn(
-            "border-none rounded-xl transition-all duration-300",
-            value === faq.value ? "bg-[#ffea97]" : "bg-white shadow-md"
-          )}
-        >
-          <AccordionTrigger className="w-full text-left p-6 font-medium text-lg hover:no-underline">
-            <div className="flex items-center justify-between w-full">
-              <span>{faq.question}</span>
-              {value === faq.value ? <MinusIcon /> : <PlusIcon />}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="px-6 pb-6 text-zinc-700">
-            {faq.answer}
-          </AccordionContent>
-        </AccordionItem>
-      ))}
+      {faqs.map((faq) => {
+        const isActive = value === faq.value;
+
+        return (
+          <AccordionItem
+            key={faq.value}
+            value={faq.value}
+            className={cn(
+              "rounded-xl transition-all duration-500 ease-in-out border-2",
+              isActive
+                ? "bg-[#ffea97] border-[rgba(255,234,151,0.75)]"
+                : "bg-white border-[rgba(255,234,151,0.75)] shadow-md hover:border-[rgba(255,234,151,1)]"
+            )}
+          >
+            <AccordionTrigger className="w-full text-left p-6 font-medium text-lg hover:no-underline">
+              <div className="flex items-center justify-between w-full">
+                <span>{faq.question}</span>
+                {isActive ? <MinusIcon /> : <PlusIcon />}
+              </div>
+            </AccordionTrigger>
+
+            <AccordionContent className="px-6 pb-6 text-zinc-700">
+              {faq.answer}
+            </AccordionContent>
+          </AccordionItem>
+        );
+      })}
     </Accordion>
   );
 }

@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import CustomAccordion from "./custom-accordion";
 import CircleAnimation from "./circle-animation";
+import AnimatedButton from "./animated-button";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -35,7 +36,7 @@ export default function FaqSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-white pt-8 pb-24 px-[5%]">
+    <section ref={ref} className="bg-white pt-8 pb-24 px-[8%]">
       <motion.div
         className="container mx-auto grid md:grid-cols-2 gap-16 items-stretch"
         variants={containerVariants}
@@ -48,6 +49,14 @@ export default function FaqSection() {
         <motion.div variants={itemVariants} className="flex">
           <CircleAnimation />
         </motion.div>
+      </motion.div>
+      <motion.div
+        className="mt-24"
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ delay: 1 }}
+      >
+        <AnimatedButton />
       </motion.div>
     </section>
   );
