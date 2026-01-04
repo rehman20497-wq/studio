@@ -53,7 +53,7 @@ export default function SurgeProtectContent() {
       animate={isInView ? "visible" : "hidden"}
     >
       <motion.div variants={itemVariants}>
-        <p className="text-2xl text-zinc-800 leading-relaxed max-w-md">
+        <p className="text-[19px] text-zinc-900 leading-[25.5px] max-w-md">
           From expected surges and urgent projects to unexpected demands, we've
           got your back. Access elite talent instantly, scale down seamlessly.
         </p>
