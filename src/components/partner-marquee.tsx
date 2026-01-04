@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -19,7 +20,7 @@ const PartnerMarquee: React.FC = () => {
     const extendedLogos = [...logos, ...logos];
 
     return (
-        <div className="bg-[#FEF9F2] py-12">
+        <div className="bg-white py-12">
             <div className="relative w-full overflow-hidden">
                 <div className="animate-marquee-partner whitespace-nowrap flex">
                     {extendedLogos.map((logo, index) => (
