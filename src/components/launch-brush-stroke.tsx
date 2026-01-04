@@ -7,12 +7,17 @@ import { useRef } from "react";
 export default function LaunchBrushStroke() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
+
   const pathVariants = {
     hidden: { pathLength: 0 },
-    visible: { 
-      pathLength: 1, 
-      transition: { duration: 1.5, ease: [0.42, 0, 0.58, 1] }
-    }
+    visible: (i: number) => ({
+      pathLength: 1,
+      transition: {
+        duration: 2,
+        ease: [0.42, 0, 0.58, 1],
+        delay: i * 0.2,
+      },
+    }),
   };
 
   return (
@@ -30,6 +35,7 @@ export default function LaunchBrushStroke() {
           variants={pathVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
+          custom={0}
         />
         <motion.path
           d="M-4 61C194 85.8333 806.8 117.5 1444 2V61H-4Z"
@@ -42,4 +48,4 @@ export default function LaunchBrushStroke() {
       </svg>
     </div>
   );
-};
+}
