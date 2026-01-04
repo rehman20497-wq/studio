@@ -69,10 +69,11 @@ export default function SurgeProtectContent() {
         className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg"
       >
         <div className="absolute -inset-1 rounded-2xl border border-yellow-300/80 -z-10" />
-        <ul className="grid grid-cols-2 gap-x-8 gap-y-4 list-disc list-inside text-zinc-900">
+        <ul className="grid grid-cols-2 gap-x-8 gap-y-2 text-zinc-900">
           {listItems.map((item, index) => (
-            <li key={index} className="text-lg">
-              {item}
+            <li key={index} className="flex items-start text-[19px] leading-[25.5px]">
+               <span className="text-2xl mr-2 mt-[-2px]">&#8226;</span>
+              <span>{item}</span>
             </li>
           ))}
         </ul>
