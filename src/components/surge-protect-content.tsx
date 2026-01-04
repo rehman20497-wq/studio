@@ -21,20 +21,21 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.3,
-      delay: 1.5, // Delay to start after background animation
+      delayChildren: 1.5, // Delay to start after background animation
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, scale: 0.9, y: 20 },
+  hidden: { opacity: 0, scale: 0.8, y: 50 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
     transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1], // Quintic Out easing
+      type: "spring",
+      damping: 15,
+      stiffness: 100,
     },
   },
 };
