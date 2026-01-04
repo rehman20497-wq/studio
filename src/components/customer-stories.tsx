@@ -75,7 +75,7 @@ const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (type
       </div>
       <Image src="/sound.svg" alt="Sound wave icon" width={24} height={24} />
     </div>
-    <div className="flex-grow mt-6 flex flex-col">
+    <div className="flex-grow mt-5 flex flex-col">
       <h3 className="text-xl font-normal font-headline text-black">{testimonial.title}</h3>
       <p className="mt-4 text-sm text-zinc-700 leading-6 flex-grow">
         {testimonial.content}
