@@ -58,7 +58,7 @@ const Underline = ({
       d="M 2,5 C 20,8 80,8 98,5"
       fill="none"
       stroke={color}
-      strokeWidth="2.5"
+      strokeWidth="1.5"
       strokeLinecap="round"
       variants={{
         hidden: { pathLength: 0 },
@@ -80,7 +80,7 @@ export default function ValidationSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-white py-20 px-8">
+    <section ref={ref} className="bg-white py-20 px-[6%]">
       <motion.div
         className="container mx-auto flex items-center justify-center gap-8"
         variants={containerVariants}
@@ -89,7 +89,7 @@ export default function ValidationSection() {
       >
         <motion.div variants={imageVariants}>
           <Image
-            src="/global.png"
+            src="/global.webp"
             alt="Global Award"
             width={120}
             height={150}
@@ -98,7 +98,7 @@ export default function ValidationSection() {
         </motion.div>
 
         <motion.h2
-          className="text-4xl font-medium text-zinc-800 text-center"
+          className="text-[56px] font-medium text-zinc-800 text-center leading-tight"
           variants={textVariants}
         >
           Validated by{' '}
