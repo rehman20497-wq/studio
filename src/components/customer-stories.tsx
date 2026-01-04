@@ -137,7 +137,6 @@ export default function CustomerStories() {
   return (
     <section ref={ref} className="bg-white pb-24 overflow-hidden">
       <motion.div
-        className="w-max flex gap-8"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
@@ -145,7 +144,7 @@ export default function CustomerStories() {
         <motion.div 
             className="flex gap-8"
             variants={marqueeVariants}
-            animate="animate"
+            animate={isInView ? "animate" : {}}
         >
             {duplicatedTestimonials.map((testimonial, index) => (
                 <TestimonialCard key={`first-${index}`} testimonial={testimonial} featured={testimonial.featured} />
