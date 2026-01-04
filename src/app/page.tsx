@@ -17,7 +17,7 @@ import SurgeProtectSection from "@/components/surge-protect-section";
 
 export default function Home() {
   return (
-    <div className="bg-[#FEF9F2] text-zinc-900 font-body">
+    <div className="bg-white text-zinc-900 font-body">
       <Header />
       <main className="bg-background font-body">
         <div className="flex w-full">

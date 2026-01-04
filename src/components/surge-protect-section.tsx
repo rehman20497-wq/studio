@@ -10,20 +10,9 @@ export default function SurgeProtectSection() {
 
   return (
     <section ref={ref} className="relative bg-white">
-      {/* Top curve */}
-      <div className="absolute top-0 left-0 w-full h-24 bg-white">
-        <svg
-          className="w-full h-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
-          <path d="M0,0 C50,100 50,100 100,0 Z" fill="white" />
-        </svg>
-      </div>
-
       <motion.div
         className={cn(
-          "relative overflow-hidden p-16"
+          "relative overflow-hidden"
         )}
         style={{
           background:
@@ -45,19 +34,24 @@ export default function SurgeProtectSection() {
             }
         }}
       >
-        <div className="h-96" />
-      </motion.div>
-      
-      {/* Bottom curve */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-white">
         <svg
-          className="w-full h-full"
+          className="absolute top-0 left-0 w-full h-24"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <path d="M0,0 C50,100 50,100 100,0 Z" fill="white" />
+        </svg>
+        
+        <div className="h-96" />
+        
+        <svg
+          className="absolute bottom-0 left-0 w-full h-24"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
           <path d="M0,100 C40,0 60,0 100,100 Z" fill="white" />
         </svg>
-      </div>
+      </motion.div>
     </section>
   );
 }
