@@ -121,8 +121,7 @@ export default {
           '100%': { transform: 'translateX(-50%)' },
         },
         'marquee-partner': {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-50%)' },
+          'marquee-partner': 'marquee-partner 40s linear infinite',
         },
         'marching-ants': {
           'from': { 'stroke-dashoffset': '20' },
