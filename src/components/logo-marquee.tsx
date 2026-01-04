@@ -1,7 +1,9 @@
+
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
+import { motion, useInView } from "framer-motion";
 
 const logos = [
   { src: "/logos/Upwork.svg", alt: "Upwork" },
@@ -16,9 +18,30 @@ const logos = [
   { src: "/logos/Outschool.svg", alt: "Outschool" },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
+};
+
 const LogoMarquee: React.FC = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
   return (
-    <div className="py-12">
+    <motion.div
+      ref={ref}
+      className="py-12"
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+    >
       <div className="relative w-full overflow-hidden">
         <div className="animate-marquee flex items-center whitespace-nowrap h-16">
           {logos.map((logo, index) => (
@@ -35,9 +58,23 @@ const LogoMarquee: React.FC = () => {
               />
             </div>
           ))}
+           {logos.map((logo, index) => (
+            <div
+              key={`duplicate-${index}`}
+              className="mx-10 flex items-center flex-shrink-0"
+            >
+              <Image
+                src={logo.src}
+                alt={logo.alt}
+                width={120}
+                height={40}
+                className="object-contain"
+              />
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
