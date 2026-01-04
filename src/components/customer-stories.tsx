@@ -136,26 +136,31 @@ export default function CustomerStories() {
 
   return (
     <section ref={ref} className="bg-white pb-24 overflow-hidden">
-      <div
-        className="relative"
+      <motion.div
+        className="relative flex"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
       >
-        <motion.div
+        <motion.div 
             className="flex gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
+            variants={marqueeVariants}
+            animate="animate"
         >
-            <motion.div 
-                className="flex gap-8"
-                variants={marqueeVariants}
-                animate="animate"
-            >
-                {duplicatedTestimonials.map((testimonial, index) => (
-                    <TestimonialCard key={index} testimonial={testimonial} featured={testimonial.featured} />
-                ))}
-            </motion.div>
+            {duplicatedTestimonials.map((testimonial, index) => (
+                <TestimonialCard key={index} testimonial={testimonial} featured={testimonial.featured} />
+            ))}
         </motion.div>
-      </div>
+        <motion.div 
+            className="flex gap-8 absolute top-0 left-full"
+            variants={marqueeVariants}
+            animate="animate"
+        >
+            {duplicatedTestimonials.map((testimonial, index) => (
+                <TestimonialCard key={index} testimonial={testimonial} featured={testimonial.featured} />
+            ))}
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
