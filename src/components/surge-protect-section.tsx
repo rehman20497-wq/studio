@@ -49,7 +49,7 @@ export default function SurgeProtectSection() {
                 src="/surge.png"
                 alt="Surge Protect Scale"
                 width={800}
-                height={100}
+                height={80}
                 className="mx-auto"
             />
             <SurgeProtectContent />
