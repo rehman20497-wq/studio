@@ -10,6 +10,7 @@ import GrowthSection from "@/components/growth-section";
 import SolutionsSection from "@/components/solutions-section";
 import BrushStrokes from "@/components/brush-strokes";
 import IntegrationSection from "@/components/integration-section";
+import PartnerMarquee from "@/components/partner-marquee";
 
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
           <BrushStrokes />
         </div>
         <IntegrationSection />
+        <PartnerMarquee />
       </main>
     </div>
   );
