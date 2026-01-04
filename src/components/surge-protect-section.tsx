@@ -18,7 +18,7 @@ export default function SurgeProtectSection() {
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
-          <path d="M0,100 C40,0 60,0 100,100 Z" fill="white" />
+          <path d="M0,0 C50,100 50,100 100,0 Z" fill="white" />
         </svg>
       </div>
 
@@ -56,7 +56,7 @@ export default function SurgeProtectSection() {
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
-          <path d="M0,0 C40,100 60,100 100,0 Z" fill="white" />
+          <path d="M0,100 C40,0 60,0 100,100 Z" fill="white" />
         </svg>
       </div>
     </section>
