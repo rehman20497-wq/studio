@@ -34,7 +34,7 @@ export default function LaunchStepsSection() {
     const isInView = useInView(ref, { once: true, amount: 0.5 });
 
     return (
-        <section className="bg-[#FFF9F0] overflow-hidden">
+        <section className="bg-white overflow-hidden">
             <LaunchBrushStroke />
             <motion.div
                 ref={ref}
