@@ -61,12 +61,21 @@ const testimonials = [
 
 const duplicatedTestimonials = [...testimonials, ...testimonials];
 
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.5 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 1, 0.5, 1]
+    }
+  }
+};
+
 const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (typeof testimonials)[0], featured?: boolean }) => (
   <motion.div
-    variants={{
-        hidden: { opacity: 0, x: -100, y: 50, rotate: -10 },
-        visible: { opacity: 1, x: 0, y: 0, rotate: 0 }
-    }}
+    variants={cardVariants}
     className={cn(
       'flex-shrink-0 w-[420px] rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200'
     )}
@@ -101,7 +110,7 @@ const containerVariants = {
     visible: { 
         opacity: 1,
         transition: {
-            staggerChildren: 0.1,
+            staggerChildren: 0.2,
             delayChildren: 0.3,
         }
     }
