@@ -57,8 +57,8 @@ export default function CustomAccordion() {
           key={faq.value}
           value={faq.value}
           className={cn(
-            "border-none rounded-xl transition-all duration-300 shadow-md",
-            value === faq.value ? "bg-[#F5D34A]" : "bg-white"
+            "border-none rounded-xl transition-all duration-300",
+            value === faq.value ? "bg-[#ffea97]" : "bg-white shadow-md"
           )}
         >
           <AccordionTrigger className="w-full text-left p-6 font-medium text-lg hover:no-underline">

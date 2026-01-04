@@ -35,7 +35,7 @@ const containerVariants = {
 const circleVariants = {
   hidden: { fill: "transparent" },
   visible: {
-    fill: "#F5D34A",
+    fill: "#ffea97",
     transition: { duration: 0.5, ease: "easeInOut" },
   },
 };
@@ -73,7 +73,7 @@ export default function CircleAnimation() {
                   cx={cx}
                   cy={cy}
                   r={CIRCLE_RADIUS}
-                  stroke="#F5D34A"
+                  stroke="#ffea97"
                   strokeWidth="3"
                   variants={circleVariants}
                 />
@@ -86,7 +86,7 @@ export default function CircleAnimation() {
                 cx={cx}
                 cy={cy}
                 r={CIRCLE_RADIUS}
-                stroke="#F5D34A"
+                stroke="#ffea97"
                 strokeWidth="3"
                 fill="transparent"
                 opacity={0.3}
