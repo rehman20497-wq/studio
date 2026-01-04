@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export default function SurgeProtectSection() {
   const ref = useRef(null);
@@ -42,7 +43,15 @@ export default function SurgeProtectSection() {
           <path d="M0,0 C50,100 50,100 100,0 Z" fill="white" />
         </svg>
         
-        <div className="h-96" />
+        <div className="py-[5%]">
+            <Image
+                src="/surge.png"
+                alt="Surge Protect Scale"
+                width={800}
+                height={100}
+                className="mx-auto"
+            />
+        </div>
         
         <svg
           className="absolute bottom-0 left-0 w-full h-24"
