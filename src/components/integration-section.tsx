@@ -33,7 +33,7 @@ export default function IntegrationSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-[#FEF9F2] py-32">
+    <section ref={ref} className="bg-white py-32">
       <motion.div
         className="container mx-auto px-4 text-center"
         variants={containerVariants}
