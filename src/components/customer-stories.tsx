@@ -118,7 +118,7 @@ const containerVariants = {
 
 const marqueeVariants = {
     animate: {
-      x: [0, '-100%'],
+      x: ['0%', '-50%'],
       transition: {
         x: {
           repeat: Infinity,
@@ -137,7 +137,7 @@ export default function CustomerStories() {
   return (
     <section ref={ref} className="bg-white pb-24 overflow-hidden">
       <motion.div
-        className="relative flex"
+        className="w-max flex gap-8"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
@@ -148,16 +148,10 @@ export default function CustomerStories() {
             animate="animate"
         >
             {duplicatedTestimonials.map((testimonial, index) => (
-                <TestimonialCard key={index} testimonial={testimonial} featured={testimonial.featured} />
+                <TestimonialCard key={`first-${index}`} testimonial={testimonial} featured={testimonial.featured} />
             ))}
-        </motion.div>
-        <motion.div 
-            className="flex gap-8 absolute top-0 left-full"
-            variants={marqueeVariants}
-            animate="animate"
-        >
             {duplicatedTestimonials.map((testimonial, index) => (
-                <TestimonialCard key={index} testimonial={testimonial} featured={testimonial.featured} />
+                <TestimonialCard key={`second-${index}`} testimonial={testimonial} featured={testimonial.featured} />
             ))}
         </motion.div>
       </motion.div>
