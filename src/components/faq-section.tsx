@@ -35,7 +35,7 @@ export default function FaqSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-white py-24 px-[5%]">
+    <section ref={ref} className="bg-white pt-8 pb-24 px-[5%]">
       <motion.div
         className="container mx-auto grid md:grid-cols-2 gap-16 items-stretch"
         variants={containerVariants}
