@@ -99,6 +99,21 @@ const itemVariants = {
   },
 };
 
+const yellowBgVariants = {
+  hidden: { opacity: 0, x: 100, y: -20 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 50,
+      damping: 15,
+      delay: 0.4
+    }
+  },
+}
+
 
 const SuccessMission = () => {
   const ref = useRef(null);
@@ -116,38 +131,25 @@ const SuccessMission = () => {
         </svg>
       </div>
 
-      <div className="relative pt-32 pb-24 pl-[10%] pr-8">
-        {/* 
-<h1 className="text-6xl md:text-7xl font-bold text-center mb-24 font-headline">
-  <span className="relative inline-block">
-    Your
-    <SquiggleUnderline />
-    <UpArrow />
-  </span>{" "}
-  success is{" "}
-  <span className="relative inline-block">
-    our
-    <SquiggleUnderline />
-  </span>{" "}
-  <span className="relative inline-block">
-    mission
-    <DownArrow />
-  </span>
-</h1>
-*/}
-<div className="relative -ml-[10%] w-[110%] flex justify-center mb-24">
-  <Image
-    src="/success-title.svg"
-    alt="Your success is our mission"
-    width={900}
-    height={200}
-    className="object-contain"
-    priority
-  />
-</div>
+      <div ref={ref} className="relative pt-32 pb-24 pl-[10%] pr-8">
+        <div className="relative -ml-[10%] w-[110%] flex justify-center mb-24">
+          <Image
+            src="/success-title.svg"
+            alt="Your success is our mission"
+            width={900}
+            height={200}
+            className="object-contain"
+            priority
+          />
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="max-w-xl">
+        <motion.div
+          className="grid md:grid-cols-2 gap-16 items-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <motion.div className="max-w-xl" variants={itemVariants}>
             <h2 className="text-[55px] font-bold mb-6 font-headline">
               You deserve better.
             </h2>
@@ -171,73 +173,92 @@ const SuccessMission = () => {
                 </span>
               </MagneticButton>
             </div>
-          </div>
+          </motion.div>
           <div className="flex justify-center items-center">
-            <div ref={ref} className="relative w-[548px] h-[548px] bg-white rounded-xl shadow-lg overflow-hidden">
-              <motion.div 
-                className="absolute p-8 inset-0 z-10 flex flex-col"
-                variants={containerVariants}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
+            <div className="relative w-[548px] h-[548px]">
+              <motion.div
+                className="absolute top-0 right-0 w-[95%] h-[95%] bg-[#F5D34A] rounded-xl overflow-hidden"
+                variants={yellowBgVariants}
               >
-                  <motion.div variants={itemVariants} className="relative w-full max-w-sm h-48 mx-auto -mt-4">
-                      <div className="absolute inset-0 w-full h-full z-0">
-                        <svg className='w-full h-full' viewBox="0 0 400 200">
-                            <path
-                            d="M10 170 C 100 20, 300 20, 390 170"
-                            fill="none"
-                            stroke="black"
-                            strokeWidth="4"
-                            strokeDasharray="10 10"
-                            strokeLinecap="round"
-                            className="animate-marching-ants"
-                            />
-                        </svg>
-                      </div>
-                      <div className="absolute z-10" style={{ top: '110px', left: '-30px' }}>
-                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
-                          <span>SELECT</span>
-                          <span>TEAM</span>
-                          </div>
-                      </div>
-                      <div className="absolute z-10" style={{ top: '10px', left: '138px' }}>
-                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
-                          LAUNCH
-                          </div>
-                      </div>
-                      <div className="absolute z-10" style={{ top: '110px', right: '-30px' }}>
-                          <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
-                          ITERATE
-                          </div>
-                      </div>
-                  </motion.div>
-
-                  <motion.div variants={itemVariants} className="relative text-center mt-[-5%]">
-                      <span className="absolute inset-0 text-9xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
-                      <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
-                  </motion.div>
-                  <motion.div variants={itemVariants} className="flex-grow">
-                    <AnimatedStats />
-                  </motion.div>
+                  <svg width="100%" height="100%" className='opacity-40'>
+                      <defs>
+                          <pattern id="circle-pattern" x="10" y="10" width="60" height="60" patternUnits="userSpaceOnUse">
+                              <circle cx="15" cy="15" r="15" stroke="white" strokeWidth="3" fill="none" />
+                          </pattern>
+                      </defs>
+                      <rect width="100%" height="100%" fill="url(#circle-pattern)" />
+                  </svg>
               </motion.div>
 
-              <div className="absolute inset-x-0 bottom-0 h-[150px]">
-                <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
-                  <path 
-                    d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20 V150 H0 Z" 
-                    fill="#E0F5F5"
-                  />
-                  <path 
-                    d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20" 
-                    fill="none" 
-                    stroke="white" 
-                    strokeWidth="3"
-                  />
-                </svg>
+              <div className="absolute top-0 left-0 w-full h-full">
+                <div className="relative w-[548px] h-[548px] bg-white rounded-xl shadow-lg overflow-hidden">
+                    <motion.div 
+                      className="absolute p-8 inset-0 z-10 flex flex-col"
+                      variants={containerVariants}
+                      initial="hidden"
+                      animate={isInView ? "visible" : "hidden"}
+                    >
+                        <motion.div variants={itemVariants} className="relative w-full max-w-sm h-48 mx-auto -mt-4">
+                            <div className="absolute inset-0 w-full h-full z-0">
+                              <svg className='w-full h-full' viewBox="0 0 400 200">
+                                  <path
+                                  d="M10 170 C 100 20, 300 20, 390 170"
+                                  fill="none"
+                                  stroke="black"
+                                  strokeWidth="4"
+                                  strokeDasharray="10 10"
+                                  strokeLinecap="round"
+                                  className="animate-marching-ants"
+                                  />
+                              </svg>
+                            </div>
+                            <div className="absolute z-10" style={{ top: '110px', left: '-30px' }}>
+                                <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
+                                <span>SELECT</span>
+                                <span>TEAM</span>
+                                </div>
+                            </div>
+                            <div className="absolute z-10" style={{ top: '10px', left: '138px' }}>
+                                <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex items-center justify-center font-bold text-sm">
+                                LAUNCH
+                                </div>
+                            </div>
+                            <div className="absolute z-10" style={{ top: '110px', right: '-30px' }}>
+                                <div className="relative w-24 h-24 bg-[#F5D34A] rounded-full flex flex-col items-center justify-center text-center font-bold text-sm">
+                                ITERATE
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div variants={itemVariants} className="relative text-center mt-[-5%]">
+                            <span className="absolute inset-0 text-9xl font-bold text-[#F5D34A]/40 flex items-center justify-center" style={{ textShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>2</span>
+                            <span className="relative text-2xl font-bold tracking-wider">- 2 WEEKS -</span>
+                        </motion.div>
+                        <motion.div variants={itemVariants} className="flex-grow">
+                          <AnimatedStats />
+                        </motion.div>
+                    </motion.div>
+
+                    <div className="absolute inset-x-0 bottom-0 h-[150px]">
+                      <svg className="w-full h-full" viewBox="0 0 400 150" preserveAspectRatio="none">
+                        <path 
+                          d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20 V150 H0 Z" 
+                          fill="#E0F5F5"
+                        />
+                        <path 
+                          d="M0,20 Q50,0 100,25 T200,20 Q250,0 300,30 T400,20" 
+                          fill="none" 
+                          stroke="white" 
+                          strokeWidth="3"
+                        />
+                      </svg>
+                    </div>
+                </div>
               </div>
+
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
       <div className="absolute bottom-0 left-0 w-full h-24 bg-white">
         <svg
