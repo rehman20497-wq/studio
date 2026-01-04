@@ -1,0 +1,81 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import MagneticButton from "./magnetic-button";
+
+const listItems = [
+  "Holiday Seasons",
+  "Seasons of the year",
+  "Tax Season",
+  "Crisis Management",
+  "Sporting Events",
+  "Brand Campaigns",
+  "Back to School",
+  "Weather Events and more!",
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+      delay: 1.5, // Delay to start after background animation
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, scale: 0.9, y: 20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1], // Quintic Out easing
+    },
+  },
+};
+
+export default function SurgeProtectContent() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="relative z-10 max-w-6xl mx-auto mt-16 grid md:grid-cols-2 gap-12 items-center px-4"
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+    >
+      <motion.div variants={itemVariants}>
+        <p className="text-2xl text-zinc-800 leading-relaxed max-w-md">
+          From expected surges and urgent projects to unexpected demands, we've
+          got your back. Access elite talent instantly, scale down seamlessly.
+        </p>
+        <div className="mt-8">
+          <MagneticButton>
+            <span className="text-[15px] font-medium">Speak to an expert</span>
+          </MagneticButton>
+        </div>
+      </motion.div>
+
+      <motion.div
+        variants={itemVariants}
+        className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg"
+      >
+        <div className="absolute -inset-1 rounded-2xl border border-yellow-300/80 -z-10" />
+        <ul className="grid grid-cols-2 gap-x-8 gap-y-4 list-disc list-inside text-zinc-900">
+          {listItems.map((item, index) => (
+            <li key={index} className="text-lg">
+              {item}
+            </li>
+          ))}
+        </ul>
+      </motion.div>
+    </motion.div>
+  );
+}

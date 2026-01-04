@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import SurgeProtectContent from "./surge-protect-content";
 
 export default function SurgeProtectSection() {
   const ref = useRef(null);
@@ -51,6 +52,7 @@ export default function SurgeProtectSection() {
                 height={100}
                 className="mx-auto"
             />
+            <SurgeProtectContent />
         </div>
         
         <svg

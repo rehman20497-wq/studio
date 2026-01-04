@@ -46,8 +46,8 @@ export default function Home() {
         <PartnerMarquee />
         <LaunchStepsSection />
         <FaqSection />
-        <SurgeProtectSection />
       </main>
+      <SurgeProtectSection />
     </div>
   );
 }
