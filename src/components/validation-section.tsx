@@ -82,7 +82,7 @@ export default function ValidationSection() {
   return (
     <section ref={ref} className="bg-white py-20 px-[6%]">
       <motion.div
-        className="container mx-auto flex items-center justify-center gap-8"
+        className="container mx-auto flex items-center justify-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -98,7 +98,7 @@ export default function ValidationSection() {
         </motion.div>
 
         <motion.h2
-          className="text-[56px] font-medium text-zinc-800 text-center leading-tight"
+          className="text-[56px] font-medium text-zinc-800 text-center leading-tight font-headline"
           variants={textVariants}
         >
           Validated by{' '}
