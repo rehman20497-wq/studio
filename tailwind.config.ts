@@ -127,7 +127,12 @@ export default {
         'marching-ants': {
           'from': { 'stroke-dashoffset': '20' },
           'to': { 'stroke-dashoffset': '0' },
-        }
+        },
+        'gradient-pan': {
+          '0%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+          '100%': { 'background-position': '0% 50%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -146,7 +151,8 @@ export default {
         'draw-underline': 'draw-underline 0.5s ease-out 0.3s forwards',
         'marquee': 'marquee 30s linear infinite',
         'marquee-partner': 'marquee-partner 40s linear infinite',
-        'marching-ants': 'marching-ants 1s linear infinite'
+        'marching-ants': 'marching-ants 1s linear infinite',
+        'gradient-pan': 'gradient-pan 15s ease infinite',
       },
     },
   },

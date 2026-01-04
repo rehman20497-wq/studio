@@ -1,116 +1,176 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const arrowVariants = {
-  initial: { opacity: 0, scale: 0.5 },
+/* =======================
+   Arrow animation (approach → pulse → fade)
+======================= */
+const arrowRight = {
   animate: {
-    opacity: [0, 1, 1, 0],
-    scale: 1,
+    x: [0, 34, 34],
+    scale: [1, 1.15, 1],
+    opacity: [0, 1, 0],
     transition: {
-      duration: 1.5,
+      duration: 4.2,
+      times: [0, 0.65, 1],
       ease: "easeInOut",
       repeat: Infinity,
-      repeatDelay: 1,
     },
   },
 };
 
-const lineVariants = {
-  initial: { pathLength: 0 },
+const arrowLeft = {
   animate: {
-    pathLength: 1,
+    x: [0, -34, -34],
+    scale: [1, 1.15, 1],
+    opacity: [0, 1, 0],
     transition: {
-      duration: 2,
+      duration: 4.2,
+      times: [0, 0.65, 1],
       ease: "easeInOut",
       repeat: Infinity,
-      repeatType: "reverse",
+      delay: 0.9,
     },
   },
 };
 
+/* =======================
+   Subtle heartbeat (lines & dots)
+======================= */
+const beat = {
+  animate: {
+    scale: [1, 1.18, 1],
+    opacity: [0.6, 1, 0.6],
+    transition: {
+      duration: 2.6,
+      ease: "easeInOut",
+      repeat: Infinity,
+    },
+  },
+};
+
+const Stroke = ({ className, delay, children }) => (
+  <motion.div
+    className={`absolute ${className}`}
+    variants={beat}
+    animate="animate"
+    transition={{ delay }}
+  >
+    {children}
+  </motion.div>
+);
+
+/* =======================
+   Component
+======================= */
 export default function AnimatedButton() {
   return (
-    <div className="relative w-full h-48 flex items-center justify-center">
+    <div className="relative w-full h-12 flex items-center justify-center bg-[white]">
       <div className="relative">
-        {/* Left Arrow */}
+
+        {/* LEFT ARROW */}
         <motion.div
-          className="absolute -left-20 top-1/2 -translate-y-1/2"
-          initial={{ x: 0, y: "-50%" }}
-          animate={{ x: 40, transition: { ...arrowVariants.animate.transition } }}
-          variants={arrowVariants}
+          className="absolute -left-24 top-[46%]"
+          variants={arrowRight}
+          animate="animate"
+        >
+          <Image src="/arrow-right.png" alt="Arrow" width={26} height={26} />
+        </motion.div>
+
+        {/* RIGHT ARROW */}
+        <motion.div
+          className="absolute -right-24 top-[46%]"
+          variants={arrowLeft}
+          animate="animate"
         >
           <Image
             src="/arrow-right.png"
             alt="Arrow"
-            width={24}
-            height={24}
-            className="transform scale-x-[-1]"
+            width={26}
+            height={26}
+            className="scale-x-[-1]"
           />
         </motion.div>
 
-        {/* Right Arrow */}
-        <motion.div
-          className="absolute -right-20 top-1/2 -translate-y-1/2"
-          initial={{ x: 0, y: "-50%" }}
-          animate={{ x: -40, transition: { ...arrowVariants.animate.transition, delay: 0.2 } }}
-          variants={arrowVariants}
+        {/* =======================
+            STROKES / DOTS (TOP)
+        ======================= */}
+        <Stroke className="-top-10 left-10 rotate-[-20deg]" delay={0}>
+          <svg width="32" height="14">
+            <path d="M2 7 H30" stroke="black" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        </Stroke>
+
+        <Stroke className="-top-6 right-12 rotate-[25deg]" delay={0.7}>
+          <svg width="22" height="12">
+            <path d="M2 6 H20" stroke="black" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        </Stroke>
+
+        <Stroke className="-top-3 left-1/2 -translate-x-1/2" delay={1.2}>
+          <svg width="6" height="6">
+            <circle cx="3" cy="3" r="3" fill="black" />
+          </svg>
+        </Stroke>
+
+        {/* =======================
+            STROKES / DOTS (SIDES)
+        ======================= */}
+        <Stroke className="top-1/2 -left-10 rotate-[15deg]" delay={0.4}>
+          <svg width="18" height="12">
+            <path d="M2 6 H16" stroke="black" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        </Stroke>
+
+        <Stroke className="top-1/2 -right-10 rotate-[-15deg]" delay={0.9}>
+          <svg width="18" height="12">
+            <path d="M2 6 H16" stroke="black" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        </Stroke>
+
+        {/* =======================
+            STROKES / DOTS (BOTTOM)
+        ======================= */}
+        <Stroke className="-bottom-10 right-10 rotate-[-25deg]" delay={0.3}>
+          <svg width="32" height="14">
+            <path d="M2 7 H30" stroke="black" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        </Stroke>
+
+        <Stroke className="-bottom-6 left-12 rotate-[20deg]" delay={1}>
+          <svg width="22" height="12">
+            <path d="M2 6 H20" stroke="black" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        </Stroke>
+
+        <Stroke className="-bottom-3 left-1/2 -translate-x-1/2" delay={1.4}>
+          <svg width="6" height="6">
+            <circle cx="3" cy="3" r="3" fill="black" />
+          </svg>
+        </Stroke>
+
+        {/* =======================
+            BUTTON
+        ======================= */}
+        <button
+          className="
+            bg-black
+            text-white
+            font-semibold
+            text-lg
+            py-4 px-10
+            rounded-full
+            shadow-xl
+            transition-all
+            duration-300
+            hover:text-yellow-400
+            hover:bg-zinc-800
+          "
         >
-          <Image src="/arrow-right.png" alt="Arrow" width={24} height={24} />
-        </motion.div>
-
-        {/* Top-left decorative elements */}
-        <motion.div
-          className="absolute -top-8 -left-8"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 10, ease: "linear", repeat: Infinity }}
-        >
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="6" cy="6" r="4" fill="black" />
-            <motion.path d="M35 5 C 20 20, 20 20, 5 35" stroke="black" strokeWidth="2" fill="none"
-              variants={lineVariants} initial="initial" animate="animate"
-            />
-          </svg>
-        </motion.div>
-
-        {/* Bottom-right decorative elements */}
-        <motion.div
-          className="absolute -bottom-8 -right-8"
-           animate={{ rotate: 360 }}
-           transition={{ duration: 10, ease: "linear", repeat: Infinity, delay: 1 }}
-        >
-           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="34" cy="34" r="4" fill="black" />
-            <motion.path d="M5 35 C 20 20, 20 20, 35 5" stroke="black" strokeWidth="2" fill="none"
-              variants={lineVariants} initial="initial" animate="animate" transition={{...lineVariants.animate.transition, delay: 0.5}}
-            />
-          </svg>
-        </motion.div>
-        
-        {/* Top-right decorative curve */}
-        <div className="absolute -top-4 -right-12">
-           <svg width="40" height="30" viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <motion.path d="M 5 25 Q 20 0, 35 15" stroke="black" strokeWidth="2" fill="none"
-              variants={lineVariants} initial="initial" animate="animate" transition={{...lineVariants.animate.transition, delay: 0.3}}
-            />
-          </svg>
-        </div>
-
-        {/* Bottom-left decorative curve */}
-         <div className="absolute -bottom-4 -left-12">
-           <svg width="40" height="30" viewBox="0 0 40 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <motion.path d="M 35 5 Q 20 30, 5 15" stroke="black" strokeWidth="2" fill="none"
-               variants={lineVariants} initial="initial" animate="animate" transition={{...lineVariants.animate.transition, delay: 0.8}}
-            />
-          </svg>
-        </div>
-
-
-        <button className="bg-black text-white font-semibold py-4 px-8 rounded-full shadow-lg hover:bg-zinc-800 transition-colors">
           Book a Meeting
         </button>
+
       </div>
     </div>
   );

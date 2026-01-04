@@ -13,6 +13,7 @@ import IntegrationSection from "@/components/integration-section";
 import PartnerMarquee from "@/components/partner-marquee";
 import LaunchStepsSection from "@/components/launch-steps-section";
 import FaqSection from "@/components/faq-section";
+import SurgeProtectSection from "@/components/surge-protect-section";
 
 export default function Home() {
   return (
@@ -45,6 +46,7 @@ export default function Home() {
         <PartnerMarquee />
         <LaunchStepsSection />
         <FaqSection />
+        <SurgeProtectSection />
       </main>
     </div>
   );
