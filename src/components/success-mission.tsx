@@ -100,12 +100,10 @@ const itemVariants = {
 };
 
 const yellowBgVariants = {
-    hidden: { opacity: 0, x: '50%', y: '-50%', rotate: 45 },
+    hidden: { opacity: 0, x: '100%'},
     visible: { 
       opacity: 1, 
       x: 0,
-      y: 0,
-      rotate: 0,
       transition: {
         type: 'spring',
         stiffness: 50,
@@ -178,8 +176,7 @@ const SuccessMission = () => {
           <div className="flex justify-center items-center">
             <div className="relative w-[548px] h-[548px]">
               <motion.div
-                className="absolute top-0 right-0 w-[95%] h-[95%] bg-[#F5D34A] rounded-xl overflow-hidden"
-                style={{ transformOrigin: 'top right' }}
+                className="absolute top-[-20px] right-[-20px] w-full h-full bg-[#F5D34A] rounded-xl overflow-hidden"
                 variants={yellowBgVariants}
               >
                   <svg width="100%" height="100%" className='opacity-40'>
