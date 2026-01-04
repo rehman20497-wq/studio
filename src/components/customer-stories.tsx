@@ -64,7 +64,7 @@ const duplicatedTestimonials = [...testimonials, ...testimonials];
 const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (typeof testimonials)[0], featured?: boolean }) => (
   <div
     className={cn(
-      'flex-shrink-0 w-[420px] rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 group bg-[#abe9ef] hover:bg-cyan-200'
+      'flex-shrink-0 w-[420px] rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 group bg-[#abe9ef]/50 hover:bg-cyan-200'
     )}
   >
     <div className="flex justify-between items-start">
@@ -73,7 +73,7 @@ const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (type
           <Star key={i} fill="black" strokeWidth={0} className="w-5 h-5" />
         ))}
       </div>
-      <Image src="/sound.svg" alt="Sound wave icon" width={24} height={24} />
+      <Image src="/sound.png" alt="Sound wave icon" width={24} height={24} />
     </div>
     <div className="flex-grow mt-5 flex flex-col">
       <h3 className="text-xl font-normal font-headline text-black">{testimonial.title}</h3>
@@ -123,7 +123,7 @@ export default function CustomerStories() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-white py-24 overflow-hidden">
+    <section ref={ref} className="bg-white pb-24 overflow-hidden">
       <motion.div
         className="relative"
         variants={containerVariants}
