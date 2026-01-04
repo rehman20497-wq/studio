@@ -16,6 +16,7 @@ import FaqSection from "@/components/faq-section";
 import SurgeProtectSection from "@/components/surge-protect-section";
 import ValidationSection from "@/components/validation-section";
 import CustomerStories from "@/components/customer-stories";
+import ActionButtonsSection from "@/components/action-buttons-section";
 
 export default function Home() {
   return (
@@ -52,6 +53,7 @@ export default function Home() {
       <SurgeProtectSection />
       <ValidationSection />
       <CustomerStories />
+      <ActionButtonsSection />
     </div>
   );
 }
