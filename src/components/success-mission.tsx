@@ -100,19 +100,20 @@ const itemVariants = {
 };
 
 const yellowBgVariants = {
-  hidden: { opacity: 0, x: 100, y: -20 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 50,
-      damping: 15,
-      delay: 0.4
-    }
-  },
-}
+    hidden: { opacity: 0, x: '50%', y: '-50%', rotate: 45 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      y: 0,
+      rotate: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 50,
+        damping: 15,
+        delay: 0.4
+      }
+    },
+  }
 
 
 const SuccessMission = () => {
@@ -178,12 +179,13 @@ const SuccessMission = () => {
             <div className="relative w-[548px] h-[548px]">
               <motion.div
                 className="absolute top-0 right-0 w-[95%] h-[95%] bg-[#F5D34A] rounded-xl overflow-hidden"
+                style={{ transformOrigin: 'top right' }}
                 variants={yellowBgVariants}
               >
                   <svg width="100%" height="100%" className='opacity-40'>
                       <defs>
-                          <pattern id="circle-pattern" x="10" y="10" width="60" height="60" patternUnits="userSpaceOnUse">
-                              <circle cx="15" cy="15" r="15" stroke="white" strokeWidth="3" fill="none" />
+                          <pattern id="circle-pattern" x="10" y="10" width="100" height="100" patternUnits="userSpaceOnUse">
+                              <circle cx="40" cy="40" r="40" stroke="white" strokeWidth="3" fill="none" />
                           </pattern>
                       </defs>
                       <rect width="100%" height="100%" fill="url(#circle-pattern)" />
