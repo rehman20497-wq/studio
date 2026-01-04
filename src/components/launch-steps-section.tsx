@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion, useInView } from "framer-motion";
@@ -34,7 +33,7 @@ export default function LaunchStepsSection() {
     const isInView = useInView(ref, { once: true, amount: 0.5 });
 
     return (
-        <section className="bg-white overflow-hidden">
+        <section className="bg-[#fffef9] overflow-hidden">
             <LaunchBrushStroke />
             <motion.div
                 ref={ref}
