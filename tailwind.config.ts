@@ -14,11 +14,13 @@ export default {
         body: ['Inter', 'sans-serif'],
         headline: ['Raleway', 'sans-serif'],
         code: ['monospace'],
+        poppins: ['Poppins', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         cream: '#FEFDFB',
+        'cream-light': '#FDFBF7',
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',

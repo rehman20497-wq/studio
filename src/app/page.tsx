@@ -15,6 +15,7 @@ import LaunchStepsSection from "@/components/launch-steps-section";
 import FaqSection from "@/components/faq-section";
 import SurgeProtectSection from "@/components/surge-protect-section";
 import ValidationSection from "@/components/validation-section";
+import CustomerStories from "@/components/customer-stories";
 
 export default function Home() {
   return (
@@ -50,6 +51,7 @@ export default function Home() {
       </main>
       <SurgeProtectSection />
       <ValidationSection />
+      <CustomerStories />
     </div>
   );
 }
