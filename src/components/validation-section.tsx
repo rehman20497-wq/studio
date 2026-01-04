@@ -98,7 +98,7 @@ export default function ValidationSection() {
         </motion.div>
 
         <motion.h2
-          className="text-[56px] font-medium text-zinc-800 text-center leading-tight font-headline"
+          className="text-[37px] font-medium text-zinc-800 text-center leading-tight font-headline"
           variants={textVariants}
         >
           Validated by{' '}
