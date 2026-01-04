@@ -1,27 +1,17 @@
-
 "use client";
 
 import React from 'react';
-import { 
-    MondayLogo, 
-    PaypalLogo, 
-    ShopifyLogo, 
-    SlackLogo, 
-    StripeLogo, 
-    TrelloLogo, 
-    ZendeskLogo, 
-    IntercomLogo 
-} from './partner-logos';
+import Image from 'next/image';
 
 const logos = [
-  { component: MondayLogo, alt: 'Monday.com' },
-  { component: PaypalLogo, alt: 'PayPal' },
-  { component: ShopifyLogo, alt: 'Shopify' },
-  { component: SlackLogo, alt: 'Slack' },
-  { component: StripeLogo, alt: 'Stripe' },
-  { component: TrelloLogo, alt: 'Trello' },
-  { component: ZendeskLogo, alt: 'Zendesk' },
-  { component: IntercomLogo, alt: 'Intercom' },
+  { src: '/logos/monday.svg', alt: 'Monday.com' },
+  { src: '/logos/intercom.svg', alt: 'Intercom' },
+  { src: '/logos/zendesk.svg', alt: 'Zendesk' },
+  { src: '/logos/stripe.svg', alt: 'Stripe' },
+  { src: '/logos/shopify.svg', alt: 'Shopify' },
+  { src: '/logos/paypal.svg', alt: 'PayPal' },
+  { src: '/logos/slack.svg', alt: 'Slack' },
+  { src: '/logos/trello.svg', alt: 'Trello' },
 ];
 
 const PartnerMarquee: React.FC = () => {
@@ -32,14 +22,11 @@ const PartnerMarquee: React.FC = () => {
         <div className="bg-[#FEF9F2] py-12">
             <div className="relative w-full overflow-hidden">
                 <div className="animate-marquee-partner whitespace-nowrap flex">
-                    {extendedLogos.map((logo, index) => {
-                        const LogoComponent = logo.component;
-                        return (
-                            <div key={index} className="mx-10 flex-shrink-0 flex items-center justify-center h-12">
-                                <LogoComponent className="h-auto" />
-                            </div>
-                        );
-                    })}
+                    {extendedLogos.map((logo, index) => (
+                        <div key={index} className="mx-10 flex-shrink-0 flex items-center justify-center h-12">
+                            <Image src={logo.src} alt={logo.alt} width={100} height={24} className="h-auto object-contain" />
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
