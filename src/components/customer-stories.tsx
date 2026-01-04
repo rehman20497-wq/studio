@@ -62,9 +62,13 @@ const testimonials = [
 const duplicatedTestimonials = [...testimonials, ...testimonials];
 
 const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (typeof testimonials)[0], featured?: boolean }) => (
-  <div
+  <motion.div
+    variants={{
+        hidden: { opacity: 0, x: -100, y: 50, rotate: -10 },
+        visible: { opacity: 1, x: 0, y: 0, rotate: 0 }
+    }}
     className={cn(
-      'flex-shrink-0 w-[420px] rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 group bg-[#abe9ef]/50 hover:bg-cyan-200'
+      'flex-shrink-0 w-[420px] rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200'
     )}
   >
     <div className="flex justify-between items-start">
@@ -89,17 +93,16 @@ const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (type
       <p className="font-bold text-sm text-black">{testimonial.designation}</p>
       <p className="text-sm text-zinc-600">Industry: {testimonial.industry}</p>
     </div>
-  </div>
+  </motion.div>
 );
 
 const containerVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
+    hidden: { opacity: 0 },
     visible: { 
-        opacity: 1, 
-        scale: 1,
+        opacity: 1,
         transition: {
-            duration: 0.8,
-            ease: [0.25, 1, 0.5, 1]
+            staggerChildren: 0.1,
+            delayChildren: 0.3,
         }
     }
 }
@@ -124,22 +127,26 @@ export default function CustomerStories() {
 
   return (
     <section ref={ref} className="bg-white pb-24 overflow-hidden">
-      <motion.div
-        className="relative"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+      <div
+        className="relative group"
       >
         <motion.div
             className="flex gap-8"
-            variants={marqueeVariants}
-            animate="animate"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
         >
-            {duplicatedTestimonials.map((testimonial, index) => (
-                <TestimonialCard key={index} testimonial={testimonial} featured={testimonial.featured} />
-            ))}
+            <motion.div 
+                className="flex gap-8 group-hover:[animation-play-state:paused]"
+                variants={marqueeVariants}
+                animate="animate"
+            >
+                {duplicatedTestimonials.map((testimonial, index) => (
+                    <TestimonialCard key={index} testimonial={testimonial} featured={testimonial.featured} />
+                ))}
+            </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }
