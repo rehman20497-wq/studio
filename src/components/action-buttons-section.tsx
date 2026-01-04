@@ -23,9 +23,9 @@ const slideInLeft = {
     opacity: 1,
     transition: {
       type: 'spring',
-      damping: 20,
-      stiffness: 80,
-      duration: 1.5
+      damping: 30,
+      stiffness: 50,
+      duration: 2
     }
   },
 };
@@ -37,9 +37,9 @@ const slideInRight = {
     opacity: 1,
     transition: {
         type: 'spring',
-        damping: 20,
-        stiffness: 80,
-        duration: 1.5
+        damping: 30,
+        stiffness: 50,
+        duration: 2
     }
   },
 };
@@ -50,7 +50,7 @@ export default function ActionButtonsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-white py-20 px-[6%]">
+    <section ref={ref} className="bg-white pb-20 px-[6%]">
       <motion.div
         className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-8"
         variants={containerVariants}
