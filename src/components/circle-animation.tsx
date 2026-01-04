@@ -5,22 +5,22 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const GRID_WIDTH = 6;
-const GRID_HEIGHT = 8;
-const CIRCLE_RADIUS = 30;
-const PADDING = 8;
+const GRID_HEIGHT = 6;
+const CIRCLE_RADIUS = 28;
+const PADDING = 12;
 const TOTAL_WIDTH = GRID_WIDTH * (CIRCLE_RADIUS * 2 + PADDING) - PADDING;
 const TOTAL_HEIGHT = GRID_HEIGHT * (CIRCLE_RADIUS * 2 + PADDING) - PADDING;
 
 const numberOneCoords = [
+  { x: 2, y: 0 },
+  { x: 1, y: 1 },
   { x: 2, y: 1 },
-  { x: 1, y: 2 },
   { x: 2, y: 2 },
   { x: 2, y: 3 },
   { x: 2, y: 4 },
+  { x: 1, y: 5 },
   { x: 2, y: 5 },
-  { x: 1, y: 6 },
-  { x: 2, y: 6 },
-  { x: 3, y: 6 },
+  { x: 3, y: 5 },
 ];
 
 const containerVariants = {
@@ -47,8 +47,7 @@ export default function CircleAnimation() {
   return (
     <div
       ref={ref}
-      className="relative flex items-center justify-center bg-[#FEF9F2] p-8 rounded-xl"
-      style={{ aspectRatio: `${TOTAL_WIDTH} / ${TOTAL_HEIGHT}` }}
+      className="relative flex items-center justify-center bg-[#FEF9F2] p-8 rounded-xl h-full"
     >
       <motion.svg
         viewBox={`0 0 ${TOTAL_WIDTH} ${TOTAL_HEIGHT}`}
@@ -57,6 +56,7 @@ export default function CircleAnimation() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={containerVariants}
+        preserveAspectRatio="xMidYMid meet"
       >
         {Array.from({ length: GRID_HEIGHT }).map((_, y) =>
           Array.from({ length: GRID_WIDTH }).map((_, x) => {

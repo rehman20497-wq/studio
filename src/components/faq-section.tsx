@@ -37,7 +37,7 @@ export default function FaqSection() {
   return (
     <section ref={ref} className="bg-white py-24 px-[5%]">
       <motion.div
-        className="container mx-auto grid md:grid-cols-2 gap-16 items-center"
+        className="container mx-auto grid md:grid-cols-2 gap-16 items-stretch"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
@@ -45,7 +45,7 @@ export default function FaqSection() {
         <motion.div variants={itemVariants}>
           <CustomAccordion />
         </motion.div>
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="flex">
           <CircleAnimation />
         </motion.div>
       </motion.div>
