@@ -128,7 +128,7 @@ export default function CustomerStories() {
   return (
     <section ref={ref} className="bg-white pb-24 overflow-hidden">
       <div
-        className="relative group"
+        className="relative"
       >
         <motion.div
             className="flex gap-8"
@@ -137,7 +137,7 @@ export default function CustomerStories() {
             animate={isInView ? "visible" : "hidden"}
         >
             <motion.div 
-                className="flex gap-8 group-hover:[animation-play-state:paused]"
+                className="flex gap-8"
                 variants={marqueeVariants}
                 animate="animate"
             >
