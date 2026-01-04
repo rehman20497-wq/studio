@@ -42,17 +42,6 @@ const textVariants = {
   },
 };
 
-const underlineVariants = {
-  hidden: { pathLength: 0 },
-  visible: {
-    pathLength: 1,
-    transition: {
-      duration: 0.8,
-      ease: 'easeInOut',
-    },
-  },
-};
-
 const Underline = ({
   color,
   delay = 0,

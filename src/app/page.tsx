@@ -38,7 +38,6 @@ export default function Home() {
         <LogoMarquee />
         <SuccessMission />
         <NewTestimonialSection />
-        <ValidationSection />
         <GrowthSection />
         <SolutionsSection />
         <div className="bg-[#FEF9F2]">
@@ -50,6 +49,7 @@ export default function Home() {
         <FaqSection />
       </main>
       <SurgeProtectSection />
+      <ValidationSection />
     </div>
   );
 }
