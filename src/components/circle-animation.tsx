@@ -27,7 +27,8 @@ const containerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.4,
+      delayChildren: 0.5,
     },
   },
 };
@@ -37,7 +38,7 @@ const circleVariants = {
   visible: {
     stroke: "#ffce07",
     opacity: 1,
-    transition: { duration: 1, ease: "easeOut" },
+    transition: { duration: 0.8, ease: "easeOut" },
   },
 };
 
