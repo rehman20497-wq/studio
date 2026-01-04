@@ -4,14 +4,14 @@ import React from 'react';
 import Image from 'next/image';
 
 const logos = [
-  { src: '/logos/monday.svg', alt: 'Monday.com' },
-  { src: '/logos/intercom.svg', alt: 'Intercom' },
-  { src: '/logos/zendesk.svg', alt: 'Zendesk' },
-  { src: '/logos/stripe.svg', alt: 'Stripe' },
-  { src: '/logos/shopify.svg', alt: 'Shopify' },
-  { src: '/logos/paypal.svg', alt: 'PayPal' },
-  { src: '/logos/slack.svg', alt: 'Slack' },
-  { src: '/logos/trello.svg', alt: 'Trello' },
+  { src: '/logos/Asset-43.svg', alt: 'Monday.com' },
+  { src: '/logos/Asset-44.svg', alt: 'Intercom' },
+  { src: '/logos/Asset-47.svg', alt: 'Zendesk' },
+  { src: '/logos/Asset-48.svg', alt: 'Shopify' },
+  { src: '/logos/Asset-49.svg', alt: 'PayPal' },
+  { src: '/logos/Asset-50.svg', alt: 'Slack' },
+  { src: '/logos/Asset-56.svg', alt: 'Trello' },
+  { src: '/logos/Asset-62.svg', alt: 'Trello' },
 ];
 
 const PartnerMarquee: React.FC = () => {

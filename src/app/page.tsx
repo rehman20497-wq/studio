@@ -11,6 +11,7 @@ import SolutionsSection from "@/components/solutions-section";
 import BrushStrokes from "@/components/brush-strokes";
 import IntegrationSection from "@/components/integration-section";
 import PartnerMarquee from "@/components/partner-marquee";
+import LaunchStepsSection from "@/components/launch-steps-section";
 
 export default function Home() {
   return (
@@ -41,6 +42,7 @@ export default function Home() {
         </div>
         <IntegrationSection />
         <PartnerMarquee />
+        <LaunchStepsSection />
       </main>
     </div>
   );
