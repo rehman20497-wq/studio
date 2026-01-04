@@ -14,6 +14,7 @@ import PartnerMarquee from "@/components/partner-marquee";
 import LaunchStepsSection from "@/components/launch-steps-section";
 import FaqSection from "@/components/faq-section";
 import SurgeProtectSection from "@/components/surge-protect-section";
+import ValidationSection from "@/components/validation-section";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
         <LogoMarquee />
         <SuccessMission />
         <NewTestimonialSection />
+        <ValidationSection />
         <GrowthSection />
         <SolutionsSection />
         <div className="bg-[#FEF9F2]">

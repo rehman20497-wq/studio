@@ -45,13 +45,15 @@ export default function SurgeProtectSection() {
         </svg>
         
         <div className="py-[10%]">
-            <Image
-                src="/surge.png"
-                alt="Surge Protect Scale"
-                width={800}
-                height={80}
-                className="mx-auto"
-            />
+        <Image
+  src="/surge.png"
+  alt="Surge Protect Scale"
+  width={800}
+  height={80}
+  className="mx-auto h-[130px] md:h-[130px] sm:h-[50px] w-auto"
+/>
+
+
             <SurgeProtectContent />
         </div>
         
