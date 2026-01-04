@@ -47,12 +47,12 @@ export default function SurgeProtectContent() {
   return (
     <motion.div
       ref={ref}
-      className="relative z-10 max-w-6xl mx-auto mt-16 grid md:grid-cols-2 gap-12 items-center px-4"
+      className="relative z-10 max-w-6xl mx-auto mt-16 grid md:grid-cols-5 gap-12 items-center px-4"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      <motion.div variants={itemVariants}>
+      <motion.div variants={itemVariants} className="md:col-span-2">
         <p className="text-[19px] text-zinc-900 leading-[25.5px] max-w-md">
           From expected surges and urgent projects to unexpected demands, we've
           got your back. Access elite talent instantly, scale down seamlessly.
@@ -66,7 +66,7 @@ export default function SurgeProtectContent() {
 
       <motion.div
         variants={itemVariants}
-        className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg"
+        className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-[5%] shadow-lg md:col-span-3"
       >
         <div className="absolute -inset-1 rounded-2xl border border-yellow-300/80 -z-10" />
         <ul className="grid grid-cols-2 gap-x-8 gap-y-2 text-zinc-900">
