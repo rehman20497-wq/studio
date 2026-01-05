@@ -56,7 +56,7 @@ const containerVariants = {
 
 const marqueeVariants = {
   animate: {
-    x: ["0%", "-50%"],
+    x: ["0%", "-100%"],
     transition: {
       x: {
         repeat: Infinity,
@@ -97,17 +97,21 @@ export default function BlogSection() {
       >
         <div className="relative w-full overflow-hidden">
           <div className="max-w-[1000px] mx-auto">
-            <motion.div
-              className="flex gap-8"
+             <motion.div
+              className="flex"
               variants={marqueeVariants}
               animate={isInView ? "animate" : {}}
             >
-              {duplicatedPosts.map((post, index) => (
-                <BlogCard key={`first-${index}`} {...post} />
-              ))}
-              {duplicatedPosts.map((post, index) => (
-                <BlogCard key={`second-${index}`} {...post} />
-              ))}
+              <div className="flex gap-8">
+                {duplicatedPosts.map((post, index) => (
+                  <BlogCard key={`first-${index}`} {...post} />
+                ))}
+              </div>
+               <div className="flex gap-8">
+                {duplicatedPosts.map((post, index) => (
+                  <BlogCard key={`second-${index}`} {...post} />
+                ))}
+              </div>
             </motion.div>
           </div>
         </div>

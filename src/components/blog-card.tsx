@@ -67,9 +67,9 @@ export default function BlogCard({
 }: BlogCardProps) {
   return (
     <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden group">
-      <div className="relative h-3/5">
+      <div className="relative h-3/5 overflow-hidden">
         {type === "interview" && authorImage && authorName ? (
-          <div className="relative w-full h-full overflow-hidden">
+          <div className="relative w-full h-full">
             <Image
               src={backgroundImage.src}
               alt="Background"
@@ -122,8 +122,10 @@ export default function BlogCard({
             </span>
           ))}
         </div>
-        <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4 relative inline-block group-hover:underline-draw">
-          {title}
+        <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
+          <span className="group-hover:underline-draw relative">
+            {title}
+          </span>
         </h3>
       </div>
     </div>
