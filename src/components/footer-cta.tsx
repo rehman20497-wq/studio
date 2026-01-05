@@ -23,7 +23,7 @@ const textVariants = {
     opacity: 1, 
     x: 0,
     transition: {
-      duration: 0.8,
+      duration: 1.5,
       ease: [0.25, 1, 0.5, 1],
     }
   },
@@ -35,7 +35,7 @@ const buttonVariants = {
     opacity: 1, 
     x: 0,
     transition: {
-      duration: 0.8,
+      duration: 1.5,
       ease: [0.25, 1, 0.5, 1],
     }
   },
@@ -88,7 +88,7 @@ export default function FooterCta() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-6xl font-bold font-headline text-zinc-900"
+          className="text-6xl font-normal font-headline text-zinc-900"
           variants={textVariants}
         >
           Outsourcing +<br />
