@@ -13,7 +13,7 @@ const blogPosts: BlogCardProps[] = [
     categories: ['Interview', 'Data & AI'],
     title: 'Michael Connor on the Impact of Generative AI in Consumer Goods',
     backgroundImage: blogImages.interview,
-    companyLogo: blogImages.amazon,
+
   },
   {
     type: 'case-study',

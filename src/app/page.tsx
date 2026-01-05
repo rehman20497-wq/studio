@@ -19,6 +19,7 @@ import ValidationSection from "@/components/validation-section";
 import CustomerStories from "@/components/customer-stories";
 import ActionButtonsSection from "@/components/action-buttons-section";
 import BlogSection from "@/components/blog-section";
+import ResourcesButtonSection from "@/components/resources-button-section";
 
 export default function Home() {
   return (
@@ -57,6 +58,7 @@ export default function Home() {
       <CustomerStories />
       <ActionButtonsSection />
       <BlogSection />
+      <ResourcesButtonSection />
     </div>
   );
 }
