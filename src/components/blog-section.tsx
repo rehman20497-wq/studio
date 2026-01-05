@@ -11,8 +11,6 @@ const blogPosts: BlogCardProps[] = [
     date: "NOVEMBER 15, 2024",
     categories: ["Interview", "Data & AI"],
     title: "Michael Connor on the Impact of Generative AI in Consumer Goods",
-    authorImage: blogImages.author,
-    authorName: "Michael Connor",
     companyLogo: blogImages.amazon,
     backgroundImage: blogImages.interview,
   },

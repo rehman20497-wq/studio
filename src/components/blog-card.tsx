@@ -12,8 +12,6 @@ export type BlogCardProps = {
   categories: string[];
   title: string;
   backgroundImage: { src: string; hint: string };
-  authorImage?: { src: string; hint: string };
-  authorName?: string;
   companyLogo?: { src: string; hint: string };
 };
 
@@ -21,25 +19,25 @@ const Badge = ({ type }: { type: BlogCardProps["type"] }) => {
   let content, Icon, bgColor;
 
   switch (type) {
-    case 'interview':
-      content = 'INTERVIEW';
+    case "interview":
+      content = "INTERVIEW";
       Icon = MessageSquare;
-      bgColor = 'bg-orange-500';
+      bgColor = "bg-orange-500";
       break;
-    case 'case-study':
-      content = 'CASE STUDY';
+    case "case-study":
+      content = "CASE STUDY";
       Icon = Search;
-      bgColor = 'bg-cyan-500';
+      bgColor = "bg-cyan-500";
       break;
-    case 'article':
-      content = 'ARTICLE';
+    case "article":
+      content = "ARTICLE";
       Icon = FileText;
-      bgColor = 'bg-blue-500';
+      bgColor = "bg-blue-500";
       break;
-    case 'guide':
-      content = 'GUIDE';
+    case "guide":
+      content = "GUIDE";
       Icon = BookOpen;
-      bgColor = 'bg-green-500';
+      bgColor = "bg-green-500";
       break;
     default:
       return null;
@@ -84,26 +82,49 @@ export default function BlogCard({
   categories,
   title,
   backgroundImage,
-  authorImage,
-  authorName,
   companyLogo,
 }: BlogCardProps) {
   return (
     <Link href="#" className="block group">
-      <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg p-4 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
+      <div className="relative flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg p-4 transition-transform duration-300 ease-in-out group-hover:-translate-y-2 overflow-hidden">
+         <svg
+            className="absolute inset-0 pointer-events-none"
+            width="100%"
+            height="100%"
+        >
+            <rect
+                x="1"
+                y="1"
+                width="calc(100% - 2px)"
+                height="calc(100% - 2px)"
+                rx="16"
+                ry="16"
+                fill="none"
+                stroke="hsl(var(--primary))"
+                strokeWidth="2"
+                className="animated-border"
+            >
+            </rect>
+        </svg>
         <div className="w-full h-full flex flex-col">
           <div className="relative h-3/5 overflow-hidden rounded-xl">
-              <Image
-                src={backgroundImage.src}
-                alt={title}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                data-ai-hint={backgroundImage.hint}
-              />
+            <Image
+              src={backgroundImage.src}
+              alt={title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              data-ai-hint={backgroundImage.hint}
+            />
             {type === "interview" && companyLogo && (
-                <div className="absolute top-1/2 left-16 -translate-y-1/2">
-                    <Image src={companyLogo.src} alt="Company Logo" width={80} height={20} data-ai-hint={companyLogo.hint} />
-                </div>
+              <div className="absolute top-1/2 left-16 -translate-y-1/2">
+                <Image
+                  src={companyLogo.src}
+                  alt="Company Logo"
+                  width={80}
+                  height={20}
+                  data-ai-hint={companyLogo.hint}
+                />
+              </div>
             )}
             <Badge type={type} />
           </div>
