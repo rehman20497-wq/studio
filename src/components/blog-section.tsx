@@ -91,24 +91,25 @@ export default function BlogSection() {
 
       <motion.div
         className="mt-16"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { delay: 0.3 } },
-        }}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ delay: 0.3 }}
       >
         <div className="relative w-full overflow-hidden">
-          <motion.div
-            className="flex gap-8"
-            variants={marqueeVariants}
-            animate={isInView ? "animate" : {}}
-          >
-            {duplicatedPosts.map((post, index) => (
-              <BlogCard key={`first-${index}`} {...post} />
-            ))}
-            {duplicatedPosts.map((post, index) => (
-              <BlogCard key={`second-${index}`} {...post} />
-            ))}
-          </motion.div>
+          <div className="max-w-[1000px] mx-auto">
+            <motion.div
+              className="flex gap-8"
+              variants={marqueeVariants}
+              animate={isInView ? "animate" : {}}
+            >
+              {duplicatedPosts.map((post, index) => (
+                <BlogCard key={`first-${index}`} {...post} />
+              ))}
+              {duplicatedPosts.map((post, index) => (
+                <BlogCard key={`second-${index}`} {...post} />
+              ))}
+            </motion.div>
+          </div>
         </div>
       </motion.div>
     </motion.section>
