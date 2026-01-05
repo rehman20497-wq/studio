@@ -155,7 +155,7 @@ export default {
         'marquee-partner': 'marquee 40s linear infinite',
         'marching-ants': 'marching-ants 1s linear infinite',
         'spin-slow': 'spin-slow 20s linear infinite',
-        'gradient-flow': 'gradient-flow 6s ease infinite',
+        'gradient-flow': 'gradient-flow 15s ease infinite',
       },
     },
   },
