@@ -122,7 +122,7 @@ export default function BlogCard({
             </span>
           ))}
         </div>
-        <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
+        <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4 relative inline-block group-hover:underline-draw">
           {title}
         </h3>
       </div>
