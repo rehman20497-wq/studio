@@ -20,6 +20,7 @@ import CustomerStories from "@/components/customer-stories";
 import ActionButtonsSection from "@/components/action-buttons-section";
 import BlogSection from "@/components/blog-section";
 import ResourcesButtonSection from "@/components/resources-button-section";
+import FooterCta from "@/components/footer-cta";
 
 export default function Home() {
   return (
@@ -59,6 +60,7 @@ export default function Home() {
       <ActionButtonsSection />
       <BlogSection />
       <ResourcesButtonSection />
+      <FooterCta />
     </div>
   );
 }
