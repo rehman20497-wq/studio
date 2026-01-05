@@ -1,7 +1,8 @@
+
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, useAnimation } from "framer-motion";
+import { useRef, useEffect } from "react";
 import BlogCard, { type BlogCardProps } from "./blog-card";
 import { blogImages } from "@/lib/blog-images";
 
@@ -11,8 +12,8 @@ const blogPosts: BlogCardProps[] = [
     date: "NOVEMBER 15, 2024",
     categories: ["Interview", "Data & AI"],
     title: "Michael Connor on the Impact of Generative AI in Consumer Goods",
-    companyLogo: blogImages.amazon,
     backgroundImage: blogImages.interview,
+    companyLogo: blogImages.amazon,
   },
   {
     type: "case-study",
@@ -69,6 +70,21 @@ const marqueeVariants = {
 export default function BlogSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("animate");
+    }
+  }, [isInView, controls]);
+
+  const handleMouseEnter = () => {
+    controls.stop();
+  };
+
+  const handleMouseLeave = () => {
+    controls.start("animate");
+  };
 
   return (
     <motion.section
@@ -98,7 +114,9 @@ export default function BlogSection() {
              <motion.div
               className="flex"
               variants={marqueeVariants}
-              animate={isInView ? "animate" : {}}
+              animate={controls}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <div className="flex gap-8">
                 {duplicatedPosts.map((post, index) => (
