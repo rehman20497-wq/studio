@@ -73,7 +73,7 @@ export default function BlogSection() {
   return (
     <motion.section
       ref={ref}
-      className="bg-[#FEF9F2] py-24 overflow-hidden"
+      className="bg-[#FEF9F2] py-24"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
