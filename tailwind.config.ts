@@ -129,7 +129,12 @@ export default {
         'spin-slow': {
           'from': { transform: 'rotate(0deg)' },
           'to': { transform: 'rotate(360deg)' },
-        }
+        },
+        'gradient-flow': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -150,6 +155,7 @@ export default {
         'marquee-partner': 'marquee 40s linear infinite',
         'marching-ants': 'marching-ants 1s linear infinite',
         'spin-slow': 'spin-slow 20s linear infinite',
+        'gradient-flow': 'gradient-flow 6s ease infinite',
       },
     },
   },

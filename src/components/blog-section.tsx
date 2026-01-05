@@ -163,30 +163,30 @@ export default function BlogSection() {
         </div>
 
         <motion.div
-          className="absolute top-0 right-4 flex gap-2"
+          className="absolute top-0 right-4 flex gap-2 mt-20"
           variants={arrowContainerVariants}
         >
           <button
             onClick={() => scroll(-300)}
-            className="group/arrow w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md transition-colors hover:bg-zinc-800"
+            className="group/arrow w-10 h-10 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg bg-[length:200%_auto] animate-gradient-flow"
           >
             <motion.div variants={arrowVariants} custom="left" animate="animate">
-              <ChevronLeft className="w-6 h-6 text-zinc-800 transition-colors group-hover/arrow:text-white" />
+              <ChevronLeft className="w-6 h-6 text-white transition-colors" />
             </motion.div>
           </button>
           <button
             onClick={() => scroll(300)}
-            className="group/arrow w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md transition-colors hover:bg-zinc-800"
+            className="group/arrow w-10 h-10 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg bg-[length:200%_auto] animate-gradient-flow"
           >
             <motion.div variants={arrowVariants} custom="right" animate="animate">
-              <ChevronRight className="w-6 h-6 text-zinc-800 transition-colors group-hover/arrow:text-white" />
+              <ChevronRight className="w-6 h-6 text-white transition-colors" />
             </motion.div>
           </button>
         </motion.div>
       </div>
 
       <div
-        className="mt-16 relative w-full overflow-hidden"
+        className="mt-16 relative w-full"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -212,12 +212,3 @@ export default function BlogSection() {
     </motion.section>
   );
 }
-
-// Add this to your globals.css or a relevant CSS file
-// .no-scrollbar {
-//   -ms-overflow-style: none; /* IE and Edge */
-//   scrollbar-width: none; /* Firefox */
-// }
-// .no-scrollbar::-webkit-scrollbar {
-//   display: none; /* Chrome, Safari, and Opera */
-// }
