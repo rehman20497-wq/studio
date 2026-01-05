@@ -1,4 +1,5 @@
 
+
 import Header from "@/components/layout/header";
 import RightColumn from "@/components/layout/right-column";
 import LogoMarquee from "@/components/logo-marquee";
@@ -17,6 +18,7 @@ import SurgeProtectSection from "@/components/surge-protect-section";
 import ValidationSection from "@/components/validation-section";
 import CustomerStories from "@/components/customer-stories";
 import ActionButtonsSection from "@/components/action-buttons-section";
+import BlogSection from "@/components/blog-section";
 
 export default function Home() {
   return (
@@ -54,6 +56,7 @@ export default function Home() {
       <ValidationSection />
       <CustomerStories />
       <ActionButtonsSection />
+      <BlogSection />
     </div>
   );
 }

@@ -126,6 +126,10 @@ export default {
           'from': { 'stroke-dashoffset': '20' },
           'to': { 'stroke-dashoffset': '0' },
         },
+        'spin-slow': {
+          'from': { transform: 'rotate(0deg)' },
+          'to': { transform: 'rotate(360deg)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -145,6 +149,7 @@ export default {
         'marquee': 'marquee 60s linear infinite',
         'marquee-partner': 'marquee 40s linear infinite',
         'marching-ants': 'marching-ants 1s linear infinite',
+        'spin-slow': 'spin-slow 20s linear infinite',
       },
     },
   },

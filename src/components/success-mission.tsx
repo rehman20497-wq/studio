@@ -103,9 +103,9 @@ const yellowBgVariants = {
   hidden: { opacity: 0, x: "100%", y: "-50%", rotate: 0 },
   visible: { 
     opacity: 1, 
-    x: 0,
-    y: 0,
-    rotate: -10,
+    x: 52,
+    y: 110,
+    rotate: 10,
     transition: {
       type: 'spring',
       stiffness: 40,
@@ -183,14 +183,14 @@ const SuccessMission = () => {
           <div className="flex justify-center items-center">
             <div className="relative w-[548px] h-[548px]">
               <motion.div
-                className="absolute w-full h-full bg-[#F5D34A] rounded-xl overflow-hidden"
+                className="absolute w-[520px] h-[520px] bg-[#F5D34A] rounded-xl overflow-hidden"
                 style={{transformOrigin: 'top right', top: "-20px", right: "-20px"}}
                 variants={yellowBgVariants}
               >
                   <svg width="100%" height="100%" className='opacity-40'>
                       <defs>
                           <pattern id="circle-pattern" x="10" y="10" width="100" height="100" patternUnits="userSpaceOnUse">
-                              <circle cx="40" cy="40" r="40" stroke="white" strokeWidth="3" fill="none" />
+                              <circle cx="45" cy="45" r="45" stroke="white" strokeWidth="3" fill="none" />
                           </pattern>
                       </defs>
                       <rect width="100%" height="100%" fill="url(#circle-pattern)" />

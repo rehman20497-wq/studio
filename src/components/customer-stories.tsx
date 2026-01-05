@@ -135,7 +135,7 @@ export default function CustomerStories() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-white pb-[3%] overflow-hidden">
+    <section ref={ref} className="bg-white pb-[4%] overflow-hidden">
       <motion.div
         variants={containerVariants}
         initial="hidden"
