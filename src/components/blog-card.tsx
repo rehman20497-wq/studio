@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { MessageSquare, Search } from "lucide-react";
+import Link from "next/link";
 
 export type BlogCardProps = {
   type: "interview" | "case-study" | "article" | "guide";
@@ -66,68 +67,70 @@ export default function BlogCard({
   companyLogo,
 }: BlogCardProps) {
   return (
-    <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden group">
-      <div className="relative h-3/5 overflow-hidden">
-        {type === "interview" && authorImage && authorName ? (
-          <div className="relative w-full h-full">
+    <Link href="#" className="block group">
+      <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:-translate-y-2">
+        <div className="relative h-3/5 overflow-hidden">
+          {type === "interview" && authorImage && authorName ? (
+            <div className="relative w-full h-full">
+              <Image
+                src={backgroundImage.src}
+                alt="Background"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                data-ai-hint={backgroundImage.hint}
+              />
+              {companyLogo && (
+                  <div className="absolute top-1/2 left-16 -translate-y-1/2">
+                      <Image src={companyLogo.src} alt="Company Logo" width={80} height={20} data-ai-hint={companyLogo.hint} />
+                  </div>
+              )}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                  <Image
+                    src={authorImage.src}
+                    alt={authorName}
+                    fill
+                    className="object-cover"
+                    data-ai-hint={authorImage.hint}
+                  />
+                </div>
+                <div className="absolute bottom-12 bg-red-400 text-white px-4 py-1 rounded-full text-lg font-medium">
+                  {authorName}
+                </div>
+              </div>
+            </div>
+          ) : (
             <Image
               src={backgroundImage.src}
-              alt="Background"
+              alt={title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               data-ai-hint={backgroundImage.hint}
             />
-            {companyLogo && (
-                <div className="absolute top-1/2 left-16 -translate-y-1/2">
-                    <Image src={companyLogo.src} alt="Company Logo" width={80} height={20} data-ai-hint={companyLogo.hint} />
-                </div>
-            )}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                <Image
-                  src={authorImage.src}
-                  alt={authorName}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={authorImage.hint}
-                />
-              </div>
-              <div className="absolute bottom-12 bg-red-400 text-white px-4 py-1 rounded-full text-lg font-medium">
-                {authorName}
-              </div>
-            </div>
+          )}
+          <Badge type={type} />
+        </div>
+        <div className="p-6 h-2/5 flex flex-col">
+          <div className="text-xs text-zinc-500 font-medium">
+            <span>{date}</span>
           </div>
-        ) : (
-          <Image
-            src={backgroundImage.src}
-            alt={title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            data-ai-hint={backgroundImage.hint}
-          />
-        )}
-        <Badge type={type} />
-      </div>
-      <div className="p-6 h-2/5 flex flex-col">
-        <div className="text-xs text-zinc-500 font-medium">
-          <span>{date}</span>
-        </div>
-        <div className="flex gap-2 mt-2">
-          {categories.map((cat, i) => (
-            <span
-              key={i}
-              className="text-sm text-zinc-700 underline underline-offset-2"
-            >
-              {cat}
+          <div className="flex gap-2 mt-2">
+            {categories.map((cat, i) => (
+              <span
+                key={i}
+                className="text-sm text-zinc-700 underline underline-offset-2"
+              >
+                {cat}
+              </span>
+            ))}
+          </div>
+          <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
+            <span className="relative group-hover:underline-draw">
+              {title}
             </span>
-          ))}
+          </h3>
         </div>
-        <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
-          <span className="group-hover:underline-draw relative">
-            {title}
-          </span>
-        </h3>
       </div>
-    </div>
+    </Link>
   );
 }
