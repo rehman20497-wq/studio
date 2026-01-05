@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { MessageSquare, Search } from "lucide-react";
+import { MessageSquare, Search, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 export type BlogCardProps = {
@@ -17,17 +17,38 @@ export type BlogCardProps = {
 };
 
 const Badge = ({ type }: { type: BlogCardProps["type"] }) => {
-  const isInterview = type === "interview";
-  const content = isInterview ? "INTERVIEW" : "CASE STUDY";
-  const Icon = isInterview ? MessageSquare : Search;
+  let content, Icon, bgColor;
 
-  if (type !== "interview" && type !== "case-study") return null;
+  switch (type) {
+    case 'interview':
+      content = 'INTERVIEW';
+      Icon = MessageSquare;
+      bgColor = 'bg-orange-500';
+      break;
+    case 'case-study':
+      content = 'CASE STUDY';
+      Icon = Search;
+      bgColor = 'bg-cyan-500';
+      break;
+    case 'article':
+      content = 'ARTICLE';
+      Icon = FileText;
+      bgColor = 'bg-blue-500';
+      break;
+    case 'guide':
+      content = 'GUIDE';
+      Icon = BookOpen;
+      bgColor = 'bg-green-500';
+      break;
+    default:
+      return null;
+  }
 
   return (
     <div
       className={cn(
         "absolute top-4 right-4 w-20 h-20 rounded-full flex items-center justify-center font-bold text-xs uppercase text-white",
-        isInterview ? "bg-orange-500" : "bg-cyan-500"
+        bgColor
       )}
     >
       <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
