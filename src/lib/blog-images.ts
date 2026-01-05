@@ -13,15 +13,15 @@ export const blogImages = {
         hint: 'abstract gradient'
     },
     caseStudy: {
-        src: '/img1.png',
+        src: '/img1.jpg',
         hint: 'living room interior'
     },
     article1: {
-        src: '/img2.png',
+        src: '/img.png',
         hint: 'ai robot'
     },
     article2: {
-        src: '/img3.png',
+        src: '/img1.jpg',
         hint: 'customer checkout'
     }
 }

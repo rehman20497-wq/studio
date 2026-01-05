@@ -90,41 +90,43 @@ export default function BlogCard({
 }: BlogCardProps) {
   return (
     <Link href="#" className="block group">
-      <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
-        <div className="relative h-3/5 overflow-hidden">
-            <Image
-              src={backgroundImage.src}
-              alt={title}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              data-ai-hint={backgroundImage.hint}
-            />
-          {type === "interview" && companyLogo && (
-              <div className="absolute top-1/2 left-16 -translate-y-1/2">
-                  <Image src={companyLogo.src} alt="Company Logo" width={80} height={20} data-ai-hint={companyLogo.hint} />
-              </div>
-          )}
-          <Badge type={type} />
-        </div>
-        <div className="p-6 h-2/5 flex flex-col">
-          <div className="text-xs text-zinc-500 font-medium">
-            <span>{date}</span>
+      <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg p-4 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
+        <div className="w-full h-full flex flex-col">
+          <div className="relative h-3/5 overflow-hidden rounded-xl">
+              <Image
+                src={backgroundImage.src}
+                alt={title}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                data-ai-hint={backgroundImage.hint}
+              />
+            {type === "interview" && companyLogo && (
+                <div className="absolute top-1/2 left-16 -translate-y-1/2">
+                    <Image src={companyLogo.src} alt="Company Logo" width={80} height={20} data-ai-hint={companyLogo.hint} />
+                </div>
+            )}
+            <Badge type={type} />
           </div>
-          <div className="flex gap-2 mt-2">
-            {categories.map((cat, i) => (
-              <span
-                key={i}
-                className="text-sm text-zinc-700 underline underline-offset-2"
-              >
-                {cat}
+          <div className="p-4 h-2/5 flex flex-col">
+            <div className="text-xs text-zinc-500 font-medium">
+              <span>{date}</span>
+            </div>
+            <div className="flex gap-2 mt-2">
+              {categories.map((cat, i) => (
+                <span
+                  key={i}
+                  className="text-sm text-zinc-700 underline underline-offset-2"
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+            <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
+              <span className="relative underline-draw">
+                {title}
               </span>
-            ))}
+            </h3>
           </div>
-          <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
-            <span className="relative underline-draw">
-              {title}
-            </span>
-          </h3>
         </div>
       </div>
     </Link>
