@@ -83,12 +83,12 @@ export default function FooterCta() {
   return (
     <section ref={ref} className="relative bg-white overflow-hidden">
        <motion.div
-        className="relative bg-[#F5D34A] overflow-hidden"
+        className="relative bg-[#fff9e6] overflow-hidden"
         variants={sectionVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-      <div className="absolute top-0 left-0 w-full h-24 text-[#FEF9F2]">
+      <div className="absolute top-0 left-0 w-full h-24 text-[#fffef9]">
         <svg
           className="w-full h-full"
           viewBox="0 0 1440 100"
