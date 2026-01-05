@@ -68,7 +68,7 @@ export default function BlogCard({
 }: BlogCardProps) {
   return (
     <Link href="#" className="block group">
-      <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:-translate-y-2">
+      <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
         <div className="relative h-3/5 overflow-hidden">
           {type === "interview" && authorImage && authorName ? (
             <div className="relative w-full h-full">
@@ -125,7 +125,7 @@ export default function BlogCard({
             ))}
           </div>
           <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
-            <span className="relative group-hover:underline-draw">
+            <span className="relative underline-draw">
               {title}
             </span>
           </h3>
