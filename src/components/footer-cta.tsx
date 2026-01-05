@@ -6,38 +6,50 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from './magnetic-button';
 
+const sectionVariants = {
+  hidden: { scale: 0, borderRadius: '100%' },
+  visible: {
+    scale: 1,
+    borderRadius: 0,
+    transition: {
+      duration: 1.2,
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
+};
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.2,
-      delayChildren: 0.3,
+      delayChildren: 1, // Delay content animation until after background grows
     },
   },
 };
 
 const textVariants = {
   hidden: { opacity: 0, x: -100 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
     transition: {
       duration: 1.5,
       ease: [0.25, 1, 0.5, 1],
-    }
+    },
   },
 };
 
 const buttonVariants = {
   hidden: { opacity: 0, x: 100 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
     transition: {
       duration: 1.5,
       ease: [0.25, 1, 0.5, 1],
-    }
+    },
   },
 };
 
@@ -49,9 +61,9 @@ const balloonVariants = {
     scale: 1,
     transition: {
       type: 'spring',
-      damping: 15,
-      stiffness: 80,
-      delay: i * 0.15,
+      damping: 20,
+      stiffness: 60,
+      delay: i * 0.25, // Slower stagger
     },
   }),
 };
@@ -69,7 +81,13 @@ export default function FooterCta() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="relative bg-[#F5D34A] overflow-hidden">
+    <section ref={ref} className="relative bg-white overflow-hidden">
+       <motion.div
+        className="relative bg-[#F5D34A] overflow-hidden"
+        variants={sectionVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+      >
       <div className="absolute top-0 left-0 w-full h-24 text-[#FEF9F2]">
         <svg
           className="w-full h-full"
@@ -102,20 +120,24 @@ export default function FooterCta() {
         </motion.div>
       </motion.div>
 
-      <div className="absolute inset-0 z-0">
+      <motion.div
+        className="absolute inset-0 z-0"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+       >
         {smiles.map((smile, i) => (
           <motion.div
             key={i}
             className={smile.className}
             custom={i}
             variants={balloonVariants}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
           >
             <Image src={smile.src} alt={smile.alt} width={112} height={112} unoptimized />
           </motion.div>
         ))}
-      </div>
+       </motion.div>
+      </motion.div>
     </section>
   );
 }
