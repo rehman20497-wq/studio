@@ -287,3 +287,11 @@
 .group:hover .delay-300 {
   animation-delay: 0.3s;
 }
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
