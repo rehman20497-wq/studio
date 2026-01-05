@@ -6,11 +6,11 @@ import { useRef } from 'react';
 import MagneticButton from './magnetic-button';
 
 const buttonVariants = {
-  hidden: { opacity: 0, y: 50, skewY: 5 },
+  hidden: { opacity: 0, y: 50, scale: 0.8 },
   visible: {
     opacity: 1,
     y: 0,
-    skewY: 0,
+    scale: 1,
     transition: {
       duration: 1.5,
       ease: [0.25, 1, 0.5, 1],
@@ -23,7 +23,7 @@ export default function ResourcesButtonSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-[#FEF9F2] py-24">
+    <section ref={ref} className="bg-[#FEF9F2] pb-24">
       <div className="container mx-auto flex justify-center">
         <motion.div
           variants={buttonVariants}
