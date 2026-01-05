@@ -1,3 +1,4 @@
+
 export const blogImages = {
     author: {
         src: '/blog/michael-connor.jpg',
@@ -8,19 +9,19 @@ export const blogImages = {
         hint: 'amazon logo'
     },
     interview: {
-        src: '/blog/interview-bg.jpg',
+        src: '/img.png',
         hint: 'abstract gradient'
     },
     caseStudy: {
-        src: '/blog/case-study-bg.jpg',
+        src: '/img1.png',
         hint: 'living room interior'
     },
     article1: {
-        src: '/blog/article1-bg.jpg',
+        src: '/img2.png',
         hint: 'ai robot'
     },
     article2: {
-        src: '/blog/article2-bg.jpg',
+        src: '/img3.png',
         hint: 'customer checkout'
     }
 }

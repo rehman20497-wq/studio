@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -91,36 +92,6 @@ export default function BlogCard({
     <Link href="#" className="block group">
       <div className="flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
         <div className="relative h-3/5 overflow-hidden">
-          {type === "interview" && authorImage && authorName ? (
-            <div className="relative w-full h-full">
-              <Image
-                src={backgroundImage.src}
-                alt="Background"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                data-ai-hint={backgroundImage.hint}
-              />
-              {companyLogo && (
-                  <div className="absolute top-1/2 left-16 -translate-y-1/2">
-                      <Image src={companyLogo.src} alt="Company Logo" width={80} height={20} data-ai-hint={companyLogo.hint} />
-                  </div>
-              )}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                  <Image
-                    src={authorImage.src}
-                    alt={authorName}
-                    fill
-                    className="object-cover"
-                    data-ai-hint={authorImage.hint}
-                  />
-                </div>
-                <div className="absolute bottom-12 bg-red-400 text-white px-4 py-1 rounded-full text-lg font-medium">
-                  {authorName}
-                </div>
-              </div>
-            </div>
-          ) : (
             <Image
               src={backgroundImage.src}
               alt={title}
@@ -128,6 +99,10 @@ export default function BlogCard({
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               data-ai-hint={backgroundImage.hint}
             />
+          {type === "interview" && companyLogo && (
+              <div className="absolute top-1/2 left-16 -translate-y-1/2">
+                  <Image src={companyLogo.src} alt="Company Logo" width={80} height={20} data-ai-hint={companyLogo.hint} />
+              </div>
           )}
           <Badge type={type} />
         </div>
