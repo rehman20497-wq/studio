@@ -35,7 +35,6 @@ const circleVariants = {
     transition: {
       duration: 3.5,
       ease: 'easeInOut',
-      delay: 0.5,
     },
   },
 };
@@ -45,7 +44,7 @@ export default function TeamSection() {
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] pb-24 px-4">
+    <section ref={ref} className="bg-[#fff9e6] pt-24 pb-24 px-4">
       <motion.div
         className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
         variants={containerVariants}
