@@ -35,7 +35,7 @@ const circleVariants = {
     transition: {
       duration: 3.5,
       ease: 'easeInOut',
-      delay: 1.5,
+      delay: 0.5,
     },
   },
 };
@@ -60,7 +60,7 @@ export default function TeamBSection() {
             <motion.div 
                 className="relative w-full h-full rounded-full overflow-hidden"
                 initial={{ scale: 0.8, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1, transition: { duration: 2.2, ease: [0.25, 1, 0.5, 1], delay: 0.5 } } : {}}
+                animate={isInView ? { scale: 1, opacity: 1, transition: { duration: 2.2, ease: [0.25, 1, 0.5, 1], delay: 1.5 } } : {}}
             >
               <Image
                 src="https://picsum.photos/seed/quality/500/500"
