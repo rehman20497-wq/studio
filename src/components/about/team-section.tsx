@@ -10,8 +10,8 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2,
+      staggerChildren: 0.5,
+      delayChildren: 0.3,
     },
   },
 };
@@ -22,7 +22,7 @@ const itemVariants = {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.8,
+      duration: 1.2,
       ease: [0.25, 1, 0.5, 1],
     },
   },
@@ -33,9 +33,9 @@ const circleVariants = {
   visible: {
     pathLength: 1,
     transition: {
-      duration: 2,
+      duration: 2.5,
       ease: 'easeInOut',
-      delay: 1,
+      delay: 1.5,
     },
   },
 };
@@ -69,7 +69,7 @@ export default function TeamSection() {
             <motion.div 
                 className="relative w-full h-full rounded-full overflow-hidden"
                 initial={{ scale: 0.8, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1, transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } } : {}}
+                animate={isInView ? { scale: 1, opacity: 1, transition: { duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 0.5 } } : {}}
             >
               <Image
                 src="https://picsum.photos/seed/teamwork/400/400"
@@ -92,6 +92,7 @@ export default function TeamSection() {
                 r="48"
                 stroke="#F5D34A"
                 strokeWidth="4"
+                strokeLinecap="round"
                 variants={circleVariants}
                 initial="hidden"
                 animate={isInView ? 'visible' : 'hidden'}
