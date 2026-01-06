@@ -24,31 +24,42 @@ const imageContainerVariants = {
         transition: {
             duration: 1.5,
             ease: [0.25, 1, 0.5, 1],
-            delay: 1, // Delay until after stripes animate
+            delay: 1, 
         }
     }
 }
 
-const Stripe = ({ color, delay }: { color: string; delay: number }) => {
+const BrushStroke = ({ d, color, delay, y }: { d: string, color: string; delay: number, y: number }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.5 });
-    const stripeVariants = {
-      hidden: { scaleX: 0 },
+    const pathVariants = {
+      hidden: { pathLength: 0 },
       visible: { 
-        scaleX: 1,
+        pathLength: 1,
         transition: { duration: 1, ease: [0.42, 0, 0.58, 1], delay }
       }
     };
   
     return (
-        <motion.div
+        <motion.svg
             ref={ref}
-            className={`h-1/5 w-full ${color}`}
-            variants={stripeVariants}
+            viewBox="0 0 1440 100"
+            preserveAspectRatio="none"
+            className="absolute w-full h-auto"
+            style={{ top: y, height: '80px' }}
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            style={{ transformOrigin: 'left' }}
-        />
+        >
+            <motion.path
+                d={d}
+                stroke={color}
+                strokeWidth="70"
+                strokeLinecap="round"
+                variants={pathVariants}
+            />
+        </motion.svg>
     );
 };
 
@@ -85,12 +96,12 @@ const PlayButton = () => (
     </div>
 )
 
-const stripes = [
-    { color: 'bg-[#fff9e6]', delay: 0 },
-    { color: 'bg-yellow-200', delay: 0.1 },
-    { color: 'bg-green-200', delay: 0.2 },
-    { color: 'bg-cyan-200', delay: 0.3 },
-    { color: 'bg-red-200', delay: 0.4 },
+const strokes = [
+    { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fff9e6', delay: 0, y: 0 },
+    { d: "M-20 50 C 420 80, 1020 20, 1460 50", color: '#fef08a', delay: 0.1, y: 30 },
+    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#bbf7d0', delay: 0.2, y: 60 },
+    { d: "M-20 50 C 420 70, 1020 30, 1460 50", color: '#a5f3fc', delay: 0.3, y: 90 },
+    { d: "M-20 50 C 320 40, 1120 60, 1460 50", color: '#fecaca', delay: 0.4, y: 120 },
 ]
   
 export default function OurValuesSection() {
@@ -98,10 +109,10 @@ export default function OurValuesSection() {
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 flex flex-col">
-            {stripes.map((s, i) => (
-                <Stripe key={i} color={s.color} delay={s.delay} />
+    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center min-h-[600px]">
+        <div className="absolute inset-0">
+            {strokes.map((s, i) => (
+                <BrushStroke key={i} {...s} />
             ))}
         </div>
 
