@@ -4,7 +4,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
-import YellowBrushStroke from './yellow-brush-stroke';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -47,7 +46,6 @@ export default function TeamSection() {
 
   return (
     <section ref={ref} className="bg-[#fff9e6] py-24 px-4">
-      <YellowBrushStroke />
       <motion.div
         className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
         variants={containerVariants}
