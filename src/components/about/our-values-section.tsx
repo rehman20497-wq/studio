@@ -56,7 +56,7 @@ const BrushStroke = ({ d, color, delay, y, from }: { d: string, color: string; d
             <motion.path
                 d={d}
                 stroke={color}
-                strokeWidth="80"
+                strokeWidth="140"
                 strokeLinecap="round"
                 variants={pathVariants}
             />
@@ -130,7 +130,7 @@ export default function OurValuesSection() {
                     src="https://picsum.photos/seed/meeting/1100/670"
                     alt="Our core values"
                     fill
-                    className="rounded-2xl object-cover shadow-2xl"
+                    className="rounded-2xl object-cover shadow-2xl [filter:drop-shadow(0_10px_8px_rgba(0,0,0,0.24))]"
                     data-ai-hint="team meeting"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
