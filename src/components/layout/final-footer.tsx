@@ -52,7 +52,7 @@ const SocialIcon = ({ href, icon: Icon }: { href: string, icon: React.ElementTyp
 
 export default function FinalFooter() {
   return (
-    <footer className="bg-[#fff9e6] py-16 px-8">
+    <footer className="bg-[#fff9e6] py-16 px-[5%]">
       <div className="container mx-auto">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pb-12 border-b border-zinc-200">
