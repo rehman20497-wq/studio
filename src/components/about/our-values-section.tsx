@@ -99,9 +99,9 @@ const PlayButton = () => (
 
 const strokes = [
     { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fef08a', delay: 0.2, y: 0, from: 'left' },
-    { d: "M1460 50 C 1020 80, 320 20, -20 50", color: '#bbf7d0', delay: 0.4, y: 135, from: 'right' },
-    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.6, y: 270, from: 'left' },
-    { d: "M1460 50 C 1020 70, 320 30, -20 50", color: '#fecaca', delay: 0.8, y: 405, from: 'right' },
+    { d: "M1460 50 C 1020 80, 320 20, -20 50", color: '#bbf7d0', delay: 0.4, y: 160, from: 'right' },
+    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.6, y: 320, from: 'left' },
+    { d: "M1460 50 C 1020 70, 320 30, -20 50", color: '#fecaca', delay: 0.8, y: 480, from: 'right' },
 ]
   
 export default function OurValuesSection() {
@@ -110,14 +110,14 @@ export default function OurValuesSection() {
 
   return (
     <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center min-h-[900px]">
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[540px]">
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[640px]">
             {strokes.map((s, i) => (
                 <BrushStroke key={i} {...s} />
             ))}
         </div>
 
         <motion.div
-            className="relative z-10 w-[1100px] h-[550px]"
+            className="relative z-10 w-[1100px] h-[650px]"
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
@@ -127,7 +127,7 @@ export default function OurValuesSection() {
                 variants={imageContainerVariants}
             >
                 <Image 
-                    src="https://picsum.photos/seed/meeting/1100/550"
+                    src="https://picsum.photos/seed/meeting/1100/650"
                     alt="Our core values"
                     fill
                     className="rounded-2xl object-cover shadow-2xl [filter:drop-shadow(0_10px_8px_rgba(0,0,0,0.24))]"
