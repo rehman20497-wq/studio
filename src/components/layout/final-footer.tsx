@@ -198,7 +198,7 @@ export default function FinalFooter() {
         </div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8">
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 mx-[10%]">
             <div className="text-zinc-600 text-sm mb-8 md:mb-0 text-center md:text-left">
                 <p>© 2026 Copyright | All Rights Reserved</p>
                 <p className="flex items-center justify-center md:justify-start">Made with 
