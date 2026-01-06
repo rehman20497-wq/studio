@@ -176,8 +176,8 @@ export default function FinalFooter() {
           <motion.div variants={slideFromLeft} className="flex flex-col items-center md:items-start mb-8 md:mb-0">
             <HugoLogo />
           </motion.div>
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <motion.p variants={slideFromTop} className="text-zinc-800 font-medium text-base">Sign up to our newsletter and stay hip.</motion.p>
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <motion.p variants={slideFromTop} className="text-[20px] text-zinc-800 font-normal text-base">Sign up to our newsletter and stay hip.</motion.p>
             <motion.div variants={slideFromRight} className="flex w-full md:w-auto bg-white rounded-full p-1 border border-zinc-200">
               <Input type="email" placeholder="Enter Email" className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent" />
               <Button className="rounded-full bg-cyan-300 text-black hover:bg-cyan-400">Sign Up</Button>
@@ -265,16 +265,16 @@ export default function FinalFooter() {
                 variants={containerVariants}
             >
                 <motion.div variants={imageItemVariant}>
-                    <Image src="/l.png" alt="ISO Certified" width={100} height={100} data-ai-hint="certification logo" />
+                    <Image src="/l.svg" alt="ISO Certified" width={90} height={90} data-ai-hint="certification logo" />
                 </motion.div>
                  <motion.div variants={imageItemVariant}>
-                    <Image src="/l1.png" alt="MBE Certified" width={100} height={100} data-ai-hint="certification logo" />
+                    <Image src="/l1.svg" alt="MBE Certified" width={90} height={90} data-ai-hint="certification logo" />
                 </motion.div>
                  <motion.div variants={imageItemVariant}>
-                    <Image src="/l2.png" alt="HIPAA Compliant" width={100} height={100} data-ai-hint="certification logo" />
+                    <Image src="/l2.png" alt="HIPAA Compliant" width={90} height={90} data-ai-hint="certification logo" />
                 </motion.div>
                  <motion.div variants={imageItemVariant}>
-                    <Image src="/l3.png" alt="AICPA SOC" width={100} height={100} data-ai-hint="certification logo" />
+                    <Image src="/l3.png" alt="AICPA SOC" width={90} height={90} data-ai-hint="certification logo" />
                 </motion.div>
                 <motion.div variants={slideFromBottom}>
                     <Link href="#" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>

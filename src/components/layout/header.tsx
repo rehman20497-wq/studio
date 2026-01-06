@@ -20,6 +20,7 @@ import {
   ShieldCheck,
   Wifi,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -73,7 +74,7 @@ const HugoLogo = () => (
     />
     <path
       d="M48.2434 23.3672C43.9113 23.3672 41.5173 20.3164 40.3541 15.5234H56.033C55.9804 15.1445 55.7173 12.8359 55.7173 12.7832C55.0854 9.67969 52.3217 6.68164 48.2434 6.68164C42.4831 6.68164 38.8985 11.2617 38.8985 15.0273C38.8985 18.793 42.4831 23.3672 48.2434 23.3672ZM48.2434 8.51367C50.6901 8.51367 52.4266 10.1992 53.0585 12.4551H43.4284C44.0604 10.1992 45.797 8.51367 48.2434 8.51367Z"
-      fill="#F5D34A"
+      fill="#F5D3A"
     />
     <path
       d="M59.1831 19.5742V8.56641H54.2199V19.5742H59.1831Z"
@@ -83,6 +84,15 @@ const HugoLogo = () => (
       d="M62.3387 14.0703C62.3387 9.87109 64.9754 6.68164 69.3075 6.68164C73.6396 6.68164 76.2763 9.87109 76.2763 14.0703C76.2763 18.2695 73.6396 21.459 69.3075 21.459C64.9754 21.459 62.3387 18.2695 62.3387 14.0703ZM71.3134 14.0703C71.3134 11.2617 70.3026 8.56641 69.3075 8.56641C68.3124 8.56641 67.3016 11.2617 67.3016 14.0703C67.3016 16.8789 68.3124 19.5742 69.3075 19.5742C70.3026 19.5742 71.3134 16.8789 71.3134 14.0703Z"
       fill="#F5D34A"
     />
+  </svg>
+);
+
+const HamburgerIcon = () => (
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="20" fill="black"/>
+    <rect x="10" y="14" width="20" height="2.5" rx="1.25" fill="white"/>
+    <rect x="10" y="19" width="20" height="2.5" rx="1.25" fill="white"/>
+    <rect x="10" y="24" width="20" height="2.5" rx="1.25" fill="white"/>
   </svg>
 );
 
@@ -143,10 +153,12 @@ export default function Header() {
         .
       </div>
       <div className="w-full px-[4%] flex items-center justify-between py-4">
-        <div className="flex items-center gap-10">
-          <a href="#" aria-label="Hugo logo">
-            <HugoLogo />
-          </a>
+        <a href="#" aria-label="Hugo logo">
+          <HugoLogo />
+        </a>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-10">
           {isMounted && (
             <NavigationMenu>
               <NavigationMenuList>
@@ -290,9 +302,26 @@ export default function Header() {
             </NavigationMenu>
           )}
         </div>
-        <Button className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6">
-          Get Started
-        </Button>
+        <div className="hidden md:block">
+            <Button className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6">
+                Get Started
+            </Button>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <HamburgerIcon />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              {/* Off-canvas menu content will go here */}
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
