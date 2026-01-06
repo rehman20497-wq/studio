@@ -176,7 +176,7 @@
   background-position: 0% 100%;
   background-repeat: no-repeat;
   background-size: 0% 1px;
-  transition: background-size .7s;
+  transition: background-size 1.5s;
 }
 
 .group:hover .underline-draw {
