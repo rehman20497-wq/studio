@@ -61,6 +61,19 @@ const cardVariants = {
     },
 };
 
+const contentVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 0.8,
+            ease: "easeOut",
+            delay: 0.5,
+        }
+    }
+}
+
 const StatValue = ({ from = 0, to, suffix, gradient }: { from?: number; to: number; suffix: string; gradient: string; }) => {
     const nodeRef = useRef<HTMLParagraphElement>(null);
     const isInView = useInView(nodeRef, { once: true, amount: 0.5 });
@@ -97,13 +110,15 @@ export default function StatsSection() {
         {stats.map((stat, index) => (
           <motion.div
             key={index}
-            className={`bg-white p-8 rounded-2xl shadow-sm border ${stat.borderColor} flex flex-col items-center text-center`}
+            className={`bg-white p-8 rounded-2xl shadow-sm border-2 ${stat.borderColor} flex flex-col items-center text-center`}
             variants={cardVariants}
           >
-            <div className="text-[89px] font-bold">
+            <motion.div className="text-[89px] font-bold" variants={contentVariants}>
                 <StatValue from={0} to={stat.value} suffix={stat.suffix} gradient={stat.gradient} />
-            </div>
-            <p className="mt-4 text-zinc-600 text-base">{stat.label}</p>
+            </motion.div>
+            <motion.p className="mt-4 text-zinc-600 text-base" variants={contentVariants}>
+                {stat.label}
+            </motion.p>
           </motion.div>
         ))}
       </motion.div>
