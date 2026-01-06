@@ -91,7 +91,6 @@ const PlayButton = () => {
                             id="text-path-play"
                             d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
                         />
-                         <circle cx="50" cy="50" r="40" stroke="black" strokeWidth="1" strokeDasharray="5 5" />
                         <text>
                             <textPath
                                 href="#text-path-play"
