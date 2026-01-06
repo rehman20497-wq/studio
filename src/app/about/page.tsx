@@ -4,6 +4,8 @@ import FinalFooter from "@/components/layout/final-footer";
 import Hero from "@/components/about/hero";
 import StatsSection from "@/components/about/stats-section";
 import TeamSection from "@/components/about/team-section";
+import YellowBrushStroke from "@/components/about/yellow-brush-stroke";
+import TeamBSection from "@/components/about/team-b-section";
 
 export default function AboutPage() {
   return (
@@ -12,7 +14,11 @@ export default function AboutPage() {
       <main>
         <Hero />
         <StatsSection />
+        <div className="bg-[#fff9e6]">
+          <YellowBrushStroke />
+        </div>
         <TeamSection />
+        <TeamBSection />
       </main>
       <FinalFooter />
     </div>
