@@ -23,8 +23,8 @@ export default function AboutPage() {
         <TeamSection />
         <TeamBSection />
         <TeamCSection />
-        <LeadershipSection />
         <OurValuesSection />
+        <LeadershipSection />
       </main>
       <FinalFooter />
     </div>

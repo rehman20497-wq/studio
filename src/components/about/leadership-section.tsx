@@ -74,7 +74,7 @@ const headingVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
+      duration: 1,
       ease: [0.25, 1, 0.5, 1],
     },
   },
@@ -88,8 +88,9 @@ const cardVariants = {
       y: 0,
       transition: {
         type: 'spring',
-        damping: 15,
-        stiffness: 70,
+        damping: 20,
+        stiffness: 50,
+        duration: 1.5,
       },
     },
   };
@@ -101,10 +102,10 @@ const TeamMemberCard = ({
   member: (typeof leadershipTeam)[0];
   index: number;
 }) => (
-  <motion.div variants={cardVariants} className="flex flex-col">
+  <motion.div variants={cardVariants} className="flex flex-col w-[268px] h-[310px]">
     <div
       className={cn(
-        'relative rounded-t-xl overflow-hidden p-4 border-t-4 border-x-4 border-yellow-200',
+        'relative rounded-t-xl overflow-hidden p-4 border-t-2 border-x-2 border-yellow-300',
         member.bgColor
       )}
     >
@@ -112,11 +113,11 @@ const TeamMemberCard = ({
         src={member.image}
         alt={member.name}
         width={250}
-        height={250}
-        className="w-full object-cover"
+        height={180}
+        className="w-full h-[180px] object-cover"
       />
     </div>
-    <div className="bg-white rounded-b-xl p-4 text-center border-b-4 border-x-4 border-yellow-200 flex-grow">
+    <div className="bg-white rounded-b-xl p-4 text-center border-b-2 border-x-2 border-yellow-300 flex-grow flex flex-col justify-center">
       <h3 className="font-bold text-zinc-900">{member.name}</h3>
       <p className="text-sm text-zinc-600 mb-2">{member.title}</p>
       <div className="flex justify-center">
@@ -156,7 +157,7 @@ export default function LeadershipSection() {
         </motion.div>
 
         <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center"
             variants={containerVariants}
         >
           {leadershipTeam.map((member, index) => (
