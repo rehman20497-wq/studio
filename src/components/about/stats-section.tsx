@@ -8,7 +8,7 @@ const stats = [
   {
     value: 4500,
     suffix: '+',
-    label: 'Employees Worldwide & 250K vetted Professionals in our HugoSphere (SM)',
+    label: 'Employees Worldwide & 250K vetted Professionals',
     gradient: 'from-cyan-400 to-cyan-600',
     borderColor: 'border-cyan-200',
   },
@@ -100,7 +100,7 @@ export default function StatsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] px-[2%]">
+    <section ref={ref} className="bg-[#FCFBF8] px-[3%]">
       <motion.div
         className="max-w-none mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
         variants={containerVariants}
@@ -110,10 +110,10 @@ export default function StatsSection() {
         {stats.map((stat, index) => (
           <motion.div
             key={index}
-            className={`bg-white p-8 rounded-2xl shadow-sm border-2 ${stat.borderColor} flex flex-col items-center text-center`}
+            className={`bg-white p-4 rounded-2xl shadow-sm border-2 ${stat.borderColor} flex flex-col items-center text-center`}
             variants={cardVariants}
           >
-            <motion.div className="text-[89px] font-bold" variants={contentVariants}>
+            <motion.div className="text-[79px] font-bold" variants={contentVariants}>
                 <StatValue from={0} to={stat.value} suffix={stat.suffix} gradient={stat.gradient} />
             </motion.div>
             <motion.p className="text-zinc-600 text-base" variants={contentVariants}>
