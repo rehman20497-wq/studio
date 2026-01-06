@@ -69,11 +69,14 @@ const balloonVariants = {
 };
 
 const smiles = [
-  { src: '/smile1.gif', alt: 'smile', className: 'absolute top-[20%] left-[15%] w-24 h-24' },
-  { src: '/smile.gif', alt: 'smile', className: 'absolute top-[25%] right-[30%] w-20 h-20' },
-  { src: '/smile3.gif', alt: 'smile', className: 'absolute top-[45%] right-[12%] w-28 h-28' },
-  { src: '/smile4.gif', alt: 'smile', className: 'absolute bottom-[10%] right-[22%] w-24 h-24' },
-  { src: '/smile.gif', alt: 'smile', className: 'absolute bottom-[15%] left-[25%] w-20 h-20' },
+  { src: '/smileo.gif', alt: 'smile', className: 'absolute top-[20%] left-[25%] w-16 h-16' },
+  { src: '/smile1o.gif', alt: 'smile', className: 'absolute top-[25%] right-[30%] w-16 h-16' },
+  { src: '/smile2o.gif', alt: 'smile', className: 'absolute top-[35%] right-[10%] w-16 h-16' },
+  { src: '/smile3o.gif', alt: 'smile', className: 'absolute bottom-[17%] right-[22%] w-20 h-20' },
+  { src: '/smile4o.gif', alt: 'smile', className: 'absolute bottom-[15%] left-[25%] w-16 h-16' },
+  { src: '/line.gif', alt: 'smile', className: 'absolute bottom-[37%] right-[22%] w-12 h-12' },
+  { src: '/circle.gif', alt: 'smile', className: 'absolute bottom-[45%] left-[15%] w-12 h-12' },
+  { src: '/robot.gif', alt: 'smile', className: 'absolute bottom-[35%] left-[30%] w-12 h-12' },  
 ];
 
 export default function FooterCta() {

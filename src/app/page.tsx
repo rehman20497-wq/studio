@@ -21,6 +21,7 @@ import ActionButtonsSection from "@/components/action-buttons-section";
 import BlogSection from "@/components/blog-section";
 import ResourcesButtonSection from "@/components/resources-button-section";
 import FooterCta from "@/components/footer-cta";
+import FinalFooter from "@/components/layout/final-footer";
 
 export default function Home() {
   return (
@@ -61,6 +62,7 @@ export default function Home() {
       <BlogSection />
       <ResourcesButtonSection />
       <FooterCta />
+      <FinalFooter />
     </div>
   );
 }
