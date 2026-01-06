@@ -67,7 +67,7 @@ const solutions = [
     },
     {
       name: "Digital Operations",
-      submenu: [
+       submenu: [
         { name: "Back Office Support", href: "#" },
         { name: "Data Entry", href: "#" },
         { name: "E-commerce Support", href: "#" },
@@ -83,7 +83,7 @@ const solutions = [
     },
     {
       name: "Data & AI",
-      submenu: [
+       submenu: [
         { name: "Data Annotation", href: "#" },
         { name: "AI Model Training", href: "#" },
         { name: "Data Validation", href: "#" },
@@ -121,24 +121,57 @@ const HoverPopover = ({
     );
 };
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const slideFromLeft = {
+  hidden: { x: -100, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
+const slideFromTop = {
+  hidden: { y: -50, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
+const slideFromRight = {
+  hidden: { x: 100, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
 
 export default function FinalFooter() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
   return (
-    <footer 
+    <motion.footer 
+      ref={ref}
       className="bg-[#fff9e6] py-16 px-[7%]"
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
     >
       <div className="container mx-auto">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pb-12 border-b border-zinc-200 mx-[4%]">
-          <div className="flex flex-col items-center md:items-start mb-8 md:mb-0">
+          <motion.div variants={slideFromLeft} className="flex flex-col items-center md:items-start mb-8 md:mb-0">
             <HugoLogo />
-          </div>
+          </motion.div>
           <div className="flex flex-col md:flex-row items-center gap-4">
-            <p className="text-zinc-800 font-medium">Sign up to our newsletter and stay hip.</p>
-            <div className="flex w-full md:w-auto bg-white rounded-full p-1 border border-zinc-200">
+            <motion.p variants={slideFromTop} className="text-zinc-800 font-medium text-base">Sign up to our newsletter and stay hip.</motion.p>
+            <motion.div variants={slideFromRight} className="flex w-full md:w-auto bg-white rounded-full p-1 border border-zinc-200">
               <Input type="email" placeholder="Enter Email" className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent" />
               <Button className="rounded-full bg-cyan-300 text-black hover:bg-cyan-400">Sign Up</Button>
-            </div>
+            </motion.div>
           </div>
         </div>
 
@@ -152,7 +185,7 @@ export default function FinalFooter() {
 
             <div>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Solutions</h3>
-                <ul className="space-y-3 text-zinc-700 text-base">
+                <ul className="space-y-3 text-zinc-700">
                     {solutions.map((solution) => (
                         <li key={solution.name}>
                             {solution.submenu ? (
@@ -182,7 +215,7 @@ export default function FinalFooter() {
             </div>
             <div>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Company</h3>
-                <ul className="space-y-3 text-zinc-700 text-base">
+                <ul className="space-y-3 text-zinc-700">
                     <li><Link href="#" className="hover:underline text-base">About</Link></li>
                     <li><Link href="#" className="hover:underline text-base">Careers</Link></li>
                     <li><Link href="#" className="hover:underline text-base">Contact</Link></li>
@@ -190,7 +223,7 @@ export default function FinalFooter() {
             </div>
             <div>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Resources</h3>
-                <ul className="space-y-3 text-zinc-700 text-base">
+                <ul className="space-y-3 text-zinc-700">
                     <li><Link href="#" className="hover:underline text-base">Resources</Link></li>
                     <li><Link href="#" className="hover:underline text-base">FAQs</Link></li>
                 </ul>
@@ -218,6 +251,8 @@ export default function FinalFooter() {
             </div>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
+
+    
