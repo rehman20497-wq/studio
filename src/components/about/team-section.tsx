@@ -65,7 +65,7 @@ export default function TeamSection() {
           className="relative flex items-center justify-center"
           variants={itemVariants}
         >
-          <div className="relative w-80 h-80">
+          <div className="relative w-96 h-96">
             <motion.div 
                 className="relative w-full h-full rounded-full overflow-hidden"
                 initial={{ scale: 0.8, opacity: 0 }}
