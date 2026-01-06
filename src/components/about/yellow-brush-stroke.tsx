@@ -27,7 +27,7 @@ const BrushStroke = ({ d, duration = 2, delay = 0 }: { d: string; duration?: num
       <motion.path
         d={d}
         stroke="#F5D34A"
-        strokeWidth="100"
+        strokeWidth="40"
         strokeLinecap="round"
         variants={pathVariants}
         initial="hidden"
@@ -41,7 +41,7 @@ export default function YellowBrushStroke() {
   return (
     <div className="relative my-12">
        <BrushStroke 
-          d="M-20 50 C 280 20, 1160 80, 1460 50"
+          d="M-20 50 C 280 40, 1160 60, 1460 50"
           duration={2.5}
         />
     </div>
