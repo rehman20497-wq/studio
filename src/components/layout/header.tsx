@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -19,8 +20,11 @@ import {
   LayoutGrid,
   ShieldCheck,
   Wifi,
+  ChevronDown,
 } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -48,41 +52,42 @@ const ListItem = React.forwardRef<
 });
 ListItem.displayName = "ListItem";
 
-const HugoLogo = () => (
+const HugoLogo = ({ className } : {className?: string}) => (
   <svg
     width="80"
     height="28"
     viewBox="0 0 80 28"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className={className}
   >
     <path
       d="M13.674 19.5742V8.56641H8.71074V19.5742H13.674Z"
-      fill="#F5D34A"
+      fill="currentColor"
     />
     <path
       d="M21.5796 19.5742V8.56641H16.6164V19.5742H21.5796Z"
-      fill="#F5D34A"
+      fill="currentColor"
     />
     <path
       d="M29.5891 19.5742V8.56641H24.6259V19.5742H29.5891Z"
-      fill="#F5D34A"
+      fill="currentColor"
     />
     <path
       d="M37.5458 19.5742V8.56641H32.5826V19.5742H37.5458Z"
-      fill="#F5D34A"
+      fill="currentColor"
     />
     <path
       d="M48.2434 23.3672C43.9113 23.3672 41.5173 20.3164 40.3541 15.5234H56.033C55.9804 15.1445 55.7173 12.8359 55.7173 12.7832C55.0854 9.67969 52.3217 6.68164 48.2434 6.68164C42.4831 6.68164 38.8985 11.2617 38.8985 15.0273C38.8985 18.793 42.4831 23.3672 48.2434 23.3672ZM48.2434 8.51367C50.6901 8.51367 52.4266 10.1992 53.0585 12.4551H43.4284C44.0604 10.1992 45.797 8.51367 48.2434 8.51367Z"
-      fill="#F5D3A"
+      fill="currentColor"
     />
     <path
       d="M59.1831 19.5742V8.56641H54.2199V19.5742H59.1831Z"
-      fill="#F5D34A"
+      fill="currentColor"
     />
     <path
       d="M62.3387 14.0703C62.3387 9.87109 64.9754 6.68164 69.3075 6.68164C73.6396 6.68164 76.2763 9.87109 76.2763 14.0703C76.2763 18.2695 73.6396 21.459 69.3075 21.459C64.9754 21.459 62.3387 18.2695 62.3387 14.0703ZM71.3134 14.0703C71.3134 11.2617 70.3026 8.56641 69.3075 8.56641C68.3124 8.56641 67.3016 11.2617 67.3016 14.0703C67.3016 16.8789 68.3124 19.5742 69.3075 19.5742C70.3026 19.5742 71.3134 16.8789 71.3134 14.0703Z"
-      fill="#F5D34A"
+      fill="currentColor"
     />
   </svg>
 );
@@ -96,26 +101,56 @@ const HamburgerIcon = () => (
   </svg>
 );
 
+const CloseIcon = () => (
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" fill="black"/>
+        <path d="M13 13L27 27" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M27 13L13 27" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+    </svg>
+);
+
+
 const solutions = [
   {
     icon: Wifi,
     title: "Customer Support",
     href: "#",
+    subItems: [
+        { name: "General Support", href: "#" },
+        { name: "Call Center Outsourcing", href: "#" },
+        { name: "Live Chat Support Outsourcing", href: "#" },
+        { name: "Email Support Outsourcing", href: "#" },
+      ],
   },
   {
     icon: LayoutGrid,
     title: "Digital Operations",
     href: "#",
+    subItems: [
+        { name: "Back Office Support", href: "#" },
+        { name: "Data Entry", href: "#" },
+        { name: "E-commerce Support", href: "#" },
+      ],
   },
   {
     icon: ShieldCheck,
     title: "Trust & Safety",
     href: "#",
+    subItems: [
+        { name: "Content Moderation", href: "#" },
+        { name: "Fraud Detection", href: "#" },
+        { name: "User Verification", href: "#" },
+      ],
   },
   {
     icon: CircuitBoard,
     title: "Data & AI",
     href: "#",
+    subItems: [
+        { name: "Data Annotation", href: "#" },
+        { name: "AI Model Training", href: "#" },
+        { name: "Data Validation", href: "#" },
+      ],
   },
 ];
 const industries = [
@@ -136,6 +171,15 @@ const resources = [
   { title: "Guides", href: "#" },
 ];
 
+const mobileNavItems = [
+    { title: "Solutions", items: solutions.map(s => ({ title: s.title, href: s.href })) },
+    { title: "Industries", items: industries },
+    { title: "Our Agents", href: "#" },
+    { title: "Pricing", href: "#" },
+    { title: "Company", items: company },
+    { title: "Resources", items: resources },
+]
+
 export default function Header() {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -153,7 +197,7 @@ export default function Header() {
         .
       </div>
       <div className="w-full px-[4%] flex items-center justify-between py-4">
-        <a href="#" aria-label="Hugo logo">
+        <a href="#" aria-label="Hugo logo" className="text-[#F5D34A]">
           <HugoLogo />
         </a>
 
@@ -186,46 +230,13 @@ export default function Header() {
                           ))}
                         </ul>
                         <ul className="flex flex-col gap-3 p-2">
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm font-medium hover:underline"
-                            >
-                              General Support
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm font-medium hover:underline"
-                            >
-                              Call Center Support
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm font-medium hover:underline"
-                            >
-                              Technical Support
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm font-medium hover:underline"
-                            >
-                              Live Chat Support
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm font-medium hover:underline"
-                            >
-                              Email Support
-                            </a>
-                          </li>
+                            {solutions[0].subItems.map(item => (
+                                <li key={item.name}>
+                                    <a href={item.href} className="text-sm font-medium hover:underline">
+                                    {item.name}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                       </div>
                     </div>
@@ -317,8 +328,57 @@ export default function Header() {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
-              {/* Off-canvas menu content will go here */}
+            <SheetContent side="top" className="p-0 bg-transparent border-none">
+                <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
+                    <a href="#" aria-label="Hugo logo" className="text-black">
+                        <HugoLogo />
+                    </a>
+                    <SheetClose asChild>
+                        <button>
+                            <CloseIcon />
+                            <span className="sr-only">Close menu</span>
+                        </button>
+                    </SheetClose>
+                </div>
+                <div className="bg-[#FEF9F2] px-6 pt-8 h-[calc(100vh-90px)] flex flex-col">
+                    <Accordion type="single" collapsible className="w-full flex-grow">
+                        {mobileNavItems.map(item => (
+                            <div key={item.title} className="border-b border-yellow-200 py-3">
+                                {item.items ? (
+                                    <AccordionItem value={item.title} className="border-none">
+                                        <AccordionTrigger className="text-3xl hover:no-underline font-normal py-2">
+                                            {item.title}
+                                            <ChevronDown className="h-8 w-8 shrink-0 transition-transform duration-200 text-black/80" />
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pl-4 pb-2">
+                                            <ul className="space-y-3 mt-2">
+                                                {item.items.map(subItem => (
+                                                    <li key={subItem.title}>
+                                                        <a href={subItem.href} className="text-xl text-zinc-700 hover:underline">{subItem.title}</a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ) : (
+                                    <a href={item.href} className="text-3xl block w-full py-2">{item.title}</a>
+                                )}
+                            </div>
+                        ))}
+                    </Accordion>
+
+                    <div className="relative -mx-6 mt-auto">
+                        <div className="bg-[#F5D34A] rounded-t-[40px] pt-12 pb-8 px-6 text-center">
+                            <h3 className="text-4xl font-normal">Book a Demo</h3>
+                             <div className="relative inline-block my-2">
+                                <span className="absolute inset-x-0 bottom-0 h-1.5 bg-black"></span>
+                            </div>
+                            <Button className="rounded-full bg-black text-white hover:bg-zinc-800 px-8 py-6 text-lg mt-4 w-full">
+                                Get Started
+                            </Button>
+                        </div>
+                    </div>
+                </div>
             </SheetContent>
           </Sheet>
         </div>
@@ -326,3 +386,5 @@ export default function Header() {
     </header>
   );
 }
+
+    

@@ -135,6 +135,14 @@ export default {
           '50%': { backgroundPosition: '100% 50%' },
           '100%': { backgroundPosition: '0% 50%' },
         },
+        'slide-in-from-top': {
+            from: { transform: 'translateY(-100%)' },
+            to: { transform: 'translateY(0)' },
+        },
+        'slide-out-to-top': {
+            from: { transform: 'translateY(0)' },
+            to: { transform: 'translateY(-100%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -156,8 +164,12 @@ export default {
         'marching-ants': 'marching-ants 1s linear infinite',
         'spin-slow': 'spin-slow 20s linear infinite',
         'gradient-flow': 'gradient-flow 15s ease infinite',
+        'slide-in-from-top': 'slide-in-from-top 0.5s ease-in-out',
+        'slide-out-to-top': 'slide-out-to-top 0.5s ease-in-out',
       },
     },
   },
   plugins: [require('tailwindcss-animate'), require('framer-motion')],
 } satisfies Config;
+
+    
