@@ -23,7 +23,7 @@ const itemVariants = {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 1.2,
+      duration: 2.5,
       ease: [0.25, 1, 0.5, 1],
     },
   },
@@ -34,7 +34,7 @@ const circleVariants = {
   visible: {
     pathLength: 1,
     transition: {
-      duration: 2.5,
+      duration: 3.5,
       ease: 'easeInOut',
       delay: 1.5,
     },
@@ -67,14 +67,14 @@ export default function TeamSection() {
           className="relative flex items-center justify-center"
           variants={itemVariants}
         >
-          <div className="relative w-96 h-96">
+          <div className="relative w-[500px] h-[500px]">
             <motion.div 
                 className="relative w-full h-full rounded-full overflow-hidden"
                 initial={{ scale: 0.8, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1, transition: { duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 0.5 } } : {}}
+                animate={isInView ? { scale: 1, opacity: 1, transition: { duration: 2.2, ease: [0.25, 1, 0.5, 1], delay: 0.5 } } : {}}
             >
               <Image
-                src="https://picsum.photos/seed/teamwork/400/400"
+                src="https://picsum.photos/seed/teamwork/500/500"
                 alt="Team working together"
                 fill
                 className="object-cover"
