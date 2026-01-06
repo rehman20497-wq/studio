@@ -116,7 +116,7 @@ export default function StatsSection() {
             <motion.div className="text-[89px] font-bold" variants={contentVariants}>
                 <StatValue from={0} to={stat.value} suffix={stat.suffix} gradient={stat.gradient} />
             </motion.div>
-            <motion.p className="mt-4 text-zinc-600 text-base" variants={contentVariants}>
+            <motion.p className="text-zinc-600 text-base" variants={contentVariants}>
                 {stat.label}
             </motion.p>
           </motion.div>
