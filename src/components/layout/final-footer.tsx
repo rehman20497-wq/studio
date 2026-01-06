@@ -139,7 +139,7 @@ export default function FinalFooter() {
         </div>
 
         {/* Middle Section */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 py-12 mx-[4%]">
             <div className="hidden md:flex items-start gap-3">
                 <SocialIcon href="#" icon={XIcon} />
                 <SocialIcon href="#" icon={Facebook} />
@@ -217,3 +217,5 @@ export default function FinalFooter() {
     </footer>
   );
 }
+
+    
