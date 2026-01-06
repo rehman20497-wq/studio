@@ -36,20 +36,20 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.5,
+      staggerChildren: 0.2,
       delayChildren: 0.3,
     },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 100, rotate: 15 },
+  hidden: { opacity: 0, scale: 0.5, y: 50 },
   visible: {
     opacity: 1,
+    scale: 1,
     y: 0,
-    rotate: 0,
     transition: {
-      duration: 1.2,
+      duration: 1.5,
       ease: [0.16, 1, 0.3, 1],
     },
   },
@@ -60,9 +60,9 @@ export default function StatsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] py-24 px-4">
+    <section ref={ref} className="bg-[#FCFBF8] py-24 px-4 sm:px-8">
       <motion.div
-        className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        className="max-w-none mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
