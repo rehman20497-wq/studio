@@ -103,7 +103,7 @@ export default function StatsSection() {
             <div className="text-[89px] font-bold">
                 <StatValue from={0} to={stat.value} suffix={stat.suffix} gradient={stat.gradient} />
             </div>
-            <p className="mt-4 text-zinc-600 text-sm">{stat.label}</p>
+            <p className="mt-4 text-zinc-600 text-base">{stat.label}</p>
           </motion.div>
         ))}
       </motion.div>
