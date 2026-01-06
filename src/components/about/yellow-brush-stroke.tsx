@@ -39,7 +39,7 @@ const BrushStroke = ({ d, duration = 2, delay = 0 }: { d: string; duration?: num
 
 export default function YellowBrushStroke() {
   return (
-    <div className="relative my-12">
+    <div className="relative">
        <BrushStroke 
           d="M-20 50 C 320 20, 1120 80, 1460 50"
           duration={2.5}
@@ -47,3 +47,4 @@ export default function YellowBrushStroke() {
     </div>
   );
 }
+
