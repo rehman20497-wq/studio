@@ -98,9 +98,9 @@ const PlayButton = () => (
 
 const strokes = [
     { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fef08a', delay: 0.1, y: 0 },
-    { d: "M-20 50 C 420 80, 1020 20, 1460 50", color: '#bbf7d0', delay: 0.2, y: 90 },
-    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.3, y: 180 },
-    { d: "M-20 50 C 420 70, 1020 30, 1460 50", color: '#fecaca', delay: 0.4, y: 270 },
+    { d: "M-20 50 C 420 80, 1020 20, 1460 50", color: '#bbf7d0', delay: 0.2, y: 110 },
+    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.3, y: 220 },
+    { d: "M-20 50 C 420 70, 1020 30, 1460 50", color: '#fecaca', delay: 0.4, y: 330 },
 ]
   
 export default function OurValuesSection() {
@@ -108,8 +108,8 @@ export default function OurValuesSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center min-h-[600px]">
-        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[380px]">
+    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center min-h-[700px]">
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[440px]">
             {strokes.map((s, i) => (
                 <BrushStroke key={i} {...s} />
             ))}
