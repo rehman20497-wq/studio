@@ -70,10 +70,10 @@ export default function StatsSection() {
         {stats.map((stat, index) => (
           <motion.div
             key={index}
-            className={`bg-white p-8 rounded-2xl shadow-sm border ${stat.borderColor}`}
+            className={`bg-white p-8 rounded-2xl shadow-sm border ${stat.borderColor} flex flex-col items-center text-center`}
             variants={cardVariants}
           >
-            <p className={`text-6xl font-bold ${stat.color}`}>{stat.value}</p>
+            <p className={`text-[89px] font-bold ${stat.color}`}>{stat.value}</p>
             <p className="mt-4 text-zinc-600 text-sm">{stat.label}</p>
           </motion.div>
         ))}
