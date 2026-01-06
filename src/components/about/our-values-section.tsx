@@ -97,8 +97,9 @@ const PlayButton = () => {
                                 href="#text-path-play"
                                 startOffset="25%"
                                 textAnchor="middle"
-                                className="font-bold text-sm uppercase tracking-widest"
+                                className="font-normal uppercase tracking-widest"
                                 fill="black"
+                                style={{ fontSize: '12px' }}
                             >
                                 BUILT TO MAKE YOU BETTER
                             </textPath>
