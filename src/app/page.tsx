@@ -1,5 +1,8 @@
 
+'use client';
 
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import Header from "@/components/layout/header";
 import RightColumn from "@/components/layout/right-column";
 import LogoMarquee from "@/components/logo-marquee";
@@ -24,6 +27,9 @@ import FooterCta from "@/components/footer-cta";
 import FinalFooter from "@/components/layout/final-footer";
 
 export default function Home() {
+  const footerRef = useRef(null);
+  const isFooterInView = useInView(footerRef, { once: true, amount: 0.2 });
+
   return (
     <div className="bg-white text-zinc-900 font-body">
       <Header />
@@ -62,7 +68,14 @@ export default function Home() {
       <BlogSection />
       <ResourcesButtonSection />
       <FooterCta />
-      <FinalFooter />
+      <motion.div
+        ref={footerRef}
+        initial={{ opacity: 0 }}
+        animate={isFooterInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <FinalFooter />
+      </motion.div>
     </div>
   );
 }

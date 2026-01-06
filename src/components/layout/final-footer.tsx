@@ -123,16 +123,9 @@ const HoverPopover = ({
 
 
 export default function FinalFooter() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-
   return (
-    <motion.footer 
-      ref={ref}
+    <footer 
       className="bg-[#fff9e6] py-16 px-[7%]"
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: 1 }}
     >
       <div className="container mx-auto">
         {/* Top Section */}
@@ -225,6 +218,6 @@ export default function FinalFooter() {
             </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }
