@@ -29,13 +29,14 @@ const imageContainerVariants = {
     }
 }
 
-const BrushStroke = ({ d, color, delay, y }: { d: string, color: string; delay: number, y: number }) => {
+const BrushStroke = ({ d, color, delay, y, from }: { d: string, color: string; delay: number, y: number, from: 'left' | 'right' }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.5 });
     const pathVariants = {
-      hidden: { pathLength: 0 },
+      hidden: { pathLength: 0, pathOffset: from === 'right' ? 1 : 0 },
       visible: { 
         pathLength: 1,
+        pathOffset: 0,
         transition: { duration: 1, ease: [0.42, 0, 0.58, 1], delay }
       }
     };
@@ -55,7 +56,7 @@ const BrushStroke = ({ d, color, delay, y }: { d: string, color: string; delay: 
             <motion.path
                 d={d}
                 stroke={color}
-                strokeWidth="70"
+                strokeWidth="80"
                 strokeLinecap="round"
                 variants={pathVariants}
             />
@@ -97,10 +98,10 @@ const PlayButton = () => (
 )
 
 const strokes = [
-    { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fef08a', delay: 0.1, y: 0 },
-    { d: "M-20 50 C 420 80, 1020 20, 1460 50", color: '#bbf7d0', delay: 0.2, y: 110 },
-    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.3, y: 220 },
-    { d: "M-20 50 C 420 70, 1020 30, 1460 50", color: '#fecaca', delay: 0.4, y: 330 },
+    { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fef08a', delay: 0.1, y: 0, from: 'left' },
+    { d: "M-20 50 C 420 80, 1020 20, 1460 50", color: '#bbf7d0', delay: 0.2, y: 110, from: 'left' },
+    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.3, y: 220, from: 'right' },
+    { d: "M-20 50 C 420 70, 1020 30, 1460 50", color: '#fecaca', delay: 0.4, y: 330, from: 'right' },
 ]
   
 export default function OurValuesSection() {
