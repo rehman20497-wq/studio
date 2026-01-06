@@ -107,7 +107,7 @@ const HoverPopover = ({
                 </div>
             </PopoverTrigger>
             <PopoverContent 
-              className="w-64 bg-white p-4 rounded-lg shadow-lg border border-zinc-200"
+              className="w-64 bg-white p-4 rounded-lg shadow-lg border-4 border-yellow-400"
               onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}
               side="right"
               align="start"
