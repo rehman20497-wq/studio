@@ -6,6 +6,7 @@ import StatsSection from "@/components/about/stats-section";
 import TeamSection from "@/components/about/team-section";
 import YellowBrushStroke from "@/components/about/yellow-brush-stroke";
 import TeamBSection from "@/components/about/team-b-section";
+import TeamCSection from "@/components/about/team-c-section";
 
 export default function AboutPage() {
   return (
@@ -19,6 +20,7 @@ export default function AboutPage() {
         </div>
         <TeamSection />
         <TeamBSection />
+        <TeamCSection />
       </main>
       <FinalFooter />
     </div>
