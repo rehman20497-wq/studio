@@ -22,7 +22,7 @@ import {
   Wifi,
   ChevronDown,
 } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 
@@ -329,6 +329,7 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="top" className="p-0 bg-transparent border-none">
+                <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
                 <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
                     <a href="#" aria-label="Hugo logo" className="text-black">
                         <HugoLogo />
