@@ -22,9 +22,9 @@ const imageContainerVariants = {
         opacity: 1,
         scale: 1,
         transition: {
-            duration: 1.5,
+            duration: 2.5,
             ease: [0.25, 1, 0.5, 1],
-            delay: 1, 
+            delay: 1.5, 
         }
     }
 }
@@ -37,7 +37,7 @@ const BrushStroke = ({ d, color, delay, y, from }: { d: string, color: string; d
       visible: { 
         pathLength: 1,
         pathOffset: 0,
-        transition: { duration: 1, ease: [0.42, 0, 0.58, 1], delay }
+        transition: { duration: 2, ease: [0.42, 0, 0.58, 1], delay }
       }
     };
   
@@ -71,7 +71,7 @@ const PlayButton = () => (
                 className="absolute inset-0 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg"
                 initial={{scale: 0}}
                 animate={{scale: 1}}
-                transition={{duration: 0.8, ease: "backOut", delay: 1.5}}
+                transition={{duration: 0.8, ease: "backOut", delay: 2.5}}
             >
                 <Play className="w-12 h-12 text-black fill-black" />
             </motion.div>
@@ -98,10 +98,10 @@ const PlayButton = () => (
 )
 
 const strokes = [
-    { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fef08a', delay: 0.1, y: 0, from: 'left' },
-    { d: "M-20 50 C 420 80, 1020 20, 1460 50", color: '#bbf7d0', delay: 0.2, y: 110, from: 'left' },
-    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.3, y: 220, from: 'right' },
-    { d: "M-20 50 C 420 70, 1020 30, 1460 50", color: '#fecaca', delay: 0.4, y: 330, from: 'right' },
+    { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fef08a', delay: 0.2, y: 0, from: 'left' },
+    { d: "M1460 50 C 1020 80, 320 20, -20 50", color: '#bbf7d0', delay: 0.4, y: 110, from: 'right' },
+    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.6, y: 220, from: 'left' },
+    { d: "M1460 50 C 1020 70, 320 30, -20 50", color: '#fecaca', delay: 0.8, y: 330, from: 'right' },
 ]
   
 export default function OurValuesSection() {
@@ -109,7 +109,7 @@ export default function OurValuesSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center min-h-[700px]">
+    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center min-h-[900px]">
         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[440px]">
             {strokes.map((s, i) => (
                 <BrushStroke key={i} {...s} />
@@ -117,7 +117,7 @@ export default function OurValuesSection() {
         </div>
 
         <motion.div
-            className="relative z-10 w-[800px] h-[450px]"
+            className="relative z-10 w-[1100px] h-[670px]"
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
@@ -127,12 +127,12 @@ export default function OurValuesSection() {
                 variants={imageContainerVariants}
             >
                 <Image 
-                    src="https://picsum.photos/seed/meeting/800/450"
+                    src="https://picsum.photos/seed/meeting/1100/670"
                     alt="Our core values"
                     fill
                     className="rounded-2xl object-cover shadow-2xl"
                     data-ai-hint="team meeting"
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <PlayButton />
             </motion.div>
