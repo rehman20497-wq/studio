@@ -98,7 +98,7 @@ const PlayButton = () => {
                                 textAnchor="middle"
                                 className="font-normal uppercase tracking-widest"
                                 fill="black"
-                                style={{ fontSize: '12px' }}
+                                style={{ fontSize: '10px' }}
                             >
                                 BUILT TO MAKE YOU BETTER
                             </textPath>
