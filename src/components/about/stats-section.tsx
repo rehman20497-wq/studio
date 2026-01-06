@@ -2,9 +2,6 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef }'use client';
-
-import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 const stats = [
