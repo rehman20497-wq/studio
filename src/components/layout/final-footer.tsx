@@ -55,40 +55,40 @@ const SocialIcon = ({ href, icon: Icon }: { href: string, icon: React.ElementTyp
 )
 
 const solutions = [
-    { 
-        name: 'Customer Support',
-        submenu: [
-            { name: 'General Support', href: '#' },
-            { name: 'Call Center Outsourcing', href: '#' },
-            { name: 'Live Chat Support Outsourcing', href: '#' },
-            { name: 'Email Support Outsourcing', href: '#' },
-        ]
+    {
+      name: "Customer Support",
+      submenu: [
+        { name: "General Support", href: "#" },
+        { name: "Call Center Outsourcing", href: "#" },
+        { name: "Live Chat Support Outsourcing", href: "#" },
+        { name: "Email Support Outsourcing", href: "#" },
+      ],
     },
-    { 
-        name: 'Digital Operations', 
-        submenu: [
-            { name: 'Back Office Support', href: '#' },
-            { name: 'Data Entry', href: '#' },
-            { name: 'E-commerce Support', href: '#' },
-        ]
+    {
+      name: "Digital Operations",
+      submenu: [
+        { name: "Back Office Support", href: "#" },
+        { name: "Data Entry", href: "#" },
+        { name: "E-commerce Support", href: "#" },
+      ],
     },
-    { 
-        name: 'Trust & Safety', 
-        submenu: [
-            { name: 'Content Moderation', href: '#' },
-            { name: 'Fraud Detection', href: '#' },
-            { name: 'User Verification', href: '#' },
-        ]
+    {
+      name: "Trust & Safety",
+      submenu: [
+        { name: "Content Moderation", href: "#" },
+        { name: "Fraud Detection", href: "#" },
+        { name: "User Verification", href: "#" },
+      ],
     },
-    { 
-        name: 'Data & AI', 
-        submenu: [
-            { name: 'Data Annotation', href: '#' },
-            { name: 'AI Model Training', href: '#' },
-            { name: 'Data Validation', href: '#' },
-        ]
+    {
+      name: "Data & AI",
+      submenu: [
+        { name: "Data Annotation", href: "#" },
+        { name: "AI Model Training", href: "#" },
+        { name: "Data Validation", href: "#" },
+      ],
     },
-]
+  ];
 
 const HoverPopover = ({
     trigger,
@@ -106,8 +106,9 @@ const HoverPopover = ({
                     {trigger}
                 </div>
             </PopoverTrigger>
-            <PopoverContent 
-              className="w-64 bg-white p-4 rounded-lg shadow-lg border-4 border-yellow-400"
+            <PopoverContent
+              className="w-64 bg-white p-4 rounded-lg shadow-lg border-4"
+              style={{ borderColor: 'rgba(245, 211, 74, 0.7)' }}
               onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}
               side="right"
               align="start"
@@ -147,8 +148,8 @@ export default function FinalFooter() {
             </div>
 
             <div>
-                <h3 className="font-bold text-zinc-900 mb-4">Solutions</h3>
-                <ul className="space-y-3 text-zinc-700">
+                <h3 className="font-bold text-zinc-900 mb-4 text-base">Solutions</h3>
+                <ul className="space-y-3 text-zinc-700 text-base">
                     {solutions.map((solution) => (
                         <li key={solution.name}>
                             {solution.submenu ? (
@@ -162,7 +163,7 @@ export default function FinalFooter() {
                                     <ul className="space-y-3">
                                         {solution.submenu.map(item => (
                                             <li key={item.name}>
-                                                <Link href={item.href} className="hover:underline text-sm">{item.name}</Link>
+                                                <Link href={item.href} className="hover:underline text-base">{item.name}</Link>
                                             </li>
                                         ))}
                                     </ul>
@@ -177,39 +178,39 @@ export default function FinalFooter() {
                 </ul>
             </div>
             <div>
-                <h3 className="font-bold text-zinc-900 mb-4">Company</h3>
-                <ul className="space-y-3 text-zinc-700">
+                <h3 className="font-bold text-zinc-900 mb-4 text-base">Company</h3>
+                <ul className="space-y-3 text-zinc-700 text-base">
                     <li><Link href="#" className="hover:underline">About</Link></li>
                     <li><Link href="#" className="hover:underline">Careers</Link></li>
                     <li><Link href="#" className="hover:underline">Contact</Link></li>
                 </ul>
             </div>
             <div>
-                <h3 className="font-bold text-zinc-900 mb-4">Resources</h3>
-                <ul className="space-y-3 text-zinc-700">
+                <h3 className="font-bold text-zinc-900 mb-4 text-base">Resources</h3>
+                <ul className="space-y-3 text-zinc-700 text-base">
                     <li><Link href="#" className="hover:underline">Resources</Link></li>
                     <li><Link href="#" className="hover:underline">FAQs</Link></li>
                 </ul>
             </div>
             <div>
-                <h3 className="font-bold text-zinc-900 mb-4">Headquarters</h3>
-                <p className="text-zinc-700">401 N Michigan Ave<br/>Chicago, IL 60611</p>
+                <h3 className="font-bold text-zinc-900 mb-4 text-base">Headquarters</h3>
+                <p className="text-zinc-700 text-base">401 N Michigan Ave<br/>Chicago, IL 60611</p>
             </div>
         </div>
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 mx-[10%]">
-            <div className="text-zinc-600 text-sm mb-8 md:mb-0 text-center md:text-left">
+            <div className="text-zinc-600 text-[12px] mb-8 md:mb-0 text-center md:text-left">
                 <p>© 2026 Copyright | All Rights Reserved</p>
                 <p className="flex items-center justify-center md:justify-start">Made with 
                     <span className="text-red-500 mx-1">❤️</span> 
                 Hugo and Griflan</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4">
-                <Image src="/l.png" alt="ISO Certified" width={80} height={80} data-ai-hint="certification logo" />
-                <Image src="/l1.png" alt="MBE Certified" width={80} height={80} data-ai-hint="certification logo" />
-                <Image src="/l2.png" alt="HIPAA Compliant" width={80} height={80} data-ai-hint="certification logo" />
-                <Image src="/l3.png" alt="AICPA SOC" width={80} height={80} data-ai-hint="certification logo" />
+                <Image src="/l.png" alt="ISO Certified" width={110} height={110} data-ai-hint="certification logo" />
+                <Image src="/l1.png" alt="MBE Certified" width={110} height={110} data-ai-hint="certification logo" />
+                <Image src="/l2.png" alt="HIPAA Compliant" width={110} height={110} data-ai-hint="certification logo" />
+                <Image src="/l3.png" alt="AICPA SOC" width={110} height={110} data-ai-hint="certification logo" />
                 <Link href="#" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>
             </div>
         </div>
