@@ -4,7 +4,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
-import { Play } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -64,44 +63,58 @@ const BrushStroke = ({ d, color, delay, y, from }: { d: string, color: string; d
     );
 };
 
-const PlayButton = () => (
-    <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-40 h-40">
-            <motion.div 
-                className="absolute inset-0 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg"
-                initial={{scale: 0}}
-                animate={{scale: 1}}
-                transition={{duration: 0.8, ease: "backOut", delay: 2.5}}
+const PlayButton = () => {
+    const constraintsRef = useRef(null);
+
+    return (
+        <div ref={constraintsRef} className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+                drag
+                dragConstraints={constraintsRef}
+                dragElastic={0.2}
+                className="relative w-40 h-40 cursor-grab"
+                whileTap={{ cursor: "grabbing" }}
             >
-                <Play className="w-12 h-12 text-black fill-black" />
+                <motion.div 
+                    className="absolute inset-0 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg"
+                    initial={{scale: 0}}
+                    animate={{scale: 1}}
+                    transition={{duration: 0.8, ease: "backOut", delay: 2.5}}
+                >
+                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.5 11.134C14.57 10.582 13.434 11.286 13.434 12.366V35.634C13.434 36.714 14.57 37.418 15.5 36.866L35.566 25.232C36.496 24.68 36.496 23.32 35.566 22.768L15.5 11.134Z" stroke="black" strokeWidth="4" strokeLinejoin="round"/>
+                    </svg>
+                </motion.div>
+                <div className="absolute w-full h-full animate-spin-slow">
+                    <svg viewBox="0 0 100 100" className="w-full h-full fill-transparent">
+                        <path
+                            id="text-path-play"
+                            d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
+                        />
+                         <circle cx="50" cy="50" r="40" stroke="black" strokeWidth="1" strokeDasharray="5 5" />
+                        <text>
+                            <textPath
+                                href="#text-path-play"
+                                startOffset="25%"
+                                textAnchor="middle"
+                                className="font-bold text-sm uppercase tracking-widest"
+                                fill="black"
+                            >
+                                BUILT TO MAKE YOU BETTER
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
             </motion.div>
-            <div className="absolute w-full h-full animate-spin-slow">
-                <svg viewBox="0 0 100 100" className="w-full h-full fill-transparent">
-                    <path
-                        id="text-path-play"
-                        d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
-                    />
-                    <text>
-                        <textPath
-                            href="#text-path-play"
-                            startOffset="0%"
-                            className="font-bold text-sm uppercase"
-                            fill="black"
-                        >
-                            MAKE YOU BETTER - BUILT TO
-                        </textPath>
-                    </text>
-                </svg>
-            </div>
         </div>
-    </div>
-)
+    )
+}
 
 const strokes = [
     { d: "M-20 50 C 320 20, 1120 80, 1460 50", color: '#fef08a', delay: 0.2, y: 0, from: 'left' },
-    { d: "M1460 50 C 1020 80, 320 20, -20 50", color: '#bbf7d0', delay: 0.4, y: 160, from: 'right' },
-    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.6, y: 320, from: 'left' },
-    { d: "M1460 50 C 1020 70, 320 30, -20 50", color: '#fecaca', delay: 0.8, y: 480, from: 'right' },
+    { d: "M1460 50 C 1020 80, 320 20, -20 50", color: '#bbf7d0', delay: 0.4, y: 185, from: 'right' },
+    { d: "M-20 50 C 320 30, 1120 70, 1460 50", color: '#a5f3fc', delay: 0.6, y: 370, from: 'left' },
+    { d: "M1460 50 C 1020 70, 320 30, -20 50", color: '#fecaca', delay: 0.8, y: 555, from: 'right' },
 ]
   
 export default function OurValuesSection() {
@@ -109,7 +122,7 @@ export default function OurValuesSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] pt-8 pb-32 relative overflow-hidden flex items-center justify-center min-h-[900px]">
+    <section ref={ref} className="bg-[#fff9e6] pt-2 pb-32 relative overflow-hidden flex items-center justify-center min-h-[900px]">
         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[640px]">
             {strokes.map((s, i) => (
                 <BrushStroke key={i} {...s} />
