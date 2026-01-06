@@ -79,7 +79,7 @@ const StatValue = ({ from = 0, to, suffix, gradient }: { from?: number; to: numb
       }
     }, [from, to, isInView, suffix]);
   
-    return <p ref={nodeRef} className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent`} />;
+    return <p ref={nodeRef} className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-flow`} />;
 };
 
 export default function StatsSection() {
