@@ -1,9 +1,13 @@
 
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Facebook, Linkedin, XIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useState } from "react";
 
 const HugoLogo = () => (
     <svg
@@ -50,6 +54,51 @@ const SocialIcon = ({ href, icon: Icon }: { href: string, icon: React.ElementTyp
     </Link>
 )
 
+const solutions = [
+    { 
+        name: 'Customer Support',
+        submenu: [
+            { name: 'General Support', href: '#' },
+            { name: 'Call Center Outsourcing', href: '#' },
+            { name: 'Live Chat Support Outsourcing', href: '#' },
+            { name: 'Email Support Outsourcing', href: '#' },
+        ]
+    },
+    { name: 'Digital Operations', href: '#' },
+    { name: 'Trust & Safety', href: '#' },
+    { name: 'Data & AI', href: '#' },
+]
+
+const HoverPopover = ({
+    trigger,
+    children
+}: {
+    trigger: React.ReactNode,
+    children: React.ReactNode
+}) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+                <div onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                    {trigger}
+                </div>
+            </PopoverTrigger>
+            <PopoverContent 
+              className="w-64 bg-white p-4 rounded-lg shadow-lg border border-zinc-200"
+              onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}
+              side="right"
+              align="start"
+              sideOffset={10}
+            >
+                {children}
+            </PopoverContent>
+        </Popover>
+    );
+};
+
+
 export default function FinalFooter() {
   return (
     <footer className="bg-[#fff9e6] py-16 px-[7%]">
@@ -79,10 +128,31 @@ export default function FinalFooter() {
             <div>
                 <h3 className="font-bold text-zinc-900 mb-4">Solutions</h3>
                 <ul className="space-y-3 text-zinc-700">
-                    <li><Link href="#" className="hover:underline flex items-center">Customer Support <ChevronRight className="w-4 h-4 ml-1" /></Link></li>
-                    <li><Link href="#" className="hover:underline flex items-center">Digital Operations <ChevronRight className="w-4 h-4 ml-1" /></Link></li>
-                    <li><Link href="#" className="hover:underline flex items-center">Trust & Safety <ChevronRight className="w-4 h-4 ml-1" /></Link></li>
-                    <li><Link href="#" className="hover:underline flex items-center">Data & AI <ChevronRight className="w-4 h-4 ml-1" /></Link></li>
+                    {solutions.map((solution) => (
+                        <li key={solution.name}>
+                            {solution.submenu ? (
+                                <HoverPopover
+                                    trigger={
+                                        <Link href="#" className="hover:underline flex items-center">
+                                            {solution.name} <ChevronRight className="w-4 h-4 ml-1" />
+                                        </Link>
+                                    }
+                                >
+                                    <ul className="space-y-3">
+                                        {solution.submenu.map(item => (
+                                            <li key={item.name}>
+                                                <Link href={item.href} className="hover:underline text-sm">{item.name}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </HoverPopover>
+                            ) : (
+                                <Link href={solution.href || '#'} className="hover:underline flex items-center">
+                                    {solution.name} <ChevronRight className="w-4 h-4 ml-1" />
+                                </Link>
+                            )}
+                        </li>
+                    ))}
                 </ul>
             </div>
             <div>
