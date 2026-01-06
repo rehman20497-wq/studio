@@ -111,7 +111,7 @@ const HoverPopover = ({
               onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}
               side="right"
               align="start"
-              sideOffset={10}
+              sideOffset={-40}
             >
                 {children}
             </PopoverContent>
