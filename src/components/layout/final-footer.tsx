@@ -126,7 +126,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.2,
       delayChildren: 0.2,
     },
   },
@@ -145,6 +145,11 @@ const slideFromTop = {
 const slideFromRight = {
   hidden: { x: 100, opacity: 0 },
   visible: { x: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
+const slideFromBottom = {
+  hidden: { y: 50, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
 
@@ -176,14 +181,19 @@ export default function FinalFooter() {
         </div>
 
         {/* Middle Section */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 py-12 mx-[4%]">
-            <div className="hidden md:flex items-start gap-3">
+        <motion.div 
+            className="grid grid-cols-2 md:grid-cols-5 gap-8 py-12 mx-[4%]"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+        >
+            <motion.div variants={slideFromLeft} className="hidden md:flex items-start gap-3">
                 <SocialIcon href="#" icon={XIcon} />
                 <SocialIcon href="#" icon={Facebook} />
                 <SocialIcon href="#" icon={Linkedin} />
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={slideFromTop}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Solutions</h3>
                 <ul className="space-y-3 text-zinc-700">
                     {solutions.map((solution) => (
@@ -212,27 +222,27 @@ export default function FinalFooter() {
                         </li>
                     ))}
                 </ul>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={slideFromBottom}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Company</h3>
                 <ul className="space-y-3 text-zinc-700">
                     <li><Link href="#" className="hover:underline text-base">About</Link></li>
                     <li><Link href="#" className="hover:underline text-base">Careers</Link></li>
                     <li><Link href="#" className="hover:underline text-base">Contact</Link></li>
                 </ul>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={slideFromTop}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Resources</h3>
                 <ul className="space-y-3 text-zinc-700">
                     <li><Link href="#" className="hover:underline text-base">Resources</Link></li>
                     <li><Link href="#" className="hover:underline text-base">FAQs</Link></li>
                 </ul>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={slideFromBottom}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Headquarters</h3>
                 <p className="text-zinc-700 text-base">401 N Michigan Ave<br/>Chicago, IL 60611</p>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 mx-[10%]">
