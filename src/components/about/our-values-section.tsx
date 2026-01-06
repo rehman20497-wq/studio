@@ -81,29 +81,10 @@ const PlayButton = () => {
                     animate={{scale: 1}}
                     transition={{duration: 0.8, ease: "backOut", delay: 2.5}}
                 >
-                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.5 11.134C14.57 10.582 13.434 11.286 13.434 12.366V35.634C13.434 36.714 14.57 37.418 15.5 36.866L35.566 25.232C36.496 24.68 36.496 23.32 35.566 22.768L15.5 11.134Z" stroke="black" strokeWidth="4" strokeLinejoin="round"/>
-                    </svg>
+                    <Image src="/play.svg" alt="Play" width={48} height={48} />
                 </motion.div>
                 <div className="absolute w-full h-full animate-spin-slow">
-                    <svg viewBox="0 0 100 100" className="w-full h-full fill-transparent">
-                        <path
-                            id="text-path-play"
-                            d="M 50,50 m -30,0 a 30,30 0 1,1 60,0 a 30,30 0 1,1 -60,0"
-                        />
-                        <text>
-                            <textPath
-                                href="#text-path-play"
-                                startOffset="25%"
-                                textAnchor="middle"
-                                className="font-normal uppercase tracking-widest"
-                                fill="black"
-                                style={{ fontSize: '10px' }}
-                            >
-                                BUILT TO MAKE YOU BETTER
-                            </textPath>
-                        </text>
-                    </svg>
+                    <Image src="/text.png" alt="Built to make you better" layout="fill" className="object-contain"/>
                 </div>
             </motion.div>
         </div>
