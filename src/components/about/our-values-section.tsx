@@ -89,7 +89,7 @@ const PlayButton = () => {
                     <svg viewBox="0 0 100 100" className="w-full h-full fill-transparent">
                         <path
                             id="text-path-play"
-                            d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
+                            d="M 50,50 m -30,0 a 30,30 0 1,1 60,0 a 30,30 0 1,1 -60,0"
                         />
                         <text>
                             <textPath
