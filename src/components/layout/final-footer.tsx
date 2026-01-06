@@ -7,7 +7,8 @@ import { ChevronRight, Facebook, Linkedin, XIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, useInView } from 'framer-motion';
 
 const HugoLogo = () => (
     <svg
@@ -108,7 +109,7 @@ const HoverPopover = ({
             </PopoverTrigger>
             <PopoverContent
               className="w-64 bg-white p-4 rounded-lg shadow-lg border-4"
-              style={{ borderColor: 'rgba(245, 211, 74, 0.5)' }}
+              style={{ borderColor: 'rgba(245, 211, 74, 0.7)' }}
               onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}
               side="right"
               align="start"
@@ -122,8 +123,17 @@ const HoverPopover = ({
 
 
 export default function FinalFooter() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
   return (
-    <footer className="bg-[#fff9e6] py-16 px-[7%]">
+    <motion.footer 
+      ref={ref}
+      className="bg-[#fff9e6] py-16 px-[7%]"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
       <div className="container mx-auto">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pb-12 border-b border-zinc-200 mx-[4%]">
@@ -155,7 +165,7 @@ export default function FinalFooter() {
                             {solution.submenu ? (
                                 <HoverPopover
                                     trigger={
-                                        <Link href="#" className="hover:underline flex items-center">
+                                        <Link href="#" className="hover:underline flex items-center text-base">
                                             {solution.name} <ChevronRight className="w-4 h-4 ml-1" />
                                         </Link>
                                     }
@@ -169,7 +179,7 @@ export default function FinalFooter() {
                                     </ul>
                                 </HoverPopover>
                             ) : (
-                                <Link href={'#'} className="hover:underline flex items-center">
+                                <Link href={'#'} className="hover:underline flex items-center text-base">
                                     {solution.name} <ChevronRight className="w-4 h-4 ml-1" />
                                 </Link>
                             )}
@@ -180,16 +190,16 @@ export default function FinalFooter() {
             <div>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Company</h3>
                 <ul className="space-y-3 text-zinc-700 text-base">
-                    <li><Link href="#" className="hover:underline">About</Link></li>
-                    <li><Link href="#" className="hover:underline">Careers</Link></li>
-                    <li><Link href="#" className="hover:underline">Contact</Link></li>
+                    <li><Link href="#" className="hover:underline text-base">About</Link></li>
+                    <li><Link href="#" className="hover:underline text-base">Careers</Link></li>
+                    <li><Link href="#" className="hover:underline text-base">Contact</Link></li>
                 </ul>
             </div>
             <div>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Resources</h3>
                 <ul className="space-y-3 text-zinc-700 text-base">
-                    <li><Link href="#" className="hover:underline">Resources</Link></li>
-                    <li><Link href="#" className="hover:underline">FAQs</Link></li>
+                    <li><Link href="#" className="hover:underline text-base">Resources</Link></li>
+                    <li><Link href="#" className="hover:underline text-base">FAQs</Link></li>
                 </ul>
             </div>
             <div>
@@ -207,14 +217,14 @@ export default function FinalFooter() {
                 Hugo and Griflan</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4">
-                <Image src="/l.svg" alt="ISO Certified" width={100} height={100} data-ai-hint="certification logo" />
-                <Image src="/l1.svg" alt="MBE Certified" width={100} height={100} data-ai-hint="certification logo" />
+                <Image src="/l.png" alt="ISO Certified" width={100} height={100} data-ai-hint="certification logo" />
+                <Image src="/l1.png" alt="MBE Certified" width={100} height={100} data-ai-hint="certification logo" />
                 <Image src="/l2.png" alt="HIPAA Compliant" width={100} height={100} data-ai-hint="certification logo" />
                 <Image src="/l3.png" alt="AICPA SOC" width={100} height={100} data-ai-hint="certification logo" />
                 <Link href="#" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>
             </div>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
