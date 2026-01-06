@@ -71,15 +71,28 @@ export default function SurgeProtectContent() {
         <div className="absolute -inset-1 rounded-2xl border border-yellow-300/80 -z-10" />
         <ul className="grid grid-cols-2 gap-x-8 gap-y-2 text-zinc-900">
           {listItems.map((item, index) => (
-            <li
+            <motion.li
               key={index}
               className="flex items-center text-[19px] leading-[25.5px] group"
+              custom={index}
+              variants={{
+                hidden: { opacity: 0, x: -20 },
+                visible: (i) => ({
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    delay: i * 0.1,
+                    type: 'spring',
+                    stiffness: 100
+                  },
+                }),
+              }}
             >
               <span className="text-2xl mr-2 transform -translate-y-px transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900">&#8226;</span>
               <span className="transition-colors duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900">
                 {item}
               </span>
-            </li>
+            </motion.li>
           ))}
         </ul>
       </motion.div>

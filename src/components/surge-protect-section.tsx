@@ -11,7 +11,7 @@ export default function SurgeProtectSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="relative bg-white">
+    <section ref={ref} className="relative bg-white py-16">
       <motion.div
         className={cn(
           "relative overflow-hidden"

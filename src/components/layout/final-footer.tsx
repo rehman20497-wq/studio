@@ -108,7 +108,7 @@ const HoverPopover = ({
             </PopoverTrigger>
             <PopoverContent
               className="w-64 bg-white p-4 rounded-lg shadow-lg border-4"
-              style={{ borderColor: 'rgba(245, 211, 74, 0.7)' }}
+              style={{ borderColor: 'rgba(245, 211, 74, 0.5)' }}
               onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}
               side="right"
               align="start"
@@ -200,17 +200,17 @@ export default function FinalFooter() {
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 mx-[10%]">
-            <div className="text-zinc-600 text-[12px] mb-8 md:mb-0 text-center md:text-left">
+            <div className="text-zinc-600 text-[14px] mb-8 md:mb-0 text-center md:text-left">
                 <p>© 2026 Copyright | All Rights Reserved</p>
                 <p className="flex items-center justify-center md:justify-start">Made with 
                     <span className="text-red-500 mx-1">❤️</span> 
                 Hugo and Griflan</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4">
-                <Image src="/l.png" alt="ISO Certified" width={110} height={110} data-ai-hint="certification logo" />
-                <Image src="/l1.png" alt="MBE Certified" width={110} height={110} data-ai-hint="certification logo" />
-                <Image src="/l2.png" alt="HIPAA Compliant" width={110} height={110} data-ai-hint="certification logo" />
-                <Image src="/l3.png" alt="AICPA SOC" width={110} height={110} data-ai-hint="certification logo" />
+                <Image src="/l.svg" alt="ISO Certified" width={100} height={100} data-ai-hint="certification logo" />
+                <Image src="/l1.svg" alt="MBE Certified" width={100} height={100} data-ai-hint="certification logo" />
+                <Image src="/l2.png" alt="HIPAA Compliant" width={100} height={100} data-ai-hint="certification logo" />
+                <Image src="/l3.png" alt="AICPA SOC" width={100} height={100} data-ai-hint="certification logo" />
                 <Link href="#" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>
             </div>
         </div>
