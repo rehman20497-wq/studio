@@ -40,7 +40,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.3,
       delayChildren: 0.3,
     },
   },
@@ -55,8 +55,8 @@ const cardVariants = {
       transition: {
         type: 'spring',
         damping: 15,
-        stiffness: 80,
-        duration: 1,
+        stiffness: 50,
+        duration: 1.5,
       },
     },
 };
@@ -67,9 +67,9 @@ const contentVariants = {
         opacity: 1,
         scale: 1,
         transition: {
-            duration: 0.8,
+            duration: 1,
             ease: "easeOut",
-            delay: 0.5,
+            delay: 0.8,
         }
     }
 }
@@ -82,7 +82,7 @@ const StatValue = ({ from = 0, to, suffix, gradient }: { from?: number; to: numb
       if (isInView && nodeRef.current) {
         const node = nodeRef.current;
         const controls = animate(from, to, {
-          duration: 2,
+          duration: 2.5,
           ease: 'easeOut',
           onUpdate(value) {
             node.textContent = Math.round(value).toLocaleString() + suffix;
