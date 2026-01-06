@@ -125,7 +125,7 @@ export default function FinalFooter() {
     <footer className="bg-[#fff9e6] py-16 px-[7%]">
       <div className="container mx-auto">
         {/* Top Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center pb-12 border-b border-zinc-200">
+        <div className="flex flex-col md:flex-row justify-between items-center pb-12 border-b border-zinc-200 mx-[4%]">
           <div className="flex flex-col items-center md:items-start mb-8 md:mb-0">
             <HugoLogo />
           </div>
@@ -217,5 +217,3 @@ export default function FinalFooter() {
     </footer>
   );
 }
-
-    
