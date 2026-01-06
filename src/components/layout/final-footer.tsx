@@ -64,9 +64,30 @@ const solutions = [
             { name: 'Email Support Outsourcing', href: '#' },
         ]
     },
-    { name: 'Digital Operations', href: '#' },
-    { name: 'Trust & Safety', href: '#' },
-    { name: 'Data & AI', href: '#' },
+    { 
+        name: 'Digital Operations', 
+        submenu: [
+            { name: 'Back Office Support', href: '#' },
+            { name: 'Data Entry', href: '#' },
+            { name: 'E-commerce Support', href: '#' },
+        ]
+    },
+    { 
+        name: 'Trust & Safety', 
+        submenu: [
+            { name: 'Content Moderation', href: '#' },
+            { name: 'Fraud Detection', href: '#' },
+            { name: 'User Verification', href: '#' },
+        ]
+    },
+    { 
+        name: 'Data & AI', 
+        submenu: [
+            { name: 'Data Annotation', href: '#' },
+            { name: 'AI Model Training', href: '#' },
+            { name: 'Data Validation', href: '#' },
+        ]
+    },
 ]
 
 const HoverPopover = ({
@@ -147,7 +168,7 @@ export default function FinalFooter() {
                                     </ul>
                                 </HoverPopover>
                             ) : (
-                                <Link href={solution.href || '#'} className="hover:underline flex items-center">
+                                <Link href={'#'} className="hover:underline flex items-center">
                                     {solution.name} <ChevronRight className="w-4 h-4 ml-1" />
                                 </Link>
                             )}
