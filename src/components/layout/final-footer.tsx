@@ -58,11 +58,6 @@ export default function FinalFooter() {
         <div className="flex flex-col md:flex-row justify-between items-center pb-12 border-b border-zinc-200">
           <div className="flex flex-col items-center md:items-start mb-8 md:mb-0">
             <HugoLogo />
-            <div className="flex gap-3 mt-6">
-                <SocialIcon href="#" icon={XIcon} />
-                <SocialIcon href="#" icon={Facebook} />
-                <SocialIcon href="#" icon={Linkedin} />
-            </div>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-4">
             <p className="text-zinc-800 font-medium">Sign up to our newsletter and stay hip.</p>
@@ -75,8 +70,11 @@ export default function FinalFooter() {
 
         {/* Middle Section */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 py-12">
-            {/* Empty column for spacing */}
-            <div className="hidden md:block"></div>
+            <div className="hidden md:flex items-start gap-3 mt-10">
+                <SocialIcon href="#" icon={XIcon} />
+                <SocialIcon href="#" icon={Facebook} />
+                <SocialIcon href="#" icon={Linkedin} />
+            </div>
 
             <div>
                 <h3 className="font-bold text-zinc-900 mb-4">Solutions</h3>
@@ -128,3 +126,5 @@ export default function FinalFooter() {
     </footer>
   );
 }
+
+    
