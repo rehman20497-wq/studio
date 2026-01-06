@@ -109,7 +109,7 @@ export default function OurValuesSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center min-h-[900px]">
+    <section ref={ref} className="bg-[#fff9e6] pt-20 pb-32 relative overflow-hidden flex items-center justify-center min-h-[900px]">
         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[640px]">
             {strokes.map((s, i) => (
                 <BrushStroke key={i} {...s} />
