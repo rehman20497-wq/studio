@@ -4,6 +4,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
+import YellowBrushStroke from './yellow-brush-stroke';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -46,6 +47,7 @@ export default function TeamSection() {
 
   return (
     <section ref={ref} className="bg-[#fff9e6] py-24 px-4">
+      <YellowBrushStroke />
       <motion.div
         className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
         variants={containerVariants}
@@ -53,7 +55,7 @@ export default function TeamSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div variants={itemVariants}>
-          <h2 className="text-5xl text-zinc-900 font-headline">
+          <h2 className="text-5xl text-zinc-900 font-headline font-normal">
             A Team Built for The Future of Work
           </h2>
           <p className="mt-6 text-lg text-zinc-600">
