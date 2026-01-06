@@ -100,7 +100,7 @@ export default function StatsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] py-24 px-4 sm:px-8">
+    <section ref={ref} className="bg-[#FCFBF8] py-24 px-[2%]">
       <motion.div
         className="max-w-none mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
         variants={containerVariants}
