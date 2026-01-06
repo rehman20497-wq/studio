@@ -102,7 +102,12 @@ const TeamMemberCard = ({
   member: (typeof leadershipTeam)[0];
   index: number;
 }) => (
-  <motion.div variants={cardVariants} className="flex flex-col w-[268px] h-[310px]">
+  <motion.div 
+    variants={cardVariants} 
+    className="flex flex-col w-[268px] h-[310px]"
+    whileHover={{ scale: 1.05, y: -10 }}
+    transition={{ type: 'spring', stiffness: 300 }}
+  >
     <div
       className={cn(
         'relative rounded-t-xl overflow-hidden p-4 border-t-2 border-x-2 border-yellow-300',
@@ -120,7 +125,7 @@ const TeamMemberCard = ({
     <div className="bg-white rounded-b-xl p-4 text-center border-b-2 border-x-2 border-yellow-300 flex-grow flex flex-col justify-center">
       <h3 className="font-bold text-zinc-900">{member.name}</h3>
       <p className="text-sm text-zinc-600 mb-2">{member.title}</p>
-      <div className="flex justify-center">
+      <div className="flex justify-end">
         <div className="w-6 h-6 bg-yellow-200 rounded-full flex items-center justify-center">
           <Linkedin className="w-3 h-3 text-zinc-800" />
         </div>
