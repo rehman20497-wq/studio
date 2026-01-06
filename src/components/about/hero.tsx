@@ -72,7 +72,7 @@ export default function Hero() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] text-center py-40 px-4">
+    <section ref={ref} className="bg-[#FCFBF8] text-center py-20 px-4">
       <motion.div
         className="max-w-4xl mx-auto"
         variants={containerVariants}
