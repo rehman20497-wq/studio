@@ -206,10 +206,10 @@ export default function FinalFooter() {
                 Hugo and Griflan</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4">
-                <Image src="https://picsum.photos/seed/iso/100/100" alt="ISO Certified" width={80} height={80} data-ai-hint="certification logo" />
-                <Image src="https://picsum.photos/seed/mbe/100/100" alt="MBE Certified" width={80} height={80} data-ai-hint="certification logo" />
-                <Image src="https://picsum.photos/seed/hipaa/100/100" alt="HIPAA Compliant" width={80} height={80} data-ai-hint="certification logo" />
-                <Image src="https://picsum.photos/seed/soc/100/100" alt="AICPA SOC" width={80} height={80} data-ai-hint="certification logo" />
+                <Image src="/l.png" alt="ISO Certified" width={80} height={80} data-ai-hint="certification logo" />
+                <Image src="/l1.png" alt="MBE Certified" width={80} height={80} data-ai-hint="certification logo" />
+                <Image src="/l2.png" alt="HIPAA Compliant" width={80} height={80} data-ai-hint="certification logo" />
+                <Image src="/l3.png" alt="AICPA SOC" width={80} height={80} data-ai-hint="certification logo" />
                 <Link href="#" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>
             </div>
         </div>
@@ -217,5 +217,3 @@ export default function FinalFooter() {
     </footer>
   );
 }
-
-    
