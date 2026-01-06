@@ -4,119 +4,126 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
+import { Play } from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.5,
       delayChildren: 0.3,
     },
   },
 };
 
-const imageVariants = {
-  hidden: { opacity: 0, scale: 0.5 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 2.5,
-      ease: [0.25, 1, 0.5, 1],
-      delay: 2.5, // Delay until after waves animate
-    },
-  },
-};
+const imageContainerVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 1.5,
+            ease: [0.25, 1, 0.5, 1],
+            delay: 1, // Delay until after stripes animate
+        }
+    }
+}
 
-const Wave = ({ d, color, from, duration = 2, delay = 0 }: { d: string; color: string; from: "left" | "right", duration?: number, delay?: number }) => {
+const Stripe = ({ color, delay }: { color: string; delay: number }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.5 });
-    const pathVariants = {
-      hidden: { pathLength: 0, pathOffset: from === "left" ? 0 : 1 },
+    const stripeVariants = {
+      hidden: { scaleX: 0 },
       visible: { 
-        pathLength: 1, 
-        pathOffset: from === "left" ? 0 : 0,
-        transition: { duration, ease: [0.42, 0, 0.58, 1], delay }
+        scaleX: 1,
+        transition: { duration: 1, ease: [0.42, 0, 0.58, 1], delay }
       }
     };
   
     return (
-      <svg
-        ref={ref}
-        viewBox="0 0 1440 100"
-        preserveAspectRatio="none"
-        className="w-full h-auto absolute inset-x-0"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ top: `${delay * 20}px`}}
-      >
-        <motion.path
-          d={d}
-          stroke={color}
-          strokeWidth="100"
-          strokeLinecap="round"
-          variants={pathVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+        <motion.div
+            ref={ref}
+            className={`h-1/5 w-full ${color}`}
+            variants={stripeVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            style={{ transformOrigin: 'left' }}
         />
-      </svg>
     );
-  };
-  
+};
 
+const PlayButton = () => (
+    <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative w-40 h-40">
+            <motion.div 
+                className="absolute inset-0 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg"
+                initial={{scale: 0}}
+                animate={{scale: 1}}
+                transition={{duration: 0.8, ease: "backOut", delay: 1.5}}
+            >
+                <Play className="w-12 h-12 text-black fill-black" />
+            </motion.div>
+            <div className="absolute w-full h-full animate-spin-slow">
+                <svg viewBox="0 0 100 100" className="w-full h-full fill-transparent">
+                    <path
+                        id="text-path-play"
+                        d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
+                    />
+                    <text>
+                        <textPath
+                            href="#text-path-play"
+                            startOffset="0%"
+                            className="font-bold text-sm uppercase"
+                            fill="black"
+                        >
+                            MAKE YOU BETTER - BUILT TO
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
+        </div>
+    </div>
+)
+
+const stripes = [
+    { color: 'bg-[#fff9e6]', delay: 0 },
+    { color: 'bg-yellow-200', delay: 0.1 },
+    { color: 'bg-green-200', delay: 0.2 },
+    { color: 'bg-cyan-200', delay: 0.3 },
+    { color: 'bg-red-200', delay: 0.4 },
+]
+  
 export default function OurValuesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden h-[500px] flex items-center justify-center">
-        <div className="absolute inset-0">
-            <Wave 
-                d="M-20 50 C 320 20, 1120 80, 1460 50"
-                color="#D4EDCC"
-                from="left"
-                delay={0}
-                duration={1.5}
-            />
-             <Wave 
-                d="M-20 50 C 320 80, 1120 20, 1460 50"
-                color="#C0E7F9"
-                from="right"
-                delay={0.4}
-                duration={1.5}
-            />
-             <Wave 
-                d="M-20 50 C 420 30, 1020 70, 1460 50"
-                color="#FDE68A"
-                from="left"
-                delay={0.8}
-                duration={1.5}
-            />
-             <Wave 
-                d="M-20 50 C 220 70, 1220 30, 1460 50"
-                color="#FED7D7"
-                from="right"
-                delay={1.2}
-                duration={1.5}
-            />
+    <section ref={ref} className="bg-[#fff9e6] py-32 relative overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 flex flex-col">
+            {stripes.map((s, i) => (
+                <Stripe key={i} color={s.color} delay={s.delay} />
+            ))}
         </div>
 
         <motion.div
-            className="relative z-10"
+            className="relative z-10 w-[800px] h-[450px]"
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
         >
-            <motion.div variants={imageVariants}>
+            <motion.div 
+                className="w-full h-full"
+                variants={imageContainerVariants}
+            >
                 <Image 
-                    src="https://picsum.photos/seed/values/400/400"
+                    src="https://picsum.photos/seed/meeting/800/450"
                     alt="Our core values"
-                    width={400}
-                    height={400}
-                    className="rounded-full object-cover shadow-2xl"
-                    data-ai-hint="team values"
+                    fill
+                    className="rounded-2xl object-cover shadow-2xl"
+                    data-ai-hint="team meeting"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                 />
+                <PlayButton />
             </motion.div>
         </motion.div>
     </section>
