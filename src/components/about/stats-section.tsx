@@ -1,32 +1,36 @@
 
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView, animate } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 
 const stats = [
   {
-    value: '4,500+',
+    value: 4500,
+    suffix: '+',
     label: 'Employees Worldwide & 250K vetted Professionals in our HugoSphere (SM)',
-    color: 'text-cyan-500',
+    gradient: 'from-cyan-400 to-cyan-600',
     borderColor: 'border-cyan-200',
   },
   {
-    value: '98%',
+    value: 98,
+    suffix: '%',
     label: 'Retention Rate',
-    color: 'text-green-500',
+    gradient: 'from-green-400 to-green-600',
     borderColor: 'border-green-200',
   },
   {
-    value: '65%',
+    value: 65,
+    suffix: '%',
     label: 'Female Workforce',
-    color: 'text-purple-500',
+    gradient: 'from-purple-400 to-purple-600',
     borderColor: 'border-purple-200',
   },
   {
-    value: '30%',
+    value: 30,
+    suffix: '%',
     label: 'More cost-effective than outsourcing in India & Philippines',
-    color: 'text-red-500',
+    gradient: 'from-red-400 to-red-600',
     borderColor: 'border-red-200',
   },
 ];
@@ -43,16 +47,39 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.5, y: 50 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 1.5,
-      ease: [0.16, 1, 0.3, 1],
+    hidden: { opacity: 0, y: 100, scale: 0.5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: 'spring',
+        damping: 15,
+        stiffness: 80,
+        duration: 1,
+      },
     },
-  },
+};
+
+const StatValue = ({ from = 0, to, suffix, gradient }: { from?: number; to: number; suffix: string; gradient: string; }) => {
+    const nodeRef = useRef<HTMLParagraphElement>(null);
+    const isInView = useInView(nodeRef, { once: true, amount: 0.5 });
+  
+    useEffect(() => {
+      if (isInView && nodeRef.current) {
+        const node = nodeRef.current;
+        const controls = animate(from, to, {
+          duration: 2,
+          ease: 'easeOut',
+          onUpdate(value) {
+            node.textContent = Math.round(value).toLocaleString() + suffix;
+          },
+        });
+        return () => controls.stop();
+      }
+    }, [from, to, isInView, suffix]);
+  
+    return <p ref={nodeRef} className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent`} />;
 };
 
 export default function StatsSection() {
@@ -73,7 +100,9 @@ export default function StatsSection() {
             className={`bg-white p-8 rounded-2xl shadow-sm border ${stat.borderColor} flex flex-col items-center text-center`}
             variants={cardVariants}
           >
-            <p className={`text-[89px] font-bold ${stat.color}`}>{stat.value}</p>
+            <div className="text-[89px] font-bold">
+                <StatValue from={0} to={stat.value} suffix={stat.suffix} gradient={stat.gradient} />
+            </div>
             <p className="mt-4 text-zinc-600 text-sm">{stat.label}</p>
           </motion.div>
         ))}
