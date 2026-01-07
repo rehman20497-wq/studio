@@ -17,25 +17,23 @@ const BrushStroke = ({
   color,
   delay,
   y,
+  isActive,
 }: {
   d: string;
   color: string;
   delay: number;
   y: number;
+  isActive: boolean;
 }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
-
   return (
     <motion.svg
-      ref={ref}
       viewBox="0 0 1440 100"
       preserveAspectRatio="none"
       className="absolute w-full left-0"
       style={{ top: y, height: '80px' }}
       fill="none"
       initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : {}}
+      animate={isActive ? { opacity: 1 } : {}}
     >
       <motion.path
         d={d}
@@ -43,7 +41,7 @@ const BrushStroke = ({
         strokeWidth="140"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
+        animate={isActive ? { pathLength: 1 } : {}}
         transition={{
           duration: 2,
           ease: [0.42, 0, 0.58, 1],
@@ -209,36 +207,15 @@ const PlayButton = () => {
 /* ------------------ Section ------------------ */
 
 const strokes = [
-    {
-      d: 'M-20 50 C 360 -60, 1080 160, 1460 50',
-      color: '#fef08a',
-      delay: 0.2,
-      y: 0,
-    },
-    {
-      d: 'M1460 50 C 1080 160, 360 -60, -20 50',
-      color: '#bbf7d0',
-      delay: 0.5,
-      y: 140,
-    },
-    {
-      d: 'M-20 50 C 360 -90, 1080 200, 1460 50',
-      color: '#a5f3fc',
-      delay: 0.7,
-      y: 280,
-    },
-    {
-      d: 'M1460 50 C 1080 200, 360 -90, -20 50',
-      color: '#fecaca',
-      delay: 0.9,
-      y: 420,
-    },
-  ];
-  
+  { d: 'M-20 50 C 360 -60, 1080 160, 1460 50', color: '#fef08a', delay: 0.2, y: 0 },
+  { d: 'M1460 50 C 1080 160, 360 -60, -20 50', color: '#bbf7d0', delay: 0.5, y: 140 },
+  { d: 'M-20 50 C 360 -90, 1080 200, 1460 50', color: '#a5f3fc', delay: 0.7, y: 280 },
+  { d: 'M1460 50 C 1080 200, 360 -90, -20 50', color: '#fecaca', delay: 0.9, y: 420 },
+];
 
 export default function OurValuesSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: true, amount: 0.35 });
 
   return (
     <section
@@ -247,21 +224,16 @@ export default function OurValuesSection() {
     >
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[640px]">
         {strokes.map((s, i) => (
-          <BrushStroke key={i} {...s} />
+          <BrushStroke key={i} {...s} isActive={isInView} />
         ))}
       </div>
 
-      {/* IMAGE EMERGES AFTER STROKES */}
       <motion.div
         className="relative z-10 w-[1100px] h-[650px]"
         initial={{ opacity: 0, y: 40, scale: 0.96 }}
-        animate={
-          isInView
-            ? { opacity: 1, y: 0, scale: 1 }
-            : {}
-        }
+        animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
         transition={{
-          delay: 2, // AFTER all strokes
+          delay: 2,
           duration: 1.6,
           ease: [0.22, 1, 0.36, 1],
         }}

@@ -35,25 +35,25 @@ const leadershipTeam = [
   {
     name: 'Travis Low',
     title: 'CX, AI & T&S Practice Leader',
-    image: '/t4.png',
+    image: '/t3.png',
     bgColor: 'bg-purple-100',
   },
   {
     name: 'Taire Avbovbo',
     title: 'Pilots & New Client Operations',
-    image: '/t5.png',
+    image: '/t2.png',
     bgColor: 'bg-rose-100',
   },
   {
     name: 'Funmi Ajala',
     title: 'Customer Support Operations',
-    image: '/t6.png',
+    image: '/t1.png',
     bgColor: 'bg-green-100',
   },
   {
     name: 'Kirill Pesterev',
     title: 'Corporate Development',
-    image: '/t7.png',
+    image: '/t.png',
     bgColor: 'bg-orange-100',
   },
 ];
