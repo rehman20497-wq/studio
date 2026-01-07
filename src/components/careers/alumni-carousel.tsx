@@ -118,7 +118,7 @@ export default function AlumniCarousel() {
             >
               <div
                 className={cn(
-                  'relative w-full h-[600px] bg-black rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-in-out',
+                  'relative w-full h-[445px] bg-black rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-in-out',
                    index === selectedIndex ? 'opacity-100 scale-100' : 'opacity-80 scale-90 blur-[2px]'
                 )}
               >
