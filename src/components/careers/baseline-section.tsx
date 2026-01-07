@@ -1,12 +1,8 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { CheckIcon } from '../icons/baseline/check-icon';
-import { HeartIcon } from '../icons/baseline/heart-icon';
-import { CommitmentIcon } from '../icons/baseline/commitment-icon';
-import { MagnifyingGlassIcon } from '../icons/baseline/magnifying-glass-icon';
+import Image from 'next/image';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -55,22 +51,22 @@ const cardVariants = {
 
 const cards = [
   {
-    icon: <CheckIcon />,
+    icon: '/check.svg',
     text: 'We get things done. We iterate & move faster than everyone else.',
     borderColor: 'border-cyan-400/50',
   },
   {
-    icon: <HeartIcon />,
+    icon: '/heart.svg',
     text: "We put empathy into action at work—we invest in each individual's growth and meet them with compassion.",
     borderColor: 'border-green-400/50',
   },
   {
-    icon: <CommitmentIcon />,
+    icon: '/doc.svg',
     text: 'We hold an unwavering commitment to delivering world-class quality and continuous improvement.',
     borderColor: 'border-purple-400/50',
   },
   {
-    icon: <MagnifyingGlassIcon />,
+    icon: '/search.svg',
     text: "Doing things the right way guides our decisions, even when it's the harder path.",
     borderColor: 'border-red-400/50',
   },
@@ -144,7 +140,7 @@ export default function BaselineSection() {
               variants={cardVariants}
             >
               <div className="w-24 h-24 mb-4 flex items-center justify-center">
-                {card.icon}
+                <Image src={card.icon} alt="" width={80} height={80} />
               </div>
               <p className="text-zinc-700 text-sm leading-relaxed">
                 {card.text}
