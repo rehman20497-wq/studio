@@ -51,22 +51,22 @@ const cardVariants = {
 
 const cards = [
   {
-    icon: '/check.svg',
+    icon: '/check.gif',
     text: 'We get things done. We iterate & move faster than everyone else.',
     borderColor: 'border-cyan-400/50',
   },
   {
-    icon: '/heart.svg',
+    icon: '/heart.gif',
     text: "We put empathy into action at work—we invest in each individual's growth and meet them with compassion.",
     borderColor: 'border-green-400/50',
   },
   {
-    icon: '/doc.svg',
+    icon: '/doc.gif',
     text: 'We hold an unwavering commitment to delivering world-class quality and continuous improvement.',
     borderColor: 'border-purple-400/50',
   },
   {
-    icon: '/search.svg',
+    icon: '/search.gif',
     text: "Doing things the right way guides our decisions, even when it's the harder path.",
     borderColor: 'border-red-400/50',
   },
@@ -121,11 +121,11 @@ export default function BaselineSection() {
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <div className="absolute -z-10 top-0 left-0 w-full h-full">
+        <div className="absolute top-0 left-0 w-full h-full -z-10">
             <svg width="100%" height="100%" viewBox="0 0 1100 350" preserveAspectRatio='none'>
-                <DashedLine d="M 130 130 C 200 -20, 380 -20, 450 130" animate={isInView} />
-                <DashedLine d="M 450 220 C 520 370, 700 370, 770 220" animate={isInView} reverse />
-                <DashedLine d="M 770 130 C 840 -20, 1020 -20, 1090 130" animate={isInView} />
+                <DashedLine d="M 130 130 C 200 -55, 380 -55, 450 90" animate={isInView} />
+                <DashedLine d="M 450 220 C 520 405, 700 405, 770 220" animate={isInView} reverse />
+                <DashedLine d="M 770 130 C 840 -55, 1020 -55, 1090 130" animate={isInView} />
             </svg>
         </div>
 
@@ -134,18 +134,19 @@ export default function BaselineSection() {
             variants={cardContainerVariants}
         >
           {cards.map((card, index) => (
-            <motion.div
-              key={index}
-              className={`bg-white rounded-2xl p-6 text-center flex flex-col items-center border-2 ${card.borderColor}`}
-              variants={cardVariants}
-            >
-              <div className="w-24 h-24 mb-4 flex items-center justify-center">
-                <Image src={card.icon} alt="" width={80} height={80} />
-              </div>
-              <p className="text-zinc-700 text-sm leading-relaxed">
-                {card.text}
-              </p>
-            </motion.div>
+           <motion.div
+           key={index}
+           className={`bg-white rounded-2xl p-6 text-center flex flex-col items-center border-2 ${card.borderColor}`}
+           variants={cardVariants}
+         >
+           <div className="w-24 h-24 mb-4 flex items-center justify-center">
+             <Image src={card.icon} alt="" width={80} height={80} unoptimized/>
+           </div>
+           <p className="text-zinc-700 text-sm leading-relaxed">
+             {card.text}
+           </p>
+         </motion.div>
+         
           ))}
         </motion.div>
       </motion.div>
