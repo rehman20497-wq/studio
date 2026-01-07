@@ -118,7 +118,7 @@ const imageVariants = {
   };
 
 const images = [
-    { ...careersImages.years, rotation: -15, position: { top: '30%', left: '-5%' }, size: { width: 220, height: 220 } },
+    { ...careersImages.years, rotation: 15, position: { top: '30%', left: '-5%' }, size: { width: 220, height: 220 } },
     { ...careersImages.academy, rotation: 8, position: { top: '10%', left: '20%' }, size: { width: 240, height: 240 } },
     { ...careersImages.day1, rotation: -8, position: { top: '50%', left: '15%' }, size: { width: 250, height: 250 } },
     { ...careersImages.training, rotation: 12, position: { top: '50%', right: '15%' }, size: { width: 230, height: 230 } },
