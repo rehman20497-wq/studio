@@ -46,7 +46,7 @@ export default function AlumniSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-24 relative overflow-hidden">
+    <section ref={ref} className="bg-[#fff9e6] pt-[2%] pb-24 relative overflow-hidden">
         <motion.div 
             className="absolute inset-0"
             variants={mapVariants}
