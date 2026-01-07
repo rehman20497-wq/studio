@@ -92,16 +92,15 @@ const slideInRight = {
 };
 
 const waveVariants = {
-  hidden: { pathLength: 0, pathOffset: 1 },
-  visible: {
-    pathLength: 1,
-    pathOffset: 0,
-    transition: {
-      duration: 2,
-      ease: [0.42, 0, 0.58, 1],
+    hidden: { pathLength: 0 },
+    visible: {
+      pathLength: 1,
+      transition: {
+        duration: 2,
+        ease: [0.42, 0, 0.58, 1],
+      },
     },
-  },
-};
+  };
 
 const imageVariants = {
     hidden: { opacity: 0, y: 50, rotate: 5 },
@@ -113,18 +112,18 @@ const imageVariants = {
         type: 'spring',
         damping: 15,
         stiffness: 50,
-        delay: i * 0.3,
+        delay: 1 + i * 0.3,
       },
     }),
   };
 
 const images = [
-    { ...careersImages.years, rotation: -15, position: { bottom: '25%', left: '5%' }, size: { width: 220, height: 220 } },
-    { ...careersImages.academy, rotation: 8, position: { top: '15%', left: '20%' }, size: { width: 240, height: 240 } },
-    { ...careersImages.day1, rotation: -8, position: { top: '45%', left: '35%' }, size: { width: 250, height: 250 } },
-    { ...careersImages.training, rotation: 12, position: { bottom: '20%', right: '28%' }, size: { width: 230, height: 230 } },
-    { ...careersImages.iwd, rotation: -10, position: { bottom: '10%', right: '5%' }, size: { width: 280, height: 280 } },
-    { ...careersImages.hugo, rotation: 5, position: { top: '20%', right: '15%' }, size: { width: 240, height: 240 } },
+    { ...careersImages.years, rotation: -15, position: { top: '30%', left: '5%' }, size: { width: 220, height: 220 } },
+    { ...careersImages.academy, rotation: 8, position: { top: '10%', left: '20%' }, size: { width: 240, height: 240 } },
+    { ...careersImages.day1, rotation: -8, position: { top: '50%', left: '15%' }, size: { width: 250, height: 250 } },
+    { ...careersImages.training, rotation: 12, position: { top: '50%', right: '15%' }, size: { width: 230, height: 230 } },
+    { ...careersImages.iwd, rotation: -10, position: { top: '15%', right: '20%' }, size: { width: 280, height: 280 } },
+    { ...careersImages.hugo, rotation: 5, position: { top: '30%', right: '5%' }, size: { width: 240, height: 240 } },
 ];
   
 export default function Hero() {
@@ -139,20 +138,16 @@ export default function Hero() {
             animate={isInView ? 'visible' : 'hidden'}
         >
             <svg
-                viewBox="0 0 1440 600"
+                viewBox="0 0 1440 400"
                 preserveAspectRatio="xMidYMid meet"
-                className="w-full h-auto"
+                className="w-full h-auto absolute top-1/2 -translate-y-1/2"
                 fill="none"
             >
                 <motion.path
-                    d="M -5,300 
-                       C 250,150 400,250 720,300 
-                       S 1190,450 1445,300
-                       L 1445, 350
-                       C 1190,500 1040,400 720,350
-                       S 250,200 -5,350
-                       L -5,300 Z"
-                    fill="#F5D34A"
+                    d="M -40 200 C 250 100, 1190 300, 1480 200"
+                    stroke="#F5D34A"
+                    strokeWidth="200"
+                    strokeLinecap='round'
                     variants={waveVariants}
                 />
             </svg>
