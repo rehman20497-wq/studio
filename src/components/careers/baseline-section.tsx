@@ -141,7 +141,6 @@ export default function BaselineSection() {
             <svg width="100%" height="100%" viewBox="0 0 1100 80" preserveAspectRatio='none'>
                 <motion.g initial="hidden" animate={isInView ? "visible" : "hidden"} variants={cardContainerVariants}>
                     <DashedLine d="M 120 70 C 180 10, 280 10, 340 70" delay={0.5} />
-                    <DashedLine d="M 400 70 C 460 10, 560 10, 620 70" delay={0.8} />
                     <DashedLine d="M 680 70 C 740 10, 840 10, 900 70" delay={1.1} />
                 </motion.g>
             </svg>
@@ -170,9 +169,7 @@ export default function BaselineSection() {
          <div className="absolute bottom-[-3rem] left-0 right-0 h-20">
             <svg width="100%" height="100%" viewBox="0 0 1100 80" preserveAspectRatio='none'>
                 <motion.g initial="hidden" animate={isInView ? "visible" : "hidden"} variants={cardContainerVariants}>
-                    <DashedLine d="M 120 10 C 180 70, 280 70, 340 10" delay={0.65} />
                     <DashedLine d="M 400 10 C 460 70, 560 70, 620 10" delay={0.95} />
-                    <DashedLine d="M 680 10 C 740 70, 840 70, 900 10" delay={1.25} />
                 </motion.g>
             </svg>
         </div>
