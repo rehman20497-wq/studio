@@ -11,8 +11,8 @@ export default function CareersPage() {
       <Header />
       <main>
         <Hero />
-        <CareerTestimonial />
         <TeamnSection />
+        <CareerTestimonial />
       </main>
       <FinalFooter />
     </div>

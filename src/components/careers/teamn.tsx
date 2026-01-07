@@ -95,7 +95,7 @@ export default function TeamnSection() {
                 cx="50"
                 cy="50"
                 r="48"
-                stroke="#F5D34A"
+                stroke="#0badbf"
                 strokeWidth="4"
                 strokeLinecap="round"
                 variants={circleVariants}
