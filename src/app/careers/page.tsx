@@ -4,6 +4,7 @@ import FinalFooter from "@/components/layout/final-footer";
 import Hero from "@/components/careers/hero";
 import TeamnSection from "@/components/careers/teamn";
 import CareerTestimonial from "@/components/careers/career-testimonial";
+import CareerBrushStroke from "@/components/careers/career-brush-stroke";
 
 export default function CareersPage() {
   return (
@@ -13,6 +14,7 @@ export default function CareersPage() {
         <Hero />
         <TeamnSection />
         <CareerTestimonial />
+        <CareerBrushStroke />
       </main>
       <FinalFooter />
     </div>

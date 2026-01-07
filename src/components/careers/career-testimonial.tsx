@@ -9,19 +9,19 @@ import TestimonialProgressBar from '../testimonial-progress-bar';
 
 const testimonials = [
   {
-    logo: <Image src="/oliver.svg" alt="Oliver Space Logo" width={100} height={30} className="object-contain" />,
+    logo: <Image src="/oliver.png" alt="Oliver Space Logo" width={100} height={30} className="object-contain" />,
     text: "Working with Hugo has been a seamless experience. Their team integrated perfectly with ours and helped us scale our customer support efforts effectively. The quality of service is consistently high.",
     author: 'Olivia Chen',
     title: 'Head of Customer Experience, Oliver Space',
-    image: 'https://picsum.photos/seed/olivia/180/180',
+    image: '/2.jpg',
     imageHint: 'woman smiling',
   },
   {
-    logo: <Image src="/yardzen.svg" alt="Yardzen Logo" width={100} height={30} className="object-contain" />,
+    logo: <Image src="/yardzen.png" alt="Yardzen Logo" width={100} height={30} className="object-contain" />,
     text: "Hugo's data annotation services have been pivotal for our AI development. Their accuracy and efficiency have significantly accelerated our project timelines. A truly reliable partner.",
     author: 'Yasmin Ahmed',
     title: 'AI Lead, Yardzen',
-    image: 'https://picsum.photos/seed/yasmin/180/180',
+    image: '/1.jpg',
     imageHint: 'woman portrait',
   },
     {
