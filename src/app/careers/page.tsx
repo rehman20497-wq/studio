@@ -2,6 +2,7 @@
 import Header from "@/components/layout/header";
 import FinalFooter from "@/components/layout/final-footer";
 import Hero from "@/components/careers/hero";
+import TeamnSection from "@/components/careers/teamn";
 
 export default function CareersPage() {
   return (
@@ -9,6 +10,7 @@ export default function CareersPage() {
       <Header />
       <main>
         <Hero />
+        <TeamnSection />
       </main>
       <FinalFooter />
     </div>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -7,30 +6,21 @@ import Image from 'next/image';
 import { careersImages } from '@/lib/careers-images';
 import MagneticButton from '@/components/magnetic-button';
 
-const containerVariants = {
+/* ---------------- Variants ---------------- */
+
+const textContentVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.5,
+      staggerChildren: 0.25,
+      delayChildren: 0.6,
     },
   },
 };
 
-const textContentVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 1.5, 
-      },
-    },
-  };
-
 const headingVariants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
@@ -42,181 +32,203 @@ const headingVariants = {
 };
 
 const paragraphVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 1,
-        ease: [0.25, 1, 0.5, 1],
-      },
-    },
-  };
-
-const buttonContainerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.2,
-            delayChildren: 0.4
-        }
-    }
-}
-
-const slideInLeft = {
-  hidden: { x: '-100%', opacity: 0 },
-  visible: { 
-    x: 0, 
+  hidden: { opacity: 0, y: 20 },
+  visible: {
     opacity: 1,
+    y: 0,
     transition: {
-      type: 'spring',
-      damping: 20,
-      stiffness: 80,
-      mass: 1,
-    }
+      duration: 1,
+      ease: [0.25, 1, 0.5, 1],
+    },
   },
 };
 
-const slideInRight = {
-  hidden: { x: '100%', opacity: 0 },
-  visible: { 
-    x: 0, 
+const buttonVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
     opacity: 1,
+    y: 0,
     transition: {
-        type: 'spring',
-        damping: 20,
-        stiffness: 80,
-        mass: 1,
-    }
+      type: 'spring',
+      damping: 18,
+      stiffness: 90,
+    },
   },
 };
 
 const waveVariants = {
-    hidden: { pathLength: 0 },
-    visible: {
-      pathLength: 1,
-      transition: {
-        duration: 2,
-        ease: [0.42, 0, 0.58, 1],
-      },
+  hidden: { pathLength: 0 },
+  visible: {
+    pathLength: 1,
+    transition: {
+      duration: 1.8,
+      ease: 'easeInOut',
     },
-  };
+  },
+};
 
 const imageVariants = {
-    hidden: { opacity: 0, y: 50, rotate: 5 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      rotate: 0,
-      transition: {
-        type: 'spring',
-        damping: 15,
-        stiffness: 50,
-        delay: 1 + i * 0.3,
-      },
-    }),
-  };
+  hidden: { opacity: 0, y: 60, rotate: 6 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+  
+    transition: {
+      type: 'spring',
+      damping: 14,
+      stiffness: 55,
+      delay: 0.8 + i * 0.25,
+    },
+  }),
+};
+
+/* ---------------- Images Layout (REFERENCE MATCHED) ---------------- */
 
 const images = [
-    { ...careersImages.years, rotation: 15, position: { top: '30%', left: '-5%' }, size: { width: 220, height: 220 } },
-    { ...careersImages.academy, rotation: 8, position: { top: '10%', left: '20%' }, size: { width: 240, height: 240 } },
-    { ...careersImages.day1, rotation: -8, position: { top: '50%', left: '15%' }, size: { width: 250, height: 250 } },
-    { ...careersImages.training, rotation: 12, position: { top: '50%', right: '15%' }, size: { width: 230, height: 230 } },
-    { ...careersImages.iwd, rotation: -10, position: { top: '15%', right: '20%' }, size: { width: 280, height: 280 } },
-    { ...careersImages.hugo, rotation: 5, position: { top: '30%', right: '5%' }, size: { width: 240, height: 240 } },
+  {
+    ...careersImages.years,
+    rotation: -18,
+    position: { top: '34%', left: '-5%' },
+    size: 210,
+  },
+  {
+    ...careersImages.academy,
+    rotation: -18,
+    position: { top: '14%', left: '7%' },
+    size: 210,
+  },
+  {
+    ...careersImages.day1,
+    rotation: 10,
+    position: { top: '60%', left: '15%' },
+    size: 210,
+  },
+  {
+    ...careersImages.training,
+    rotation: -14,
+    position: { top: '24%', right: '-6%' },
+    size: 210,
+  },
+  {
+    ...careersImages.iwd,
+    rotation: -14,
+    position: { top: '44%', right: '9.5%' },
+    size: 210,
+  },
+  {
+    ...careersImages.hugo,
+    rotation: -10,
+    position: { top: '60%', right: '18%' },
+    size: 210,
+  },
 ];
-  
+
+/* ---------------- Component ---------------- */
+
 export default function Hero() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: true, amount: 0.25 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] text-center pt-20 pb-32 px-4 relative overflow-hidden h-[90vh]">
-        <motion.div 
-            className="absolute inset-0 w-full h-full flex items-center justify-center"
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-        >
-            <svg
-                viewBox="0 0 1440 400"
-                preserveAspectRatio="xMidYMid meet"
-                className="w-full h-auto absolute top-1/2 -translate-y-1/2"
-                fill="none"
-            >
-                <motion.path
-                    d="M -40 200 C 250 100, 1190 300, 1480 200"
-                    stroke="#F5D34A"
-                    strokeWidth="200"
-                    strokeLinecap='round'
-                    variants={waveVariants}
-                />
-            </svg>
-        </motion.div>
-      
+    <section
+      ref={ref}
+      className="relative bg-[#FCFBF8] overflow-hidden min-h-screen px-4"
+    >
+      {/* Yellow Wave */}
       <motion.div
-        className="relative z-10 pt-16"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+      >
+        <svg
+          viewBox="0 0 1440 300"
+          className="absolute w-full top-[51%]"
+          preserveAspectRatio="none"
+        >
+          <motion.path
+            d="M -100 150 C 300 50, 1100 250, 1600 150"
+            stroke="#F5D34A"
+            strokeWidth="80"
+            strokeLinecap="round"
+            fill="none"
+            variants={waveVariants}
+          />
+        </svg>
+      </motion.div>
+
+      {/* Center Content */}
+      <motion.div
+        className="relative z-10 max-w-4xl mx-auto pt-28 text-center"
         variants={textContentVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h1
-          className="text-7xl font-bold text-zinc-900 font-headline"
+          className="text-[64px] leading-tight font-bold text-zinc-900 font-headline"
           variants={headingVariants}
         >
           Where Better Begins.
         </motion.h1>
+
         <motion.p
           className="mt-6 text-lg text-zinc-600 max-w-2xl mx-auto"
           variants={paragraphVariants}
         >
-          At Hugo, we're built to drive better outcomes, create better opportunities that break barriers, and enable better careers where you can thrive. Join our global community as we shape the future of work.
+          At Hugo, we're built to drive better outcomes, create better opportunities
+          that break barriers, and enable better careers where you can thrive.
+          Join our global community as we shape the future of work.
         </motion.p>
-      
-        <motion.div
-            className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
-            variants={buttonContainerVariants}
-        >
-            <motion.div variants={slideInLeft}>
-                <MagneticButton>
-                    <span className="text-[15px] font-medium px-4">Corporate roles</span>
-                </MagneticButton>
-            </motion.div>
-            <motion.div variants={slideInRight}>
-                <MagneticButton>
-                    <span className="text-[15px] font-medium px-4">Agent roles</span>
-                </MagneticButton>
-            </motion.div>
-        </motion.div>
+
+        <div className="mt-12 flex justify-center gap-4">
+          <motion.div variants={buttonVariants}>
+            <MagneticButton>
+              <span className="text-[15px] font-medium px-5">
+                Corporate roles
+              </span>
+            </MagneticButton>
+          </motion.div>
+          <motion.div variants={buttonVariants}>
+            <MagneticButton>
+              <span className="text-[15px] font-medium px-5">
+                Agent roles
+              </span>
+            </MagneticButton>
+          </motion.div>
+        </div>
       </motion.div>
 
-        <motion.div 
-            className="absolute inset-0 z-0"
-            variants={containerVariants}
+      {/* Floating Images */}
+      <div className="absolute inset-0 z-0">
+        {images.map((image, i) => (
+          <motion.div
+            key={i}
+            className="absolute bg-white p-2 pb-1 rounded-xl border-2 border-black shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+            style={{
+              ...image.position,
+              rotate: image.rotation,
+              width: image.size,
+            }}
+            custom={i}
+            variants={imageVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-        >
-            {images.map((image, i) => (
-            <motion.div
-                key={i}
-                className="absolute bg-white p-2 pb-1 shadow-2xl rounded-xl flex flex-col border-2 border-black"
-                style={{ ...image.position, rotate: image.rotation, width: image.size.width }}
-                custom={i}
-                variants={imageVariants}
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={image.size - 16}
+              height={image.size - 16}
+              className="rounded-md object-cover"
+            />
+            <p
+              className="mt-2 text-center text-lg"
+              style={{ fontFamily: "'Gochi Hand', cursive" }}
             >
-                <Image
-                    src={image.src}
-                    alt={image.alt}
-                    width={image.size.width - 16}
-                    height={image.size.height - 16}
-                    className="object-cover rounded-md"
-                    data-ai-hint={image.hint}
-                />
-                <p className="mt-2 text-center font-headline text-lg" style={{ fontFamily: "'Gochi Hand', cursive" }}>
-                    {image.label}
-                </p>
-            </motion.div>
-            ))}
-      </motion.div>
+              {image.label}
+            </p>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }
