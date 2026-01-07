@@ -53,17 +53,6 @@ const cardVariants = {
   },
 };
 
-const pathVariants = {
-    hidden: { pathLength: 0 },
-    visible: {
-      pathLength: 1,
-      transition: {
-        duration: 1,
-        ease: 'easeInOut',
-      },
-    },
-  };
-
 const cards = [
   {
     icon: <CheckIcon />,
@@ -87,17 +76,16 @@ const cards = [
   },
 ];
 
-const DashedLine = ({ d, delay = 0 }: { d: string; delay?: number }) => (
+const DashedLine = ({ d, animate, reverse }: { d: string, animate: boolean, reverse?: boolean }) => (
     <motion.path
       d={d}
       fill="none"
       stroke="black"
       strokeWidth="2"
-      strokeDasharray="5, 10"
+      strokeDasharray="5 10"
       strokeLinecap="round"
-      variants={pathVariants}
-      custom={delay}
-      transition={{ ...pathVariants.visible.transition, delay }}
+      className={animate ? 'marching-ants' : ''}
+      style={{ animationDirection: reverse ? 'reverse' : 'normal' }}
     />
 );
 
@@ -137,12 +125,11 @@ export default function BaselineSection() {
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <div className="absolute top-[-3rem] left-0 right-0 h-20">
-            <svg width="100%" height="100%" viewBox="0 0 1100 80" preserveAspectRatio='none'>
-                <motion.g initial="hidden" animate={isInView ? "visible" : "hidden"} variants={cardContainerVariants}>
-                    <DashedLine d="M 120 70 C 180 10, 280 10, 340 70" delay={0.5} />
-                    <DashedLine d="M 680 70 C 740 10, 840 10, 900 70" delay={1.1} />
-                </motion.g>
+        <div className="absolute -z-10 top-0 left-0 w-full h-full">
+            <svg width="100%" height="100%" viewBox="0 0 1100 350" preserveAspectRatio='none'>
+                <DashedLine d="M 130 130 C 200 -20, 380 -20, 450 130" animate={isInView} />
+                <DashedLine d="M 450 220 C 520 370, 700 370, 770 220" animate={isInView} reverse />
+                <DashedLine d="M 770 130 C 840 -20, 1020 -20, 1090 130" animate={isInView} />
             </svg>
         </div>
 
@@ -165,14 +152,6 @@ export default function BaselineSection() {
             </motion.div>
           ))}
         </motion.div>
-
-         <div className="absolute bottom-[-3rem] left-0 right-0 h-20">
-            <svg width="100%" height="100%" viewBox="0 0 1100 80" preserveAspectRatio='none'>
-                <motion.g initial="hidden" animate={isInView ? "visible" : "hidden"} variants={cardContainerVariants}>
-                    <DashedLine d="M 400 10 C 460 70, 560 70, 620 10" delay={0.95} />
-                </motion.g>
-            </svg>
-        </div>
       </motion.div>
     </section>
   );
