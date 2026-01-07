@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -45,7 +46,7 @@ export default function AlumniSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-24 relative overflow-hidden">
+    <section ref={ref} className="bg-[#fff9e6] py-24 relative overflow-hidden pb-24">
         <motion.div 
             className="absolute inset-0"
             variants={mapVariants}
