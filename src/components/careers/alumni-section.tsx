@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -76,7 +75,7 @@ export default function AlumniSection() {
         </motion.div>
 
         <motion.div 
-            className="relative mt-12"
+            className="relative mt-12 max-w-7xl mx-auto"
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 0.8 }}
