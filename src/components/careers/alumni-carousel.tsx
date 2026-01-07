@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -73,7 +74,7 @@ const ArrowButton = ({
     onClick={onClick}
     disabled={disabled}
     className="absolute top-1/2 -translate-y-1/2 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-black z-20 hover:bg-yellow-500 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed"
-    style={direction === 'left' ? { left: 'calc(10% - 24px)' } : { right: 'calc(10% - 24px)' }}
+    style={direction === 'left' ? { left: 'calc(15% - 24px)' } : { right: 'calc(15% - 24px)' }}
   >
     {direction === 'left' ? <ArrowLeft /> : <ArrowRight />}
   </button>
@@ -112,7 +113,7 @@ export default function AlumniCarousel() {
         <div className="flex">
           {slides.map((slide, index) => (
             <div
-              className="flex-[0_0_80%] min-w-0 px-4"
+              className="flex-[0_0_70%] min-w-0 px-4"
               key={index}
             >
               <div
