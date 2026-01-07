@@ -119,11 +119,11 @@ const imageVariants = {
   };
 
 const images = [
-    { ...careersImages.years, rotation: -15, position: { bottom: '22%', left: '4%' }, size: { width: 220, height: 220 } },
-    { ...careersImages.academy, rotation: 8, position: { top: '15%', left: '18%' }, size: { width: 240, height: 240 } },
-    { ...careersImages.day1, rotation: -8, position: { bottom: '15%', left: '32%' }, size: { width: 250, height: 250 } },
-    { ...careersImages.training, rotation: 12, position: { bottom: '25%', right: '30%' }, size: { width: 230, height: 230 } },
-    { ...careersImages.iwd, rotation: -10, position: { bottom: '10%', right: '8%' }, size: { width: 280, height: 280 } },
+    { ...careersImages.years, rotation: -15, position: { bottom: '25%', left: '5%' }, size: { width: 220, height: 220 } },
+    { ...careersImages.academy, rotation: 8, position: { top: '15%', left: '20%' }, size: { width: 240, height: 240 } },
+    { ...careersImages.day1, rotation: -8, position: { top: '45%', left: '35%' }, size: { width: 250, height: 250 } },
+    { ...careersImages.training, rotation: 12, position: { bottom: '20%', right: '28%' }, size: { width: 230, height: 230 } },
+    { ...careersImages.iwd, rotation: -10, position: { bottom: '10%', right: '5%' }, size: { width: 280, height: 280 } },
     { ...careersImages.hugo, rotation: 5, position: { top: '20%', right: '15%' }, size: { width: 240, height: 240 } },
     { ...careersImages.team, rotation: 10, position: { top: '5%', right: '2%' }, size: { width: 220, height: 220 } },
 ];
@@ -133,20 +133,24 @@ export default function Hero() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] text-center pt-20 pb-48 px-4 relative overflow-hidden">
+    <section ref={ref} className="bg-[#FCFBF8] text-center pt-20 pb-32 px-4 relative overflow-hidden h-[90vh]">
         <motion.div 
-            className="absolute bottom-0 left-0 w-full h-1/2"
+            className="absolute inset-0 w-full h-full"
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
         >
             <svg
-                viewBox="0 0 1440 300"
+                viewBox="0 0 1440 600"
                 preserveAspectRatio="none"
                 className="w-full h-full"
                 fill="none"
             >
                 <motion.path
-                    d="M-5 300 C 257 101, 411 -7, 722 53 C 1033 113, 1187 283, 1445 150 V 300 H-5 Z"
+                    d="M -5,300 
+                       C 250,150 400,250 720,300 
+                       S 1190,450 1445,300
+                       C 1190,150 1040,250 720,300
+                       S 250,450 -5,300 Z"
                     fill="#F5D34A"
                     variants={waveVariants}
                 />
@@ -154,7 +158,7 @@ export default function Hero() {
         </motion.div>
       
       <motion.div
-        className="relative z-10"
+        className="relative z-10 pt-16"
         variants={textContentVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
