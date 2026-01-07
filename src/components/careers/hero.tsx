@@ -125,7 +125,6 @@ const images = [
     { ...careersImages.training, rotation: 12, position: { bottom: '20%', right: '28%' }, size: { width: 230, height: 230 } },
     { ...careersImages.iwd, rotation: -10, position: { bottom: '10%', right: '5%' }, size: { width: 280, height: 280 } },
     { ...careersImages.hugo, rotation: 5, position: { top: '20%', right: '15%' }, size: { width: 240, height: 240 } },
-    { ...careersImages.team, rotation: 10, position: { top: '5%', right: '2%' }, size: { width: 220, height: 220 } },
 ];
   
 export default function Hero() {
@@ -135,22 +134,24 @@ export default function Hero() {
   return (
     <section ref={ref} className="bg-[#FCFBF8] text-center pt-20 pb-32 px-4 relative overflow-hidden h-[90vh]">
         <motion.div 
-            className="absolute inset-0 w-full h-full"
+            className="absolute inset-0 w-full h-full flex items-center justify-center"
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
         >
             <svg
                 viewBox="0 0 1440 600"
-                preserveAspectRatio="none"
-                className="w-full h-full"
+                preserveAspectRatio="xMidYMid meet"
+                className="w-full h-auto"
                 fill="none"
             >
                 <motion.path
                     d="M -5,300 
                        C 250,150 400,250 720,300 
                        S 1190,450 1445,300
-                       C 1190,150 1040,250 720,300
-                       S 250,450 -5,300 Z"
+                       L 1445, 350
+                       C 1190,500 1040,400 720,350
+                       S 250,200 -5,350
+                       L -5,300 Z"
                     fill="#F5D34A"
                     variants={waveVariants}
                 />
@@ -202,20 +203,20 @@ export default function Hero() {
             {images.map((image, i) => (
             <motion.div
                 key={i}
-                className="absolute bg-white p-3 shadow-2xl rounded-xl"
-                style={{ ...image.position, rotate: image.rotation }}
+                className="absolute bg-white p-2 pb-1 shadow-2xl rounded-xl flex flex-col"
+                style={{ ...image.position, rotate: image.rotation, width: image.size.width }}
                 custom={i}
                 variants={imageVariants}
             >
                 <Image
                     src={image.src}
                     alt={image.alt}
-                    width={image.size.width}
-                    height={image.size.height}
+                    width={image.size.width - 16}
+                    height={image.size.height - 16}
                     className="object-cover rounded-md"
                     data-ai-hint={image.hint}
                 />
-                <p className="absolute bottom-4 right-5 font-headline text-lg" style={{ fontFamily: "'Gochi Hand', cursive" }}>
+                <p className="mt-2 text-center font-headline text-lg" style={{ fontFamily: "'Gochi Hand', cursive" }}>
                     {image.label}
                 </p>
             </motion.div>

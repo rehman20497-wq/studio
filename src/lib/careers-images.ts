@@ -36,10 +36,4 @@ export const careersImages = {
         alt: 'Team meeting around a table',
         label: 'Hugo'
     },
-    team: {
-        src: 'https://picsum.photos/seed/career7/220/220',
-        hint: 'team collaboration',
-        alt: 'Team collaborating in an office',
-        label: ''
-    }
 };
