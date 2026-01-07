@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 const slides = [
   {
     image: {
-      src: 'https://picsum.photos/seed/barclays-office/800/500',
+      src: 'https://picsum.photos/seed/barclays-office/800/600',
       hint: 'corporate building night',
     },
     logo: {
@@ -19,7 +19,7 @@ const slides = [
   },
   {
     image: {
-      src: 'https://picsum.photos/seed/kpmg-office/800/500',
+      src: 'https://picsum.photos/seed/kpmg-office/800/600',
       hint: 'modern office boardroom',
     },
     logo: {
@@ -29,7 +29,7 @@ const slides = [
   },
   {
     image: {
-      src: 'https://picsum.photos/seed/deloitte-office/800/500',
+      src: 'https://picsum.photos/seed/deloitte-office/800/600',
       hint: 'city skyline architecture',
     },
     logo: {
@@ -39,7 +39,7 @@ const slides = [
   },
   {
     image: {
-      src: 'https://picsum.photos/seed/google-office/800/500',
+      src: 'https://picsum.photos/seed/google-office/800/600',
       hint: 'modern campus building',
     },
     logo: {
@@ -49,7 +49,7 @@ const slides = [
   },
     {
     image: {
-      src: 'https://picsum.photos/seed/meta-office/800/500',
+      src: 'https://picsum.photos/seed/meta-office/800/600',
       hint: 'futuristic office lobby',
     },
     logo: {
@@ -73,14 +73,14 @@ const ArrowButton = ({
     onClick={onClick}
     disabled={disabled}
     className="absolute top-1/2 -translate-y-1/2 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-black z-20 hover:bg-yellow-500 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed"
-    style={direction === 'left' ? { left: '1rem' } : { right: '1rem' }}
+    style={direction === 'left' ? { left: 'calc(10% - 24px)' } : { right: 'calc(10% - 24px)' }}
   >
     {direction === 'left' ? <ArrowLeft /> : <ArrowRight />}
   </button>
 );
 
 export default function AlumniCarousel() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center' });
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -109,16 +109,16 @@ export default function AlumniCarousel() {
   return (
     <div className="relative w-full">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex -ml-4">
+        <div className="flex">
           {slides.map((slide, index) => (
             <div
-              className="flex-[0_0_80%] min-w-0 pl-4"
+              className="flex-[0_0_80%] min-w-0 px-4"
               key={index}
             >
               <div
                 className={cn(
-                  'relative w-full h-[500px] bg-black rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-in-out',
-                   index === selectedIndex ? 'opacity-100 scale-100' : 'opacity-50 scale-90 blur-sm'
+                  'relative w-full h-[600px] bg-black rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-in-out',
+                   index === selectedIndex ? 'opacity-100 scale-100' : 'opacity-80 scale-90 blur-[2px]'
                 )}
               >
                 <Image
