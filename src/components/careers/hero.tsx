@@ -131,9 +131,18 @@ export default function Hero() {
 
   return (
     <section
-      ref={ref}
-      className="relative bg-[#FCFBF8] overflow-hidden min-h-screen px-4"
-    >
+  ref={ref}
+  className="relative overflow-hidden min-h-screen px-4 bg-transparent"
+>
+{/* Background Split */}
+<div className="absolute inset-0 z-0">
+  {/* Top background */}
+  <div className="absolute top-0 left-0 w-full h-[51%] bg-[#FCFBF8]" />
+
+  {/* Bottom background */}
+  <div className="absolute top-[51%] left-0 w-full h-[49%] bg-[#fff9e6]" />
+</div>
+
       {/* Yellow Wave */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
