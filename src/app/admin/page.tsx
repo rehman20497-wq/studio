@@ -28,19 +28,29 @@ export default function AdminDashboardPage() {
   const handleAuthentication = () => {
     if (auth) {
       initiateAnonymousSignIn(auth);
-      setShowWelcome(true);
-      setTimeout(() => {
-        setShowWelcome(false);
-      }, 4000); // Show welcome screen for 4 seconds
+      // The useUser hook will pick up the new user state and trigger the re-render
+      // which will then show the welcome screen.
     }
   };
+
+  useEffect(() => {
+    // This effect runs when the user state changes to logged-in
+    if (user && !showWelcome) {
+      setShowWelcome(true);
+      const timer = setTimeout(() => {
+        setShowWelcome(false);
+      }, 4000); // Show welcome screen for 4 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [user, showWelcome]);
 
   const resetInactivityTimer = useCallback(() => {
     clearTimeout(inactivityTimer);
     if (user) {
       inactivityTimer = setTimeout(handleLogout, INACTIVITY_TIMEOUT);
     }
-  }, [user, handleLogout]);
+  }, [user, handleLogout, inactivityTimer]);
 
   useEffect(() => {
     if (user) {
