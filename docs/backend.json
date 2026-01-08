@@ -1,5 +1,72 @@
 {
   "entities": {
+    "Provider": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Provider",
+      "type": "object",
+      "description": "Represents a service provider in the network.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Provider entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the provider."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the provider."
+        },
+        "logoUrl": {
+          "type": "string",
+          "description": "URL of the provider's logo.",
+          "format": "uri"
+        },
+        "bannerImageUrl": {
+          "type": "string",
+          "description": "URL of the provider's banner image.",
+          "format": "uri"
+        },
+        "description": {
+          "type": "string",
+          "description": "A rich-text description of the provider."
+        },
+        "solutions": {
+          "type": "array",
+          "description": "An array of solutions offered by the provider.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Cloud Solutions",
+              "Communications",
+              "AI Solutions",
+              "Connectivity"
+            ]
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the provider was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the provider was last updated."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "slug",
+        "logoUrl",
+        "description",
+        "solutions",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
     "ReviewerProfile": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "ReviewerProfile",
@@ -94,11 +161,27 @@
   "firestore": {
     "structure": [
       {
+        "path": "/providers/{providerId}",
+        "definition": {
+          "entityName": "Provider",
+          "schema": {
+            "$ref": "#/entities/Provider"
+          },
+          "description": "Stores information about each service provider.",
+          "params": [
+            {
+              "name": "providerId",
+              "description": "The unique identifier for the provider."
+            }
+          ]
+        }
+      },
+      {
         "path": "/reviewer_profiles/{profileId}",
         "definition": {
           "entityName": "ReviewerProfile",
           "schema": {
-            "$ref": "#/backend/entities/ReviewerProfile"
+            "$ref": "#/entities/ReviewerProfile"
           },
           "description": "Stores reviewer profile information, including reviewerName, state, profilePictureUrl, and reviewId.  'profileId' is the unique identifier for each reviewer profile.",
           "params": [
@@ -114,7 +197,7 @@
         "definition": {
           "entityName": "Review",
           "schema": {
-            "$ref": "#/backend/entities/Review"
+            "$ref": "#/entities/Review"
           },
           "description": "Stores review data, including reviewText. 'reviewId' is the unique identifier for each review.",
           "params": [
@@ -130,7 +213,7 @@
         "definition": {
           "entityName": "AnimationSequence",
           "schema": {
-            "$ref": "#/backend/entities/AnimationSequence"
+            "$ref": "#/entities/AnimationSequence"
           },
           "description": "Stores the sequence of reviewer profiles for animation, including profileIds and sequenceOrder. 'sequenceId' is the unique identifier for each animation sequence.",
           "params": [
