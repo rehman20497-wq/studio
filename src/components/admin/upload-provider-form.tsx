@@ -158,6 +158,14 @@ export default function UploadProviderForm() {
   }
 
   const onSubmit = async (data: ProviderFormValues) => {
+    if (!firestore) {
+      toast({
+        variant: 'destructive',
+        title: 'Firestore not available',
+        description: 'Please try again later.',
+      });
+      return;
+    }
     try {
         const providersCollection = collection(firestore, 'providers');
         
@@ -213,7 +221,7 @@ export default function UploadProviderForm() {
                             <>
                                 <UploadCloud className="w-12 h-12 text-zinc-400 group-hover:text-yellow-500 transition-colors" />
                                 <p className="mt-2 text-zinc-600">Click to upload logo</p>
-                                <p className="text-xs text-zinc-500">Image files up to 5MB</p>
+                                <p className="text-xs text-zinc-500">Any image format up to 5MB</p>
                             </>
                         )}
                     </div>

@@ -8,6 +8,11 @@ export const cloudinaryConfig = {
   cloudName: 'dm5cqe1f3',
   apiKey: '899987212698367',
   apiSecret: 'cnu9824BKAPcDL8--k5wpFPjInQ',
-  // IMPORTANT: Replace 'unsigned_uploads' with your actual unsigned upload preset name from your Cloudinary settings.
+  // IMPORTANT: For unsigned uploads to work, you MUST create an "Unsigned"
+  // upload preset in your Cloudinary account settings.
+  // 1. Go to your Cloudinary Dashboard -> Settings (gear icon) -> Upload tab.
+  // 2. Scroll down to "Upload presets", click "Add upload preset".
+  // 3. Change "Signing Mode" from "Signed" to "Unsigned".
+  // 4. Note the "Preset name" and paste it below, replacing 'unsigned_uploads'.
   uploadPreset: 'unsigned_uploads',
 };
