@@ -152,9 +152,12 @@ export default function Hero() {
             variants={iconBoxVariants}
         >
             <div className="relative bg-yellow-100/90 backdrop-blur-sm p-6 rounded-2xl">
-                 <p className="text-zinc-800 leading-relaxed">
-                    Outsourced talent helping provider companies exceed user expectations, strengthen retention, and accelerate growth.
-                </p>
+                 <div className="flex items-center gap-4">
+                    <Image src="/ico.gif" alt="icon" width={40} height={40} unoptimized />
+                    <p className="text-zinc-800 leading-relaxed">
+                        Outsourced talent helping provider companies exceed user expectations, strengthen retention, and accelerate growth.
+                    </p>
+                </div>
 
                 <div className="absolute -bottom-2 -right-2 w-2/5 h-1/3 border-b-4 border-r-4 border-yellow-400 rounded-br-2xl" />
             </div>
