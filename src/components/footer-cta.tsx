@@ -84,7 +84,7 @@ export default function FooterCta() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="relative bg-white overflow-hidden">
+    <section ref={ref} className="relative overflow-hidden">
        <motion.div
         className="relative bg-[#fff9e6] overflow-hidden"
         variants={sectionVariants}
