@@ -1,0 +1,147 @@
+{
+  "entities": {
+    "ReviewerProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ReviewerProfile",
+      "type": "object",
+      "description": "Represents a reviewer's profile and associated information for display on the USA Testimonial Network.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ReviewerProfile entity."
+        },
+        "reviewerName": {
+          "type": "string",
+          "description": "The name of the reviewer."
+        },
+        "state": {
+          "type": "string",
+          "description": "The U.S. state the reviewer is from."
+        },
+        "profilePictureUrl": {
+          "type": "string",
+          "description": "URL of the reviewer's profile picture.",
+          "format": "uri"
+        },
+        "reviewId": {
+          "type": "string",
+          "description": "Reference to the Review entity. (Relationship: Review 1:1 ReviewerProfile)"
+        }
+      },
+      "required": [
+        "id",
+        "reviewerName",
+        "state",
+        "profilePictureUrl",
+        "reviewId"
+      ]
+    },
+    "Review": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Review",
+      "type": "object",
+      "description": "Represents a user review.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Review entity."
+        },
+        "reviewText": {
+          "type": "string",
+          "description": "The text content of the review."
+        }
+      },
+      "required": [
+        "id",
+        "reviewText"
+      ]
+    },
+    "AnimationSequence": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AnimationSequence",
+      "type": "object",
+      "description": "Represents a sequence of reviewer profiles for animation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AnimationSequence entity."
+        },
+        "profileIds": {
+          "type": "array",
+          "description": "References to ReviewerProfiles. (Relationship: AnimationSequence 1:N ReviewerProfile)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sequenceOrder": {
+          "type": "number",
+          "description": "The order of the animation sequence."
+        }
+      },
+      "required": [
+        "id",
+        "profileIds",
+        "sequenceOrder"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/reviewer_profiles/{profileId}",
+        "definition": {
+          "entityName": "ReviewerProfile",
+          "schema": {
+            "$ref": "#/backend/entities/ReviewerProfile"
+          },
+          "description": "Stores reviewer profile information, including reviewerName, state, profilePictureUrl, and reviewId.  'profileId' is the unique identifier for each reviewer profile.",
+          "params": [
+            {
+              "name": "profileId",
+              "description": "The unique identifier for the reviewer profile."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/reviews/{reviewId}",
+        "definition": {
+          "entityName": "Review",
+          "schema": {
+            "$ref": "#/backend/entities/Review"
+          },
+          "description": "Stores review data, including reviewText. 'reviewId' is the unique identifier for each review.",
+          "params": [
+            {
+              "name": "reviewId",
+              "description": "The unique identifier for the review."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/animation_sequences/{sequenceId}",
+        "definition": {
+          "entityName": "AnimationSequence",
+          "schema": {
+            "$ref": "#/backend/entities/AnimationSequence"
+          },
+          "description": "Stores the sequence of reviewer profiles for animation, including profileIds and sequenceOrder. 'sequenceId' is the unique identifier for each animation sequence.",
+          "params": [
+            {
+              "name": "sequenceId",
+              "description": "The unique identifier for the animation sequence."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to support the USA Testimonial Network application. It focuses on optimizing data retrieval for the animated testimonial experience, ensuring scalability, and maintaining data integrity. The core entities—ReviewerProfile, Review, and AnimationSequence—are organized into collections that facilitate efficient querying and updates, especially concerning the profile placement logic and animation flow across the USA map. \n\nTo achieve Authorization Independence (CRITICAL), we do not need to denormalize any authorization context. There is no access control defined in the User Request, so all documents are treated equally. If an access control system were defined (e.g., users can only edit their reviews), the structure would be updated based on strategies outlined in the prompt.\n\nStructural Segregation: Each collection is dedicated to a specific entity, ensuring that all documents within a collection share the same security posture. This simplifies security rules and makes the application more maintainable. For example, `reviewer_profiles` contains only reviewer profile documents, and `reviews` contains only review documents. This segregation avoids mixing data with different access requirements in the same collection.\n\nAccess Modeling: The structure uses path-based ownership where applicable and relies on denormalization to avoid `get()` calls in security rules. The `reviews` collection stores review data. The `reviewer_profiles` collection stores reviewer profile data and includes a `reviewId` to link it to a specific review. The `animation_sequences` collection holds information about the sequence of reviewer profiles for the animation, including an array of `profileIds`. These structures are tailored to support the application's features, such as the animated USA map, profile placement, sequential profile display, popover reviews, and continuous transition between sets of testimonials."
+  }
+}

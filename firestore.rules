@@ -1,0 +1,93 @@
+/**
+ * @file firestore.rules
+ * @description Security rules for the USA Testimonial Network Firestore database.
+ *
+ * @section Core Philosophy
+ * This ruleset enforces a strict "Public Read, Admin-Only Write" security model.
+ * All data related to reviews, profiles, and animation sequences is publicly readable
+ * by any client, including unauthenticated users. However, all client-side write
+ * operations (create, update, delete) are explicitly disabled. This posture ensures
+ * that the testimonial data cannot be tampered with from the application front-end,
+ * assuming that data is managed exclusively through a trusted backend service using
+ * the Firebase Admin SDK.
+ *
+ * @section Data Structure
+ * The database is organized into three distinct, top-level collections:
+ * - /reviewer_profiles/{profileId}: Stores public information about each reviewer.
+ * - /reviews/{reviewId}: Stores the text content of each review.
+ * - /animation_sequences/{sequenceId}: Defines the order in which profiles are displayed.
+ * There is no user-specific data or private subcollections.
+ *
+ * @section Key Security Decisions
+ * - **Public Read Access**: All collections are world-readable to support the app's
+ *   primary function of displaying testimonials to the public.
+ * - **Disabled Client Writes**: To maximize security and data integrity, all write
+ *   operations are blocked. This is the safest default posture when the application
+ *   does not specify a user-based content creation or management feature.
+ * - **No Data Validation**: In line with a prototyping philosophy, these rules do not
+ *   enforce data shapes or schemas. Authorization is the only focus.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // Helper Functions
+    // -------------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------
+    // Collection Rules
+    // -------------------------------------------------------------------------
+
+    /**
+     * @description Rules for the 'reviewer_profiles' collection.
+     * This collection is public and read-only.
+     * @path /reviewer_profiles/{profileId}
+     * @allow An anonymous user can read a specific reviewer profile. (get)
+     * @deny Any user, signed-in or not, trying to create a new profile. (create)
+     * @principle Public read-only data. All client-side writes are disabled to
+     *            ensure data integrity, assuming content is managed via a backend.
+     */
+    match /reviewer_profiles/{profileId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Rules for the 'reviews' collection.
+     * This collection is public and read-only.
+     * @path /reviews/{reviewId}
+     * @allow An anonymous user can list all reviews. (list)
+     * @deny Any user attempting to update an existing review. (update)
+     * @principle Public read-only data. Disabling client writes prevents tampering
+     *            with review content.
+     */
+    match /reviews/{reviewId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Rules for the 'animation_sequences' collection.
+     * This collection is public and read-only.
+     * @path /animation_sequences/{sequenceId}
+     * @allow Any client application can read the animation sequences to render the UI. (get)
+     * @deny A signed-in user trying to delete an animation sequence. (delete)
+     * @principle Public read-only data. The animation logic is critical and must not be
+     *            modifiable from the client.
+     */
+    match /animation_sequences/{sequenceId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
