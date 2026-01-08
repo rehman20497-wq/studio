@@ -7,6 +7,7 @@ import { Upload, Book, Settings } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
+import AdminHeader from './admin-header';
 
 const SectionWrapper = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef(null);
@@ -41,8 +42,8 @@ const SectionCard = ({ id, title, icon: Icon, children }: { id: string, title: s
 export default function AdminPanel() {
   return (
     <div className="p-4 sm:p-8 md:p-12">
-        <h1 className="text-4xl font-bold font-headline text-zinc-900 mb-12">Dashboard</h1>
-        <div className="max-w-5xl mx-auto space-y-16">
+        <AdminHeader userName="Faizan" />
+        <div className="max-w-5xl mx-auto space-y-16 mt-12">
             <SectionWrapper>
             <SectionCard id="upload-provider" title="Upload New Provider" icon={Upload}>
                 <form className="space-y-6">
