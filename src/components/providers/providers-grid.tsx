@@ -108,7 +108,7 @@ export default function ProvidersGrid() {
   return (
     <motion.section
       ref={ref}
-      className="bg-[#FCFBF8] py-24 px-[3%]"
+      className="bg-[#FCFBF8] pt-[3%] pb-24 px-[3%]"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
