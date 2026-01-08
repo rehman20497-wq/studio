@@ -22,9 +22,6 @@ import ValidationSection from "@/components/validation-section";
 import CustomerStories from "@/components/customer-stories";
 import ActionButtonsSection from "@/components/action-buttons-section";
 import BlogSection from "@/components/blog-section";
-import ResourcesButtonSection from "@/components/resources-button-section";
-import FooterCta from "@/components/footer-cta";
-import FinalFooter from "@/components/layout/final-footer";
 
 export default function Home() {
   const footerRef = useRef(null);
@@ -66,16 +63,6 @@ export default function Home() {
       <CustomerStories />
       <ActionButtonsSection />
       <BlogSection />
-      <ResourcesButtonSection />
-      <FooterCta />
-      <motion.div
-        ref={footerRef}
-        initial={{ opacity: 0 }}
-        animate={isFooterInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <FinalFooter />
-      </motion.div>
     </div>
   );
 }
