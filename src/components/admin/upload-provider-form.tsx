@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, ChangeEvent } from 'react';
@@ -6,9 +7,9 @@ import Image from 'next/image';
 import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
 import { cn } from '@/lib/utils';
 import { Progress } from '../ui/progress';
+import RichTextEditor from './rich-text-editor';
 
 const SectionWrapper = ({
   children,
@@ -56,6 +57,7 @@ export default function UploadProviderForm() {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoUploadProgress, setLogoUploadProgress] = useState(0);
   const [selectedSolutions, setSelectedSolutions] = useState<string[]>([]);
+  const [description, setDescription] = useState('');
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -161,8 +163,11 @@ export default function UploadProviderForm() {
       </SectionWrapper>
       
       <SectionWrapper title="Provider Description" step={3} icon={FileText}>
-        <Textarea placeholder="Write a detailed description of the provider..." rows={10} />
-        <p className="text-xs text-zinc-500 mt-2">A rich text editor will be implemented here.</p>
+        <RichTextEditor
+          value={description}
+          onChange={setDescription}
+          placeholder="Write a detailed description of the provider..."
+        />
       </SectionWrapper>
 
       <SectionWrapper title="Upload Banner (Optional)" step={4} icon={ImageIcon}>
