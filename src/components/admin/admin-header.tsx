@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Sun, Moon, Wifi } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
 import { format } from 'date-fns';
 
 const headerVariants = {
@@ -36,12 +36,17 @@ const containerVariants = {
 }
 
 export default function AdminHeader({ userName }: { userName: string }) {
-  const [lastLoginTime, setLastLoginTime] = useState<string>('');
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    // This simulates fetching last login time. In a real app, this would come from a backend.
-    setLastLoginTime(format(new Date(), "MMMM d, yyyy 'at' h:mm a"));
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
+
+  const formattedDate = format(currentTime, "MMMM d, yyyy");
+  const formattedTime = format(currentTime, "h:mm:ss a");
 
   return (
     <motion.header
@@ -65,13 +70,13 @@ export default function AdminHeader({ userName }: { userName: string }) {
         initial="hidden" 
         animate="visible"
       >
-        <motion.div className="flex items-center gap-2 text-zinc-600" variants={itemVariants}>
-          <Sun className="w-5 h-5" />
-          <span>{lastLoginTime}</span>
+        <motion.div className="flex items-center gap-3 text-zinc-600" variants={itemVariants}>
+          <Sun className="w-5 h-5 text-yellow-500" />
+          <span>{formattedDate}</span>
+          <Moon className="w-5 h-5 text-blue-800" />
         </motion.div>
-        <motion.div className="flex items-center gap-2 text-zinc-600" variants={itemVariants}>
-          <Wifi className="w-5 h-5" />
-          <span>IP: 127.0.0.1</span>
+        <motion.div className="flex items-center gap-2 text-zinc-600 font-mono" variants={itemVariants}>
+          <span>{formattedTime}</span>
         </motion.div>
       </motion.div>
     </motion.header>
