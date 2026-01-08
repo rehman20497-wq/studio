@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Upload, Settings, LogOut } from 'lucide-react';
-import AdminPanel from './admin-panel';
+import { LayoutDashboard, Upload, Settings, LogOut, FileText } from 'lucide-react';
+import Link from 'next/link';
 
 const sidebarVariants = {
   hidden: { x: '-100%', opacity: 0 },
@@ -32,31 +32,26 @@ const navContainerVariants = {
 }
 
 const NavLink = ({ href, icon: Icon, children }: { href: string; icon: React.ElementType; children: React.ReactNode }) => {
-    const scrollToSection = (id: string) => {
-        const section = document.getElementById(id);
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
     return (
-        <motion.a
-            href={href}
-            onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(href.substring(1));
-            }}
-            variants={navItemVariants}
-            className="flex items-center gap-3 px-4 py-3 text-zinc-300 hover:bg-zinc-700/50 hover:text-white rounded-lg transition-colors duration-200"
-            whileHover={{ x: 5 }}
-        >
-            <Icon className="w-5 h-5" />
-            <span>{children}</span>
-        </motion.a>
+        <motion.div variants={navItemVariants}>
+            <Link
+                href={href}
+                className="flex items-center gap-3 px-4 py-3 text-zinc-300 hover:bg-zinc-700/50 hover:text-white rounded-lg transition-colors duration-200"
+            >
+                <Icon className="w-5 h-5" />
+                <span>{children}</span>
+            </Link>
+        </motion.div>
     )
 };
 
-export default function AdminLayout({ onLogout }: { onLogout: () => void }) {
+export default function AdminLayout({ 
+    children,
+    onLogout 
+}: { 
+    children: React.ReactNode;
+    onLogout: () => void;
+}) {
   return (
     <div className="flex min-h-screen">
       <motion.aside
@@ -72,10 +67,10 @@ export default function AdminLayout({ onLogout }: { onLogout: () => void }) {
             initial="hidden"
             animate="visible"
         >
-          <NavLink href="#dashboard" icon={LayoutDashboard}>Dashboard</NavLink>
-          <NavLink href="#upload-provider" icon={Upload}>Upload Provider</NavLink>
-          <NavLink href="#upload-blog" icon={Upload}>Upload Blog</NavLink>
-          <NavLink href="#manage-providers" icon={Settings}>Manage</NavLink>
+          <NavLink href="/admin" icon={LayoutDashboard}>Dashboard</NavLink>
+          <NavLink href="/admin/upload" icon={Upload}>Upload Provider</NavLink>
+          <NavLink href="#" icon={FileText}>Upload Blog</NavLink>
+          <NavLink href="#" icon={Settings}>Manage</NavLink>
         </motion.nav>
         <motion.button
           onClick={onLogout}
@@ -90,7 +85,7 @@ export default function AdminLayout({ onLogout }: { onLogout: () => void }) {
       </motion.aside>
 
       <main className="flex-1 ml-64 bg-[#FEF9F2] overflow-y-auto">
-        <AdminPanel />
+        {children}
       </main>
     </div>
   );

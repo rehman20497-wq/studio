@@ -5,10 +5,11 @@ import AdminLayout from '@/components/admin/admin-layout';
 import LoginScreen from '@/components/admin/login-screen';
 import { AnimatePresence, motion } from 'framer-motion';
 import WelcomeScreen from '@/components/admin/welcome-screen';
+import AdminPanel from '@/components/admin/admin-panel';
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
-export default function AdminPage() {
+export default function AdminDashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   let inactivityTimer: NodeJS.Timeout;
@@ -76,7 +77,9 @@ export default function AdminPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-            <AdminLayout onLogout={handleLogout} />
+            <AdminLayout onLogout={handleLogout}>
+              <AdminPanel />
+            </AdminLayout>
           </motion.div>
         )}
       </AnimatePresence>
