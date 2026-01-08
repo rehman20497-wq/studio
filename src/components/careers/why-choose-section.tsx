@@ -188,7 +188,7 @@ export default function WhyChooseSection() {
       </motion.div>
 
       <motion.div
-        className="max-w-6xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12"
+        className="max-w-6xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
         variants={boxContainerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -199,7 +199,7 @@ export default function WhyChooseSection() {
             className="text-center flex flex-col items-center"
             variants={boxVariants}
           >
-            <div className="w-16 h-16 bg-yellow-300 rounded-full flex items-center justify-center mb-4">
+            <div className="w-16 h-16 bg-yellow-200 rounded-full flex items-center justify-center mb-4">
               {benefit.icon}
             </div>
             <h3 className="text-xl font-semibold text-zinc-900 mb-2">{benefit.title}</h3>
@@ -210,3 +210,4 @@ export default function WhyChooseSection() {
     </section>
   );
 }
+
