@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -6,6 +7,7 @@ import LoginScreen from '@/components/admin/login-screen';
 import { AnimatePresence, motion } from 'framer-motion';
 import WelcomeScreen from '@/components/admin/welcome-screen';
 import AdminPanel from '@/components/admin/admin-panel';
+import AdminHeader from '@/components/admin/admin-header';
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
@@ -78,7 +80,12 @@ export default function AdminDashboardPage() {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             <AdminLayout onLogout={handleLogout}>
-              <AdminPanel />
+              <div className="p-4 sm:p-8 md:p-12">
+                <AdminHeader userName="Faizan" />
+                <div className="mt-12">
+                  <AdminPanel />
+                </div>
+              </div>
             </AdminLayout>
           </motion.div>
         )}
