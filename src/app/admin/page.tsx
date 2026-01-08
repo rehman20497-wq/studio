@@ -2,41 +2,49 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useAuth, useUser } from '@/firebase';
+import { initiateAnonymousSignIn } from '@/firebase/non-blocking-login';
 import AdminLayout from '@/components/admin/admin-layout';
 import LoginScreen from '@/components/admin/login-screen';
 import { AnimatePresence, motion } from 'framer-motion';
 import WelcomeScreen from '@/components/admin/welcome-screen';
 import AdminPanel from '@/components/admin/admin-panel';
 import AdminHeader from '@/components/admin/admin-header';
+import { signOut } from 'firebase/auth';
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
 export default function AdminDashboardPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
   const [showWelcome, setShowWelcome] = useState(false);
   let inactivityTimer: NodeJS.Timeout;
 
   const handleLogout = useCallback(() => {
-    setIsAuthenticated(false);
-  }, []);
+    if (auth) {
+      signOut(auth);
+    }
+  }, [auth]);
 
   const handleAuthentication = () => {
-    setIsAuthenticated(true);
-    setShowWelcome(true);
-    setTimeout(() => {
-      setShowWelcome(false);
-    }, 4000); // Show welcome screen for 4 seconds
+    if (auth) {
+      initiateAnonymousSignIn(auth);
+      setShowWelcome(true);
+      setTimeout(() => {
+        setShowWelcome(false);
+      }, 4000); // Show welcome screen for 4 seconds
+    }
   };
 
   const resetInactivityTimer = useCallback(() => {
     clearTimeout(inactivityTimer);
-    if (isAuthenticated) {
+    if (user) {
       inactivityTimer = setTimeout(handleLogout, INACTIVITY_TIMEOUT);
     }
-  }, [isAuthenticated, handleLogout]);
+  }, [user, handleLogout]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       window.addEventListener('mousemove', resetInactivityTimer);
       window.addEventListener('keydown', resetInactivityTimer);
       resetInactivityTimer();
@@ -47,13 +55,20 @@ export default function AdminDashboardPage() {
       window.removeEventListener('mousemove', resetInactivityTimer);
       window.removeEventListener('keydown', resetInactivityTimer);
     };
-  }, [isAuthenticated, resetInactivityTimer]);
+  }, [user, resetInactivityTimer]);
 
+  if (isUserLoading) {
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
+            <p>Loading...</p>
+        </div>
+    );
+  }
 
   return (
     <div className="bg-[#FEF9F2] min-h-screen overflow-hidden">
       <AnimatePresence mode="wait">
-        {!isAuthenticated ? (
+        {!user ? (
           <motion.div
             key="login"
             initial={{ opacity: 0 }}
@@ -70,7 +85,7 @@ export default function AdminDashboardPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <WelcomeScreen name="Faizan" />
+            <WelcomeScreen name="Admin" />
           </motion.div>
         ) : (
           <motion.div
@@ -81,7 +96,7 @@ export default function AdminDashboardPage() {
           >
             <AdminLayout onLogout={handleLogout}>
               <div className="p-4 sm:p-8 md:p-12">
-                <AdminHeader userName="Faizan" />
+                <AdminHeader userName="Admin" />
                 <div className="mt-12">
                   <AdminPanel />
                 </div>

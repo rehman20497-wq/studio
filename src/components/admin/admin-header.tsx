@@ -49,8 +49,8 @@ export default function AdminHeader({ userName }: { userName: string }) {
     return () => clearInterval(timer);
   }, []);
 
-  const formattedDate = currentTime ? format(currentTime, "MMMM d, yyyy") : 'Loading date...';
-  const formattedTime = currentTime ? format(currentTime, "h:mm:ss a") : '...';
+  const formattedDate = currentTime ? format(currentTime, "MMMM d, yyyy") : '';
+  const formattedTime = currentTime ? format(currentTime, "h:mm:ss a") : '';
 
   return (
     <motion.header

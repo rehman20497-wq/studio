@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
@@ -32,25 +33,11 @@ export default function WelcomeScreen({ name }: { name: string }) {
   const welcomeText = `Welcome, ${name}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-yellow-200 via-amber-400 to-orange-500"
-        initial={{ backgroundSize: '200% 200%', backgroundPosition: '0% 50%' }}
-        animate={{
-          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-        }}
-        transition={{
-          duration: 8,
-          ease: 'linear',
-          repeat: Infinity,
-        }}
-      >
-        <div className="absolute inset-0 bg-black/30" />
-      </motion.div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[#FEF9F2]">
       <motion.h1
-        className="text-5xl md:text-7xl font-bold text-white text-center font-headline"
+        className="text-5xl md:text-7xl font-bold text-zinc-900 text-center font-headline"
         style={{
-          textShadow: '0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.5), 0 0 30px rgba(255,165,0,0.7)',
+          textShadow: '0 0 10px rgba(0,0,0,0.1), 0 0 20px rgba(0,0,0,0.1)',
         }}
         variants={containerVariants}
         initial="hidden"
