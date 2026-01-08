@@ -89,7 +89,7 @@ export default function Hero() {
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="relative bg-black min-h-[90vh] flex items-center justify-center p-8 overflow-hidden m-[4%] rounded-2xl">
+    <section ref={ref} className="relative bg-black min-h-[90vh] flex items-center justify-center p-8 overflow-hidden mt-[1%] mx-[4%] mb-[4%] rounded-2xl">
       <motion.div
         className="absolute inset-0"
         variants={bgVariants}
