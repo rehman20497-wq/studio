@@ -1,10 +1,9 @@
 
 'use client';
 
-import { useMemo } from 'react';
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { collection, limit, query } from 'firebase/firestore';
-import { useFirestore } from '@/firebase';
+import { useFirestore, useMemoFirebase } from '@/firebase';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import Header from '@/components/layout/header';
@@ -37,7 +36,7 @@ const StatusIndicator = ({ status, message, data }: { status: 'loading' | 'succe
 
 const FirestoreConnectionTest = () => {
     const firestore = useFirestore();
-    const memoizedQuery = useMemo(() => {
+    const memoizedQuery = useMemoFirebase(() => {
         if (!firestore) return null;
         return query(collection(firestore, 'reviewer_profiles'), limit(1));
     }, [firestore]);
