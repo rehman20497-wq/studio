@@ -4,9 +4,9 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import MagneticButton from '../magnetic-button';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -140,9 +140,9 @@ export default function Hero() {
             </motion.p>
             
             <motion.div className="mt-8" variants={textItemVariants}>
-              <Button className="bg-black text-white rounded-full px-6 hover:bg-zinc-800">
-                Book a Meeting
-              </Button>
+              <MagneticButton>
+                  <span className="text-[15px] font-medium px-4">Book a Meeting</span>
+              </MagneticButton>
             </motion.div>
           </motion.div>
         </motion.div>
