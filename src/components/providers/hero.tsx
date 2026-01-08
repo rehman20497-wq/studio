@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -89,7 +88,7 @@ export default function Hero() {
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="relative bg-black w-full min-h-[70vh] flex items-center justify-center p-8 overflow-hidden">
+    <section ref={ref} className="relative bg-black min-h-[70vh] flex items-center justify-center p-8 overflow-hidden m-[4%] rounded-2xl">
       <motion.div
         className="absolute inset-0"
         variants={bgVariants}
