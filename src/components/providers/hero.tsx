@@ -119,11 +119,17 @@ export default function Hero() {
           <motion.div variants={textContentVariants}>
             <div className="flex justify-between items-start">
               <motion.div variants={textItemVariants} className="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <Image src="/arrow-down.gif" alt="icon" width={40} height={40} unoptimized />
+                <Image src="/arrow-down.gif" alt="icon" width={60} height={60} unoptimized />
               </motion.div>
               <motion.div variants={textItemVariants}>
-                <Image src="/ar.gif" alt="arrow icon" width={32} height={32} />
-              </motion.div>
+  <Image
+    src="/ar.gif"
+    alt="arrow icon"
+    width={52}
+    height={52}
+    className="rotate-45"
+  />
+</motion.div>
             </div>
             
             <motion.h1 className="text-5xl font-bold text-zinc-900 mt-4" variants={textItemVariants}>
@@ -148,12 +154,12 @@ export default function Hero() {
 
         {/* Icon Box */}
         <motion.div 
-            className="relative self-start mt-8 md:mt-0 ml-[30%]"
+            className="relative self-start mt-8 md:mt-0 ml-[20%]"
             variants={iconBoxVariants}
         >
             <div className="relative bg-yellow-100/90 backdrop-blur-sm p-6 rounded-2xl">
                  <div className="flex items-center gap-4">
-                    <Image src="/ico.gif" alt="icon" width={40} height={40} unoptimized />
+                    <Image src="/te.png" alt="icon" width={100} height={100} unoptimized />
                     <p className="text-zinc-800 leading-relaxed">
                         Outsourced talent helping provider companies exceed user expectations, strengthen retention, and accelerate growth.
                     </p>

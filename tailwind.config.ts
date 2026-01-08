@@ -143,6 +143,12 @@ export default {
             from: { transform: 'translateY(0)' },
             to: { transform: 'translateY(-100%)' },
         },
+        'shake': {
+          '10%, 90%': { transform: 'translateX(-1px)' },
+          '20%, 80%': { transform: 'translateX(2px)' },
+          '30%, 50%, 70%': { transform: 'translateX(-4px)' },
+          '40%, 60%': { transform: 'translateX(4px)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -166,10 +172,9 @@ export default {
         'gradient-flow': 'gradient-flow 15s ease infinite',
         'slide-in-from-top': 'slide-in-from-top 0.5s ease-in-out',
         'slide-out-to-top': 'slide-out-to-top 0.5s ease-in-out',
+        'shake': 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both',
       },
     },
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
-
-    
