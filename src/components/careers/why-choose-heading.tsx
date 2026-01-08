@@ -21,7 +21,7 @@ export default function WhyChooseHeading({ isInView }: { isInView: boolean }) {
       variants={headingVariants}
     >
       <svg
-        viewBox="0 0 400 60"
+        viewBox="0 0 400 70"
         className="w-full max-w-lg mx-auto h-auto"
         preserveAspectRatio="xMidYMid meet"
       >
