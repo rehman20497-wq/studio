@@ -9,6 +9,7 @@ import ResourcesButtonSection from '@/components/resources-button-section';
 import FooterCta from '@/components/footer-cta';
 import FinalFooter from '@/components/layout/final-footer';
 import BlogSection from '@/components/blog-section';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 // Metadata cannot be exported from a client component.
 // We can either keep it here and accept the warning, or move it to a server component wrapper.
@@ -39,16 +40,18 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        {children}
-        {!isAdminPage && (
-          <>
-            <BlogSection />
-            <ResourcesButtonSection />
-            <FooterCta />
-            <FinalFooter />
-          </>
-        )}
-        <Toaster />
+        <FirebaseClientProvider>
+          {children}
+          {!isAdminPage && (
+            <>
+              <BlogSection />
+              <ResourcesButtonSection />
+              <FooterCta />
+              <FinalFooter />
+            </>
+          )}
+          <Toaster />
+        </FirebaseClientProvider>
       </body>
     </html>
   );
