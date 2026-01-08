@@ -4,7 +4,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
-import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MagneticButton from '../magnetic-button';
 
@@ -123,7 +122,7 @@ export default function Hero() {
                 <Image src="/arrow-down.gif" alt="icon" width={40} height={40} unoptimized />
               </motion.div>
               <motion.div variants={textItemVariants}>
-                <ArrowUpRight className="w-8 h-8 text-zinc-500" />
+                <Image src="/ar.gif" alt="arrow icon" width={32} height={32} />
               </motion.div>
             </div>
             
