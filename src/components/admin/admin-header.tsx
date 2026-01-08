@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -36,17 +37,20 @@ const containerVariants = {
 }
 
 export default function AdminHeader({ userName }: { userName: string }) {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
   useEffect(() => {
+    // Set the time only on the client side
+    setCurrentTime(new Date());
+
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const formattedDate = format(currentTime, "MMMM d, yyyy");
-  const formattedTime = format(currentTime, "h:mm:ss a");
+  const formattedDate = currentTime ? format(currentTime, "MMMM d, yyyy") : 'Loading date...';
+  const formattedTime = currentTime ? format(currentTime, "h:mm:ss a") : '...';
 
   return (
     <motion.header

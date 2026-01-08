@@ -3,6 +3,7 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  reactStrictMode: false, // Disabling Strict Mode for react-quill compatibility
   typescript: {
     ignoreBuildErrors: true,
   },
