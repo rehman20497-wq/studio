@@ -27,14 +27,14 @@ const textVariants = {
 };
 
 const cardContainerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.3,
-            delayChildren: 0.5,
-        }
-    }
-}
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.3,
+      delayChildren: 0.5,
+    },
+  },
+};
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -54,35 +54,54 @@ const cards = [
     icon: '/check.gif',
     text: 'We get things done. We iterate & move faster than everyone else.',
     borderColor: 'border-cyan-400/50',
+    width: 120,
+    height: 120,
   },
   {
     icon: '/heart.gif',
-    text: "We put empathy into action at work—we invest in each individual's growth and meet them with compassion.",
+    text:
+      "We put empathy into action at work—we invest in each individual's growth and meet them with compassion.",
     borderColor: 'border-green-400/50',
+    width: 120,
+    height: 120,
   },
   {
     icon: '/doc.gif',
-    text: 'We hold an unwavering commitment to delivering world-class quality and continuous improvement.',
+    text:
+      'We hold an unwavering commitment to delivering world-class quality and continuous improvement.',
     borderColor: 'border-purple-400/50',
+    width: 80,
+    height: 80,
   },
   {
     icon: '/search.gif',
-    text: "Doing things the right way guides our decisions, even when it's the harder path.",
+    text:
+      "Doing things the right way guides our decisions, even when it's the harder path.",
     borderColor: 'border-red-400/50',
+    width: 92,
+    height: 92,
   },
 ];
 
-const DashedLine = ({ d, animate, reverse }: { d: string, animate: boolean, reverse?: boolean }) => (
-    <motion.path
-      d={d}
-      fill="none"
-      stroke="black"
-      strokeWidth="2"
-      strokeDasharray="5 10"
-      strokeLinecap="round"
-      className={animate ? 'marching-ants' : ''}
-      style={{ animationDirection: reverse ? 'reverse' : 'normal' }}
-    />
+const DashedLine = ({
+  d,
+  animate,
+  reverse,
+}: {
+  d: string;
+  animate: boolean;
+  reverse?: boolean;
+}) => (
+  <motion.path
+    d={d}
+    fill="none"
+    stroke="black"
+    strokeWidth="2"
+    strokeDasharray="5 10"
+    strokeLinecap="round"
+    className={animate ? 'marching-ants' : ''}
+    style={{ animationDirection: reverse ? 'reverse' : 'normal' }}
+  />
 );
 
 export default function BaselineSection() {
@@ -103,50 +122,73 @@ export default function BaselineSection() {
         >
           Better is our baseline.
         </motion.h2>
+
         <motion.p
           className="mt-6 text-lg text-zinc-600 max-w-3xl mx-auto"
           variants={textVariants}
         >
           We are not just providing a better way to outsource, we're building a
-          transformative workplace—one where 'better' drives our pursuit of
-          excellence. We operate transparently, treat each other with
-          compassion, and constantly streamline how we produce world-class
-          work.
+          transformative workplace—one where &apos;better&apos; drives our
+          pursuit of excellence. We operate transparently, treat each other with
+          compassion, and constantly streamline how we produce world-class work.
         </motion.p>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="relative max-w-7xl mx-auto mt-20"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <div className="absolute top-0 left-0 w-full h-full -z-10">
-            <svg width="100%" height="100%" viewBox="0 0 1100 350" preserveAspectRatio='none'>
-                <DashedLine d="M 130 130 C 200 -55, 380 -55, 450 90" animate={isInView} />
-                <DashedLine d="M 450 220 C 520 405, 700 405, 770 220" animate={isInView} reverse />
-                <DashedLine d="M 770 130 C 840 -55, 1020 -55, 1090 130" animate={isInView} />
-            </svg>
+        <div className="absolute top-0 left-0 w-full h-full">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 1100 350"
+            preserveAspectRatio="none"
+          >
+            <DashedLine
+              d="M 130 130 C 200 -20, 380 -20, 450 130"
+              animate={isInView}
+            />
+            <DashedLine
+              d="M 450 220 C 520 370, 700 370, 770 220"
+              animate={isInView}
+              reverse
+            />
+            <DashedLine
+              d="M 770 130 C 840 -20, 1020 -20, 1090 130"
+              animate={isInView}
+            />
+          </svg>
         </div>
 
-        <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-20"
-            variants={cardContainerVariants}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-20"
+          variants={cardContainerVariants}
         >
           {cards.map((card, index) => (
-           <motion.div
-           key={index}
-           className={`bg-white rounded-2xl p-6 text-center flex flex-col items-center border-2 ${card.borderColor}`}
-           variants={cardVariants}
-         >
-           <div className="w-24 h-24 mb-4 flex items-center justify-center">
-             <Image src={card.icon} alt="" width={80} height={80} unoptimized/>
-           </div>
-           <p className="text-zinc-700 text-sm leading-relaxed">
-             {card.text}
-           </p>
-         </motion.div>
-         
+            <motion.div
+              key={index}
+              className={`bg-white rounded-2xl p-6 text-center flex flex-col items-center border-2 ${card.borderColor}`}
+              style={{ zIndex: index + 1 }}
+              variants={cardVariants}
+            >
+              {/* Icon */}
+              <div className="mb-4 flex items-center justify-center h-28">
+                <Image
+                  src={card.icon}
+                  alt=""
+                  width={card.width}
+                  height={card.height}
+                />
+              </div>
+
+              {/* Text */}
+              <p className="text-zinc-700 text-sm leading-relaxed">
+                {card.text}
+              </p>
+            </motion.div>
           ))}
         </motion.div>
       </motion.div>

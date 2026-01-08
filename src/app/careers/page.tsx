@@ -7,6 +7,7 @@ import CareerTestimonial from "@/components/careers/career-testimonial";
 import CareerBrushStroke from "@/components/careers/career-brush-stroke";
 import AlumniSection from "@/components/careers/alumni-section";
 import BaselineSection from "@/components/careers/baseline-section";
+import WhyChooseSection from "@/components/careers/why-choose-section";
 
 export default function CareersPage() {
   return (
@@ -19,6 +20,7 @@ export default function CareersPage() {
         <CareerBrushStroke />
         <AlumniSection />
         <BaselineSection />
+        <WhyChooseSection />
       </main>
       <FinalFooter />
     </div>
