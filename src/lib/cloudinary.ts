@@ -13,6 +13,6 @@ export const cloudinaryConfig = {
   // 1. Go to your Cloudinary Dashboard -> Settings (gear icon) -> Upload tab.
   // 2. Scroll down to "Upload presets", click "Add upload preset".
   // 3. Change "Signing Mode" from "Signed" to "Unsigned".
-  // 4. Note the "Preset name" and paste it below, replacing 'unsigned_uploads'.
-  uploadPreset: 'unsigned_uploads',
+  // 4. Note the "Preset name" and paste it below.
+  uploadPreset: 'dgyphefo',
 };
