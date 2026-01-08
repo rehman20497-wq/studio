@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -148,7 +149,7 @@ export default function Hero() {
 
         {/* Icon Box */}
         <motion.div 
-            className="relative self-start mt-8 md:mt-0 ml-[15%]"
+            className="relative self-start mt-8 md:mt-0 ml-[30%]"
             variants={iconBoxVariants}
         >
             <div className="relative bg-yellow-100/90 backdrop-blur-sm p-6 rounded-2xl">
