@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -85,7 +84,7 @@ export default function AdminDashboardPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <WelcomeScreen name="Admin" />
+            <WelcomeScreen name="Faizan" />
           </motion.div>
         ) : (
           <motion.div
@@ -96,7 +95,7 @@ export default function AdminDashboardPage() {
           >
             <AdminLayout onLogout={handleLogout}>
               <div className="p-4 sm:p-8 md:p-12">
-                <AdminHeader userName="Admin" />
+                <AdminHeader userName="Faizan" />
                 <div className="mt-12">
                   <AdminPanel />
                 </div>

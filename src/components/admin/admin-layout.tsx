@@ -60,7 +60,7 @@ export default function AdminLayout({
         initial="hidden"
         animate="visible"
       >
-        <div className="text-2xl font-bold font-headline mb-12">Admin</div>
+        <div className="text-2xl font-bold font-headline mb-12">Admin Panel</div>
         <motion.nav 
             className="flex-grow space-y-4"
             variants={navContainerVariants}

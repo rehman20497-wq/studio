@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useUser, useAuth } from '@/firebase';
@@ -37,7 +36,7 @@ export default function UploadProviderPage() {
   return (
     <AdminLayout onLogout={handleLogout}>
         <div className="p-4 sm:p-8 md:p-12">
-            <AdminHeader userName="Admin" />
+            <AdminHeader userName="Faizan" />
             <div className="mt-12">
                 <UploadProviderForm />
             </div>
