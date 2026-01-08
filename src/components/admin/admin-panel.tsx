@@ -24,8 +24,8 @@ const SectionWrapper = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const SectionCard = ({ title, icon: Icon, children }: { title: string, icon: React.ElementType, children: React.ReactNode }) => (
-  <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-zinc-200/50">
+const SectionCard = ({ id, title, icon: Icon, children }: { id: string, title: string, icon: React.ElementType, children: React.ReactNode }) => (
+  <div id={id} className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-zinc-200/50">
     <div className="p-6 border-b border-zinc-200/80 flex items-center gap-4">
       <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
         <Icon className="w-6 h-6 text-yellow-600" />
@@ -40,53 +40,49 @@ const SectionCard = ({ title, icon: Icon, children }: { title: string, icon: Rea
 
 export default function AdminPanel() {
   return (
-    <div className="min-h-screen bg-[#FEF9F2] p-4 sm:p-8 md:p-12">
-      <header className="flex justify-between items-center mb-12">
-        <h1 className="text-4xl font-bold font-headline text-zinc-900">Admin Panel</h1>
-        <Button variant="outline">Logout</Button>
-      </header>
+    <div className="p-4 sm:p-8 md:p-12">
+        <h1 className="text-4xl font-bold font-headline text-zinc-900 mb-12">Dashboard</h1>
+        <div className="max-w-5xl mx-auto space-y-16">
+            <SectionWrapper>
+            <SectionCard id="upload-provider" title="Upload New Provider" icon={Upload}>
+                <form className="space-y-6">
+                <Input placeholder="Provider Name (e.g., Google, Amazon)" />
+                <Input type="file" />
+                <Button className="w-full">Upload Provider</Button>
+                </form>
+            </SectionCard>
+            </SectionWrapper>
 
-      <div className="max-w-5xl mx-auto space-y-16">
-        <SectionWrapper>
-          <SectionCard title="Upload New Provider" icon={Upload}>
-            <form className="space-y-6">
-              <Input placeholder="Provider Name (e.g., Google, Amazon)" />
-              <Input type="file" />
-              <Button className="w-full">Upload Provider</Button>
-            </form>
-          </SectionCard>
-        </SectionWrapper>
-
-        <SectionWrapper>
-          <SectionCard title="Upload New Blog Post" icon={Book}>
-            <form className="space-y-6">
-              <Input placeholder="Blog Title" />
-              <Textarea placeholder="Blog content (Markdown supported)..." rows={8} />
-              <Input type="file" placeholder="Header Image" />
-              <Button className="w-full">Publish Blog Post</Button>
-            </form>
-          </SectionCard>
-        </SectionWrapper>
-        
-        <SectionWrapper>
-          <SectionCard title="Manage Providers" icon={Settings}>
-            <div className="space-y-4">
-                {[...Array(3)].map((_, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 rounded-lg bg-zinc-50 border">
-                        <div className="flex items-center gap-4">
-                            <Image src="https://picsum.photos/seed/google/40/40" alt="Provider" width={40} height={40} className="rounded-md" />
-                            <span className="font-semibold">Provider Name {i+1}</span>
+            <SectionWrapper>
+            <SectionCard id="upload-blog" title="Upload New Blog Post" icon={Book}>
+                <form className="space-y-6">
+                <Input placeholder="Blog Title" />
+                <Textarea placeholder="Blog content (Markdown supported)..." rows={8} />
+                <Input type="file" placeholder="Header Image" />
+                <Button className="w-full">Publish Blog Post</Button>
+                </form>
+            </SectionCard>
+            </SectionWrapper>
+            
+            <SectionWrapper>
+            <SectionCard id="manage-providers" title="Manage Providers" icon={Settings}>
+                <div className="space-y-4">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="flex items-center justify-between p-4 rounded-lg bg-zinc-50 border">
+                            <div className="flex items-center gap-4">
+                                <Image src="https://picsum.photos/seed/google/40/40" alt="Provider" width={40} height={40} className="rounded-md" />
+                                <span className="font-semibold">Provider Name {i+1}</span>
+                            </div>
+                            <div className="flex gap-2">
+                                <Button size="sm" variant="outline">Edit</Button>
+                                <Button size="sm" variant="destructive">Delete</Button>
+                            </div>
                         </div>
-                        <div className="flex gap-2">
-                            <Button size="sm" variant="outline">Edit</Button>
-                            <Button size="sm" variant="destructive">Delete</Button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-          </SectionCard>
-        </SectionWrapper>
-      </div>
+                    ))}
+                </div>
+            </SectionCard>
+            </SectionWrapper>
+        </div>
     </div>
   );
 }
