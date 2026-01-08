@@ -1,9 +1,9 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
+import WhyChooseHeading from './why-choose-heading';
 
 // Icons as separate components for clarity
 const HealthcareIcon = () => (
@@ -161,23 +161,7 @@ export default function WhyChooseSection() {
             <Image src="/arrow-down.gif" alt="arrow down" fill unoptimized />
         </motion.div>
         
-        <motion.h2
-          className="text-5xl font-headline font-medium text-zinc-900 relative inline-block"
-          variants={headingVariants}
-        >
-          Why Choose Telesys
-          <motion.svg
-            className="absolute -bottom-1 left-0 w-full"
-            height="8"
-            viewBox="0 0 100 8"
-            preserveAspectRatio="none"
-            initial={{ pathLength: 0 }}
-            animate={isInView ? { pathLength: 1 } : {}}
-            transition={{ delay: 0.8, duration: 0.5, ease: 'easeOut' }}
-          >
-            <path d="M1 5C20 8, 80,8, 99 5" stroke="black" strokeWidth="2" fill="none" strokeLinecap="round" />
-          </motion.svg>
-        </motion.h2>
+        <WhyChooseHeading isInView={isInView} />
 
         <motion.p
           className="mt-6 text-lg text-zinc-600"
@@ -188,7 +172,7 @@ export default function WhyChooseSection() {
       </motion.div>
 
       <motion.div
-        className="max-w-6xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
+        className="max-w-6xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-28"
         variants={boxContainerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -210,4 +194,3 @@ export default function WhyChooseSection() {
     </section>
   );
 }
-
