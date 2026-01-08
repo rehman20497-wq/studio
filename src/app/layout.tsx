@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import ResourcesButtonSection from '@/components/resources-button-section';
 import FooterCta from '@/components/footer-cta';
 import FinalFooter from '@/components/layout/final-footer';
+import BlogSection from '@/components/blog-section';
 
 export const metadata: Metadata = {
   title: 'USA Testimonial Network',
@@ -27,6 +28,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         {children}
+        <BlogSection />
         <ResourcesButtonSection />
         <FooterCta />
         <FinalFooter />

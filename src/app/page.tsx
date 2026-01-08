@@ -21,7 +21,6 @@ import SurgeProtectSection from "@/components/surge-protect-section";
 import ValidationSection from "@/components/validation-section";
 import CustomerStories from "@/components/customer-stories";
 import ActionButtonsSection from "@/components/action-buttons-section";
-import BlogSection from "@/components/blog-section";
 
 export default function Home() {
   const footerRef = useRef(null);
@@ -62,7 +61,6 @@ export default function Home() {
       <ValidationSection />
       <CustomerStories />
       <ActionButtonsSection />
-      <BlogSection />
     </div>
   );
 }

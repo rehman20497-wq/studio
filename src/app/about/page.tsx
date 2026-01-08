@@ -8,7 +8,6 @@ import TeamBSection from "@/components/about/team-b-section";
 import TeamCSection from "@/components/about/team-c-section";
 import OurValuesSection from "@/components/about/our-values-section";
 import LeadershipSection from "@/components/about/leadership-section";
-import BlogSection from "@/components/blog-section";
 
 export default function AboutPage() {
   return (
@@ -25,7 +24,6 @@ export default function AboutPage() {
         <TeamCSection />
         <OurValuesSection />
         <LeadershipSection />
-        <BlogSection />
       </main>
     </div>
   );
