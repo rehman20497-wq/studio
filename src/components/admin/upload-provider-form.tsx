@@ -87,11 +87,13 @@ export default function UploadProviderForm() {
   });
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
+      if (!cloudinaryConfig.uploadPreset) {
+        throw new Error('Cloudinary upload preset is not configured. Please check src/lib/cloudinary.ts');
+      }
+
       const formData = new FormData();
       formData.append('file', file);
-      // NOTE: This assumes you have an unsigned upload preset named 'unsigned_uploads' in Cloudinary.
-      // For signed uploads, a backend endpoint would be necessary to generate the signature.
-      formData.append('upload_preset', 'unsigned_uploads');
+      formData.append('upload_preset', cloudinaryConfig.uploadPreset);
 
       return new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
