@@ -7,8 +7,9 @@ import Hero from "@/components/single-provider/hero";
 import Details from "@/components/single-provider/details";
 import Testimonial from "@/components/single-provider/testimonial";
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc, DocumentData } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
 import ProviderFilter from '@/components/providers/provider-filter';
+import ProviderStats from '@/components/single-provider/provider-stats';
 
 type ProviderData = {
   id: string;
@@ -17,6 +18,8 @@ type ProviderData = {
   description: string;
   bannerImageUrl?: string;
   logoUrl: string;
+  impressions?: number;
+  clicks?: number;
 };
 
 export default function SingleProviderPage() {
@@ -30,13 +33,6 @@ export default function SingleProviderPage() {
   );
   
   const { data: providerData, isLoading, error } = useDoc<ProviderData>(providerRef);
-
-  // Determine a primary solution for the hero/testimonial sections
-  const primarySolution = providerData?.solutions?.[0]?.toLowerCase().includes('cloud') ? 'cloud'
-                        : providerData?.solutions?.[0]?.toLowerCase().includes('comm') ? 'communications'
-                        : providerData?.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
-                        : providerData?.solutions?.[0]?.toLowerCase().includes('connect') ? 'connectivity'
-                        : 'cloud'; // Default to cloud
 
   if (isLoading) {
     return (
@@ -62,6 +58,13 @@ export default function SingleProviderPage() {
     );
   }
 
+  // Determine a primary solution for the hero/testimonial sections
+  const primarySolution = providerData?.solutions?.[0]?.toLowerCase().includes('cloud') ? 'cloud'
+                        : providerData?.solutions?.[0]?.toLowerCase().includes('comm') ? 'communications'
+                        : providerData?.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
+                        : providerData?.solutions?.[0]?.toLowerCase().includes('connect') ? 'connectivity'
+                        : 'cloud'; // Default to cloud
+
   return (
     <div className="bg-[#FCFBF8]">
       <Header />
@@ -77,6 +80,7 @@ export default function SingleProviderPage() {
           description={providerData.description}
           bannerImage={providerData.bannerImageUrl || 'https://picsum.photos/seed/default-banner/800/600'}
         />
+        <ProviderStats provider={providerData} />
         <Testimonial 
           solutionType={primarySolution} 
         />
@@ -84,3 +88,5 @@ export default function SingleProviderPage() {
     </div>
   );
 }
+
+    

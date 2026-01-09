@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, ChangeEvent } from 'react';
@@ -25,6 +26,8 @@ const providerSchema = z.object({
     solutions: z.array(z.string()).min(1, 'At least one solution must be selected.'),
     logoUrl: z.string().url('Logo is required.'),
     bannerImageUrl: z.string().url('Banner image is optional.').optional(),
+    impressions: z.number().int().min(0).optional(),
+    clicks: z.number().int().min(0).optional(),
 });
 
 type ProviderFormValues = z.infer<typeof providerSchema>;
@@ -83,6 +86,8 @@ export default function UploadProviderForm() {
       resolver: zodResolver(providerSchema),
       defaultValues: {
           solutions: [],
+          impressions: 0,
+          clicks: 0,
       }
   });
 
@@ -330,6 +335,21 @@ export default function UploadProviderForm() {
         <input id="banner-upload" type="file" className="sr-only" onChange={(e) => handleFileChange(e, 'bannerImageUrl')} accept="image/*" />
       </SectionWrapper>
 
+      <SectionWrapper title="Initial Analytics" step={5} icon={BarChart3}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+            <label htmlFor="impressions" className="font-semibold text-zinc-700">Impressions</label>
+            <Input id="impressions" type="number" placeholder="e.g., 1250345" {...register('impressions', { valueAsNumber: true })} />
+            {errors.impressions && <p className="text-red-500 text-sm mt-1">{errors.impressions.message}</p>}
+            </div>
+            <div>
+            <label htmlFor="clicks" className="font-semibold text-zinc-700">Clicks</label>
+            <Input id="clicks" type="number" placeholder="e.g., 8432" {...register('clicks', { valueAsNumber: true })} />
+            {errors.clicks && <p className="text-red-500 text-sm mt-1">{errors.clicks.message}</p>}
+            </div>
+        </div>
+      </SectionWrapper>
+
       <motion.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -344,3 +364,5 @@ export default function UploadProviderForm() {
     </form>
   );
 }
+
+    

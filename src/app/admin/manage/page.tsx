@@ -31,6 +31,8 @@ type Provider = {
     bannerImageUrl?: string;
     createdAt: { seconds: number; nanoseconds: number; } | null;
     published?: boolean;
+    impressions?: number;
+    clicks?: number;
 };
 
 const containerVariants = {
@@ -69,6 +71,10 @@ const statsData = [
 ];
 
 const ProviderStatsView = ({ provider }: { provider: Provider }) => {
+    const impressions = provider.impressions || 0;
+    const clicks = provider.clicks || 0;
+    const ctr = impressions > 0 ? (clicks / impressions) * 100 : 0;
+
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -78,7 +84,7 @@ const ProviderStatsView = ({ provider }: { provider: Provider }) => {
                         <Eye className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">1,250,345</div>
+                        <div className="text-2xl font-bold">{impressions.toLocaleString()}</div>
                         <p className="text-xs text-muted-foreground">+20.1% from last month</p>
                     </CardContent>
                 </Card>
@@ -88,7 +94,7 @@ const ProviderStatsView = ({ provider }: { provider: Provider }) => {
                         <MousePointerClick className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">8,432</div>
+                        <div className="text-2xl font-bold">{clicks.toLocaleString()}</div>
                         <p className="text-xs text-muted-foreground">+12.5% from last month</p>
                     </CardContent>
                 </Card>
@@ -98,7 +104,7 @@ const ProviderStatsView = ({ provider }: { provider: Provider }) => {
                         <Hand className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">0.67%</div>
+                        <div className="text-2xl font-bold">{ctr.toFixed(2)}%</div>
                         <p className="text-xs text-muted-foreground">+2.1% from last month</p>
                     </CardContent>
                 </Card>
@@ -325,5 +331,7 @@ export default function ManageProvidersPage() {
   );
 }
 
+
+    
 
     

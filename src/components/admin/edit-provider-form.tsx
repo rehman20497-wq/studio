@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, ChangeEvent } from 'react';
@@ -24,6 +25,8 @@ const providerSchema = z.object({
     solutions: z.array(z.string()).min(1, 'At least one solution must be selected.'),
     logoUrl: z.string().url('Logo is required.'),
     bannerImageUrl: z.string().url('Banner image is optional.').optional().nullable(),
+    impressions: z.number().int().min(0).optional(),
+    clicks: z.number().int().min(0).optional(),
 });
 
 type ProviderFormValues = z.infer<typeof providerSchema>;
@@ -36,6 +39,8 @@ type Provider = {
     description: string;
     solutions: string[];
     bannerImageUrl?: string;
+    impressions?: number;
+    clicks?: number;
 };
 
 const solutions = [
@@ -59,6 +64,8 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
       defaultValues: {
           ...provider,
           bannerImageUrl: provider.bannerImageUrl || null,
+          impressions: provider.impressions || 0,
+          clicks: provider.clicks || 0,
       }
   });
 
@@ -314,6 +321,20 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
         <input id="banner-upload-edit" type="file" className="sr-only" onChange={(e) => handleFileChange(e, 'bannerImageUrl')} accept="image/*" />
       </div>
 
+       {/* Stats Section */}
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="impressions" className="font-semibold text-zinc-700">Impressions</label>
+          <Input id="impressions" type="number" placeholder="e.g., 1250345" {...register('impressions', { valueAsNumber: true })} />
+          {errors.impressions && <p className="text-red-500 text-sm mt-1">{errors.impressions.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="clicks" className="font-semibold text-zinc-700">Clicks</label>
+          <Input id="clicks" type="number" placeholder="e.g., 8432" {...register('clicks', { valueAsNumber: true })} />
+          {errors.clicks && <p className="text-red-500 text-sm mt-1">{errors.clicks.message}</p>}
+        </div>
+      </div>
+
       <div className="flex justify-end gap-4">
         <Button variant="outline" onClick={onFinished}>Cancel</Button>
         <Button type="submit" className="bg-zinc-900 hover:bg-zinc-700 text-white" disabled={isSubmitting}>
@@ -323,5 +344,7 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
     </form>
   );
 }
+
+    
 
     
