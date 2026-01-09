@@ -9,7 +9,6 @@ import Testimonial from "@/components/single-provider/testimonial";
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import ProviderFilter from '@/components/providers/provider-filter';
-import ProviderStats from '@/components/single-provider/provider-stats';
 
 type ProviderData = {
   id: string;
@@ -80,7 +79,6 @@ export default function SingleProviderPage() {
           description={providerData.description}
           bannerImage={providerData.bannerImageUrl || 'https://picsum.photos/seed/default-banner/800/600'}
         />
-        <ProviderStats provider={providerData} />
         <Testimonial 
           solutionType={primarySolution} 
         />
@@ -88,5 +86,3 @@ export default function SingleProviderPage() {
     </div>
   );
 }
-
-    
