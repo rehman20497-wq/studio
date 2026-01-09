@@ -67,7 +67,7 @@ service cloud.firestore {
      */
     match /blog_posts/{postId} {
       allow read, write: if isSignedIn();
-      allow get, list: if resource.data.published == true;
+      allow get: if resource.data.published == true;
     }
 
     /**
