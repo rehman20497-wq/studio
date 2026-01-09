@@ -1,0 +1,125 @@
+
+/**
+ * @file firestore.rules
+ * @description Security rules for the USA Testimonial Network Firestore database.
+ *
+ * @section Core Philosophy
+ * This ruleset enforces a "Public Read, Admin-Only Write" security model.
+ * All data is publicly readable by any client. Client-side write
+ * operations (create, update, delete) are restricted. This posture ensures
+ * that the testimonial data cannot be tampered with from the application front-end,
+ * assuming that data is managed exclusively through a trusted admin interface.
+ *
+ * @section Data Structure
+ * - /providers/{providerId}: Stores public information about each service provider.
+ * - /reviewer_profiles/{profileId}: Stores public information about each reviewer.
+ * - /reviews/{reviewId}: Stores the text content of each review.
+ * - /animation_sequences/{sequenceId}: Defines the order in which profiles are displayed.
+ * - /blog_posts/{postId}: Stores blog content managed by admins.
+ * There is no user-specific data or private subcollections.
+ *
+ * @section Key Security Decisions
+ * - **Public Read Access**: All collections are world-readable to support the app's
+ *   primary function of displaying testimonials and blog content to the public.
+ * - **Authenticated Writes**: To allow the admin panel to function,
+ *   write access to the `providers` and `blog_posts` collections is granted to any
+ *   authenticated user. This is a temporary measure and can be locked down further
+ *   to specific admin UIDs.
+ * - **Disabled Client Writes for Other Collections**: To maximize security and data integrity,
+ *   all write operations on other collections are blocked.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // Helper Functions
+    // -------------------------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // -------------------------------------------------------------------------
+    // Collection Rules
+    // -------------------------------------------------------------------------
+
+    /**
+     * @description Rules for the 'providers' collection.
+     * This collection is public-read, but writeable by authenticated users.
+     * @path /providers/{providerId}
+     * @allow An anonymous user can read provider data. (get, list)
+     * @allow An authenticated user (admin) can create, update, or delete a provider. (write)
+     * @principle Allow admins to manage provider data while keeping it public.
+     */
+    match /providers/{providerId} {
+      allow get: if true;
+      allow list: if request.query.where.get("published", ["==", true]) != null;
+      allow write: if isSignedIn();
+    }
+    
+    /**
+     * @description Rules for the 'blog_posts' collection.
+     * Authenticated users (admins) can perform any action. Public users can only
+     * read published posts.
+     * @path /blog_posts/{postId}
+     * @principle Grant full control to admins while restricting public access.
+     */
+    match /blog_posts/{postId} {
+      allow get: if resource.data.published == true;
+      allow list: if request.query.where.get("published", ["==", true]) != null;
+      allow write: if isSignedIn();
+      allow read: if isSignedIn();
+    }
+
+    /**
+     * @description Rules for the 'reviewer_profiles' collection.
+     * This collection is public and read-only.
+     * @path /reviewer_profiles/{profileId}
+     * @allow An anonymous user can read a specific reviewer profile. (get)
+     * @deny Any user, signed-in or not, trying to create a new profile. (create)
+     * @principle Public read-only data. All client-side writes are disabled to
+     *            ensure data integrity, assuming content is managed via a backend.
+     */
+    match /reviewer_profiles/{profileId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Rules for the 'reviews' collection.
+     * This collection is public and read-only.
+     * @path /reviews/{reviewId}
+     * @allow An anonymous user can list all reviews. (list)
+     * @deny Any user attempting to update an existing review. (update)
+     * @principle Public read-only data. Disabling client writes prevents tampering
+     *            with review content.
+     */
+    match /reviews/{reviewId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Rules for the 'animation_sequences' collection.
+     * This collection is public and read-only.
+     * @path /animation_sequences/{sequenceId}
+     * @allow Any client application can read the animation sequences to render the UI. (get)
+     * @deny A signed-in user trying to delete an animation sequence. (delete)
+     * @principle Public read-only data. The animation logic is critical and must not be
+     *            modifiable from the client.
+     */
+    match /animation_sequences/{sequenceId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
