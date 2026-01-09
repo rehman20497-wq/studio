@@ -143,13 +143,35 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
   }
 
   const onSubmit = async (data: ProviderFormValues) => {
-    // Logic to update Firestore will go here in the next step
-    console.log("Updated data:", data);
-    toast({
-        title: "Edit Functionality Pending",
-        description: "Saving changes will be implemented in the next step.",
-    });
-    // onFinished();
+    if (!firestore) {
+        toast({
+            variant: 'destructive',
+            title: 'Firestore not available',
+            description: 'Could not connect to the database. Please try again.',
+        });
+        return;
+    }
+    try {
+        const providerRef = doc(firestore, 'providers', provider.id);
+        
+        await updateDocumentNonBlocking(providerRef, {
+            ...data,
+            updatedAt: serverTimestamp(),
+        });
+
+        toast({
+            title: 'Provider Updated!',
+            description: `${data.name} has been successfully saved.`,
+        });
+        
+        onFinished();
+    } catch (error: any) {
+         toast({
+            variant: 'destructive',
+            title: 'Update Failed',
+            description: error.message || 'An unexpected error occurred.',
+        });
+    }
   };
 
   return (
@@ -221,7 +243,7 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
                                 onClick={() => toggleSolution(name)}
                                 className={cn(
                                     "relative cursor-pointer p-6 rounded-xl border-2 transition-all duration-300",
-                                    isSelected ? "bg-yellow-100 border-yellow-400 shadow-lg" : "bg-zinc-50 hover:border-zinc-300"
+                                    isSelected ? "bg-yellow-100 border-yellow-400 shadow-lg" : "bg-zinc-50 hover:border-zinc-300 hover:bg-yellow-50",
                                 )}
                             >
                                 <div className="flex flex-col items-center justify-center gap-3">
@@ -294,10 +316,12 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
 
       <div className="flex justify-end gap-4">
         <Button variant="outline" onClick={onFinished}>Cancel</Button>
-        <Button type="submit" className="bg-zinc-900 hover:bg-zinc-700 text-white" disabled={true}>
+        <Button type="submit" className="bg-zinc-900 hover:bg-zinc-700 text-white" disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : 'Save Changes'}
         </Button>
       </div>
     </form>
   );
 }
+
+    
