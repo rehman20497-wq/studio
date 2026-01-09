@@ -4,7 +4,7 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen } from 'lucide-react';
+import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen, Shield } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -19,8 +19,9 @@ import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import AdminHeader from '@/components/admin/admin-header';
 import { Textarea } from '@/components/ui/textarea';
 import { useFirestore } from '@/firebase';
-import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
@@ -30,6 +31,7 @@ const blogPostSchema = z.object({
   quote: z.string().optional(),
   authorName: z.string().min(1, "Author's name is required."),
   authorImageUrl: z.string().url("Author's image is required."),
+  published: z.boolean().default(false),
 });
 
 type BlogPostFormValues = z.infer<typeof blogPostSchema>;
@@ -134,6 +136,9 @@ export default function UploadBlogPage() {
 
   const { register, handleSubmit, control, setValue, reset, formState: { errors, isSubmitting } } = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostSchema),
+    defaultValues: {
+      published: false,
+    },
   });
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
@@ -202,19 +207,18 @@ export default function UploadBlogPage() {
     
     try {
         const blogCollection = collection(firestore, 'blog_posts');
-        await addDocumentNonBlocking(blogCollection, {
+        await addDoc(blogCollection, {
             ...data,
             views: 0,
             comments: 0,
             shares: 0,
-            published: false, // Default to unpublished
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
         });
 
         toast({
-            title: "Blog Post Published!",
-            description: `${data.title} is now live.`,
+            title: `Blog Post ${data.published ? 'Published' : 'Saved as Draft'}!`,
+            description: `"${data.title}" has been successfully saved.`,
         });
 
         // Reset form and previews
@@ -316,6 +320,33 @@ export default function UploadBlogPage() {
                             </div>
                        </div>
                     </SectionWrapper>
+                    
+                    <SectionWrapper title="Publish Status" step={6} icon={Shield}>
+                        <Controller
+                            name="published"
+                            control={control}
+                            render={({ field }) => (
+                                <div className="flex items-center space-x-4 p-4 bg-zinc-50 rounded-lg">
+                                  <Switch
+                                    id="published-status"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                  <Label htmlFor="published-status" className="flex flex-col">
+                                    <span className="font-semibold text-zinc-800">
+                                      {field.value ? 'Published' : 'Draft'}
+                                    </span>
+                                    <span className="text-sm text-zinc-600">
+                                      {field.value
+                                        ? 'This post will be visible to the public.'
+                                        : 'This post will be saved as a draft.'}
+                                    </span>
+                                  </Label>
+                                </div>
+                            )}
+                        />
+                    </SectionWrapper>
+
 
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -326,7 +357,7 @@ export default function UploadBlogPage() {
                     >
                         <Button size="lg" type="submit" className="bg-zinc-900 hover:bg-zinc-700 text-white rounded-full px-10 py-6 text-lg font-bold" disabled={isSubmitting}>
                             <BookOpen className="w-5 h-5 mr-3"/>
-                            {isSubmitting ? 'Publishing...' : 'Publish Blog Post'}
+                            {isSubmitting ? 'Submitting...' : 'Submit Post'}
                         </Button>
                     </motion.div>
                 </form>
@@ -335,3 +366,5 @@ export default function UploadBlogPage() {
     </AdminPageWrapper>
   );
 }
+
+    
