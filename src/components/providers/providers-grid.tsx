@@ -16,7 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, where, orderBy } from 'firebase/firestore';
+import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
 
 type Provider = {
@@ -96,10 +96,10 @@ export default function ProvidersGrid() {
 
   const providersQuery = useMemoFirebase(() => {
     if (!firestore) return null;
+    // Removed orderBy to simplify the query and avoid security rule issues.
     return query(
       collection(firestore, 'providers'),
-      where('published', '==', true),
-      orderBy('name', 'asc')
+      where('published', '==', true)
     );
   }, [firestore]);
 
@@ -107,11 +107,17 @@ export default function ProvidersGrid() {
 
   const filteredProviders = useMemo(() => {
     if (!providers) return [];
-    return providers.filter(
+    
+    // Client-side filtering and sorting
+    const filtered = providers.filter(
       (provider) =>
         provider.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (solutionFilter === 'all' || provider.solutions.includes(solutionFilter))
     );
+    
+    // Client-side sorting
+    return filtered.sort((a, b) => a.name.localeCompare(b.name));
+
   }, [providers, searchTerm, solutionFilter]);
 
   const pageCount = Math.ceil(filteredProviders.length / ITEMS_PER_PAGE);
@@ -221,4 +227,3 @@ export default function ProvidersGrid() {
     </motion.section>
   );
 }
-
