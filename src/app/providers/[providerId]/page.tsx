@@ -49,23 +49,14 @@ export default function SingleProviderPage() {
     );
   }
 
-  if (error) {
+  if (error || !providerData) {
      return (
         <div className="bg-[#FCFBF8] min-h-screen">
             <Header />
             <main className="flex items-center justify-center h-[50vh]">
-                <p className="text-red-500">Error: Could not load provider. Please check the ID or try again later.</p>
-            </main>
-        </div>
-    );
-  }
-
-  if (!providerData) {
-    return (
-        <div className="bg-[#FCFBF8] min-h-screen">
-            <Header />
-            <main className="flex items-center justify-center h-[50vh]">
-                <p>Provider not found.</p>
+                <p className="text-red-500">
+                    {error ? "Error: Could not load provider. Please check the ID or try again later." : "Provider not found."}
+                </p>
             </main>
         </div>
     );
@@ -78,7 +69,7 @@ export default function SingleProviderPage() {
         <Hero 
           solutionType={primarySolution}
         />
-        <div className="bg-[#FCFBF8] px-[3%] pt-12">
+        <div className="bg-[#FCFBF8] px-[3%]">
             <ProviderFilter initialSolution={primarySolution} />
         </div>
         <Details
