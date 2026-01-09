@@ -8,7 +8,6 @@ import { Toaster } from "@/components/ui/toaster";
 import ResourcesButtonSection from '@/components/resources-button-section';
 import FooterCta from '@/components/footer-cta';
 import FinalFooter from '@/components/layout/final-footer';
-import BlogSection from '@/components/blog-section';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 // Metadata cannot be exported from a client component.
@@ -44,7 +43,7 @@ export default function RootLayout({
           {children}
           {!isAdminPage && (
             <>
-              <BlogSection />
+              {/* <BlogSection /> */}
               <ResourcesButtonSection />
               <FooterCta />
               <FinalFooter />

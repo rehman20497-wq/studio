@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useCollection } from '@/firebase/firestore/use-collection';
@@ -108,7 +109,6 @@ export default function DebugPage() {
                 <h1 className="text-4xl font-bold font-headline text-zinc-900 mb-8">Public Debug Panel</h1>
                 <div className="space-y-6">
                     <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
-                    <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
                     <CloudinaryConnectionTest />
                 </div>
             </div>
