@@ -70,8 +70,9 @@ service cloud.firestore {
       // Admin access: Authenticated users can perform any read or write operation.
       allow read, write: if isSignedIn();
       
-      // Public access: Unauthenticated users can only get or list published posts.
+      // Public access: Unauthenticated users can only get a published post.
       allow get: if resource.data.published == true;
+      // Public access: Unauthenticated users can only list published posts.
       allow list: if request.query.where.get("published", ["==", true]) != null;
     }
 
