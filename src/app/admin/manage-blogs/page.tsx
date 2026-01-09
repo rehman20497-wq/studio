@@ -5,13 +5,14 @@ import { useState } from 'react';
 import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, BarChart3, PlusCircle, LayoutGrid, List, Eye } from 'lucide-react';
+import { Edit, Trash2, BarChart3, PlusCircle, LayoutGrid, List, Eye, Power, PowerOff } from 'lucide-react';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { useCollection, useFirestore, useMemoFirebase, deleteDocumentNonBlocking } from '@/firebase';
+import { useCollection, useFirestore, useMemoFirebase, deleteDocumentNonBlocking, updateDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import AdminHeader from '@/components/admin/admin-header';
 
 type BlogPost = {
   id: string;
@@ -23,6 +24,7 @@ type BlogPost = {
   views: number;
   comments: number;
   shares: number;
+  published?: boolean;
 };
 
 const containerVariants = {
@@ -58,11 +60,24 @@ export default function ManageBlogsPage() {
       [firestore]
     );
 
-    const { data: posts, isLoading } = useCollection<BlogPost>(memoizedQuery);
+    const { data: posts, isLoading, error } = useCollection<BlogPost>(memoizedQuery);
 
     const openDeleteDialog = (post: BlogPost) => {
       setSelectedPost(post);
       setIsDeleteDialogOpen(true);
+    };
+    
+    const handleTogglePublish = (post: BlogPost) => {
+      if (!firestore) return;
+      const postRef = doc(firestore, 'blog_posts', post.id);
+      const newStatus = !(post.published ?? false); // Default to false if undefined
+      
+      updateDocumentNonBlocking(postRef, { published: newStatus });
+  
+      toast({
+          title: `Post ${newStatus ? 'Published' : 'Unpublished'}`,
+          description: `"${post.title}" is now ${newStatus ? 'live to the public' : 'hidden from the public'}.`,
+      });
     };
 
     const confirmDelete = () => {
@@ -90,10 +105,28 @@ export default function ManageBlogsPage() {
             </AdminPageWrapper>
         );
     }
+    
+    if (error) {
+        return (
+            <AdminPageWrapper screenTitle="Error">
+                <div className="p-8">
+                    <AdminHeader userName="Admin" />
+                    <div className="mt-12 text-center">
+                        <h2 className="text-2xl font-bold text-red-600">Failed to Load Blog Posts</h2>
+                        <p className="text-zinc-600 mt-2">There was a permission error while fetching the blog posts.</p>
+                        <pre className="mt-4 text-left bg-zinc-100 p-4 rounded-md overflow-x-auto text-sm">
+                            <code>{error.message}</code>
+                        </pre>
+                    </div>
+                </div>
+            </AdminPageWrapper>
+        )
+    }
 
   return (
     <AdminPageWrapper screenTitle="Manage Blogs">
       <div className="p-4 sm:p-8 md:p-12">
+        <AdminHeader userName="Faizan" />
         <div className="flex justify-between items-center mb-8">
             <div>
                 <h1 className="text-3xl font-bold font-headline text-zinc-900">Blog Posts</h1>
@@ -145,6 +178,15 @@ export default function ManageBlogsPage() {
                                 <Button size="sm" variant="outline" className="rounded-full"><Edit className="w-4 h-4 mr-2" />Edit</Button>
                                 <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(post)}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
                                 <Button size="sm" variant="secondary" className="rounded-full"><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
+                                <Button 
+                                  size="sm"
+                                  variant={(post.published ?? false) ? 'default' : 'outline'}
+                                  className="rounded-full bg-green-500 hover:bg-green-600 text-white data-[variant=outline]:bg-yellow-500 data-[variant=outline]:hover:bg-yellow-600 data-[variant=outline]:text-white"
+                                  onClick={() => handleTogglePublish(post)}
+                                >
+                                    {(post.published ?? false) ? <Power className="w-4 h-4 mr-2" /> : <PowerOff className="w-4 h-4 mr-2" />}
+                                    {(post.published ?? false) ? 'Published' : 'Unpublished'}
+                                </Button>
                             </div>
                         </div>
                     </motion.div>

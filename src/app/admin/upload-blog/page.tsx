@@ -207,6 +207,7 @@ export default function UploadBlogPage() {
             views: 0,
             comments: 0,
             shares: 0,
+            published: false, // Default to unpublished
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
         });

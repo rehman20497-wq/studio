@@ -100,7 +100,6 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
 
   return (
     <div className="bg-[#FEF9F2] min-h-screen overflow-hidden">
-      <AdminLayout onLogout={handleLogout}>
         <AnimatePresence mode="wait">
           {!user ? (
             <motion.div
@@ -112,27 +111,30 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
             >
               <LoginScreen onAuthenticated={handleAuthentication} />
             </motion.div>
-          ) : showWelcome || isLoading ? (
-            <motion.div
-              key="welcome"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <WelcomeScreen name={screenTitle} />
-            </motion.div>
           ) : (
-            <motion.div
-              key="panel"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              {children}
-            </motion.div>
+            <AdminLayout onLogout={handleLogout}>
+                {showWelcome || isLoading ? (
+                    <motion.div
+                        key="welcome"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        >
+                        <WelcomeScreen name={screenTitle} />
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="panel"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.7, delay: 0.3 }}
+                    >
+                        {children}
+                    </motion.div>
+                )}
+            </AdminLayout>
           )}
         </AnimatePresence>
-      </AdminLayout>
     </div>
   );
 }
