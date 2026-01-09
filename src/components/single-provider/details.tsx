@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -6,10 +7,10 @@ import Image from 'next/image';
 import { Cloud, Cpu, Wifi, Zap } from 'lucide-react';
 
 const solutionMap = {
-  cloud: { name: 'Cloud Solutions', icon: Cloud, color: 'bg-blue-100 text-blue-800' },
-  communications: { name: 'Communications', icon: Wifi, color: 'bg-green-100 text-green-800' },
-  ai: { name: 'AI Solutions', icon: Cpu, color: 'bg-purple-100 text-purple-800' },
-  connectivity: { name: 'Connectivity', icon: Zap, color: 'bg-orange-100 text-orange-800' },
+  'Cloud Solutions': { name: 'Cloud Solutions', icon: Cloud, color: 'bg-blue-100 text-blue-800' },
+  'Communications': { name: 'Communications', icon: Wifi, color: 'bg-green-100 text-green-800' },
+  'AI Solutions': { name: 'AI Solutions', icon: Cpu, color: 'bg-purple-100 text-purple-800' },
+  'Connectivity': { name: 'Connectivity', icon: Zap, color: 'bg-orange-100 text-orange-800' },
 };
 
 type SolutionKey = keyof typeof solutionMap;
@@ -110,7 +111,10 @@ export default function Details({ solutions, description, bannerImage }: Details
               );
             })}
           </motion.div>
-          <p className="text-lg text-zinc-600 leading-relaxed">{description}</p>
+          <div
+            className="prose text-lg text-zinc-600 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
         </motion.div>
         
         <motion.div className="relative h-96" variants={bannerVariants}>
