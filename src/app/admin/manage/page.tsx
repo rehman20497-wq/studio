@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useUser, useAuth, useCollection, useMemoFirebase, updateDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase';
-import AdminHeader from '@/components/admin/admin-header';
 import AdminLayout from '@/components/admin/admin-layout';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
@@ -11,15 +10,21 @@ import { collection, query, orderBy, doc } from 'firebase/firestore';
 import { useFirestore }from '@/firebase';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Edit, Trash2, BarChart3, Cloud, Power, PowerOff } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import EditProviderForm from '@/components/admin/edit-provider-form';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Provider = {
     id: string;
     name: string;
     logoUrl: string;
+    slug: string;
+    description: string;
+    solutions: string[];
+    bannerImageUrl?: string;
     createdAt: { seconds: number; nanoseconds: number; } | null;
     published?: boolean;
 };
@@ -57,7 +62,8 @@ export default function ManageProvidersPage() {
   const { toast } = useToast();
   
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [selectedProviderId, setSelectedProviderId] = useState<string | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
 
   const memoizedQuery = useMemoFirebase(
     () => {
@@ -94,18 +100,23 @@ export default function ManageProvidersPage() {
     });
   };
   
-  const openDeleteDialog = (providerId: string) => {
-    setSelectedProviderId(providerId);
+  const openDeleteDialog = (provider: Provider) => {
+    setSelectedProvider(provider);
     setIsDeleteDialogOpen(true);
+  };
+
+  const openEditDialog = (provider: Provider) => {
+    setSelectedProvider(provider);
+    setIsEditDialogOpen(true);
   };
   
   const confirmDelete = () => {
-    if (!firestore || !selectedProviderId) return;
+    if (!firestore || !selectedProvider) return;
 
-    const providerToDelete = providers?.find(p => p.id === selectedProviderId);
+    const providerToDelete = providers?.find(p => p.id === selectedProvider.id);
     if (!providerToDelete) return;
 
-    const providerRef = doc(firestore, 'providers', selectedProviderId);
+    const providerRef = doc(firestore, 'providers', selectedProvider.id);
     deleteDocumentNonBlocking(providerRef);
 
     toast({
@@ -115,7 +126,7 @@ export default function ManageProvidersPage() {
     });
 
     setIsDeleteDialogOpen(false);
-    setSelectedProviderId(null);
+    setSelectedProvider(null);
   };
 
 
@@ -162,8 +173,8 @@ export default function ManageProvidersPage() {
                                     )}
                                 </div>
                                 <div className="flex items-center gap-2 flex-wrap justify-center">
-                                    <Button size="sm" variant="outline" className="rounded-full"><Edit className="w-4 h-4 mr-2" />Edit</Button>
-                                    <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(provider.id)}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
+                                    <Button size="sm" variant="outline" className="rounded-full" onClick={() => openEditDialog(provider)}><Edit className="w-4 h-4 mr-2" />Edit</Button>
+                                    <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(provider)}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
                                     <Button size="sm" variant="secondary" className="rounded-full"><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
                                     <Button 
                                       size="sm"
@@ -205,6 +216,16 @@ export default function ManageProvidersPage() {
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>
+    <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
+            <DialogHeader>
+                <DialogTitle>Edit Provider: {selectedProvider?.name}</DialogTitle>
+            </DialogHeader>
+            {selectedProvider && (
+                <EditProviderForm provider={selectedProvider} onFinished={() => setIsEditDialogOpen(false)} />
+            )}
+        </DialogContent>
+    </Dialog>
     </>
   );
 }
