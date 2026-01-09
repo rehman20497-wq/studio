@@ -8,25 +8,9 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Rules for the 'providers' collection
-    // Public can read all provider data.
-    // Only signed-in admins can write data.
-    match /providers/{providerId} {
-      allow read: if true;
-      allow write: if isSignedIn();
-    }
-
-    // Rules for the 'blog_posts' collection
-    // Public can read all blog post data.
-    // Only signed-in admins can write data.
-    match /blog_posts/{postId} {
-      allow read: if true;
-      allow write: if isSignedIn();
-    }
-
-    // Fallback for any other collections not explicitly defined
-    // Public can read, only admins can write.
-    match /{path=**} {
+    // Default rule: Allow public read access to all collections, 
+    // but restrict all write operations to authenticated admins.
+    match /{document=**} {
       allow read: if true;
       allow write: if isSignedIn();
     }
