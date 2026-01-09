@@ -34,7 +34,7 @@ service cloud.firestore {
 
     // Fallback for any other collections not explicitly defined
     match /{path=**} {
-      allow read: if false; // Default deny all other reads
+      allow read: if true; 
       allow write: if isSignedIn(); // Allow admin writes everywhere else
     }
   }
