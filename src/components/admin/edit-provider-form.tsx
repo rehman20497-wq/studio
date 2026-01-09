@@ -3,7 +3,7 @@
 
 import { useState, ChangeEvent } from 'react';
 import Image from 'next/image';
-import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap, X } from 'lucide-react';
+import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap, X, BarChart3 } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -322,18 +322,21 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
       </div>
 
        {/* Stats Section */}
-       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="impressions" className="font-semibold text-zinc-700">Impressions</label>
-          <Input id="impressions" type="number" placeholder="e.g., 1250345" {...register('impressions', { valueAsNumber: true })} />
-          {errors.impressions && <p className="text-red-500 text-sm mt-1">{errors.impressions.message}</p>}
+       <div>
+         <label className="font-semibold text-zinc-700">Provider Analytics</label>
+        <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+            <label htmlFor="impressions" className="font-medium text-sm text-zinc-600">Impressions</label>
+            <Input id="impressions" type="number" placeholder="e.g., 1250345" {...register('impressions', { valueAsNumber: true })} />
+            {errors.impressions && <p className="text-red-500 text-sm mt-1">{errors.impressions.message}</p>}
+            </div>
+            <div>
+            <label htmlFor="clicks" className="font-medium text-sm text-zinc-600">Clicks</label>
+            <Input id="clicks" type="number" placeholder="e.g., 8432" {...register('clicks', { valueAsNumber: true })} />
+            {errors.clicks && <p className="text-red-500 text-sm mt-1">{errors.clicks.message}</p>}
+            </div>
         </div>
-        <div>
-          <label htmlFor="clicks" className="font-semibold text-zinc-700">Clicks</label>
-          <Input id="clicks" type="number" placeholder="e.g., 8432" {...register('clicks', { valueAsNumber: true })} />
-          {errors.clicks && <p className="text-red-500 text-sm mt-1">{errors.clicks.message}</p>}
-        </div>
-      </div>
+       </div>
 
       <div className="flex justify-end gap-4">
         <Button variant="outline" onClick={onFinished}>Cancel</Button>
@@ -344,7 +347,3 @@ export default function EditProviderForm({ provider, onFinished }: { provider: P
     </form>
   );
 }
-
-    
-
-    

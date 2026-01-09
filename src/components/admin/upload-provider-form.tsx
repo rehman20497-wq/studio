@@ -4,7 +4,7 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap } from 'lucide-react';
+import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap, BarChart3 } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -364,5 +364,3 @@ export default function UploadProviderForm() {
     </form>
   );
 }
-
-    
