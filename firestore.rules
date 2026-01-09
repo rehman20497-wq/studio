@@ -59,21 +59,18 @@ service cloud.firestore {
     
     /**
      * @description Rules for the 'blog_posts' collection.
-     * Public can read published posts. Admins can read/write all posts.
+     * Public can read published posts. Admins (authenticated users) can manage all posts.
      * @path /blog_posts/{postId}
      * @allow An anonymous user can read a published blog post. (get)
      * @allow An anonymous user can list published blog posts. (list)
      * @allow An authenticated user (admin) can create, update, or delete a blog post. (write)
-     * @principle Allow admins to manage blog content while keeping it public.
+     * @principle Replicates the 'providers' rule structure. Allows admins to manage blog content
+     *            while keeping published content public.
      */
     match /blog_posts/{postId} {
-      // Admin access: Authenticated users can perform any read or write operation.
-      allow read, write: if isSignedIn();
-      
-      // Public access: Unauthenticated users can only get a published post.
-      allow get: if resource.data.published == true;
-      // Public access: Unauthenticated users can only list published posts.
-      allow list: if request.query.where.get("published", ["==", true]) != null;
+      allow get: if resource.data.published == true || isSignedIn();
+      allow list: if request.query.where.get("published", ["==", true]) != null || isSignedIn();
+      allow write: if isSignedIn();
     }
 
     /**
