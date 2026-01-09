@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
@@ -57,8 +56,16 @@ export default function ProviderFilter({
         }
     };
     
-    // Capitalize the first letter of each word
-    const solutionValue = initialSolution === 'all' || !initialSolution ? 'all' : initialSolution.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    const formatSolutionForDisplay = (solution: string | undefined): string | undefined => {
+        if (!solution || solution === 'all') return 'all';
+        if (solution === 'cloud') return 'Cloud Solutions';
+        if (solution === 'communications') return 'Communications';
+        if (solution === 'ai') return 'AI Solutions';
+        if (solution === 'connectivity') return 'Connectivity';
+        return solution.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    };
+    
+    const defaultValue = formatSolutionForDisplay(initialSolution) || 'all';
 
     return (
         <motion.div
@@ -76,7 +83,7 @@ export default function ProviderFilter({
                     disabled={isSingleProviderPage}
                 />
             </div>
-            <Select onValueChange={handleFilterChange} defaultValue={solutionValue}>
+            <Select onValueChange={handleFilterChange} value={defaultValue}>
                 <SelectTrigger className="w-full md:w-[280px] h-12 rounded-full bg-white border-zinc-200">
                     <SelectValue placeholder="Filter by solution" />
                 </SelectTrigger>
