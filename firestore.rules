@@ -67,9 +67,12 @@ service cloud.firestore {
      * @principle Allow admins to manage blog content while keeping it public.
      */
     match /blog_posts/{postId} {
-      allow read, list: if isSignedIn();
+      // Admin access: Authenticated users can perform any read or write operation.
+      allow read, write: if isSignedIn();
+      
+      // Public access: Unauthenticated users can only get or list published posts.
       allow get: if resource.data.published == true;
-      allow write: if isSignedIn();
+      allow list: if request.query.where.get("published", ["==", true]) != null;
     }
 
     /**
