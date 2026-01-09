@@ -1,10 +1,10 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter, useParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -27,7 +27,7 @@ type Provider = {
   published?: boolean;
 };
 
-const ITEMS_PER_PAGE = 12; // 3 rows * 4 items/row
+const ITEMS_PER_PAGE = 12;
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -84,19 +84,24 @@ const ProviderCardSkeleton = () => (
 );
 
 
-export default function ProvidersGrid() {
+export default function ProvidersGrid({ initialSolution }: { initialSolution?: string }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const router = useRouter();
   
   const [searchTerm, setSearchTerm] = useState('');
-  const [solutionFilter, setSolutionFilter] = useState('all');
+  const [solutionFilter, setSolutionFilter] = useState(initialSolution || 'all');
   const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    setSolutionFilter(initialSolution || 'all');
+    setCurrentPage(0);
+  }, [initialSolution]);
 
   const firestore = useFirestore();
 
   const providersQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    // Removed orderBy to simplify the query and avoid security rule issues.
     return query(
       collection(firestore, 'providers'),
       where('published', '==', true)
@@ -108,23 +113,37 @@ export default function ProvidersGrid() {
   const filteredProviders = useMemo(() => {
     if (!providers) return [];
     
-    // Client-side filtering and sorting
-    const filtered = providers.filter(
-      (provider) =>
-        provider.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (solutionFilter === 'all' || provider.solutions.includes(solutionFilter))
-    );
+    let filtered = providers;
+
+    if (solutionFilter !== 'all') {
+      const solutionKey = solutionFilter.replace(/-/g, ' ');
+      filtered = filtered.filter(provider => provider.solutions.some(s => s.toLowerCase() === solutionKey));
+    }
     
-    // Client-side sorting
+    if (searchTerm) {
+      filtered = filtered.filter(provider => provider.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    
     return filtered.sort((a, b) => a.name.localeCompare(b.name));
 
   }, [providers, searchTerm, solutionFilter]);
+
+  const handleFilterChange = (value: string) => {
+    if (value === 'all') {
+      router.push('/providers');
+    } else {
+      const slug = value.toLowerCase().replace(/ /g, '-');
+      router.push(`/providers/${slug}`);
+    }
+  };
 
   const pageCount = Math.ceil(filteredProviders.length / ITEMS_PER_PAGE);
   const paginatedProviders = filteredProviders.slice(
     currentPage * ITEMS_PER_PAGE,
     (currentPage + 1) * ITEMS_PER_PAGE
   );
+
+  const filterValue = solutionFilter === 'all' ? 'all' : solutionFilter.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
   return (
     <motion.section
@@ -151,10 +170,7 @@ export default function ProvidersGrid() {
             }}
           />
         </div>
-        <Select onValueChange={(value) => {
-            setSolutionFilter(value);
-            setCurrentPage(0);
-        }} defaultValue="all">
+        <Select onValueChange={handleFilterChange} value={filterValue}>
           <SelectTrigger className="w-full md:w-[280px] h-12 rounded-full bg-white border-zinc-200">
             <SelectValue placeholder="Filter by solution" />
           </SelectTrigger>
