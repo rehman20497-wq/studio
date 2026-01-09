@@ -1,35 +1,85 @@
+
 'use client';
 
+import { useParams } from 'next/navigation';
 import Header from "@/components/layout/header";
 import Hero from "@/components/single-provider/hero";
 import Details from "@/components/single-provider/details";
 import Testimonial from "@/components/single-provider/testimonial";
+import { useDoc, useFirestore } from '@/firebase';
+import { doc, DocumentData } from 'firebase/firestore';
 
-// Mock data for a single provider
-const providerData = {
-  id: 'provider-a',
-  name: 'Stellar Cloud Services',
-  solutions: ['cloud', 'ai'],
-  description: 'Stellar Cloud Services is a leading provider of scalable and secure cloud infrastructure. Our platform is built for performance, offering a suite of tools for startups and enterprise clients to deploy, manage, and scale their applications with ease. We are committed to innovation and providing a 99.99% uptime guarantee.',
-  bannerImage: 'https://picsum.photos/seed/stellar-banner/800/600',
-  solutionType: 'cloud', // Primary solution type for hero/testimonial
+type ProviderData = {
+  id: string;
+  name: string;
+  solutions: string[];
+  description: string;
+  bannerImageUrl?: string;
+  logoUrl: string;
 };
 
 export default function SingleProviderPage() {
+  const params = useParams();
+  const providerId = params.providerId as string;
+  const firestore = useFirestore();
+
+  const providerRef = firestore && providerId ? doc(firestore, 'providers', providerId) : null;
+  const { data: providerData, isLoading, error } = useDoc<ProviderData>(providerRef);
+
+  // Determine a primary solution for the hero/testimonial sections
+  const primarySolution = providerData?.solutions?.[0]?.toLowerCase().includes('cloud') ? 'cloud'
+                        : providerData?.solutions?.[0]?.toLowerCase().includes('comm') ? 'communications'
+                        : providerData?.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
+                        : providerData?.solutions?.[0]?.toLowerCase().includes('connect') ? 'connectivity'
+                        : 'cloud'; // Default to cloud
+
+  if (isLoading) {
+    return (
+        <div className="bg-[#FCFBF8] min-h-screen">
+            <Header />
+            <main className="flex items-center justify-center h-[50vh]">
+                <p>Loading provider details...</p>
+            </main>
+        </div>
+    );
+  }
+
+  if (error) {
+     return (
+        <div className="bg-[#FCFBF8] min-h-screen">
+            <Header />
+            <main className="flex items-center justify-center h-[50vh]">
+                <p className="text-red-500">Error: Could not load provider. Please check the ID or try again later.</p>
+            </main>
+        </div>
+    );
+  }
+
+  if (!providerData) {
+    return (
+        <div className="bg-[#FCFBF8] min-h-screen">
+            <Header />
+            <main className="flex items-center justify-center h-[50vh]">
+                <p>Provider not found.</p>
+            </main>
+        </div>
+    );
+  }
+
   return (
     <div className="bg-[#FCFBF8]">
       <Header />
       <main>
         <Hero 
-          solutionType={providerData.solutionType} 
+          solutionType={primarySolution}
         />
         <Details
           solutions={providerData.solutions}
           description={providerData.description}
-          bannerImage={providerData.bannerImage}
+          bannerImage={providerData.bannerImageUrl || 'https://picsum.photos/seed/default-banner/800/600'}
         />
         <Testimonial 
-          solutionType={providerData.solutionType} 
+          solutionType={primarySolution} 
         />
       </main>
     </div>

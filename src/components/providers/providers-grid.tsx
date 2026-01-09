@@ -1,7 +1,8 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
@@ -14,30 +15,19 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, orderBy } from 'firebase/firestore';
+import { Skeleton } from '../ui/skeleton';
 
-const providers = [
-  { name: 'Provider A', logo: 'https://picsum.photos/seed/providerA/200/100', solution: 'cloud', hint: 'abstract logo' },
-  { name: 'Provider B', logo: 'https://picsum.photos/seed/providerB/200/100', solution: 'communications', hint: 'abstract logo' },
-  { name: 'Provider C', logo: 'https://picsum.photos/seed/providerC/200/100', solution: 'ai', hint: 'abstract logo' },
-  { name: 'Provider D', logo: 'https://picsum.photos/seed/providerD/200/100', solution: 'connectivity', hint: 'abstract logo' },
-  { name: 'Provider E', logo: 'https://picsum.photos/seed/providerE/200/100', solution: 'cloud', hint: 'abstract logo' },
-  { name: 'Provider F', logo: 'https://picsum.photos/seed/providerF/200/100', solution: 'ai', hint: 'abstract logo' },
-  { name: 'Provider G', logo: 'https://picsum.photos/seed/providerG/200/100', solution: 'communications', hint: 'abstract logo' },
-  { name: 'Provider H', logo: 'https://picsum.photos/seed/providerH/200/100', solution: 'connectivity', hint: 'abstract logo' },
-  { name: 'Provider I', logo: 'https://picsum.photos/seed/providerI/200/100', solution: 'cloud', hint: 'abstract logo' },
-  { name: 'Provider J', logo: 'https://picsum.photos/seed/providerJ/200/100', solution: 'ai', hint: 'abstract logo' },
-  { name: 'Provider K', logo: 'https://picsum.photos/seed/providerK/200/100', solution: 'communications', hint: 'abstract logo' },
-  { name: 'Provider L', logo: 'https://picsum.photos/seed/providerL/200/100', solution: 'connectivity', hint: 'abstract logo' },
-  // Add more to test pagination
-  ...Array.from({ length: 15 }, (_, i) => ({
-    name: `Provider M${i + 1}`,
-    logo: `https://picsum.photos/seed/providerM${i}/200/100`,
-    solution: ['cloud', 'ai', 'communications', 'connectivity'][i % 4],
-    hint: 'abstract logo'
-  })),
-];
+type Provider = {
+  id: string;
+  name: string;
+  logoUrl: string;
+  solutions: string[];
+  published?: boolean;
+};
 
-const ITEMS_PER_PAGE = 20; // 5 rows * 4 items/row
+const ITEMS_PER_PAGE = 12; // 3 rows * 4 items/row
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -85,6 +75,15 @@ const cardVariants = {
   },
 };
 
+const ProviderCardSkeleton = () => (
+  <motion.div variants={cardVariants}>
+    <div className="relative bg-white rounded-2xl p-4 h-48 shadow-md border border-zinc-100">
+      <Skeleton className="w-full h-full" />
+    </div>
+  </motion.div>
+);
+
+
 export default function ProvidersGrid() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -93,11 +92,27 @@ export default function ProvidersGrid() {
   const [solutionFilter, setSolutionFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
 
-  const filteredProviders = providers.filter(
-    (provider) =>
-      provider.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (solutionFilter === 'all' || provider.solution === solutionFilter)
-  );
+  const firestore = useFirestore();
+
+  const providersQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(
+      collection(firestore, 'providers'),
+      where('published', '==', true),
+      orderBy('name', 'asc')
+    );
+  }, [firestore]);
+
+  const { data: providers, isLoading } = useCollection<Provider>(providersQuery);
+
+  const filteredProviders = useMemo(() => {
+    if (!providers) return [];
+    return providers.filter(
+      (provider) =>
+        provider.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (solutionFilter === 'all' || provider.solutions.includes(solutionFilter))
+    );
+  }, [providers, searchTerm, solutionFilter]);
 
   const pageCount = Math.ceil(filteredProviders.length / ITEMS_PER_PAGE);
   const paginatedProviders = filteredProviders.slice(
@@ -126,23 +141,23 @@ export default function ProvidersGrid() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(0); // Reset to first page on search
+              setCurrentPage(0);
             }}
           />
         </div>
         <Select onValueChange={(value) => {
             setSolutionFilter(value);
-            setCurrentPage(0); // Reset to first page on filter change
+            setCurrentPage(0);
         }} defaultValue="all">
           <SelectTrigger className="w-full md:w-[280px] h-12 rounded-full bg-white border-zinc-200">
             <SelectValue placeholder="Filter by solution" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Solutions</SelectItem>
-            <SelectItem value="cloud">Cloud Solutions</SelectItem>
-            <SelectItem value="communications">Communications Solutions</SelectItem>
-            <SelectItem value="ai">AI Solutions</SelectItem>
-            <SelectItem value="connectivity">Connectivity Solutions</SelectItem>
+            <SelectItem value="Cloud Solutions">Cloud Solutions</SelectItem>
+            <SelectItem value="Communications">Communications</SelectItem>
+            <SelectItem value="AI Solutions">AI Solutions</SelectItem>
+            <SelectItem value="Connectivity">Connectivity</SelectItem>
           </SelectContent>
         </Select>
       </motion.div>
@@ -151,22 +166,26 @@ export default function ProvidersGrid() {
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
         variants={gridContainerVariants}
       >
-        {paginatedProviders.map((provider) => (
-          <motion.div key={provider.name} variants={cardVariants}>
-            <Link href="#" className="block group">
-              <div className="relative bg-white rounded-2xl p-0 flex items-center justify-center h-48 shadow-md border border-zinc-100 transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:border-yellow-400 group-hover:-translate-y-2 overflow-hidden">
-                <Image
-                  src={provider.logo}
-                  alt={provider.name}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  data-ai-hint={provider.hint}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-            </Link>
-          </motion.div>
-        ))}
+        {isLoading ? (
+            Array.from({ length: 8 }).map((_, i) => <ProviderCardSkeleton key={i} />)
+        ) : (
+            paginatedProviders.map((provider) => (
+            <motion.div key={provider.id} variants={cardVariants}>
+                <Link href={`/providers/${provider.id}`} className="block group">
+                <div className="relative bg-white rounded-2xl p-4 flex items-center justify-center h-48 shadow-md border border-zinc-100 transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:border-yellow-400 group-hover:-translate-y-2 overflow-hidden">
+                    <Image
+                    src={provider.logoUrl}
+                    alt={provider.name}
+                    fill
+                    className="object-contain p-4"
+                    data-ai-hint="abstract logo"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                </div>
+                </Link>
+            </motion.div>
+            ))
+        )}
       </motion.div>
       
       {pageCount > 1 && (
@@ -192,6 +211,14 @@ export default function ProvidersGrid() {
             </Button>
         </motion.div>
       )}
+
+      {!isLoading && paginatedProviders.length === 0 && (
+        <motion.div className="text-center py-20 col-span-full" variants={filterVariants}>
+            <h3 className="text-xl font-semibold">No Providers Found</h3>
+            <p className="text-zinc-500 mt-2">Try adjusting your search or filter criteria.</p>
+        </motion.div>
+      )}
     </motion.section>
   );
 }
+
