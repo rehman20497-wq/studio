@@ -1,11 +1,10 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
@@ -78,19 +77,32 @@ const ProviderCardSkeleton = () => (
 );
 
 
-export default function ProvidersGrid({ initialSolution }: { initialSolution?: string }) {
+export default function ProvidersGrid() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const router = useRouter();
-  
+  const searchParams = useSearchParams();
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [solutionFilter, setSolutionFilter] = useState(initialSolution || 'all');
+  const [solutionFilter, setSolutionFilter] = useState(searchParams.get('solution') || 'all');
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    setSolutionFilter(initialSolution || 'all');
+    setSolutionFilter(searchParams.get('solution') || 'all');
     setCurrentPage(0);
-  }, [initialSolution]);
+  }, [searchParams]);
+
+  const handleSolutionChange = (newSolution: string) => {
+    setSolutionFilter(newSolution);
+    setCurrentPage(0);
+    const newUrl = newSolution === 'all' ? '/providers' : `/providers?solution=${newSolution}`;
+    router.push(newUrl, { scroll: false });
+  };
+  
+  const handleSearchChange = (term: string) => {
+    setSearchTerm(term);
+    setCurrentPage(0);
+  };
 
   const firestore = useFirestore();
 
@@ -138,10 +150,10 @@ export default function ProvidersGrid({ initialSolution }: { initialSolution?: s
       animate={isInView ? 'visible' : 'hidden'}
     >
       <ProviderFilter 
-        initialSolution={initialSolution}
+        initialSolution={solutionFilter}
         searchTerm={searchTerm}
-        onSearchTermChange={setSearchTerm}
-        onCurrentPageChange={setCurrentPage}
+        onSearchTermChange={handleSearchChange}
+        onSolutionChange={handleSolutionChange}
       />
 
       <motion.div

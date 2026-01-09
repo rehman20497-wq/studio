@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
@@ -12,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const filterVariants = {
   hidden: { opacity: 0, y: -30 },
@@ -29,23 +29,30 @@ interface ProviderFilterProps {
     initialSolution?: string;
     searchTerm?: string;
     onSearchTermChange?: (term: string) => void;
-    onCurrentPageChange?: (page: number) => void;
+    onSolutionChange?: (solution: string) => void;
 }
 
 export default function ProviderFilter({ 
     initialSolution, 
     searchTerm, 
-    onSearchTermChange, 
-    onCurrentPageChange 
+    onSearchTermChange,
+    onSolutionChange
 }: ProviderFilterProps) {
     const router = useRouter();
+    const pathname = usePathname();
+    const isSingleProviderPage = pathname.includes('/providers/') && pathname.length > '/providers/'.length && !pathname.includes('?');
 
     const handleFilterChange = (value: string) => {
-        if (value === 'all') {
-            router.push('/providers');
+        const slug = value.toLowerCase().replace(/ /g, '-');
+        
+        if (isSingleProviderPage) {
+            if (value === 'all') {
+                router.push('/providers');
+            } else {
+                router.push(`/providers?solution=${slug}`);
+            }
         } else {
-            const slug = value.toLowerCase().replace(/ /g, '-');
-            router.push(`/providers/${slug}`);
+            onSolutionChange?.(slug);
         }
     };
     
@@ -63,10 +70,8 @@ export default function ProviderFilter({
                     placeholder="Search providers..."
                     className="pl-10 h-12 rounded-full bg-white border-zinc-200 w-full"
                     value={searchTerm}
-                    onChange={(e) => {
-                        onSearchTermChange?.(e.target.value);
-                        onCurrentPageChange?.(0);
-                    }}
+                    onChange={(e) => onSearchTermChange?.(e.target.value)}
+                    disabled={isSingleProviderPage}
                 />
             </div>
             <Select onValueChange={handleFilterChange} value={solutionValue}>
