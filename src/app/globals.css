@@ -136,6 +136,22 @@
     white-space: nowrap;
     border-width: 0;
   }
+  .prose ul > li::before {
+    content: '';
+    background-image: url('/ch.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 1em;
+    height: 1em;
+    position: absolute;
+    left: 0;
+    top: 0.375em;
+  }
+
+  .prose ul > li {
+    padding-left: 1.75em;
+    position: relative;
+  }
 }
 
 .line-draw {

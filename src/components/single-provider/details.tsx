@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import { Cloud, Cpu, Wifi, Zap } from 'lucide-react';
+import MagneticButton from '../magnetic-button';
 
 const solutionMap = {
   'Cloud Solutions': { name: 'Cloud Solutions', icon: Cloud, color: 'bg-blue-100 text-blue-800' },
@@ -85,7 +86,7 @@ export default function Details({ solutions, description, bannerImage }: Details
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="pt-0 pb-24 px-[3%]">
+    <section ref={ref} className="bg-[#FCFBF8] py-0 px-[3%]">
       <motion.div
         className="grid md:grid-cols-12 gap-16 items-start"
         variants={containerVariants}
@@ -114,6 +115,15 @@ export default function Details({ solutions, description, bannerImage }: Details
             className="prose max-w-none text-lg text-zinc-600 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: description }}
           />
+          <motion.div 
+            className="mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0, transition: { delay: 1, duration: 0.8 } } : {}}
+          >
+            <MagneticButton>
+              <span className="text-[15px] font-medium px-4">Learn More</span>
+            </MagneticButton>
+          </motion.div>
         </motion.div>
         
         <motion.div className="relative h-96 md:col-span-4" variants={bannerVariants}>
