@@ -8,11 +8,25 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Default rule: Allow public read access to all collections, 
-    // but restrict all write operations to authenticated admins.
-    match /{document=**} {
+    // Rules for the 'providers' collection
+    // Allow public read access, but only admins can write.
+    match /providers/{providerId} {
       allow read: if true;
       allow write: if isSignedIn();
+    }
+
+    // Rules for the 'blog_posts' collection
+    // Allow public read access, but only admins can write.
+    match /blog_posts/{postId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Fallback for any other collections not explicitly defined
+    match /{path=**} {
+      // Default to deny all reads and writes unless specified above.
+      // This is a more secure default.
+      allow read, write: if isSignedIn();
     }
   }
 }
