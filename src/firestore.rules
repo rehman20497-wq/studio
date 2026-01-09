@@ -59,8 +59,8 @@ service cloud.firestore {
     
     /**
      * @description Rules for the 'blog_posts' collection.
-     * Authenticated users (admins) can perform any action. Public users can only
-     * read published posts.
+     * This collection is public-read, but writeable by authenticated users.
+     * This mirrors the working 'providers' rules to ensure admin panel functionality.
      * @path /blog_posts/{postId}
      * @principle Grant full control to admins while restricting public access.
      */

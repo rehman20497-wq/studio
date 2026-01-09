@@ -19,7 +19,8 @@ import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import AdminHeader from '@/components/admin/admin-header';
 import { Textarea } from '@/components/ui/textarea';
 import { useFirestore } from '@/firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { collection, serverTimestamp } from 'firebase/firestore';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
@@ -207,7 +208,9 @@ export default function UploadBlogPage() {
     
     try {
         const blogCollection = collection(firestore, 'blog_posts');
-        await addDoc(blogCollection, {
+        
+        // Use non-blocking update
+        addDocumentNonBlocking(blogCollection, {
             ...data,
             views: 0,
             comments: 0,
@@ -366,5 +369,3 @@ export default function UploadBlogPage() {
     </AdminPageWrapper>
   );
 }
-
-    
