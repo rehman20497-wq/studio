@@ -66,8 +66,8 @@ service cloud.firestore {
      *            ensures the admin panel can list all posts for management.
      */
     match /blog_posts/{postId} {
-      allow read: if true;
-      allow write: if isSignedIn();
+      allow read, write: if isSignedIn();
+      allow get, list: if resource.data.published == true;
     }
 
     /**
