@@ -78,7 +78,7 @@ export default function SingleProviderPage() {
         <Hero 
           solutionType={primarySolution}
         />
-        <div className="bg-[#FCFBF8] pt-[3%] pb-12 px-[3%]">
+        <div className="bg-[#FCFBF8] px-[3%]">
             <ProviderFilter initialSolution={primarySolution} />
         </div>
         <Details
