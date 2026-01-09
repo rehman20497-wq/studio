@@ -1,7 +1,7 @@
 'use client';
 
 import { useCollection } from '@/firebase/firestore/use-collection';
-import { collection, limit, query, where } from 'firebase/firestore';
+import { collection, limit, query } from 'firebase/firestore';
 import { useFirestore, useMemoFirebase } from '@/firebase';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
@@ -40,16 +40,12 @@ const StatusIndicator = ({ status, title, message, data }: { status: 'loading' |
 };
 
 
-const FirestoreConnectionTest = ({ collectionName, testName, useFilter }: { collectionName: string; testName: string, useFilter?: boolean }) => {
+const FirestoreConnectionTest = ({ collectionName, testName }: { collectionName: string; testName: string }) => {
     const firestore = useFirestore();
     const memoizedQuery = useMemoFirebase(() => {
         if (!firestore) return null;
-        let q = query(collection(firestore, collectionName), limit(1));
-        if (useFilter) {
-          q = query(q, where('published', '==', true));
-        }
-        return q;
-    }, [firestore, collectionName, useFilter]);
+        return query(collection(firestore, collectionName), limit(1));
+    }, [firestore, collectionName]);
 
     const { data, isLoading, error } = useCollection(memoizedQuery);
 
@@ -111,8 +107,8 @@ export default function DebugPage() {
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-4xl font-bold font-headline text-zinc-900 mb-8">Public Debug Panel</h1>
                 <div className="space-y-6">
-                    <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test (Public Rule)" useFilter={true} />
-                    <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test (Public Rule)" useFilter={true} />
+                    <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
+                    <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
                     <CloudinaryConnectionTest />
                 </div>
             </div>
