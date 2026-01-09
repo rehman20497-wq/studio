@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -86,9 +85,9 @@ export default function Details({ solutions, description, bannerImage }: Details
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="pt-8 pb-24 px-[4%]">
+    <section ref={ref} className="pt-0 pb-24 px-[3%]">
       <motion.div
-        className="max-w-7xl mx-auto grid md:grid-cols-12 gap-16 items-start"
+        className="grid md:grid-cols-12 gap-16 items-start"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -112,7 +111,7 @@ export default function Details({ solutions, description, bannerImage }: Details
             })}
           </motion.div>
           <div
-            className="prose text-lg text-zinc-600 leading-relaxed"
+            className="prose max-w-none text-lg text-zinc-600 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </motion.div>
