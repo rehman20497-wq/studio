@@ -9,6 +9,7 @@ import Testimonial from "@/components/single-provider/testimonial";
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import ProviderFilter from '@/components/providers/provider-filter';
+import ClientOnly from '@/components/client-only';
 
 type ProviderData = {
   id: string;
@@ -36,7 +37,9 @@ export default function SingleProviderPage() {
   if (isLoading) {
     return (
         <div className="bg-[#FCFBF8] min-h-screen">
+          <ClientOnly>
             <Header />
+          </ClientOnly>
             <main className="flex items-center justify-center h-[50vh]">
                 <p>Loading provider details...</p>
             </main>
@@ -47,7 +50,9 @@ export default function SingleProviderPage() {
   if (error || !providerData) {
      return (
         <div className="bg-[#FCFBF8] min-h-screen">
-            <Header />
+            <ClientOnly>
+              <Header />
+            </ClientOnly>
             <main className="flex items-center justify-center h-[50vh]">
                 <p className="text-red-500">
                     {error ? "Error: Could not load provider. Please check the ID or try again later." : "Provider not found."}
@@ -66,7 +71,9 @@ export default function SingleProviderPage() {
 
   return (
     <div className="bg-[#FCFBF8]">
-      <Header />
+      <ClientOnly>
+        <Header />
+      </ClientOnly>
       <main>
         <Hero 
           solutionType={primarySolution}

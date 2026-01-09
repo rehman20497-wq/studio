@@ -21,6 +21,7 @@ import SurgeProtectSection from "@/components/surge-protect-section";
 import ValidationSection from "@/components/validation-section";
 import CustomerStories from "@/components/customer-stories";
 import ActionButtonsSection from "@/components/action-buttons-section";
+import ClientOnly from '@/components/client-only';
 
 export default function Home() {
   const footerRef = useRef(null);
@@ -28,7 +29,9 @@ export default function Home() {
 
   return (
     <div className="bg-white text-zinc-900 font-body">
-      <Header />
+      <ClientOnly>
+        <Header />
+      </ClientOnly>
       <main className="bg-background font-body">
         <div className="flex w-full">
           <div className="relative w-1/2 h-screen flex items-center justify-center">
