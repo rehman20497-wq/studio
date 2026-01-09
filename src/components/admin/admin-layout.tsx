@@ -3,6 +3,9 @@
 import { motion } from 'framer-motion';
 import { LayoutDashboard, Upload, Settings, LogOut, FileText } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+
 
 const sidebarVariants = {
   hidden: { x: '-100%', opacity: 0 },
@@ -32,11 +35,19 @@ const navContainerVariants = {
 }
 
 const NavLink = ({ href, icon: Icon, children }: { href: string; icon: React.ElementType; children: React.ReactNode }) => {
+    const pathname = usePathname();
+    const isActive = pathname === href;
+
     return (
         <motion.div variants={navItemVariants}>
             <Link
                 href={href}
-                className="flex items-center gap-3 px-4 py-3 text-zinc-300 hover:bg-zinc-700/50 hover:text-white rounded-lg transition-colors duration-200"
+                className={cn(
+                    "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200",
+                    isActive 
+                        ? "bg-zinc-700 text-white" 
+                        : "text-zinc-300 hover:bg-zinc-700/50 hover:text-white"
+                )}
             >
                 <Icon className="w-5 h-5" />
                 <span>{children}</span>
@@ -70,7 +81,7 @@ export default function AdminLayout({
           <NavLink href="/admin" icon={LayoutDashboard}>Dashboard</NavLink>
           <NavLink href="/admin/upload" icon={Upload}>Upload Provider</NavLink>
           <NavLink href="#" icon={FileText}>Upload Blog</NavLink>
-          <NavLink href="#" icon={Settings}>Manage</NavLink>
+          <NavLink href="/admin/manage" icon={Settings}>Manage Providers</NavLink>
         </motion.nav>
         <motion.button
           onClick={onLogout}

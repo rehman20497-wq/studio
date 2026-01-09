@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth, useUser } from '@/firebase';
 import { initiateAnonymousSignIn } from '@/firebase/non-blocking-login';
 import AdminLayout from '@/components/admin/admin-layout';
@@ -17,7 +17,9 @@ export default function AdminDashboardPage() {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const [showWelcome, setShowWelcome] = useState(false);
-  let inactivityTimer: NodeJS.Timeout;
+
+  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const welcomeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleLogout = useCallback(() => {
     if (auth) {
@@ -25,52 +27,73 @@ export default function AdminDashboardPage() {
     }
   }, [auth]);
 
-  const handleAuthentication = () => {
+  const handleAuthentication = useCallback(() => {
     if (auth) {
       initiateAnonymousSignIn(auth);
-      // The useUser hook will pick up the new user state and trigger the re-render
-      // which will then show the welcome screen.
     }
-  };
+  }, [auth]);
 
+  // Show welcome screen ONCE when user logs in
   useEffect(() => {
-    // This effect runs when the user state changes to logged-in
-    if (user && !showWelcome) {
+    if (user) {
       setShowWelcome(true);
-      const timer = setTimeout(() => {
+
+      if (welcomeTimerRef.current) {
+        clearTimeout(welcomeTimerRef.current);
+      }
+
+      welcomeTimerRef.current = setTimeout(() => {
         setShowWelcome(false);
-      }, 4000); // Show welcome screen for 4 seconds
-
-      return () => clearTimeout(timer);
-    }
-  }, [user, showWelcome]);
-
-  const resetInactivityTimer = useCallback(() => {
-    clearTimeout(inactivityTimer);
-    if (user) {
-      inactivityTimer = setTimeout(handleLogout, INACTIVITY_TIMEOUT);
-    }
-  }, [user, handleLogout, inactivityTimer]);
-
-  useEffect(() => {
-    if (user) {
-      window.addEventListener('mousemove', resetInactivityTimer);
-      window.addEventListener('keydown', resetInactivityTimer);
-      resetInactivityTimer();
+      }, 4000);
     }
 
     return () => {
-      clearTimeout(inactivityTimer);
+      if (welcomeTimerRef.current) {
+        clearTimeout(welcomeTimerRef.current);
+      }
+    };
+  }, [user]);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+
+    if (user) {
+      inactivityTimerRef.current = setTimeout(() => {
+        handleLogout();
+      }, INACTIVITY_TIMEOUT);
+    }
+  }, [user, handleLogout]);
+
+  // Attach inactivity listeners
+  useEffect(() => {
+    if (!user) return;
+
+    window.addEventListener('mousemove', resetInactivityTimer);
+    window.addEventListener('keydown', resetInactivityTimer);
+    window.addEventListener('click', resetInactivityTimer);
+    window.addEventListener('scroll', resetInactivityTimer);
+
+    resetInactivityTimer();
+
+    return () => {
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+      }
+
       window.removeEventListener('mousemove', resetInactivityTimer);
       window.removeEventListener('keydown', resetInactivityTimer);
+      window.removeEventListener('click', resetInactivityTimer);
+      window.removeEventListener('scroll', resetInactivityTimer);
     };
   }, [user, resetInactivityTimer]);
 
   if (isUserLoading) {
     return (
-        <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
-            <p>Loading...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
+        <p>Loading...</p>
+      </div>
     );
   }
 
