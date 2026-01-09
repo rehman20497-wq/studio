@@ -46,8 +46,8 @@ service cloud.firestore {
     /**
      * @description Rules for the 'providers' collection.
      * Authenticated users (admins) have full read/write access.
-     * Public, unauthenticated users can list providers only if they filter by 'published: true',
-     * and can get any single provider document.
+     * Public, unauthenticated users can get any single provider document,
+     * but can only list providers if they filter by 'published: true'.
      * @path /providers/{providerId}
      * @principle Grant full control to admins while restricting public access.
      */
@@ -59,15 +59,16 @@ service cloud.firestore {
     
     /**
      * @description Rules for the 'blog_posts' collection.
-     * Authenticated users (admins) have full read/write access. This allows the admin panel
-     * to list all posts (published and unpublished) without permission errors.
-     * Public, unauthenticated users can only get a single post if it's published.
+     * This rule is now IDENTICAL to the 'providers' rule to ensure the admin panel
+     * has full access to read (list, get) and write (create, update, delete) all posts.
+     * Public users can only get published posts.
      * @path /blog_posts/{postId}
      * @principle Grant full control to admins while restricting public access.
      */
     match /blog_posts/{postId} {
       allow read, write: if isSignedIn();
       allow get: if resource.data.published == true;
+      allow list: if request.query.where.get("published", ["==", true]) != null;
     }
 
     /**
