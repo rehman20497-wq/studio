@@ -22,14 +22,10 @@ service cloud.firestore {
 
     // Rules for the 'blog_posts' collection
     match /blog_posts/{postId} {
-       // Admins can do anything
-      allow read, write: if isSignedIn();
-
-      // Public can only get a document if it is published
-      allow get: if !isSignedIn() && resource.data.published == true;
-
-      // Public can list documents only if they query for published ones
-      allow list: if !isSignedIn() && request.query.where.size() > 0 && request.query.where[0][2] == true;
+      // Public can read any blog post
+      allow read: if true;
+      // Admins can write
+      allow write: if isSignedIn();
     }
 
     // Fallback for any other collections not explicitly defined

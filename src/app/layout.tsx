@@ -8,7 +8,7 @@ import ResourcesButtonSection from '@/components/resources-button-section';
 import FooterCta from '@/components/footer-cta';
 import FinalFooter from '@/components/layout/final-footer';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
-// import BlogSection from '@/components/blog-section';
+import BlogSection from '@/components/blog-section';
 
 // Metadata cannot be exported from a client component.
 // We can either keep it here and accept the warning, or move it to a server component wrapper.
@@ -43,7 +43,7 @@ export default function RootLayout({
           {children}
           {!isAdminPage && (
             <>
-              {/* <BlogSection /> */}
+              <BlogSection />
               <ResourcesButtonSection />
               <FooterCta />
               <FinalFooter />
