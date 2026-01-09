@@ -86,14 +86,14 @@ export default function Details({ solutions, description, bannerImage }: Details
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="py-24 px-[4%]">
+    <section ref={ref} className="pt-8 pb-24 px-[4%]">
       <motion.div
-        className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center"
+        className="max-w-7xl mx-auto grid md:grid-cols-12 gap-16 items-start"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div variants={textVariants}>
+        <motion.div className="md:col-span-8" variants={textVariants}>
           <motion.div className="flex flex-wrap gap-3 mb-6" variants={tagsVariants}>
             {solutions.map((sol) => {
               const solutionInfo = solutionMap[sol as SolutionKey];
@@ -117,14 +117,14 @@ export default function Details({ solutions, description, bannerImage }: Details
           />
         </motion.div>
         
-        <motion.div className="relative h-96" variants={bannerVariants}>
+        <motion.div className="relative h-96 md:col-span-4" variants={bannerVariants}>
           <Image
             src={bannerImage}
             alt="Provider details banner"
             fill
             className="object-cover rounded-2xl shadow-xl"
             data-ai-hint="corporate office"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 768px) 100vw, 35vw"
           />
         </motion.div>
       </motion.div>
