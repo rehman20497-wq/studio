@@ -8,6 +8,7 @@ import Details from "@/components/single-provider/details";
 import Testimonial from "@/components/single-provider/testimonial";
 import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc, DocumentData } from 'firebase/firestore';
+import ProviderFilter from '@/components/providers/provider-filter';
 
 type ProviderData = {
   id: string;
@@ -77,6 +78,9 @@ export default function SingleProviderPage() {
         <Hero 
           solutionType={primarySolution}
         />
+        <div className="bg-[#FCFBF8] pt-[3%] pb-12 px-[3%]">
+            <ProviderFilter initialSolution={primarySolution} />
+        </div>
         <Details
           solutions={providerData.solutions}
           description={providerData.description}

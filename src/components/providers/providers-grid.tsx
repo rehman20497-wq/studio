@@ -1,23 +1,16 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useParams } from 'next/navigation';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
+import ProviderFilter from './provider-filter';
 
 type Provider = {
   id: string;
@@ -36,18 +29,6 @@ const containerVariants = {
     transition: {
       staggerChildren: 0.2,
       delayChildren: 0.3,
-    },
-  },
-};
-
-const filterVariants = {
-  hidden: { opacity: 0, y: -30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 1, 0.5, 1],
     },
   },
 };
@@ -74,6 +55,19 @@ const cardVariants = {
     },
   },
 };
+
+const filterVariants = {
+  hidden: { opacity: 0, y: -30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
+};
+
 
 const ProviderCardSkeleton = () => (
   <motion.div variants={cardVariants}>
@@ -124,26 +118,16 @@ export default function ProvidersGrid({ initialSolution }: { initialSolution?: s
       filtered = filtered.filter(provider => provider.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
     
+    // Client-side sort after filtering
     return filtered.sort((a, b) => a.name.localeCompare(b.name));
 
   }, [providers, searchTerm, solutionFilter]);
-
-  const handleFilterChange = (value: string) => {
-    if (value === 'all') {
-      router.push('/providers');
-    } else {
-      const slug = value.toLowerCase().replace(/ /g, '-');
-      router.push(`/providers/${slug}`);
-    }
-  };
 
   const pageCount = Math.ceil(filteredProviders.length / ITEMS_PER_PAGE);
   const paginatedProviders = filteredProviders.slice(
     currentPage * ITEMS_PER_PAGE,
     (currentPage + 1) * ITEMS_PER_PAGE
   );
-
-  const filterValue = solutionFilter === 'all' ? 'all' : solutionFilter.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
   return (
     <motion.section
@@ -153,36 +137,12 @@ export default function ProvidersGrid({ initialSolution }: { initialSolution?: s
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <motion.div
-        className="mx-auto flex flex-col md:flex-row gap-4 mb-12"
-        variants={filterVariants}
-      >
-        <div className="relative flex-grow">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5" />
-          <Input
-            type="text"
-            placeholder="Search providers..."
-            className="pl-10 h-12 rounded-full bg-white border-zinc-200 w-full"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(0);
-            }}
-          />
-        </div>
-        <Select onValueChange={handleFilterChange} value={filterValue}>
-          <SelectTrigger className="w-full md:w-[280px] h-12 rounded-full bg-white border-zinc-200">
-            <SelectValue placeholder="Filter by solution" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Solutions</SelectItem>
-            <SelectItem value="Cloud Solutions">Cloud Solutions</SelectItem>
-            <SelectItem value="Communications">Communications</SelectItem>
-            <SelectItem value="AI Solutions">AI Solutions</SelectItem>
-            <SelectItem value="Connectivity">Connectivity</SelectItem>
-          </SelectContent>
-        </Select>
-      </motion.div>
+      <ProviderFilter 
+        initialSolution={initialSolution}
+        searchTerm={searchTerm}
+        onSearchTermChange={setSearchTerm}
+        onCurrentPageChange={setCurrentPage}
+      />
 
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
