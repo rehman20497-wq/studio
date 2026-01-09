@@ -1,7 +1,7 @@
 'use client';
 
 import { useCollection } from '@/firebase/firestore/use-collection';
-import { collection, limit, query } from 'firebase/firestore';
+import { collection, limit, query, where } from 'firebase/firestore';
 import { useFirestore, useMemoFirebase } from '@/firebase';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
@@ -40,12 +40,16 @@ const StatusIndicator = ({ status, title, message, data }: { status: 'loading' |
 };
 
 
-const FirestoreConnectionTest = ({ collectionName, testName }: { collectionName: string; testName: string }) => {
+const FirestoreConnectionTest = ({ collectionName, testName, useFilter }: { collectionName: string; testName: string, useFilter?: boolean }) => {
     const firestore = useFirestore();
     const memoizedQuery = useMemoFirebase(() => {
         if (!firestore) return null;
-        return query(collection(firestore, collectionName), limit(1));
-    }, [firestore, collectionName]);
+        let q = query(collection(firestore, collectionName), limit(1));
+        if (useFilter) {
+          q = query(q, where('published', '==', true));
+        }
+        return q;
+    }, [firestore, collectionName, useFilter]);
 
     const { data, isLoading, error } = useCollection(memoizedQuery);
 
@@ -67,7 +71,7 @@ const FirestoreConnectionTest = ({ collectionName, testName }: { collectionName:
         message = `Firestore Connection Successful! Fetched ${data.length} document(s) from "${collectionName}".`;
         displayData = {
             documentsFound: data.length,
-            sampleDocument: data[0] || `No documents in collection.`,
+            sampleDocument: data[0] || `No documents in collection matching query.`,
         };
     }
 
@@ -107,8 +111,8 @@ export default function DebugPage() {
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-4xl font-bold font-headline text-zinc-900 mb-8">Public Debug Panel</h1>
                 <div className="space-y-6">
-                    <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test (Public Rule)" />
-                    <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test (Public Rule)" />
+                    <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test (Public Rule)" useFilter={true} />
+                    <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test (Public Rule)" useFilter={true} />
                     <CloudinaryConnectionTest />
                 </div>
             </div>
