@@ -1,3 +1,4 @@
+
 /**
  * @file firestore.rules
  * @description Security rules for the USA Testimonial Network Firestore database.
@@ -50,10 +51,7 @@ service cloud.firestore {
      */
     match /providers/{providerId} {
       allow get: if true;
-      allow list: if request.query.where.get("published", [
-        "==",
-        true
-      ]) != null;
+      allow list: if request.query.where.get("published", ["==", true]) != null;
       allow write: if isSignedIn();
     }
 
