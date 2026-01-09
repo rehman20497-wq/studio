@@ -13,7 +13,7 @@ const testimonials = [
       text: "Their cloud platform is robust and has scaled with us every step of the way. Downtime is a thing of the past. The support team is world-class.",
       author: 'Julia Frank',
       title: 'CTO, Attentive',
-      image: 'https://picsum.photos/seed/julia/180/180',
+      image: '/t.png',
       imageHint: 'woman professional',
     },
     {
@@ -21,7 +21,7 @@ const testimonials = [
       text: "Integrating their communication APIs was a breeze. We've seen a 50% increase in customer engagement since we switched. It's reliable and just works.",
       author: 'Alex Rodriguez',
       title: 'Head of Product, Faire',
-      image: 'https://picsum.photos/seed/alex/180/180',
+      image: '/t1.png',
       imageHint: 'man tech office',
     },
     {
@@ -29,7 +29,7 @@ const testimonials = [
       text: "The AI-powered analytics have given us insights we never thought possible. It's like having a data scientist on our team 24/7.",
       author: 'Samantha Carter',
       title: 'Director of Insights, Google',
-      image: 'https://picsum.photos/seed/samantha/180/180',
+      image: '/t2.png',
       imageHint: 'woman data scientist',
     },
     {
@@ -37,7 +37,7 @@ const testimonials = [
         text: "We rely on their network for our mission-critical operations. The speed and stability are unmatched. It's the backbone of our business.",
         author: 'Ben Collins',
         title: 'IT Director, Upwork',
-        image: 'https://picsum.photos/seed/ben/180/180',
+        image: '/t3.png',
         imageHint: 'man network engineer',
     }
 ];
