@@ -1,44 +1,22 @@
+
 'use client';
 
 import { motion, useInView, useAnimation } from 'framer-motion';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import BlogCard, { type BlogCardProps } from './blog-card';
-import { blogImages } from '@/lib/blog-images';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, orderBy, limit } from 'firebase/firestore';
+import { format } from 'date-fns';
 
-const blogPosts: BlogCardProps[] = [
-  {
-    type: 'interview',
-    date: 'NOVEMBER 15, 2024',
-    categories: ['Interview', 'Data & AI'],
-    title: 'Michael Connor on the Impact of Generative AI in Consumer Goods',
-    backgroundImage: blogImages.interview,
-
-  },
-  {
-    type: 'case-study',
-    date: 'DECEMBER 9, 2024',
-    categories: ['Industry Case Study', 'Customer Support'],
-    title: 'Transforming Customer Service in the Home Furnishings Industry',
-    backgroundImage: blogImages.caseStudy,
-  },
-  {
-    type: 'article',
-    date: 'JANUARY 2, 2025',
-    categories: ['Future of Work', 'Automation'],
-    title: 'The Rise of AI Agents in Modern Call Centers',
-    backgroundImage: blogImages.article1,
-  },
-  {
-    type: 'guide',
-    date: 'JANUARY 18, 2025',
-    categories: ['CX Strategy', 'eCommerce'],
-    title: 'A Step-by-Step Guide to Reducing Customer Churn',
-    backgroundImage: blogImages.article2,
-  },
-];
-
-const duplicatedPosts = [...blogPosts, ...blogPosts];
+type BlogPost = {
+  id: string;
+  title: string;
+  category: string;
+  createdAt: { seconds: number; nanoseconds: number };
+  featuredImageUrl: string;
+  published?: boolean;
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -82,7 +60,7 @@ const marqueeVariants = {
       x: {
         repeat: Infinity,
         repeatType: 'loop',
-        duration: 30,
+        duration: 40, 
         ease: 'linear',
       },
     },
@@ -118,6 +96,30 @@ export default function BlogSection() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const controls = useAnimation();
 
+  const firestore = useFirestore();
+  const blogQuery = useMemoFirebase(() => {
+      if (!firestore) return null;
+      return query(
+          collection(firestore, 'blog_posts'),
+          where('published', '==', true),
+          orderBy('createdAt', 'desc'),
+          limit(4)
+      );
+  }, [firestore]);
+
+  const { data: posts, isLoading } = useCollection<BlogPost>(blogQuery);
+
+  const blogPosts: BlogCardProps[] = useMemo(() => {
+    if (!posts) return [];
+    return posts.map(post => ({
+        type: 'article', // You might want to make this dynamic if your data supports it
+        date: format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase(),
+        categories: [post.category],
+        title: post.title,
+        backgroundImage: { src: post.featuredImageUrl, hint: 'blog post image' },
+    }));
+  }, [posts]);
+
   useEffect(() => {
     if (isInView) {
       controls.start('animate');
@@ -134,9 +136,14 @@ export default function BlogSection() {
 
   const scroll = (scrollOffset: number) => {
     if (marqueeRef.current) {
-      marqueeRef.current.scrollLeft += scrollOffset;
+      marqueeRef.current.scrollBy({ left: scrollOffset, behavior: 'smooth' });
     }
   };
+  
+  if (isLoading) return null; // Or a loading skeleton
+  if (!posts || posts.length === 0) return null; // Don't render the section if there are no posts
+
+  const duplicatedPosts = [...blogPosts, ...blogPosts];
 
   return (
     <motion.section
@@ -167,7 +174,7 @@ export default function BlogSection() {
           variants={arrowContainerVariants}
         >
           <button
-            onClick={() => scroll(-300)}
+            onClick={() => scroll(-480)}
             className="group/arrow w-10 h-10 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg bg-[length:200%_auto] animate-gradient-flow"
           >
             <motion.div variants={arrowVariants} custom="left" animate="animate">
@@ -175,7 +182,7 @@ export default function BlogSection() {
             </motion.div>
           </button>
           <button
-            onClick={() => scroll(300)}
+            onClick={() => scroll(480)}
             className="group/arrow w-10 h-10 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg bg-[length:200%_auto] animate-gradient-flow"
           >
             <motion.div variants={arrowVariants} custom="right" animate="animate">
@@ -190,18 +197,18 @@ export default function BlogSection() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div ref={marqueeRef} className="max-w-[100vw] overflow-x-auto no-scrollbar">
+        <div ref={marqueeRef} className="max-w-full overflow-x-auto no-scrollbar" style={{ scrollBehavior: 'smooth' }}>
           <motion.div
             className="flex"
             variants={marqueeVariants}
             animate={controls}
           >
-            <div className="flex gap-8 pb-8 flex-shrink-0">
+            <div className="flex gap-8 pb-8 flex-shrink-0 pl-8">
               {duplicatedPosts.map((post, index) => (
                 <BlogCard key={`first-${index}`} {...post} />
               ))}
             </div>
-            <div className="flex gap-8 pb-8 flex-shrink-0">
+             <div className="flex gap-8 pb-8 flex-shrink-0 pr-8">
               {duplicatedPosts.map((post, index) => (
                 <BlogCard key={`second-${index}`} {...post} />
               ))}
