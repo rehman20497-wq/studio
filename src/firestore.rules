@@ -2,12 +2,40 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      // Allow public read access to all documents.
-      allow read: if true;
 
-      // Allow write access (create, update, delete) only for authenticated users.
-      allow write: if request.auth != null;
+    // Helper function to check if the user is signed in via the admin panel
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Rules for the 'providers' collection
+    match /providers/{providerId} {
+      // Admins can do anything
+      allow read, write: if isSignedIn();
+
+      // Public can only get a document if it is published
+      allow get: if !isSignedIn() && resource.data.published == true;
+
+      // Public can list documents only if they query for published ones
+      allow list: if !isSignedIn() && request.query.where.size() > 0;
+    }
+
+    // Rules for the 'blog_posts' collection (Now identical to providers)
+    match /blog_posts/{postId} {
+      // Admins can do anything
+      allow read, write: if isSignedIn();
+
+      // Public can only get a document if it is published
+      allow get: if !isSignedIn() && resource.data.published == true;
+
+      // Public can list documents only if they query for published ones
+      allow list: if !isSignedIn() && request.query.where.size() > 0;
+    }
+
+    // Fallback for any other collections not explicitly defined
+    match /{path=**} {
+      allow read: if true; 
+      allow write: if isSignedIn(); // Allow admin writes everywhere else
     }
   }
 }

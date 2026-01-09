@@ -107,7 +107,7 @@ export default function BlogSection() {
       );
   }, [firestore]);
 
-  const { data: posts, isLoading } = useCollection<BlogPost>(blogQuery);
+  const { data: posts, isLoading, error } = useCollection<BlogPost>(blogQuery);
 
   const blogPosts: BlogCardProps[] = useMemo(() => {
     if (!posts) return [];
@@ -141,6 +141,11 @@ export default function BlogSection() {
   };
   
   if (isLoading) return null; // Or a loading skeleton
+  if (error) {
+    // You can render a user-friendly error message here if needed
+    console.error("Error loading blog posts:", error);
+    return null;
+  }
   if (!posts || posts.length === 0) return null; // Don't render the section if there are no posts
 
   const duplicatedPosts = [...blogPosts, ...blogPosts];
