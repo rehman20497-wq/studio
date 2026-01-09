@@ -65,9 +65,12 @@ service cloud.firestore {
      * @principle This rule separates admin and public access to fix the list permission error.
      */
     match /blog_posts/{postId} {
+      // Admins (any signed-in user) have full read/write access.
+      allow read, write: if isSignedIn();
+      
+      // Public users can only read published posts.
       allow get: if resource.data.published == true;
       allow list: if request.query.where.get("published", ["==", true]) != null;
-      allow write: if isSignedIn();
     }
 
     /**
