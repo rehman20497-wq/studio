@@ -8,25 +8,23 @@ import { Button } from '@/components/ui/button';
 import { Edit, Trash2, BarChart3, Power, PowerOff, Eye, PlusCircle, LayoutGrid, List } from 'lucide-react';
 import Image from 'next/image';
 import { format } from 'date-fns';
+import { useCollection, useFirestore, useMemoFirebase, updateDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase';
+import { collection, query, orderBy, doc } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 
 type BlogPost = {
   id: string;
   title: string;
-  author: string;
+  authorName: string;
   category: string;
   published: boolean;
-  createdAt: Date;
-  imageUrl: string;
+  createdAt: { seconds: number; nanoseconds: number; };
+  featuredImageUrl: string;
   views: number;
   comments: number;
   shares: number;
 };
-
-const placeholderPosts: BlogPost[] = [
-  { id: '1', title: 'The Future of AI in Customer Service', author: 'Jane Doe', category: 'AI', published: true, createdAt: new Date('2024-07-15'), imageUrl: 'https://picsum.photos/seed/blog1/400/200', views: 12500, comments: 45, shares: 120 },
-  { id: '2', title: 'Scaling Operations with Digital Solutions', author: 'John Smith', category: 'Digital Operations', published: false, createdAt: new Date('2024-07-10'), imageUrl: 'https://picsum.photos/seed/blog2/400/200', views: 8200, comments: 22, shares: 75 },
-  { id: '3', title: 'Building Trust in Online Marketplaces', author: 'Emily White', category: 'Trust & Safety', published: true, createdAt: new Date('2024-06-28'), imageUrl: 'https://picsum.photos/seed/blog3/400/200', views: 23000, comments: 150, shares: 340 },
-];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -46,14 +44,66 @@ const itemVariants = {
   },
 };
 
-
 export default function ManageBlogsPage() {
-    const [posts, setPosts] = useState(placeholderPosts);
+    const { toast } = useToast();
+    const firestore = useFirestore();
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
-    const togglePublish = (id: string) => {
-        setPosts(posts.map(p => p.id === id ? { ...p, published: !p.published } : p));
+    const memoizedQuery = useMemoFirebase(
+      () => {
+          if (!firestore) return null;
+          return query(collection(firestore, 'blog_posts'), orderBy('createdAt', 'desc'));
+      },
+      [firestore]
+    );
+
+    const { data: posts, isLoading } = useCollection<BlogPost>(memoizedQuery);
+
+    const togglePublish = (post: BlogPost) => {
+        if (!firestore) return;
+        const postRef = doc(firestore, 'blog_posts', post.id);
+        const newStatus = !post.published;
+        
+        updateDocumentNonBlocking(postRef, { published: newStatus });
+
+        toast({
+            title: `Post ${newStatus ? 'Published' : 'Unpublished'}`,
+            description: `"${post.title}" is now ${newStatus ? 'live' : 'a draft'}.`,
+        });
     };
+
+    const openDeleteDialog = (post: BlogPost) => {
+      setSelectedPost(post);
+      setIsDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (!firestore || !selectedPost) return;
+
+        const postRef = doc(firestore, 'blog_posts', selectedPost.id);
+        deleteDocumentNonBlocking(postRef);
+
+        toast({
+            title: 'Post Deleted',
+            description: `"${selectedPost.title}" has been permanently deleted.`,
+            variant: 'destructive',
+        });
+
+        setIsDeleteDialogOpen(false);
+        setSelectedPost(null);
+    };
+
+    if (isLoading) {
+        return (
+            <AdminPageWrapper screenTitle="Manage Blogs" isLoading>
+                <div className="flex items-center justify-center h-screen">
+                    <p>Loading blog posts...</p>
+                </div>
+            </AdminPageWrapper>
+        );
+    }
 
   return (
     <AdminPageWrapper screenTitle="Manage Blogs">
@@ -86,7 +136,7 @@ export default function ManageBlogsPage() {
                 animate="visible"
                 exit={{ opacity: 0 }}
             >
-                {posts.map(post => (
+                {posts && posts.map(post => (
                     <motion.div
                         key={post.id}
                         variants={itemVariants}
@@ -94,12 +144,12 @@ export default function ManageBlogsPage() {
                         className="bg-white/60 backdrop-blur-xl rounded-2xl shadow-lg border border-zinc-200/50 overflow-hidden"
                     >
                         <div className="relative h-48">
-                            <Image src={post.imageUrl} alt={post.title} fill className="object-cover" />
+                            <Image src={post.featuredImageUrl} alt={post.title} fill className="object-cover" />
                              <div className="absolute top-2 right-2 px-3 py-1 text-xs font-bold text-white bg-black/50 rounded-full">{post.category}</div>
                         </div>
                         <div className="p-5">
                             <h3 className="text-xl font-bold font-headline text-zinc-800 truncate">{post.title}</h3>
-                            <p className="text-sm text-zinc-500 mt-1">by {post.author} on {format(post.createdAt, 'MMMM d, yyyy')}</p>
+                            <p className="text-sm text-zinc-500 mt-1">by {post.authorName} on {format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy')}</p>
                             
                             <div className="flex justify-between items-center mt-4 text-sm text-zinc-600">
                                 <div className="flex items-center gap-1"><Eye className="w-4 h-4"/> {post.views.toLocaleString()}</div>
@@ -107,13 +157,13 @@ export default function ManageBlogsPage() {
                             
                             <div className="flex items-center gap-2 mt-6 flex-wrap">
                                 <Button size="sm" variant="outline" className="rounded-full"><Edit className="w-4 h-4 mr-2" />Edit</Button>
-                                <Button size="sm" variant="destructive" className="rounded-full"><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
+                                <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(post)}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
                                 <Button size="sm" variant="secondary" className="rounded-full"><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
                                 <Button 
                                   size="sm"
                                   variant={post.published ? 'default' : 'outline'}
                                   className="rounded-full bg-green-500 hover:bg-green-600 text-white data-[variant=outline]:bg-yellow-500 data-[variant=outline]:hover:bg-yellow-600 data-[variant=outline]:text-white"
-                                  onClick={() => togglePublish(post.id)}
+                                  onClick={() => togglePublish(post)}
                                 >
                                     {post.published ? <Power className="w-4 h-4 mr-2" /> : <PowerOff className="w-4 h-4 mr-2" />}
                                     {post.published ? 'Published' : 'Draft'}
@@ -125,6 +175,25 @@ export default function ManageBlogsPage() {
             </motion.div>
         </AnimatePresence>
       </div>
+
+       {/* Delete Confirmation Dialog */}
+        <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the blog post
+                    from your database.
+                </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={confirmDelete}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     </AdminPageWrapper>
   );
 }
+
+    

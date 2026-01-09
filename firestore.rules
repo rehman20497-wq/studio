@@ -15,14 +15,16 @@
  * - /reviewer_profiles/{profileId}: Stores public information about each reviewer.
  * - /reviews/{reviewId}: Stores the text content of each review.
  * - /animation_sequences/{sequenceId}: Defines the order in which profiles are displayed.
+ * - /blog_posts/{postId}: Stores blog content managed by admins.
  * There is no user-specific data or private subcollections.
  *
  * @section Key Security Decisions
  * - **Public Read Access**: All collections are world-readable to support the app's
- *   primary function of displaying testimonials to the public.
- * - **Authenticated Writes for Providers**: To allow the admin panel to function,
- *   write access to the `providers` collection is granted to any authenticated user.
- *   This is a temporary measure and can be locked down further to specific admin UIDs.
+ *   primary function of displaying testimonials and blog content to the public.
+ * - **Authenticated Writes**: To allow the admin panel to function,
+ *   write access to the `providers` and `blog_posts` collections is granted to any
+ *   authenticated user. This is a temporary measure and can be locked down further
+ *   to specific admin UIDs.
  * - **Disabled Client Writes for Other Collections**: To maximize security and data integrity,
  *   all write operations on other collections are blocked.
  */
@@ -52,6 +54,19 @@ service cloud.firestore {
     match /providers/{providerId} {
       allow get: if true;
       allow list: if request.query.where.get("published", ["==", true]) != null;
+      allow write: if isSignedIn();
+    }
+    
+    /**
+     * @description Rules for the 'blog_posts' collection.
+     * This collection is public-read, but writeable by authenticated users.
+     * @path /blog_posts/{postId}
+     * @allow An anonymous user can read blog data. (get, list)
+     * @allow An authenticated user (admin) can create, update, or delete a blog post. (write)
+     * @principle Allow admins to manage blog content while keeping it public.
+     */
+    match /blog_posts/{postId} {
+      allow read: if true;
       allow write: if isSignedIn();
     }
 
@@ -107,3 +122,5 @@ service cloud.firestore {
     }
   }
 }
+
+    

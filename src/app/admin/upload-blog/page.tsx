@@ -3,7 +3,7 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare } from 'lucide-react';
+import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,6 +17,9 @@ import { cloudinaryConfig } from '@/lib/cloudinary';
 import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import AdminHeader from '@/components/admin/admin-header';
 import { Textarea } from '@/components/ui/textarea';
+import { useFirestore } from '@/firebase';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { collection, serverTimestamp } from 'firebase/firestore';
 
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
@@ -121,13 +124,14 @@ const ImageUploader = ({
 
 export default function UploadBlogPage() {
   const { toast } = useToast();
+  const firestore = useFirestore();
   
   const [featuredImagePreview, setFeaturedImagePreview] = useState<string | null>(null);
   const [featuredImageProgress, setFeaturedImageProgress] = useState(0);
   const [authorImagePreview, setAuthorImagePreview] = useState<string | null>(null);
   const [authorImageProgress, setAuthorImageProgress] = useState(0);
 
-  const { register, handleSubmit, control, setValue, formState: { errors, isSubmitting } } = useForm<BlogPostFormValues>({
+  const { register, handleSubmit, control, setValue, reset, formState: { errors, isSubmitting } } = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostSchema),
   });
 
@@ -185,13 +189,47 @@ export default function UploadBlogPage() {
       }
   };
 
-  const onSubmit = (data: BlogPostFormValues) => {
-    console.log('Blog Post Data:', data);
-    toast({
-      title: "Blog Post Submitted!",
-      description: "Check the console for the form data. Backend integration is the next step.",
-    });
-    // In a real app, you would send this data to your backend/Firestore
+  const onSubmit = async (data: BlogPostFormValues) => {
+    if (!firestore) {
+        toast({
+            variant: 'destructive',
+            title: 'Database connection failed',
+            description: 'Could not connect to Firestore. Please try again.',
+        });
+        return;
+    }
+    
+    try {
+        const blogCollection = collection(firestore, 'blog_posts');
+        await addDocumentNonBlocking(blogCollection, {
+            ...data,
+            published: true, // Default to published
+            views: 0,
+            comments: 0,
+            shares: 0,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+        });
+
+        toast({
+            title: "Blog Post Published!",
+            description: `${data.title} is now live.`,
+        });
+
+        // Reset form and previews
+        reset();
+        setFeaturedImagePreview(null);
+        setAuthorImagePreview(null);
+        setFeaturedImageProgress(0);
+        setAuthorImageProgress(0);
+
+    } catch (error: any) {
+         toast({
+            variant: 'destructive',
+            title: 'Submission Failed',
+            description: error.message || "An unexpected error occurred while saving the post.",
+        });
+    }
   };
 
   return (
@@ -234,7 +272,7 @@ export default function UploadBlogPage() {
                             render={({ field }) => (
                                 <>
                                 <RichTextEditor
-                                  value={field.value}
+                                  value={field.value || ''}
                                   onChange={field.onChange}
                                   placeholder="Start writing your masterpiece..."
                                 />
@@ -269,9 +307,11 @@ export default function UploadBlogPage() {
                               onFileChange={(e) => handleFileChange(e, 'authorImageUrl')}
                             />
                             <div className="space-y-4">
-                                <label htmlFor="authorName" className="font-semibold text-zinc-700">Author's Name</label>
-                                <Input id="authorName" placeholder="e.g., Jane Doe" {...register('authorName')} />
-                                {errors.authorName && <p className="text-red-500 text-sm mt-1">{errors.authorName.message}</p>}
+                                <div>
+                                  <label htmlFor="authorName" className="font-semibold text-zinc-700">Author's Name</label>
+                                  <Input id="authorName" placeholder="e.g., Jane Doe" {...register('authorName')} />
+                                  {errors.authorName && <p className="text-red-500 text-sm mt-1">{errors.authorName.message}</p>}
+                                </div>
                             </div>
                        </div>
                     </SectionWrapper>
@@ -284,6 +324,7 @@ export default function UploadBlogPage() {
                         className="flex justify-end"
                     >
                         <Button size="lg" type="submit" className="bg-zinc-900 hover:bg-zinc-700 text-white rounded-full px-10 py-6 text-lg font-bold" disabled={isSubmitting}>
+                            <BookOpen className="w-5 h-5 mr-3"/>
                             {isSubmitting ? 'Publishing...' : 'Publish Blog Post'}
                         </Button>
                     </motion.div>
@@ -293,3 +334,5 @@ export default function UploadBlogPage() {
     </AdminPageWrapper>
   );
 }
+
+    
