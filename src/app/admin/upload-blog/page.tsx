@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, ChangeEvent } from 'react';
@@ -203,7 +204,6 @@ export default function UploadBlogPage() {
         const blogCollection = collection(firestore, 'blog_posts');
         await addDocumentNonBlocking(blogCollection, {
             ...data,
-            published: true, // Default to published
             views: 0,
             comments: 0,
             shares: 0,
@@ -334,5 +334,3 @@ export default function UploadBlogPage() {
     </AdminPageWrapper>
   );
 }
-
-    

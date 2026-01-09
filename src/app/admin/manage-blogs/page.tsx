@@ -5,10 +5,10 @@ import { useState } from 'react';
 import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, BarChart3, Power, PowerOff, Eye, PlusCircle, LayoutGrid, List } from 'lucide-react';
+import { Edit, Trash2, BarChart3, PlusCircle, LayoutGrid, List, Eye } from 'lucide-react';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { useCollection, useFirestore, useMemoFirebase, updateDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase';
+import { useCollection, useFirestore, useMemoFirebase, deleteDocumentNonBlocking } from '@/firebase';
 import { collection, query, orderBy, doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -18,7 +18,6 @@ type BlogPost = {
   title: string;
   authorName: string;
   category: string;
-  published: boolean;
   createdAt: { seconds: number; nanoseconds: number; };
   featuredImageUrl: string;
   views: number;
@@ -61,19 +60,6 @@ export default function ManageBlogsPage() {
 
     const { data: posts, isLoading } = useCollection<BlogPost>(memoizedQuery);
 
-    const togglePublish = (post: BlogPost) => {
-        if (!firestore) return;
-        const postRef = doc(firestore, 'blog_posts', post.id);
-        const newStatus = !post.published;
-        
-        updateDocumentNonBlocking(postRef, { published: newStatus });
-
-        toast({
-            title: `Post ${newStatus ? 'Published' : 'Unpublished'}`,
-            description: `"${post.title}" is now ${newStatus ? 'live' : 'a draft'}.`,
-        });
-    };
-
     const openDeleteDialog = (post: BlogPost) => {
       setSelectedPost(post);
       setIsDeleteDialogOpen(true);
@@ -111,7 +97,7 @@ export default function ManageBlogsPage() {
         <div className="flex justify-between items-center mb-8">
             <div>
                 <h1 className="text-3xl font-bold font-headline text-zinc-900">Blog Posts</h1>
-                <p className="text-zinc-500">Edit, publish, and analyze your content.</p>
+                <p className="text-zinc-500">Edit, delete, and analyze your content.</p>
             </div>
             <div className="flex items-center gap-4">
                  <Button variant="outline" size="icon" onClick={() => setViewMode('list')} className={viewMode === 'list' ? 'bg-zinc-200' : ''}>
@@ -159,15 +145,6 @@ export default function ManageBlogsPage() {
                                 <Button size="sm" variant="outline" className="rounded-full"><Edit className="w-4 h-4 mr-2" />Edit</Button>
                                 <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(post)}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
                                 <Button size="sm" variant="secondary" className="rounded-full"><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
-                                <Button 
-                                  size="sm"
-                                  variant={post.published ? 'default' : 'outline'}
-                                  className="rounded-full bg-green-500 hover:bg-green-600 text-white data-[variant=outline]:bg-yellow-500 data-[variant=outline]:hover:bg-yellow-600 data-[variant=outline]:text-white"
-                                  onClick={() => togglePublish(post)}
-                                >
-                                    {post.published ? <Power className="w-4 h-4 mr-2" /> : <PowerOff className="w-4 h-4 mr-2" />}
-                                    {post.published ? 'Published' : 'Draft'}
-                                </Button>
                             </div>
                         </div>
                     </motion.div>
@@ -195,5 +172,3 @@ export default function ManageBlogsPage() {
     </AdminPageWrapper>
   );
 }
-
-    
