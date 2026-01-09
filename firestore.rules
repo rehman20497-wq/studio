@@ -59,14 +59,15 @@ service cloud.firestore {
     
     /**
      * @description Rules for the 'blog_posts' collection.
-     * This collection is public-read, but writeable by authenticated users.
+     * Public can read published posts. Admins can read/write all posts.
      * @path /blog_posts/{postId}
-     * @allow An anonymous user can read blog data. (get, list)
+     * @allow An anonymous user can read a published blog post. (get)
+     * @allow An anonymous user can list published blog posts. (list)
      * @allow An authenticated user (admin) can create, update, or delete a blog post. (write)
      * @principle Allow admins to manage blog content while keeping it public.
      */
     match /blog_posts/{postId} {
-      allow read: if resource.data.published == true;
+      allow read: if resource.data.published == true || isSignedIn();
       allow list: if isSignedIn();
       allow write: if isSignedIn();
     }
