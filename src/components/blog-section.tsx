@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView, useAnimation } from 'framer-motion';
@@ -97,13 +98,13 @@ export default function BlogSection() {
 
   const firestore = useFirestore();
   const blogQuery = useMemoFirebase(() => {
-      if (!firestore) return null;
-      return query(
-          collection(firestore, 'blog_posts'),
-          where('published', '==', true),
-          orderBy('createdAt', 'desc'),
-          limit(4)
-      );
+    if (!firestore) return null;
+    return query(
+      collection(firestore, 'blog_posts'),
+      where('published', '==', true),
+      orderBy('createdAt', 'desc'),
+      limit(4)
+    );
   }, [firestore]);
 
   const { data: posts, isLoading, error } = useCollection<BlogPost>(blogQuery);
@@ -139,13 +140,12 @@ export default function BlogSection() {
     }
   };
   
-  if (isLoading) return null; // Or a loading skeleton
+  if (isLoading && !posts) return null;
   if (error) {
-    // You can render a user-friendly error message here if needed
     console.error("Error loading blog posts:", error);
     return null;
   }
-  if (!posts || posts.length === 0) return null; // Don't render the section if there are no posts
+  if (!posts || posts.length === 0) return null;
 
   const duplicatedPosts = [...blogPosts, ...blogPosts];
 
