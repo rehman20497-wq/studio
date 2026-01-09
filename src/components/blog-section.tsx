@@ -140,8 +140,9 @@ export default function BlogSection() {
     }
   };
   
-  if (isLoading && !posts) return null;
+  if (isLoading) return null;
   if (error) {
+    // We'll just hide the section on error to avoid crashing the page.
     console.error("Error loading blog posts:", error);
     return null;
   }
