@@ -1,8 +1,8 @@
 
 'use client';
 
-import { useState, useRef, ChangeEvent } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
+import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
 import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen, Shield } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
@@ -134,13 +134,43 @@ export default function UploadBlogPage() {
   const [featuredImageProgress, setFeaturedImageProgress] = useState(0);
   const [authorImagePreview, setAuthorImagePreview] = useState<string | null>(null);
   const [authorImageProgress, setAuthorImageProgress] = useState(0);
+  
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springConfig = { stiffness: 300, damping: 20 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
 
-  const { register, handleSubmit, control, setValue, reset, formState: { errors, isSubmitting } } = useForm<BlogPostFormValues>({
+  const { register, handleSubmit, control, setValue, reset, trigger, formState: { errors, isSubmitting, isValid } } = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostSchema),
+    mode: 'onChange', // Validate on change to update isValid status
     defaultValues: {
       published: false,
     },
   });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isValid || !buttonRef.current) return;
+
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
+    
+    const dx = clientX - (left + width / 2);
+    const dy = clientY - (top + height / 2);
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    const maxMove = 80;
+    if (distance < 120) {
+      const angle = Math.atan2(dy, dx);
+      const moveDistance = ((120 - distance) / 120) * maxMove;
+      x.set(-Math.cos(angle) * moveDistance);
+      y.set(-Math.sin(angle) * moveDistance);
+    } else {
+      x.set(0);
+      y.set(0);
+    }
+  };
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
       if (!cloudinaryConfig.uploadPreset) {
@@ -185,6 +215,7 @@ export default function UploadBlogPage() {
       try {
           const imageUrl = await uploadToCloudinary(file, setProgress);
           setValue(fieldName, imageUrl, { shouldValidate: true });
+          await trigger(fieldName); // Force re-validation of the specific field
       } catch (error: any) {
           toast({
               variant: 'destructive',
@@ -193,6 +224,7 @@ export default function UploadBlogPage() {
           });
           setPreview(null);
           setProgress(0);
+          setValue(fieldName, '', { shouldValidate: true }); // Clear value on error
       }
   };
 
@@ -209,7 +241,6 @@ export default function UploadBlogPage() {
     try {
         const blogCollection = collection(firestore, 'blog_posts');
         
-        // Use non-blocking update
         addDocumentNonBlocking(blogCollection, {
             ...data,
             views: 0,
@@ -224,7 +255,6 @@ export default function UploadBlogPage() {
             description: `"${data.title}" has been successfully saved.`,
         });
 
-        // Reset form and previews
         reset();
         setFeaturedImagePreview(null);
         setAuthorImagePreview(null);
@@ -245,7 +275,7 @@ export default function UploadBlogPage() {
         <div className="p-4 sm:p-8 md:p-12">
             <AdminHeader userName="Faizan" />
             <div className="mt-12">
-                <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-16">
+                <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-16" onMouseMove={handleMouseMove}>
                     <SectionWrapper title="Title & Category" step={1} icon={Type}>
                         <div className="space-y-4">
                             <div>
@@ -358,10 +388,19 @@ export default function UploadBlogPage() {
                         transition={{ duration: 1, delay: 0.5 }}
                         className="flex justify-end"
                     >
-                        <Button size="lg" type="submit" className="bg-zinc-900 hover:bg-zinc-700 text-white rounded-full px-10 py-6 text-lg font-bold" disabled={isSubmitting}>
-                            <BookOpen className="w-5 h-5 mr-3"/>
+                        <motion.button
+                            ref={buttonRef}
+                            style={{ x: springX, y: springY }}
+                            type="submit" 
+                            className={cn("bg-zinc-900 text-white rounded-full px-10 py-6 text-lg font-bold flex items-center gap-3 transition-all duration-300 ease-out",
+                                !isValid || isSubmitting ? 'bg-zinc-400 text-zinc-100 cursor-not-allowed' : 'bg-zinc-900 hover:bg-zinc-700 text-white'
+                            )}
+                            disabled={!isValid || isSubmitting}
+                            whileTap={{ scale: isValid ? 0.95 : 1 }}
+                        >
+                            <BookOpen className="w-5 h-5"/>
                             {isSubmitting ? 'Submitting...' : 'Submit Post'}
-                        </Button>
+                        </motion.button>
                     </motion.div>
                 </form>
             </div>
