@@ -4,7 +4,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
-import { Upload, BookOpen, Settings } from 'lucide-react';
+import { Upload, BookOpen, Settings, FileText } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
@@ -46,6 +46,18 @@ const SectionCard = ({ title, icon: Icon, children, href }: { title: string, ico
 export default function AdminPanel() {
   return (
     <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12">
+        <SectionWrapper id="upload-provider">
+            <SectionCard title="Upload New Provider" icon={Upload} href="/admin/upload">
+                <p className="text-zinc-600">Add a new service provider to your network. Upload their logo, description, and offered solutions.</p>
+            </SectionCard>
+        </SectionWrapper>
+        
+        <SectionWrapper id="manage-providers">
+            <SectionCard title="Manage Providers" icon={Settings} href="/admin/manage">
+                <p className="text-zinc-600">Edit, delete, and manage visibility of existing providers. View performance analytics.</p>
+            </SectionCard>
+        </SectionWrapper>
+        
         <SectionWrapper id="upload-blog">
           <SectionCard title="Upload New Blog" icon={BookOpen} href="/admin/upload-blog">
               <p className="text-zinc-600">Create and publish a new article. Supports rich text, images, and embedded content.</p>
@@ -53,7 +65,7 @@ export default function AdminPanel() {
         </SectionWrapper>
         
         <SectionWrapper id="manage-blogs">
-          <SectionCard title="Manage Blogs" icon={Settings} href="/admin/manage-blogs">
+          <SectionCard title="Manage Blogs" icon={FileText} href="/admin/manage-blogs">
               <p className="text-zinc-600">Edit, delete, and manage visibility of existing blog posts. View performance analytics.</p>
           </SectionCard>
         </SectionWrapper>
