@@ -59,15 +59,15 @@ service cloud.firestore {
     
     /**
      * @description Rules for the 'blog_posts' collection.
-     * This rule mirrors the 'providers' rule to ensure the admin panel can list all posts.
-     * Public users can only list published posts. Admins can perform all actions.
+     * Authenticated users have full read/write access. This allows the admin panel
+     * to list all posts (published and unpublished) without permission errors.
+     * Public, unauthenticated users can only get a single post if it's published.
      * @path /blog_posts/{postId}
-     * @principle Give admins full control over blog posts while allowing filtered public access.
+     * @principle Grant full control to admins while restricting public access.
      */
     match /blog_posts/{postId} {
-      allow get: if true;
-      allow list: if request.query.where.get("published", ["==", true]) != null;
-      allow write: if isSignedIn();
+      allow read, write: if isSignedIn();
+      allow get: if resource.data.published == true;
     }
 
     /**
