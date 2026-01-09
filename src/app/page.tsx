@@ -58,7 +58,9 @@ export default function Home() {
         <IntegrationSection />
         <PartnerMarquee />
         <LaunchStepsSection />
-        <FaqSection />
+        <ClientOnly>
+          <FaqSection />
+        </ClientOnly>
       </main>
       <SurgeProtectSection />
       <ValidationSection />
