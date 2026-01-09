@@ -6,7 +6,7 @@ import Header from "@/components/layout/header";
 import Hero from "@/components/single-provider/hero";
 import Details from "@/components/single-provider/details";
 import Testimonial from "@/components/single-provider/testimonial";
-import { useDoc, useFirestore } from '@/firebase';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
 import { doc, DocumentData } from 'firebase/firestore';
 
 type ProviderData = {
@@ -23,7 +23,11 @@ export default function SingleProviderPage() {
   const providerId = params.providerId as string;
   const firestore = useFirestore();
 
-  const providerRef = firestore && providerId ? doc(firestore, 'providers', providerId) : null;
+  const providerRef = useMemoFirebase(
+    () => (firestore && providerId ? doc(firestore, 'providers', providerId) : null),
+    [firestore, providerId]
+  );
+  
   const { data: providerData, isLoading, error } = useDoc<ProviderData>(providerRef);
 
   // Determine a primary solution for the hero/testimonial sections
