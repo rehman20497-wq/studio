@@ -8,34 +8,11 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Rules for the 'providers' collection
-    match /providers/{providerId} {
-      // Admins can do anything
-      allow read, write: if isSignedIn();
-
-      // Public can only get a document if it is published
-      allow get: if !isSignedIn() && resource.data.published == true;
-
-      // Public can list documents only if they query for published ones
-      allow list: if !isSignedIn() && request.query.where.size() > 0 && request.query.where[0][2] == true;
-    }
-
-    // Rules for the 'blog_posts' collection
-    match /blog_posts/{postId} {
-      // Admins can do anything
-      allow read, write: if isSignedIn();
-      
-      // Public can only get a document if it is published
-      allow get: if !isSignedIn() && resource.data.published == true;
-
-      // Public can list documents only if they query for published ones
-      allow list: if !isSignedIn() && request.query.where.size() > 0 && request.query.where[0][2] == true;
-    }
-
-    // Fallback for any other collections not explicitly defined
-    match /{path=**} {
-      allow read: if true; 
-      allow write: if isSignedIn(); // Allow admin writes everywhere else
+    // Default-deny all writes, and allow all reads.
+    // Specific write rules are layered on top of this.
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isSignedIn();
     }
   }
 }
