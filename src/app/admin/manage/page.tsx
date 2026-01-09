@@ -101,9 +101,18 @@ export default function ManageProvidersPage() {
   
   const confirmDelete = () => {
     if (!firestore || !selectedProviderId) return;
-    
-    // This part will be implemented in the next step.
-    console.log(`Deleting provider: ${selectedProviderId}`);
+
+    const providerToDelete = providers?.find(p => p.id === selectedProviderId);
+    if (!providerToDelete) return;
+
+    const providerRef = doc(firestore, 'providers', selectedProviderId);
+    deleteDocumentNonBlocking(providerRef);
+
+    toast({
+        title: 'Provider Deleted',
+        description: `${providerToDelete.name} has been permanently deleted.`,
+        variant: 'destructive',
+    });
 
     setIsDeleteDialogOpen(false);
     setSelectedProviderId(null);
