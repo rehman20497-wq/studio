@@ -18,6 +18,7 @@ import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { cloudinaryConfig } from '@/lib/cloudinary';
+import { useRouter } from 'next/navigation';
 
 const providerSchema = z.object({
     name: z.string().min(1, 'Provider name is required.'),
@@ -76,6 +77,7 @@ const solutions = [
 export default function UploadProviderForm() {
   const { toast } = useToast();
   const firestore = useFirestore();
+  const router = useRouter();
 
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoUploadProgress, setLogoUploadProgress] = useState(0);
@@ -178,16 +180,16 @@ export default function UploadProviderForm() {
             ...data,
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
+            published: true, // Default to published
         });
 
         toast({
             title: 'Provider Published!',
             description: `${data.name} has been successfully added to the database.`,
         });
-        // Here you would typically reset the form
-        // reset();
-        // setLogoPreview(null);
-        // setBannerPreview(null);
+
+        router.push('/admin/manage');
+
     } catch (error: any) {
         toast({
             variant: 'destructive',
