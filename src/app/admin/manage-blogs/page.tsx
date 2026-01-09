@@ -1,0 +1,130 @@
+
+'use client';
+
+import { useState } from 'react';
+import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Edit, Trash2, BarChart3, Power, PowerOff, Eye, PlusCircle, LayoutGrid, List } from 'lucide-react';
+import Image from 'next/image';
+import { format } from 'date-fns';
+
+type BlogPost = {
+  id: string;
+  title: string;
+  author: string;
+  category: string;
+  published: boolean;
+  createdAt: Date;
+  imageUrl: string;
+  views: number;
+  comments: number;
+  shares: number;
+};
+
+const placeholderPosts: BlogPost[] = [
+  { id: '1', title: 'The Future of AI in Customer Service', author: 'Jane Doe', category: 'AI', published: true, createdAt: new Date('2024-07-15'), imageUrl: 'https://picsum.photos/seed/blog1/400/200', views: 12500, comments: 45, shares: 120 },
+  { id: '2', title: 'Scaling Operations with Digital Solutions', author: 'John Smith', category: 'Digital Operations', published: false, createdAt: new Date('2024-07-10'), imageUrl: 'https://picsum.photos/seed/blog2/400/200', views: 8200, comments: 22, shares: 75 },
+  { id: '3', title: 'Building Trust in Online Marketplaces', author: 'Emily White', category: 'Trust & Safety', published: true, createdAt: new Date('2024-06-28'), imageUrl: 'https://picsum.photos/seed/blog3/400/200', views: 23000, comments: 150, shares: 340 },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20, filter: 'blur(5px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { type: 'spring', stiffness: 100, damping: 15 },
+  },
+};
+
+
+export default function ManageBlogsPage() {
+    const [posts, setPosts] = useState(placeholderPosts);
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
+    const togglePublish = (id: string) => {
+        setPosts(posts.map(p => p.id === id ? { ...p, published: !p.published } : p));
+    };
+
+  return (
+    <AdminPageWrapper screenTitle="Manage Blogs">
+      <div className="p-4 sm:p-8 md:p-12">
+        <div className="flex justify-between items-center mb-8">
+            <div>
+                <h1 className="text-3xl font-bold font-headline text-zinc-900">Blog Posts</h1>
+                <p className="text-zinc-500">Edit, publish, and analyze your content.</p>
+            </div>
+            <div className="flex items-center gap-4">
+                 <Button variant="outline" size="icon" onClick={() => setViewMode('list')} className={viewMode === 'list' ? 'bg-zinc-200' : ''}>
+                    <List className="w-5 h-5"/>
+                </Button>
+                <Button variant="outline" size="icon" onClick={() => setViewMode('grid')} className={viewMode === 'grid' ? 'bg-zinc-200' : ''}>
+                    <LayoutGrid className="w-5 h-5"/>
+                </Button>
+                <Button className="rounded-full bg-zinc-800 text-white hover:bg-zinc-700">
+                    <PlusCircle className="w-5 h-5 mr-2" />
+                    New Post
+                </Button>
+            </div>
+        </div>
+
+        <AnimatePresence>
+            <motion.div
+                key={viewMode}
+                className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-6"}
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit={{ opacity: 0 }}
+            >
+                {posts.map(post => (
+                    <motion.div
+                        key={post.id}
+                        variants={itemVariants}
+                        layout
+                        className="bg-white/60 backdrop-blur-xl rounded-2xl shadow-lg border border-zinc-200/50 overflow-hidden"
+                    >
+                        <div className="relative h-48">
+                            <Image src={post.imageUrl} alt={post.title} fill className="object-cover" />
+                             <div className="absolute top-2 right-2 px-3 py-1 text-xs font-bold text-white bg-black/50 rounded-full">{post.category}</div>
+                        </div>
+                        <div className="p-5">
+                            <h3 className="text-xl font-bold font-headline text-zinc-800 truncate">{post.title}</h3>
+                            <p className="text-sm text-zinc-500 mt-1">by {post.author} on {format(post.createdAt, 'MMMM d, yyyy')}</p>
+                            
+                            <div className="flex justify-between items-center mt-4 text-sm text-zinc-600">
+                                <div className="flex items-center gap-1"><Eye className="w-4 h-4"/> {post.views.toLocaleString()}</div>
+                            </div>
+                            
+                            <div className="flex items-center gap-2 mt-6 flex-wrap">
+                                <Button size="sm" variant="outline" className="rounded-full"><Edit className="w-4 h-4 mr-2" />Edit</Button>
+                                <Button size="sm" variant="destructive" className="rounded-full"><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
+                                <Button size="sm" variant="secondary" className="rounded-full"><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
+                                <Button 
+                                  size="sm"
+                                  variant={post.published ? 'default' : 'outline'}
+                                  className="rounded-full bg-green-500 hover:bg-green-600 text-white data-[variant=outline]:bg-yellow-500 data-[variant=outline]:hover:bg-yellow-600 data-[variant=outline]:text-white"
+                                  onClick={() => togglePublish(post.id)}
+                                >
+                                    {post.published ? <Power className="w-4 h-4 mr-2" /> : <PowerOff className="w-4 h-4 mr-2" />}
+                                    {post.published ? 'Published' : 'Draft'}
+                                </Button>
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
+            </motion.div>
+        </AnimatePresence>
+      </div>
+    </AdminPageWrapper>
+  );
+}

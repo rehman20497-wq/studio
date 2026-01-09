@@ -1,7 +1,8 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Upload, Settings, LogOut, FileText } from 'lucide-react';
+import { LayoutDashboard, Upload, Settings, LogOut, FileText, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -80,8 +81,9 @@ export default function AdminLayout({
         >
           <NavLink href="/admin" icon={LayoutDashboard}>Dashboard</NavLink>
           <NavLink href="/admin/upload" icon={Upload}>Upload Provider</NavLink>
-          <NavLink href="#" icon={FileText}>Upload Blog</NavLink>
           <NavLink href="/admin/manage" icon={Settings}>Manage Providers</NavLink>
+          <NavLink href="/admin/upload-blog" icon={BookOpen}>Upload Blog</NavLink>
+          <NavLink href="/admin/manage-blogs" icon={FileText}>Manage Blogs</NavLink>
         </motion.nav>
         <motion.button
           onClick={onLogout}

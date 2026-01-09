@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useUser, useAuth, useCollection, useMemoFirebase, updateDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase';
-import AdminLayout from '@/components/admin/admin-layout';
+import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -133,10 +133,7 @@ const ProviderStatsView = ({ provider }: { provider: Provider }) => {
 }
 
 export default function ManageProvidersPage() {
-  const { user, isUserLoading } = useUser();
-  const auth = useAuth();
   const firestore = useFirestore();
-  const router = useRouter();
   const { toast } = useToast();
   
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -153,18 +150,6 @@ export default function ManageProvidersPage() {
   );
   
   const { data: providers, isLoading: areProvidersLoading } = useCollection<Provider>(memoizedQuery);
-
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.push('/admin');
-    }
-  }, [user, isUserLoading, router]);
-
-  const handleLogout = () => {
-    if (auth) {
-      signOut(auth);
-    }
-  };
 
   const handleTogglePublish = (provider: Provider) => {
     if (!firestore) return;
@@ -213,18 +198,18 @@ export default function ManageProvidersPage() {
     setSelectedProvider(null);
   };
 
-
-  if (isUserLoading || !user || areProvidersLoading) {
+  if (areProvidersLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
-        <p>Loading Providers...</p>
-      </div>
+      <AdminPageWrapper screenTitle="Manage Providers" isLoading>
+         <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
+            <p>Loading Providers...</p>
+        </div>
+      </AdminPageWrapper>
     );
   }
 
   return (
-    <>
-    <AdminLayout onLogout={handleLogout}>
+    <AdminPageWrapper screenTitle="Manage Providers">
       <div className="p-4 sm:p-8 md:p-12">
         <AdminHeader userName="Faizan" />
         <div className="mt-12">
@@ -284,53 +269,52 @@ export default function ManageProvidersPage() {
             )}
         </div>
       </div>
-    </AdminLayout>
 
-    {/* Delete Confirmation Dialog */}
-    <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent>
-            <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete the provider
-                from your database.
-            </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-        </AlertDialogContent>
-    </AlertDialog>
+        {/* Delete Confirmation Dialog */}
+        <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the provider
+                    from your database.
+                </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={confirmDelete}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
 
-    {/* Edit Provider Dialog */}
-    <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
-            <DialogHeader>
-                <DialogTitle>Edit Provider: {selectedProvider?.name}</DialogTitle>
-            </DialogHeader>
-            {selectedProvider && (
-                <EditProviderForm provider={selectedProvider} onFinished={() => setIsEditDialogOpen(false)} />
-            )}
-        </DialogContent>
-    </Dialog>
+        {/* Edit Provider Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+            <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle>Edit Provider: {selectedProvider?.name}</DialogTitle>
+                </DialogHeader>
+                {selectedProvider && (
+                    <EditProviderForm provider={selectedProvider} onFinished={() => setIsEditDialogOpen(false)} />
+                )}
+            </DialogContent>
+        </Dialog>
 
-    {/* Stats Dialog */}
-    <Dialog open={isStatsDialogOpen} onOpenChange={setIsStatsDialogOpen}>
-        <DialogContent className="max-w-4xl">
-            <DialogHeader>
-                <DialogTitle>Statistics for: {selectedProvider?.name}</DialogTitle>
-                 <DialogDescription>
-                    Showing performance analytics for the last 6 months.
-                </DialogDescription>
-            </DialogHeader>
-            {selectedProvider && (
-                <div className="mt-4">
-                    <ProviderStatsView provider={selectedProvider} />
-                </div>
-            )}
-        </DialogContent>
-    </Dialog>
-    </>
+        {/* Stats Dialog */}
+        <Dialog open={isStatsDialogOpen} onOpenChange={setIsStatsDialogOpen}>
+            <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                    <DialogTitle>Statistics for: {selectedProvider?.name}</DialogTitle>
+                    <DialogDescription>
+                        Showing performance analytics for the last 6 months.
+                    </DialogDescription>
+                </DialogHeader>
+                {selectedProvider && (
+                    <div className="mt-4">
+                        <ProviderStatsView provider={selectedProvider} />
+                    </div>
+                )}
+            </DialogContent>
+        </Dialog>
+    </AdminPageWrapper>
   );
 }
