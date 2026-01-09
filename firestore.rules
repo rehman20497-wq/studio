@@ -50,10 +50,10 @@ service cloud.firestore {
      */
     match /providers/{providerId} {
       allow get: if true;
-      allow list: if request.query.get('where_published') == [
-          '==',
-          true
-      ];
+      allow list: if request.query.where.get("published", [
+        "==",
+        true
+      ]) != null;
       allow write: if isSignedIn();
     }
 
