@@ -138,7 +138,7 @@
   }
   .prose ul > li::before {
     content: '';
-    background-image: url('/ch.svg');
+    background-image: url('/ch.gif');
     background-size: contain;
     background-repeat: no-repeat;
     width: 1em;
