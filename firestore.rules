@@ -67,8 +67,8 @@ service cloud.firestore {
      * @principle Allow admins to manage blog content while keeping it public.
      */
     match /blog_posts/{postId} {
-      allow read: if resource.data.published == true || isSignedIn();
-      allow list: if isSignedIn();
+      allow read, list: if isSignedIn();
+      allow get: if resource.data.published == true;
       allow write: if isSignedIn();
     }
 
