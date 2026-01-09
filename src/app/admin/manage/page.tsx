@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -10,12 +11,15 @@ import { collection, query, orderBy, doc } from 'firebase/firestore';
 import { useFirestore }from '@/firebase';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Edit, Trash2, BarChart3, Cloud, Power, PowerOff } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Edit, Trash2, BarChart3, Cloud, Power, PowerOff, Eye, Hand, MousePointerClick } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import EditProviderForm from '@/components/admin/edit-provider-form';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import AdminHeader from '@/components/admin/admin-header';
 
 type Provider = {
     id: string;
@@ -54,6 +58,70 @@ const itemVariants = {
 };
 
 
+// Placeholder stats data
+const statsData = [
+    { name: 'Jan', Clicks: 400, Impressions: 2400 },
+    { name: 'Feb', Clicks: 300, Impressions: 1398 },
+    { name: 'Mar', Clicks: 500, Impressions: 9800 },
+    { name: 'Apr', Clicks: 478, Impressions: 3908 },
+    { name: 'May', Clicks: 689, Impressions: 4800 },
+    { name: 'Jun', Clicks: 890, Impressions: 3800 },
+];
+
+const ProviderStatsView = ({ provider }: { provider: Provider }) => {
+    return (
+        <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Impressions</CardTitle>
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">1,250,345</div>
+                        <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Clicks</CardTitle>
+                        <MousePointerClick className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">8,432</div>
+                        <p className="text-xs text-muted-foreground">+12.5% from last month</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Click-Through Rate</CardTitle>
+                        <Hand className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">0.67%</div>
+                        <p className="text-xs text-muted-foreground">+2.1% from last month</p>
+                    </CardContent>
+                </Card>
+            </div>
+            <div>
+                <h3 className="text-lg font-semibold mb-4">Monthly Performance</h3>
+                <div className="w-full h-[300px]">
+                    <ResponsiveContainer>
+                        <BarChart data={statsData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="Impressions" fill="#8884d8" />
+                            <Bar dataKey="Clicks" fill="#82ca9d" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function ManageProvidersPage() {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
@@ -63,6 +131,7 @@ export default function ManageProvidersPage() {
   
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isStatsDialogOpen, setIsStatsDialogOpen] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
 
   const memoizedQuery = useMemoFirebase(
@@ -108,6 +177,11 @@ export default function ManageProvidersPage() {
   const openEditDialog = (provider: Provider) => {
     setSelectedProvider(provider);
     setIsEditDialogOpen(true);
+  };
+
+  const openStatsDialog = (provider: Provider) => {
+    setSelectedProvider(provider);
+    setIsStatsDialogOpen(true);
   };
   
   const confirmDelete = () => {
@@ -175,7 +249,7 @@ export default function ManageProvidersPage() {
                                 <div className="flex items-center gap-2 flex-wrap justify-center">
                                     <Button size="sm" variant="outline" className="rounded-full" onClick={() => openEditDialog(provider)}><Edit className="w-4 h-4 mr-2" />Edit</Button>
                                     <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(provider)}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
-                                    <Button size="sm" variant="secondary" className="rounded-full"><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
+                                    <Button size="sm" variant="secondary" className="rounded-full" onClick={() => openStatsDialog(provider)}><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
                                     <Button 
                                       size="sm"
                                       variant={(provider.published ?? true) ? 'default' : 'outline'}
@@ -201,6 +275,8 @@ export default function ManageProvidersPage() {
         </div>
       </div>
     </AdminLayout>
+
+    {/* Delete Confirmation Dialog */}
     <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
             <AlertDialogHeader>
@@ -216,6 +292,8 @@ export default function ManageProvidersPage() {
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>
+
+    {/* Edit Provider Dialog */}
     <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
             <DialogHeader>
@@ -226,6 +304,26 @@ export default function ManageProvidersPage() {
             )}
         </DialogContent>
     </Dialog>
+
+    {/* Stats Dialog */}
+    <Dialog open={isStatsDialogOpen} onOpenChange={setIsStatsDialogOpen}>
+        <DialogContent className="max-w-4xl">
+            <DialogHeader>
+                <DialogTitle>Statistics for: {selectedProvider?.name}</DialogTitle>
+                 <DialogDescription>
+                    Showing performance analytics for the last 6 months.
+                </DialogDescription>
+            </DialogHeader>
+            {selectedProvider && (
+                <div className="mt-4">
+                    <ProviderStatsView provider={selectedProvider} />
+                </div>
+            )}
+        </DialogContent>
+    </Dialog>
     </>
   );
 }
+
+
+    
