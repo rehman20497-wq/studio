@@ -73,7 +73,7 @@ export default function Hero() {
                 className="absolute -top-10 -left-12 w-16 h-16"
                 variants={arrowVariants}
             >
-                <Image src="/arro.gif" alt="arrow" width={64} height={64} unoptimized className="transform rotate-90" />
+                <Image src="/arro.gif" alt="arrow" width={64} height={64} unoptimized className="transform rotate-180" />
             </motion.div>
 
             <svg
@@ -81,7 +81,7 @@ export default function Hero() {
                 viewBox="0 0 600 150"
             >
                 <path id="curve" d="M20 130 C 120 20, 480 20, 580 130" fill="transparent" />
-                <text className="font-bold text-zinc-900 font-headline" fill="currentColor" style={{ fontSize: '40px' }}>
+                <text className="font-bold text-zinc-900 font-headline" fill="currentColor" style={{ fontSize: '65px' }}>
                     <textPath href="#curve" startOffset="50%" textAnchor="middle">
                         Telesys Resources
                     </textPath>
