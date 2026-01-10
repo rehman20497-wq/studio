@@ -10,19 +10,19 @@ service cloud.firestore {
 
     // Rules for the 'providers' collection
     match /providers/{providerId} {
-      allow read: if true;
-      allow write: if isSignedIn();
+      // Admins can do anything
+      allow read, write: if isSignedIn();
+      // Public can read published providers
+      allow get: if resource.data.published == true;
+      allow list: if request.query.where.size() > 0 && request.query.where[0][2] == true;
     }
 
     // Rules for the 'blog_posts' collection
     match /blog_posts/{postId} {
+      // Public can read all blog posts
       allow read: if true;
+      // Admins can write
       allow write: if isSignedIn();
-    }
-
-    // Fallback for any other collections not explicitly defined
-    match /{path=**} {
-      allow read, write: if isSignedIn();
     }
   }
 }
