@@ -402,3 +402,15 @@
 .search-glow-border:focus-within::after {
   opacity: 1;
 }
+
+.wavy-gradient-background {
+  background: linear-gradient(135deg, #a8e063, #56ab2f, #a8e063);
+  background-size: 400% 400%;
+  animation: gradient-wave 10s ease infinite;
+}
+
+@keyframes gradient-wave {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

@@ -11,6 +11,7 @@ import { Send, Facebook, Linkedin } from 'lucide-react';
 import { XIcon } from 'lucide-react';
 import MagneticButton from '../magnetic-button';
 import 'react-quill/dist/quill.snow.css';
+import QuoteSection from './quote-section';
 
 
 type BlogPost = {
@@ -18,6 +19,7 @@ type BlogPost = {
   title: string;
   category: string;
   content: string;
+  quote?: string;
 };
 
 const containerVariants = {
@@ -115,7 +117,7 @@ function Sidebar({ currentPostId, category }: { currentPostId: string; category:
                     </MagneticButton>
                 </div>
             </div>
-            <div className="flex items-center justify-center gap-4">
+             <div className="flex items-center justify-center gap-4">
                 <span className="text-sm font-semibold">SHARE</span>
                 <SocialIcon href="#" icon={XIcon} />
                 <SocialIcon href="#" icon={Facebook} />
@@ -130,6 +132,22 @@ export default function BlogContent({ post }: { post: BlogPost }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
 
+  const hasQuote = post.quote && post.quote.trim() !== '';
+  let contentPart1 = post.content;
+  let contentPart2 = '';
+
+  if (hasQuote) {
+    // A simple way to split content is by paragraphs.
+    // This could be made more sophisticated if needed.
+    const paragraphs = post.content.split('</p>');
+    const splitIndex = Math.floor(paragraphs.length / 2);
+    if (paragraphs.length > 1) {
+        contentPart1 = paragraphs.slice(0, splitIndex).join('</p>') + (paragraphs.length > 1 ? '</p>' : '');
+        contentPart2 = paragraphs.slice(splitIndex).join('</p>');
+    }
+  }
+
+
   return (
     <motion.div 
       ref={ref}
@@ -141,11 +159,20 @@ export default function BlogContent({ post }: { post: BlogPost }) {
       <div className="col-span-4">
         <Sidebar currentPostId={post.id} category={post.category} />
       </div>
-      <motion.div custom={1} variants={itemVariants} className="col-span-8">
+      <motion.div custom={1} variants={itemVariants} className="col-span-8 space-y-8">
         <div
             className="prose prose-lg max-w-none text-zinc-700 ql-editor"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: contentPart1 }}
         />
+
+        {hasQuote && <QuoteSection quote={post.quote!} />}
+
+        {hasQuote && (
+             <div
+                className="prose prose-lg max-w-none text-zinc-700 ql-editor"
+                dangerouslySetInnerHTML={{ __html: contentPart2 }}
+            />
+        )}
       </motion.div>
     </motion.div>
   );
