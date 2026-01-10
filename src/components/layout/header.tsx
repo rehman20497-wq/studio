@@ -161,9 +161,9 @@ const industries = [
   { title: "SaaS", href: "#" },
 ];
 const company = [
-  { title: "About Us", href: "#" },
-  { title: "Careers", href: "#" },
-  { title: "Blog", href: "#" },
+  { title: "About Us", href: "/about" },
+  { title: "Careers", href: "/careers" },
+  { title: "Blogs", href: "/blogs" },
 ];
 const resources = [
   { title: "Case Studies", href: "#" },
@@ -188,7 +188,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full bg-[#FEF9F2] text-zinc-900 font-body">
+    <header className="w-full bg-[#FCFBF8] text-zinc-900 font-body">
       <div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
         Hugo is hiring! Explore our positions and{" "}
         <a href="#" className="underline hover:opacity-80">
@@ -197,7 +197,7 @@ export default function Header() {
         .
       </div>
       <div className="w-full px-[4%] flex items-center justify-between py-4">
-        <a href="#" aria-label="Hugo logo" className="text-[#F5D34A]">
+        <a href="/" aria-label="Hugo logo" className="text-[#F5D34A]">
           <HugoLogo />
         </a>
 
@@ -331,7 +331,7 @@ export default function Header() {
             <SheetContent side="top" className="p-0 bg-transparent border-none">
                 <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
                 <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
-                    <a href="#" aria-label="Hugo logo" className="text-black">
+                    <a href="/" aria-label="Hugo logo" className="text-black">
                         <HugoLogo />
                     </a>
                     <SheetClose asChild>
@@ -344,9 +344,9 @@ export default function Header() {
                 <div className="bg-[#FEF9F2] px-6 pt-8 h-[calc(100vh-90px)] flex flex-col">
                     <Accordion type="single" collapsible className="w-full flex-grow">
                         {mobileNavItems.map(item => (
-                            <div key={item.title} className="border-b border-yellow-200 py-3">
+                            <div key={item.title || item.href} className="border-b border-yellow-200 py-3">
                                 {item.items ? (
-                                    <AccordionItem value={item.title} className="border-none">
+                                    <AccordionItem value={item.title!} className="border-none">
                                         <AccordionTrigger className="text-3xl hover:no-underline font-normal py-2">
                                             {item.title}
                                             <ChevronDown className="h-8 w-8 shrink-0 transition-transform duration-200 text-black/80" />
@@ -387,5 +387,3 @@ export default function Header() {
     </header>
   );
 }
-
-    

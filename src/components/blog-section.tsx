@@ -1,13 +1,14 @@
-
 'use client';
 
-import { motion, useInView, useAnimation } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import { useRef, useEffect, useMemo } from 'react';
 import BlogCard, { type BlogCardProps } from './blog-card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where, limit } from 'firebase/firestore';
 import { format } from 'date-fns';
+
+/* ---------------- Types ---------------- */
 
 type BlogPost = {
   id: string;
@@ -18,91 +19,69 @@ type BlogPost = {
   published?: boolean;
 };
 
+/* ---------------- Animations ---------------- */
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.2,
-    },
+    transition: { staggerChildren: 0.2, delayChildren: 0.2 },
   },
 };
 
 const slideInRight = {
-  hidden: { opacity: 0, x: 100 },
+  hidden: { opacity: 0, x: 80 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 1, 0.5, 1],
-    },
+    transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] },
   },
 };
 
 const slideInLeft = {
-  hidden: { opacity: 0, x: -100 },
+  hidden: { opacity: 0, x: -80 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 1, 0.5, 1],
-    },
+    transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] },
   },
 };
 
 const marqueeVariants = {
   animate: {
-    x: ['0%', '-100%'],
+    x: ['0%', '-50%'],
     transition: {
-      x: {
-        repeat: Infinity,
-        repeatType: 'loop',
-        duration: 40, 
-        ease: 'linear',
-      },
-    },
-  },
-};
-
-const arrowContainerVariants = {
-  hidden: { opacity: 0, scale: 0.5 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delay: 0.8,
-      duration: 0.5,
-    },
-  },
-};
-
-const arrowVariants = {
-  animate: (direction: 'left' | 'right') => ({
-    x: direction === 'left' ? [0, -5, 0] : [0, 5, 0],
-    transition: {
-      duration: 1.5,
-      ease: 'easeInOut',
       repeat: Infinity,
+      repeatType: 'loop',
+      duration: 40,
+      ease: 'linear',
     },
+  },
+};
+
+const arrowBounce = {
+  animate: (dir: 'left' | 'right') => ({
+    x: dir === 'left' ? [0, -5, 0] : [0, 5, 0],
+    transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
   }),
 };
 
+/* ---------------- Component ---------------- */
+
 export default function BlogSection() {
-  const sectionRef = useRef(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const controls = useAnimation();
 
+  /* ---------------- Firestore ---------------- */
+
   const firestore = useFirestore();
+
   const blogQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(
       collection(firestore, 'blog_posts'),
       where('published', '==', true),
-      limit(4)
+      limit(10)
     );
   }, [firestore]);
 
@@ -110,58 +89,61 @@ export default function BlogSection() {
 
   const blogPosts: BlogCardProps[] = useMemo(() => {
     if (!posts) return [];
-    
-    // Client-side sort as a fallback since we removed orderBy from the query
-    const sortedPosts = [...posts].sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
 
-    return sortedPosts.map(post => ({
-        type: 'article', // You might want to make this dynamic if your data supports it
-        date: format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase(),
+    return [...posts]
+      .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
+      .map(post => ({
+        type: 'article',
+        date: format(
+          new Date(post.createdAt.seconds * 1000),
+          'MMMM d, yyyy'
+        ).toUpperCase(),
         categories: [post.category],
         title: post.title,
-        backgroundImage: { src: post.featuredImageUrl, hint: 'blog post image' },
-    }));
+        backgroundImage: {
+          src: post.featuredImageUrl,
+          hint: 'blog image',
+        },
+      }));
   }, [posts]);
 
+  /* ---------------- Infinite Loop ---------------- */
+
+  const infinitePosts = useMemo(() => {
+    if (blogPosts.length === 0) return [];
+
+    const MIN_ITEMS = 12;
+    const repeat = Math.ceil(MIN_ITEMS / blogPosts.length);
+
+    return Array.from({ length: repeat * 2 }, (_, i) =>
+      blogPosts[i % blogPosts.length]
+    );
+  }, [blogPosts]);
+
+  /* ---------------- Controls ---------------- */
+
   useEffect(() => {
-    if (isInView) {
-      controls.start('animate');
-    }
-  }, [isInView, controls]);
-
-  const handleMouseEnter = () => {
-    controls.stop();
-  };
-
-  const handleMouseLeave = () => {
     controls.start('animate');
+  }, [controls]);
+
+  const scroll = (offset: number) => {
+    marqueeRef.current?.scrollBy({ left: offset, behavior: 'smooth' });
   };
 
-  const scroll = (scrollOffset: number) => {
-    if (marqueeRef.current) {
-      marqueeRef.current.scrollBy({ left: scrollOffset, behavior: 'smooth' });
-    }
-  };
-  
-  if (isLoading) return null;
-  if (error) {
-    // We'll just hide the section on error to avoid crashing the page.
-    console.error("Error loading blog posts:", error);
-    return null;
-  }
-  if (!posts || posts.length === 0) return null;
+  if (isLoading || error || !posts?.length) return null;
 
-  const duplicatedPosts = [...blogPosts, ...blogPosts];
+  /* ---------------- JSX ---------------- */
 
   return (
     <motion.section
-      ref={sectionRef}
-      className="bg-[#FEF9F2] py-24 overflow-hidden"
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      className="bg-[#FEF9F2] py-12  overflow-hidden"
       variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.25 }}
     >
       <div className="container mx-auto px-4 relative">
+        {/* Heading */}
         <div className="text-center">
           <motion.h2
             className="text-5xl font-bold font-headline text-zinc-900"
@@ -169,58 +151,53 @@ export default function BlogSection() {
           >
             See what's new and what's next.
           </motion.h2>
+
           <motion.p
-            className="mt-4 text-lg text-zinc-600"
+            className="mt-3 text-lg text-zinc-600"
             variants={slideInLeft}
           >
             Thought leadership and actionable insights to help you grow faster.
           </motion.p>
         </div>
 
-        <motion.div
-          className="absolute top-0 right-4 flex gap-2 mt-20"
-          variants={arrowContainerVariants}
-        >
+        {/* Arrows */}
+        <div className="absolute right-4 top-20 flex gap-2 z-20">
           <button
-            onClick={() => scroll(-480)}
-            className="group/arrow w-10 h-10 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg bg-[length:200%_auto] animate-gradient-flow"
+            onClick={() => scroll(-420)}
+            className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 flex items-center justify-center shadow-lg"
           >
-            <motion.div variants={arrowVariants} custom="left" animate="animate">
-              <ChevronLeft className="w-6 h-6 text-white transition-colors" />
+            <motion.div custom="left" variants={arrowBounce} animate="animate">
+              <ChevronLeft className="w-6 h-6 text-white" />
             </motion.div>
           </button>
+
           <button
-            onClick={() => scroll(480)}
-            className="group/arrow w-10 h-10 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:shadow-lg bg-[length:200%_auto] animate-gradient-flow"
+            onClick={() => scroll(420)}
+            className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 flex items-center justify-center shadow-lg"
           >
-            <motion.div variants={arrowVariants} custom="right" animate="animate">
-              <ChevronRight className="w-6 h-6 text-white transition-colors" />
+            <motion.div custom="right" variants={arrowBounce} animate="animate">
+              <ChevronRight className="w-6 h-6 text-white" />
             </motion.div>
           </button>
-        </motion.div>
+        </div>
       </div>
 
-      <div
-        className="mt-16 relative w-full"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div ref={marqueeRef} className="max-w-full overflow-x-auto no-scrollbar" style={{ scrollBehavior: 'smooth' }}>
+      {/* Marquee */}
+      <div className="mt-10 w-full ">
+        <div
+          ref={marqueeRef}
+          className="overflow-x-hidden"
+          onMouseEnter={() => controls.stop()}
+          onMouseLeave={() => controls.start('animate')}
+        >
           <motion.div
-            className="flex"
+            className="flex gap-8 px-8"
             variants={marqueeVariants}
             animate={controls}
           >
-            <div className="flex gap-8 pb-8 flex-shrink-0 pl-8">
-              {duplicatedPosts.map((post, index) => (
-                <BlogCard key={`first-${index}`} {...post} />
-              ))}
-            </div>
-             <div className="flex gap-8 pb-8 flex-shrink-0 pr-8">
-              {duplicatedPosts.map((post, index) => (
-                <BlogCard key={`second-${index}`} {...post} />
-              ))}
-            </div>
+            {infinitePosts.map((post, index) => (
+              <BlogCard key={index} {...post} />
+            ))}
           </motion.div>
         </div>
       </div>
