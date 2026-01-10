@@ -6,7 +6,7 @@ import { useRef, useState, useMemo, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, where, orderBy } from 'firebase/firestore';
+import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
 import BlogFilter from './blog-filter';
 import BlogCard from '../blog-card';
@@ -112,8 +112,7 @@ export default function BlogsGrid() {
     if (!firestore) return null;
     return query(
       collection(firestore, 'blog_posts'),
-      where('published', '==', true),
-      orderBy('createdAt', 'desc')
+      where('published', '==', true)
     );
   }, [firestore]);
 
@@ -132,7 +131,7 @@ export default function BlogsGrid() {
       filtered = filtered.filter(post => post.title.toLowerCase().includes(searchTerm.toLowerCase()));
     }
     
-    return filtered;
+    return filtered.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
 
   }, [posts, searchTerm, categoryFilter]);
 
