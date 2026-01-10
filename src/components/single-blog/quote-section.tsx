@@ -3,6 +3,13 @@
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { useRef } from 'react';
+import { Dancing_Script } from 'next/font/google';
+
+const dancingScript = Dancing_Script({
+    subsets: ['latin'],
+    weight: ['400', '700'],
+});
+
 
 const Word = ({ children, progress, range }: { children: React.ReactNode, progress: any, range: [number, number] }) => {
     const opacity = useTransform(progress, range, [0, 1]);
@@ -20,7 +27,7 @@ export default function QuoteSection({ quote }: { quote: string }) {
     const words = quote.split(" ");
 
     return (
-        <motion.div 
+        <motion.div
             ref={container}
             className="relative p-[8%] my-12 rounded-2xl overflow-hidden wavy-gradient-background"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -30,12 +37,12 @@ export default function QuoteSection({ quote }: { quote: string }) {
             <div className="absolute top-4 left-4">
                 <Image src="/doub.gif" alt="Opening quote" width={40} height={40} unoptimized />
             </div>
-            
-            <p className="text-3xl font-semibold text-zinc-800 leading-normal text-center flex flex-wrap justify-center gap-x-2">
+
+            <p className={`${dancingScript.className} text-4xl text-zinc-800 leading-normal text-center`}>
                 {words.map((word, i) => {
                     const start = i / words.length;
                     const end = start + (1 / words.length);
-                    return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word}</Word>
+                    return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word} </Word>
                 })}
             </p>
 
