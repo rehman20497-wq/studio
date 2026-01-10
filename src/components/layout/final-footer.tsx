@@ -231,9 +231,9 @@ export default function FinalFooter() {
             <motion.div variants={slideFromBottom}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Company</h3>
                 <ul className="space-y-3 text-zinc-700">
-                    <li><Link href="#" className="hover:underline text-base">About</Link></li>
-                    <li><Link href="#" className="hover:underline text-base">Careers</Link></li>
-                    <li><Link href="#" className="hover:underline text-base">Contact</Link></li>
+                    <li><Link href="/about" className="hover:underline text-base">About</Link></li>
+                    <li><Link href="/careers" className="hover:underline text-base">Careers</Link></li>
+                    <li><Link href="/contact" className="hover:underline text-base">Contact</Link></li>
                 </ul>
             </motion.div>
             <motion.div variants={slideFromTop}>
