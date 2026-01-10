@@ -124,7 +124,8 @@ export default function BlogsGrid() {
     let filtered = posts;
 
     if (categoryFilter !== 'all') {
-      filtered = filtered.filter(post => post.category.toLowerCase().replace(/ /g, '-') === categoryFilter);
+      const solutionKey = categoryFilter.replace(/-/g, ' ');
+      filtered = filtered.filter(post => post.category.toLowerCase().replace(/ /g, '-') === solutionKey);
     }
     
     if (searchTerm) {

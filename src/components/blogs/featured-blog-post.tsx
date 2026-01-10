@@ -32,7 +32,7 @@ const containerVariants = {
 };
 
 const FeaturedPostSkeleton = () => (
-    <div className="relative p-6 border-2 border-yellow-300/50 bg-white/50 rounded-2xl flex flex-col md:flex-row gap-8 items-center">
+    <div className="relative p-6 border-2 border-yellow-300/50 bg-white/50 rounded-2xl flex flex-col md:flex-row gap-8 items-start">
         <Skeleton className="w-full md:w-1/2 h-[450px] rounded-lg" />
         <div className="w-full md:w-1/2 space-y-4">
             <Skeleton className="h-4 w-1/4" />
@@ -84,7 +84,7 @@ export default function FeaturedBlogPost() {
       animate={isInView ? 'visible' : 'hidden'}
     >
       <Link href={`/blogs/${randomPost.id}`} className="block group">
-        <div className="relative p-6 border-2 border-yellow-300/50 bg-white/50 rounded-2xl flex flex-col md:flex-row gap-8 items-center transition-shadow duration-300 group-hover:shadow-xl">
+        <div className="relative p-6 border-2 border-yellow-300/50 bg-white/50 rounded-2xl flex flex-col md:flex-row gap-8 items-start transition-shadow duration-300 group-hover:shadow-xl">
           {/* Image on the left */}
           <div className="w-full md:w-1/2 h-[450px] relative rounded-lg overflow-hidden">
             <Image
