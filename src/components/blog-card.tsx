@@ -15,33 +15,25 @@ export type BlogCardProps = {
   companyLogo?: { src: string; hint: string };
 };
 
-const Badge = ({ type }: { type: BlogCardProps["type"] }) => {
-  let content, Icon, bgColor;
+const Badge = ({ category }: { category: string }) => {
+    let Icon;
+    const content = category.toUpperCase();
+    let bgColor = "bg-blue-500"; // Default color
 
-  switch (type) {
-    case "interview":
-      content = "INTERVIEW";
-      Icon = MessageSquare;
-      bgColor = "bg-orange-500";
-      break;
-    case "case-study":
-      content = "CASE STUDY";
-      Icon = Search;
-      bgColor = "bg-cyan-500";
-      break;
-    case "article":
-      content = "ARTICLE";
-      Icon = FileText;
-      bgColor = "bg-blue-500";
-      break;
-    case "guide":
-      content = "GUIDE";
-      Icon = BookOpen;
-      bgColor = "bg-green-500";
-      break;
-    default:
-      return null;
-  }
+    // Simple logic to assign icon and color based on category name
+    if (category.toLowerCase().includes('interview')) {
+        Icon = MessageSquare;
+        bgColor = "bg-orange-500";
+    } else if (category.toLowerCase().includes('case study')) {
+        Icon = Search;
+        bgColor = "bg-cyan-500";
+    } else if (category.toLowerCase().includes('guide')) {
+        Icon = BookOpen;
+        bgColor = "bg-green-500";
+    } else {
+        Icon = FileText;
+        bgColor = "bg-blue-500";
+    }
 
   return (
     <div
@@ -56,12 +48,12 @@ const Badge = ({ type }: { type: BlogCardProps["type"] }) => {
       <div className="relative w-full h-full animate-spin-slow">
         <svg viewBox="0 0 100 100" className="w-full h-full fill-transparent">
           <path
-            id={`text-path-${type}`}
+            id={`text-path-${content}`}
             d="M 10,50 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
           />
           <text>
             <textPath
-              href={`#text-path-${type}`}
+              href={`#text-path-${content}`}
               startOffset="50%"
               textAnchor="middle"
               className="font-bold text-xs uppercase"
@@ -84,9 +76,11 @@ export default function BlogCard({
   backgroundImage,
   companyLogo,
 }: BlogCardProps) {
+  const primaryCategory = categories[0] || 'Article';
+    
   return (
     <Link href="#" className="block group">
-      <div className="relative flex-shrink-0 w-[480px] h-[520px] bg-white rounded-2xl shadow-lg p-4 mb-4 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
+      <div className="relative flex-shrink-0 w-full max-w-[480px] h-[520px] bg-white rounded-2xl shadow-lg p-4 mb-4 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
          <svg
             className="absolute inset-0 pointer-events-none"
             width="100%"
@@ -126,7 +120,7 @@ export default function BlogCard({
                 />
               </div>
             )}
-            <Badge type={type} />
+            <Badge category={primaryCategory} />
           </div>
           <div className="p-4 h-2/5 flex flex-col">
             <div className="text-xs text-zinc-500 font-medium">

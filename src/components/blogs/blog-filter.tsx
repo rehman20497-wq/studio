@@ -74,7 +74,7 @@ export default function BlogFilter({
     
     return (
         <motion.div
-            className="mx-auto flex flex-col md:flex-row gap-4"
+            className="mx-auto flex flex-col md:flex-row gap-4 pb-6"
             variants={filterVariants}
         >
             <div className="relative flex-grow group">
