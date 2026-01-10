@@ -22,7 +22,7 @@ export default function QuoteSection({ quote }: { quote: string }) {
     return (
         <motion.div 
             ref={container}
-            className="relative p-12 my-12 rounded-2xl overflow-hidden wavy-gradient-background"
+            className="relative p-[8%] my-12 rounded-2xl overflow-hidden wavy-gradient-background"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
@@ -31,7 +31,7 @@ export default function QuoteSection({ quote }: { quote: string }) {
                 <Image src="/doub.gif" alt="Opening quote" width={40} height={40} unoptimized />
             </div>
             
-            <p className="text-3xl font-semibold text-white/90 leading-normal text-center flex flex-wrap justify-center gap-x-2">
+            <p className="text-3xl font-semibold text-zinc-800 leading-normal text-center flex flex-wrap justify-center gap-x-2">
                 {words.map((word, i) => {
                     const start = i / words.length;
                     const end = start + (1 / words.length);

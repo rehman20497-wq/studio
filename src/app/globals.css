@@ -404,7 +404,7 @@
 }
 
 .wavy-gradient-background {
-  background: linear-gradient(135deg, #a8e063, #56ab2f, #a8e063);
+  background: linear-gradient(135deg, #fefae0, #faedcd, #fefae0);
   background-size: 400% 400%;
   animation: gradient-wave 10s ease infinite;
 }
