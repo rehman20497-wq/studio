@@ -10,11 +10,9 @@ export default function ContactPage() {
       <Header />
       <main>
         <Hero />
-        <div className="py-24 px-[6%]">
-            <div className="grid md:grid-cols-2 gap-16 max-w-7xl mx-auto">
-                <ContactForm />
-                <ContactDetails />
-            </div>
+        <div className="py-24 px-[6%] space-y-24">
+          <ContactForm />
+          <ContactDetails />
         </div>
       </main>
     </div>

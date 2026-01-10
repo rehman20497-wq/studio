@@ -92,9 +92,9 @@ export default function ContactForm() {
     const delta = currentStep - previousStep;
 
     return (
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-zinc-200/50">
+        <div className="relative bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-zinc-200/50 wavy-gradient-background">
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 max-w-2xl mx-auto">
                     <div className="mb-8">
                         <StepProgressBar currentStep={currentStep} totalSteps={steps.length} />
                     </div>

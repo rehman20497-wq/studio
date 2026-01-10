@@ -17,7 +17,7 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: 50 },
+  hidden: { opacity: 0, x: -50 },
   visible: {
     opacity: 1,
     x: 0,
@@ -40,12 +40,28 @@ const mapVariants = {
             ease: [0.16, 1, 0.3, 1]
         }
     }
+};
+
+const addressBoxVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.8 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+            delay: 1.5,
+            type: 'spring',
+            stiffness: 120,
+            damping: 15,
+        }
+    }
 }
+
 
 const InfoCard = ({ icon: Icon, title, value, href }: { icon: React.ElementType, title: string, value: string, href: string }) => (
     <motion.div variants={itemVariants}>
         <a href={href} className="flex items-center gap-4 group">
-            <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 group-hover:bg-yellow-200 transition-colors">
+            <div className="w-16 h-16 bg-yellow-100 rounded-full flex-shrink-0 flex items-center justify-center text-yellow-600 group-hover:bg-yellow-200 transition-colors">
                 <Icon className="w-8 h-8" />
             </div>
             <div>
@@ -59,27 +75,27 @@ const InfoCard = ({ icon: Icon, title, value, href }: { icon: React.ElementType,
 export default function ContactDetails() {
   return (
     <motion.div
+      className="grid md:grid-cols-2 gap-16"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
-      className="space-y-12"
     >
-      <div className="space-y-8">
+      <div className="space-y-12">
         <InfoCard icon={Mail} title="Email Us" value="hello@telesys.com" href="mailto:hello@telesys.com" />
         <InfoCard icon={Phone} title="Call Us" value="(555) 123-4567" href="tel:5551234567" />
         <InfoCard icon={MapPin} title="Visit Us" value="401 N Michigan Ave, Chicago, IL" href="#" />
       </div>
 
       <motion.div 
-        className="relative h-96 rounded-2xl overflow-hidden shadow-xl border-4 border-yellow-200"
+        className="relative h-[500px] rounded-2xl overflow-visible shadow-xl border-4 border-yellow-200"
         variants={mapVariants}
       >
         <Image 
             src="/map.png"
             alt="World Map"
             fill
-            className="object-cover"
+            className="object-cover rounded-xl"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -89,6 +105,18 @@ export default function ContactDetails() {
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
         </div>
+        
+        <motion.div 
+            className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-[80%]"
+            variants={addressBoxVariants}
+        >
+            <div className="relative bg-white/90 backdrop-blur-md rounded-xl p-4 border-2 border-yellow-300 shadow-2xl">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-inherit border-t-2 border-l-2 border-yellow-300 rotate-45" />
+                <p className="font-bold text-zinc-800 text-center">Telesys Headquarters</p>
+                <p className="text-sm text-zinc-600 text-center mt-1">401 N Michigan Ave, Chicago, IL</p>
+                <p className="text-sm text-zinc-600 text-center">(555) 123-4567</p>
+            </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
