@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
@@ -107,11 +106,11 @@ export default function ContactDetails() {
         </div>
         
         <motion.div 
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[80%]"
+            className="absolute top-8 right-8 w-[60%]"
             variants={addressBoxVariants}
         >
             <div className="relative bg-white/90 backdrop-blur-md rounded-xl p-4 border-2 border-yellow-300 shadow-2xl">
-                <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-5 h-5 bg-inherit border-t-2 border-l-2 border-yellow-300 rotate-45" />
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 bg-inherit border-b-2 border-r-2 border-yellow-300 rotate-45" />
                 <p className="font-bold text-zinc-800 text-center">Telesys Headquarters</p>
                 <p className="text-sm text-zinc-600 text-center mt-1">401 N Michigan Ave, Chicago, IL</p>
                 <p className="text-sm text-zinc-600 text-center">(555) 123-4567</p>

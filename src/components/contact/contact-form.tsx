@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -70,10 +70,17 @@ export default function ContactForm() {
         mode: 'onChange',
     });
 
-    const { handleSubmit, trigger, formState: { errors, isValid } } = methods;
+    const { handleSubmit, trigger, formState: { errors, isValid, dirtyFields } } = methods;
+
+    const isStepDirty = () => {
+        const currentFields = steps[currentStep].fields as (keyof FormValues)[] | undefined;
+        if (!currentFields) return false;
+        return currentFields.some(field => dirtyFields[field]);
+    };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        if (isValid || !buttonRef.current) {
+        const canSubmit = isValid || isStepDirty();
+        if (canSubmit || !buttonRef.current) {
             x.set(0);
             y.set(0);
             return;
@@ -124,11 +131,12 @@ export default function ContactForm() {
     };
     
     const delta = currentStep - previousStep;
+    const canProceed = isStepDirty() || isValid;
 
     return (
         <div className="relative bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-zinc-200/50 wavy-gradient-background">
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)} onMouseMove={handleMouseMove} className="space-y-8 max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit(onSubmit)} onMouseMove={handleMouseMove} className="space-y-6 max-w-2xl mx-auto">
                     <div className="mb-8">
                         <StepProgressBar currentStep={currentStep} totalSteps={steps.length} />
                     </div>
@@ -213,7 +221,7 @@ export default function ContactForm() {
                         </AnimatePresence>
                     </div>
 
-                    <div className="pt-5 flex justify-end">
+                    <div className="pt-2 flex justify-end">
                         {currentStep > 0 && currentStep < steps.length -1 && (
                             <Button type="button" onClick={prev} variant="outline" size="lg" className="rounded-full mr-auto">
                                 <ArrowLeft className="mr-2" />
@@ -226,14 +234,14 @@ export default function ContactForm() {
                                 type="button"
                                 onClick={next}
                                 style={{ x: springX, y: springY }}
-                                whileTap={{ scale: isValid ? 0.95 : 1 }}
+                                whileTap={{ scale: canProceed ? 0.95 : 1 }}
                                 className={cn(
                                     "rounded-full px-6 py-2.5 text-lg font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300 flex items-center",
-                                    !isValid
+                                    !canProceed
                                     ? 'bg-zinc-400 text-zinc-100 cursor-not-allowed'
                                     : 'bg-zinc-900 text-white hover:bg-zinc-800'
                                 )}
-                                disabled={!isValid}
+                                disabled={!canProceed}
                              >
                                 Next
                                 <ArrowRight className="ml-2" />
@@ -244,14 +252,14 @@ export default function ContactForm() {
                                 ref={buttonRef}
                                 type="submit"
                                 style={{ x: springX, y: springY }}
-                                whileTap={{ scale: isValid ? 0.95 : 1 }}
+                                whileTap={{ scale: canProceed ? 0.95 : 1 }}
                                 className={cn(
                                     "rounded-full px-6 py-2.5 text-lg font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300 flex items-center",
-                                    !isValid
+                                    !canProceed
                                     ? 'bg-zinc-400 text-zinc-100 cursor-not-allowed'
                                     : 'bg-zinc-900 text-white hover:bg-zinc-800'
                                 )}
-                                disabled={!isValid}
+                                disabled={!canProceed}
                             >
                                 Submit
                                 <Send className="ml-2" />
