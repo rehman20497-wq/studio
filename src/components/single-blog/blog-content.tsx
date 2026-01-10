@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -151,7 +152,7 @@ export default function BlogContent({ post }: { post: BlogPost }) {
   return (
     <motion.div 
       ref={ref}
-      className="px-[5%] py-12 grid grid-cols-12 gap-x-12 items-start"
+      className="px-[6%] py-12 grid grid-cols-12 gap-x-12 items-start"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
