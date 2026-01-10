@@ -10,6 +10,7 @@ import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
 import BlogCard from '../blog-card';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 type BlogPost = {
   id: string;
@@ -131,32 +132,36 @@ export default function BlogsGrid({ searchTerm, categoryFilter }: { searchTerm: 
           </div>
       ) : paginatedPosts.length > 0 ? (
         <>
-            {/* First row with 2 items */}
             <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8" variants={containerVariants}>
                 {firstRowPosts.map(post => (
-                    <motion.div key={post.id} variants={cardVariants} className="w-full">
-                        <BlogCard 
-                            type="article"
-                            date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
-                            categories={[post.category]}
-                            title={post.title}
-                            backgroundImage={{ src: post.featuredImageUrl, hint: 'blog post image' }}
-                        />
+                    <motion.div key={post.id} variants={cardVariants} className="w-full flex">
+                        <div className="flex-1">
+                          <Link href={`/blogs/${post.id}`} className="block group w-full h-full">
+                            <BlogCard 
+                                type="article"
+                                date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
+                                categories={[post.category]}
+                                title={post.title}
+                                backgroundImage={{ src: post.featuredImageUrl, hint: 'blog post image' }}
+                            />
+                          </Link>
+                        </div>
                     </motion.div>
                 ))}
             </motion.div>
 
-            {/* Remaining rows with 3 items */}
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center" variants={containerVariants}>
                 {remainingPosts.map(post => (
                     <motion.div key={post.id} variants={cardVariants} className="w-full max-w-[480px]">
-                        <BlogCard 
-                            type="article"
-                            date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
-                            categories={[post.category]}
-                            title={post.title}
-                            backgroundImage={{ src: post.featuredImageUrl, hint: 'blog post image' }}
-                        />
+                        <Link href={`/blogs/${post.id}`} className="block group w-full h-full">
+                          <BlogCard 
+                              type="article"
+                              date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
+                              categories={[post.category]}
+                              title={post.title}
+                              backgroundImage={{ src: post.featuredImageUrl, hint: 'blog post image' }}
+                          />
+                        </Link>
                     </motion.div>
                 ))}
             </motion.div>
