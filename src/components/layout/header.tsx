@@ -169,6 +169,7 @@ const resources = [
   { title: "Case Studies", href: "#" },
   { title: "Playbooks", href: "#" },
   { title: "Guides", href: "#" },
+  { title: "FAQs", href: "/faq" },
 ];
 
 const mobileNavItems = [

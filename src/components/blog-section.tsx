@@ -136,7 +136,7 @@ export default function BlogSection() {
 
   return (
     <motion.section
-      className="bg-[#FEF9F2] py-12  overflow-hidden"
+      className="bg-[#FEF9F2] py-12 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
@@ -183,7 +183,7 @@ export default function BlogSection() {
       </div>
 
       {/* Marquee */}
-      <div className="mt-10 w-full ">
+      <div className="mt-10 w-full">
         <div
           ref={marqueeRef}
           className="overflow-x-hidden"
@@ -191,12 +191,17 @@ export default function BlogSection() {
           onMouseLeave={() => controls.start('animate')}
         >
           <motion.div
-            className="flex gap-8 px-8"
+            className="flex gap-8 px-8 py-8"
             variants={marqueeVariants}
             animate={controls}
           >
             {infinitePosts.map((post, index) => (
-              <BlogCard key={index} {...post} />
+              <div
+                key={index}
+                className="flex-shrink-0 w-[80vw] sm:w-[45vw] lg:w-[30vw]"
+              >
+                <BlogCard {...post} />
+              </div>
             ))}
           </motion.div>
         </div>
