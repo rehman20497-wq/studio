@@ -4,20 +4,33 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Default to denying all access unless explicitly allowed.
-    match /{document=**} {
-      allow read, write: if false;
+    // Helper function to check if the user is signed in via the admin panel
+    function isSignedIn() {
+      return request.auth != null;
     }
 
-    // Allow public read access to providers and blog posts.
+    // Rules for the 'providers' collection
     match /providers/{providerId} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      // Admins can do anything
+      allow read, write: if isSignedIn();
+
+      // Public can only get a document if it is published
+      allow get: if !isSignedIn() && resource.data.published == true;
+
+      // Public can list documents only if they query for published ones
+      allow list: if !isSignedIn() && request.query.where[0][0] == 'published' && request.query.where[0][2] == true;
     }
 
+    // Rules for the 'blog_posts' collection
     match /blog_posts/{postId} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      // Admins can do anything
+      allow read, write: if isSignedIn();
+      
+      // Public can only get a document if it is published
+      allow get: if !isSignedIn() && resource.data.published == true;
+
+      // Public can list documents only if they query for published ones
+      allow list: if !isSignedIn() && request.query.where[0][0] == 'published' && request.query.where[0][2] == true;
     }
   }
 }
