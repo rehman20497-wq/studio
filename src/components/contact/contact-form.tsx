@@ -33,7 +33,7 @@ type FormValues = z.infer<typeof contactSchema>;
 const StepProgressBar = ({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) => {
     const progress = (currentStep / (totalSteps -1)) * 100;
     return (
-        <div className="relative h-2 w-full bg-zinc-200 rounded-full overflow-hidden">
+        <div className="relative h-10 w-full bg-zinc-200 rounded-full overflow-hidden">
             <motion.div 
                 className="absolute h-full rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600"
                 initial={{ width: 0 }}
@@ -99,7 +99,7 @@ export default function ContactForm() {
                         <StepProgressBar currentStep={currentStep} totalSteps={steps.length} />
                     </div>
                     
-                    <div className="overflow-hidden relative h-80">
+                    <div className="overflow-hidden relative h-[300px]">
                         <AnimatePresence initial={false} custom={delta}>
                             <motion.div
                                 key={currentStep}
@@ -113,7 +113,7 @@ export default function ContactForm() {
                                     exit: (direction: number) => ({ x: direction < 0 ? '100%' : '-100%', opacity: 0 }),
                                 }}
                                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                                className="absolute w-full"
+                                className="absolute w-full h-full overflow-y-auto no-scrollbar"
                             >
                                 {currentStep === 0 && (
                                     <div className="space-y-6">
@@ -164,7 +164,7 @@ export default function ContactForm() {
                                     </div>
                                 )}
                                 {currentStep === 3 && (
-                                    <div className="text-center">
+                                    <div className="text-center pt-8">
                                         <motion.div
                                             initial={{ scale: 0 }}
                                             animate={{ scale: 1, transition: { delay: 0.2, type: 'spring' } }}
