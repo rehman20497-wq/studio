@@ -1,17 +1,23 @@
+
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /blog_posts/{postId} {
-      allow read, list, write: if true;
+    // Default to denying all access unless explicitly allowed.
+    match /{document=**} {
+      allow read, write: if false;
     }
 
+    // Allow public read access to providers and blog posts.
     match /providers/{providerId} {
-      allow read, list, write: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
     }
 
-    match /{path=**} {
-      allow read, list, write: if true;
+    match /blog_posts/{postId} {
+      allow read: if true;
+      allow write: if request.auth != null;
     }
   }
 }
