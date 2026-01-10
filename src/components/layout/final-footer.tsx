@@ -277,7 +277,7 @@ export default function FinalFooter() {
                     <Image src="/l3.png" alt="AICPA SOC" width={90} height={90} data-ai-hint="certification logo" />
                 </motion.div>
                 <motion.div variants={slideFromBottom}>
-                    <Link href="#" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>
+                    <Link href="/privacy-policy" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>
                 </motion.div>
             </motion.div>
         </motion.div>
