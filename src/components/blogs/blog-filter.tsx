@@ -2,6 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -11,7 +12,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where } from 'firebase/firestore';
+import { useMemo } from 'react';
+
+type BlogPost = {
+  category: string;
+};
 
 const filterVariants = {
   hidden: { opacity: 0, y: -30, scale: 0.95 },
@@ -31,7 +38,6 @@ interface BlogFilterProps {
     searchTerm?: string;
     onSearchTermChange?: (term: string) => void;
     onCategoryChange?: (category: string) => void;
-    categories?: string[];
 }
 
 export default function BlogFilter({ 
@@ -39,21 +45,33 @@ export default function BlogFilter({
     searchTerm, 
     onSearchTermChange,
     onCategoryChange,
-    categories = [],
 }: BlogFilterProps) {
+    const router = useRouter();
+
+    const firestore = useFirestore();
+    const blogQuery = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return query(
+          collection(firestore, 'blog_posts'),
+          where('published', '==', true)
+        );
+      }, [firestore]);
+    const { data: posts } = useCollection<BlogPost>(blogQuery);
+
+    const allCategories = useMemo(() => {
+        if (!posts) return [];
+        const categories = new Set(posts.map(p => p.category));
+        return ['all', ...Array.from(categories)];
+    }, [posts]);
 
     const handleFilterChange = (value: string) => {
         const slug = value.toLowerCase().replace(/ /g, '-');
         onCategoryChange?.(slug);
-    };
-    
-    const formatCategoryForDisplay = (category: string | undefined): string | undefined => {
-        if (!category || category === 'all') return 'All Categories';
-        return category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-    };
-    
-    const defaultValue = formatCategoryForDisplay(initialCategory);
 
+        const newUrl = value === 'all' ? '/blogs' : `/blogs?category=${slug}`;
+        router.push(newUrl, { scroll: false });
+    };
+    
     return (
         <motion.div
             className="mx-auto flex flex-col md:flex-row gap-4 mb-12"
@@ -75,10 +93,10 @@ export default function BlogFilter({
                     <SelectValue placeholder="Filter by category" />
                 </SelectTrigger>
                 <SelectContent className="bg-white/80 backdrop-blur-sm">
-                    {categories.map((category) => (
+                    {allCategories.map((category) => (
                         <SelectItem 
                             key={category} 
-                            value={category === 'all' ? 'all' : category.toLowerCase().replace(/ /g, '-')}
+                            value={category}
                             className="text-base"
                         >
                             {category === 'all' ? 'All Categories' : category}

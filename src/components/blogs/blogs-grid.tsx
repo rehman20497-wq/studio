@@ -3,12 +3,11 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useMemo, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
-import BlogFilter from './blog-filter';
 import BlogCard from '../blog-card';
 import { format } from 'date-fns';
 
@@ -21,7 +20,7 @@ type BlogPost = {
   published?: boolean;
 };
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 11; // 2 (first row) + 3*3 (next three rows)
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,15 +32,6 @@ const containerVariants = {
     },
   },
 };
-
-const gridContainerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.05,
-        }
-    }
-}
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
@@ -69,7 +59,6 @@ const filterVariants = {
   },
 };
 
-
 const BlogCardSkeleton = () => (
   <motion.div variants={cardVariants}>
     <div className="relative bg-white rounded-2xl p-4 h-96 shadow-md border border-zinc-100">
@@ -78,33 +67,16 @@ const BlogCardSkeleton = () => (
   </motion.div>
 );
 
-
-export default function BlogsGrid() {
+export default function BlogsGrid({ searchTerm, categoryFilter }: { searchTerm: string; categoryFilter: string }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState(searchParams.get('category') || 'all');
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    setCategoryFilter(searchParams.get('category') || 'all');
     setCurrentPage(0);
-  }, [searchParams]);
-
-  const handleCategoryChange = (newCategory: string) => {
-    setCategoryFilter(newCategory);
-    setCurrentPage(0);
-    const newUrl = newCategory === 'all' ? '/blogs' : `/blogs?category=${newCategory}`;
-    router.push(newUrl, { scroll: false });
-  };
-  
-  const handleSearchChange = (term: string) => {
-    setSearchTerm(term);
-    setCurrentPage(0);
-  };
+  }, [searchTerm, categoryFilter]);
 
   const firestore = useFirestore();
 
@@ -136,17 +108,14 @@ export default function BlogsGrid() {
 
   }, [posts, searchTerm, categoryFilter]);
 
-  const allCategories = useMemo(() => {
-    if (!posts) return [];
-    const categories = new Set(posts.map(p => p.category));
-    return ['all', ...Array.from(categories)];
-  }, [posts]);
-
   const pageCount = Math.ceil(filteredPosts.length / ITEMS_PER_PAGE);
   const paginatedPosts = filteredPosts.slice(
     currentPage * ITEMS_PER_PAGE,
     (currentPage + 1) * ITEMS_PER_PAGE
   );
+
+  const firstRowPosts = paginatedPosts.slice(0, 2);
+  const remainingPosts = paginatedPosts.slice(2);
 
   return (
     <motion.section
@@ -156,34 +125,48 @@ export default function BlogsGrid() {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <BlogFilter 
-        initialCategory={categoryFilter}
-        searchTerm={searchTerm}
-        onSearchTermChange={handleSearchChange}
-        onCategoryChange={handleCategoryChange}
-        categories={allCategories}
-      />
-
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
-        variants={gridContainerVariants}
-      >
-        {isLoading ? (
-            Array.from({ length: 9 }).map((_, i) => <BlogCardSkeleton key={i} />)
-        ) : (
-            paginatedPosts.map((post) => (
-              <motion.div key={post.id} variants={cardVariants} className="w-full max-w-[480px]">
-                <BlogCard 
-                    type="article"
-                    date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
-                    categories={[post.category]}
-                    title={post.title}
-                    backgroundImage={{ src: post.featuredImageUrl, hint: 'blog post image' }}
-                />
+      {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+            {Array.from({ length: 9 }).map((_, i) => <BlogCardSkeleton key={i} />)}
+          </div>
+      ) : paginatedPosts.length > 0 ? (
+        <>
+            {/* First row with 2 items */}
+            <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center mb-8" variants={containerVariants}>
+                {firstRowPosts.map(post => (
+                    <motion.div key={post.id} variants={cardVariants} className="w-full max-w-[480px]">
+                        <BlogCard 
+                            type="article"
+                            date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
+                            categories={[post.category]}
+                            title={post.title}
+                            backgroundImage={{ src: post.featuredImageUrl, hint: 'blog post image' }}
+                        />
+                    </motion.div>
+                ))}
             </motion.div>
-            ))
-        )}
-      </motion.div>
+
+            {/* Remaining rows with 3 items */}
+            <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center" variants={containerVariants}>
+                {remainingPosts.map(post => (
+                    <motion.div key={post.id} variants={cardVariants} className="w-full max-w-[480px]">
+                        <BlogCard 
+                            type="article"
+                            date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
+                            categories={[post.category]}
+                            title={post.title}
+                            backgroundImage={{ src: post.featuredImageUrl, hint: 'blog post image' }}
+                        />
+                    </motion.div>
+                ))}
+            </motion.div>
+        </>
+      ) : (
+        <motion.div className="text-center py-20 col-span-full" variants={filterVariants}>
+            <h3 className="text-xl font-semibold">No Posts Found</h3>
+            <p className="text-zinc-500 mt-2">Try adjusting your search or filter criteria.</p>
+        </motion.div>
+      )}
       
       {pageCount > 1 && (
         <motion.div 
@@ -206,13 +189,6 @@ export default function BlogsGrid() {
             >
                 Next
             </Button>
-        </motion.div>
-      )}
-
-      {!isLoading && paginatedPosts.length === 0 && (
-        <motion.div className="text-center py-20 col-span-full" variants={filterVariants}>
-            <h3 className="text-xl font-semibold">No Posts Found</h3>
-            <p className="text-zinc-500 mt-2">Try adjusting your search or filter criteria.</p>
         </motion.div>
       )}
     </motion.section>
