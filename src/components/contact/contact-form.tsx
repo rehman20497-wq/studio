@@ -1,9 +1,8 @@
 
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useForm, FormProvider, useSpring, useMotionValue } from 'framer-motion';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Building, MessageSquare, ArrowRight, ArrowLeft, Send, Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const steps = [
     { id: 'Step 1', name: 'Personal Info', fields: ['name', 'email'] },
@@ -58,12 +58,46 @@ export default function ContactForm() {
     const [currentStep, setCurrentStep] = useState(0);
     const [previousStep, setPreviousStep] = useState(0);
 
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const springConfig = { stiffness: 300, damping: 20 };
+    const springX = useSpring(x, springConfig);
+    const springY = useSpring(y, springConfig);
+
     const methods = useForm<FormValues>({
         resolver: zodResolver(contactSchema),
         mode: 'onChange',
     });
 
-    const { handleSubmit, trigger, formState: { errors } } = methods;
+    const { handleSubmit, trigger, formState: { errors, isValid } } = methods;
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (isValid || !buttonRef.current) {
+            x.set(0);
+            y.set(0);
+            return;
+        };
+    
+        const { clientX, clientY } = e;
+        const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
+        
+        const dx = clientX - (left + width / 2);
+        const dy = clientY - (top + height / 2);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+    
+        const maxMove = 80;
+        if (distance < 120) {
+          const angle = Math.atan2(dy, dx);
+          const moveDistance = ((120 - distance) / 120) * maxMove;
+          x.set(-Math.cos(angle) * moveDistance);
+          y.set(-Math.sin(angle) * moveDistance);
+        } else {
+          x.set(0);
+          y.set(0);
+        }
+    };
+
 
     const next = async () => {
         const fields = steps[currentStep].fields;
@@ -94,7 +128,7 @@ export default function ContactForm() {
     return (
         <div className="relative bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-zinc-200/50 wavy-gradient-background">
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit(onSubmit)} onMouseMove={handleMouseMove} className="space-y-8 max-w-2xl mx-auto">
                     <div className="mb-8">
                         <StepProgressBar currentStep={currentStep} totalSteps={steps.length} />
                     </div>
@@ -179,25 +213,49 @@ export default function ContactForm() {
                         </AnimatePresence>
                     </div>
 
-                    <div className="pt-5 flex justify-between">
+                    <div className="pt-5 flex justify-end">
                         {currentStep > 0 && currentStep < steps.length -1 && (
-                            <Button type="button" onClick={prev} variant="outline" size="lg" className="rounded-full">
+                            <Button type="button" onClick={prev} variant="outline" size="lg" className="rounded-full mr-auto">
                                 <ArrowLeft className="mr-2" />
                                 Back
                             </Button>
                         )}
-                        <div className="flex-grow" />
                         {currentStep < steps.length - 2 && (
-                             <Button type="button" onClick={next} size="lg" className="rounded-full bg-zinc-900 text-white hover:bg-zinc-700">
+                             <motion.button
+                                ref={buttonRef}
+                                type="button"
+                                onClick={next}
+                                style={{ x: springX, y: springY }}
+                                whileTap={{ scale: isValid ? 0.95 : 1 }}
+                                className={cn(
+                                    "rounded-full px-6 py-2.5 text-lg font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300 flex items-center",
+                                    !isValid
+                                    ? 'bg-zinc-400 text-zinc-100 cursor-not-allowed'
+                                    : 'bg-zinc-900 text-white hover:bg-zinc-800'
+                                )}
+                                disabled={!isValid}
+                             >
                                 Next
                                 <ArrowRight className="ml-2" />
-                            </Button>
+                            </motion.button>
                         )}
                         {currentStep === steps.length - 2 && (
-                            <Button type="submit" size="lg" className="rounded-full bg-zinc-900 text-white hover:bg-zinc-700">
+                            <motion.button
+                                ref={buttonRef}
+                                type="submit"
+                                style={{ x: springX, y: springY }}
+                                whileTap={{ scale: isValid ? 0.95 : 1 }}
+                                className={cn(
+                                    "rounded-full px-6 py-2.5 text-lg font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300 flex items-center",
+                                    !isValid
+                                    ? 'bg-zinc-400 text-zinc-100 cursor-not-allowed'
+                                    : 'bg-zinc-900 text-white hover:bg-zinc-800'
+                                )}
+                                disabled={!isValid}
+                            >
                                 Submit
                                 <Send className="ml-2" />
-                            </Button>
+                            </motion.button>
                         )}
                     </div>
                 </form>

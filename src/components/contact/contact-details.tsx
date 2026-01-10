@@ -88,7 +88,7 @@ export default function ContactDetails() {
       </div>
 
       <motion.div 
-        className="relative h-[500px] rounded-2xl overflow-hidden shadow-xl border-4 border-yellow-200"
+        className="relative h-[500px] rounded-2xl overflow-hidden shadow-xl border-4 border-yellow-200 mr-[10%]"
         variants={mapVariants}
       >
         <Image 
