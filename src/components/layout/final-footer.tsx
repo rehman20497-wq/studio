@@ -240,7 +240,7 @@ export default function FinalFooter() {
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Resources</h3>
                 <ul className="space-y-3 text-zinc-700">
                     <li><Link href="#" className="hover:underline text-base">Resources</Link></li>
-                    <li><Link href="#" className="hover:underline text-base">FAQs</Link></li>
+                    <li><Link href="/faq" className="hover:underline text-base">FAQs</Link></li>
                 </ul>
             </motion.div>
             <motion.div variants={slideFromBottom}>
@@ -276,8 +276,9 @@ export default function FinalFooter() {
                  <motion.div variants={imageItemVariant}>
                     <Image src="/l3.png" alt="AICPA SOC" width={90} height={90} data-ai-hint="certification logo" />
                 </motion.div>
-                <motion.div variants={slideFromBottom}>
-                    <Link href="/privacy-policy" className="text-zinc-600 hover:underline text-sm ml-4">Privacy Policy</Link>
+                <motion.div className="flex flex-col sm:flex-row gap-4" variants={slideFromBottom}>
+                    <Link href="/privacy-policy" className="text-zinc-600 hover:underline text-sm">Privacy Policy</Link>
+                    <Link href="/terms-and-conditions" className="text-zinc-600 hover:underline text-sm">Terms & Conditions</Link>
                 </motion.div>
             </motion.div>
         </motion.div>
