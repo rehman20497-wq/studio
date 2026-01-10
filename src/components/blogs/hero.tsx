@@ -80,14 +80,14 @@ export default function Hero() {
                 className="w-full h-auto max-w-2xl"
                 viewBox="0 0 600 150"
             >
-                <path id="curve" d="M20 110 C 120 0, 480 0, 580 110" fill="transparent" />
+                <path id="curve" d="M20 130 C 120 20, 480 20, 580 130" fill="transparent" />
                 <text className="text-6xl font-bold text-zinc-900 font-headline" fill="currentColor">
                     <textPath href="#curve" startOffset="50%" textAnchor="middle">
                         Telesys Resources
                     </textPath>
                 </text>
                  <motion.path
-                    d="M140 115 C 220 70, 380 70, 460 115"
+                    d="M140 135 C 220 90, 380 90, 460 135"
                     stroke="black"
                     strokeWidth="3"
                     fill="transparent"
