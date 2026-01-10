@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { motion } from 'framer-motion';
@@ -11,6 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const filterVariants = {
   hidden: { opacity: 0, y: -30, scale: 0.95 },
@@ -58,15 +60,16 @@ export default function BlogFilter({
             className="mx-auto flex flex-col md:flex-row gap-4 mb-12"
             variants={filterVariants}
         >
-            <div className="relative flex-grow">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5 pointer-events-none" />
+            <div className="relative flex-grow group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5 pointer-events-none z-10" />
                 <Input
                     type="text"
                     placeholder="Search blog posts..."
-                    className="pl-12 h-14 text-base rounded-full bg-white border-2 border-zinc-200 focus-visible:ring-yellow-400 focus-visible:border-yellow-400 w-full transition-shadow duration-300 shadow-sm hover:shadow-md focus:shadow-lg"
+                    className="pl-12 h-14 text-base rounded-full bg-white border-2 border-zinc-200 focus-visible:ring-transparent focus-visible:border-transparent w-full transition-shadow duration-300 shadow-sm hover:shadow-md focus:shadow-lg focus:outline-none relative"
                     value={searchTerm}
                     onChange={(e) => onSearchTermChange?.(e.target.value)}
                 />
+                <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 blur-md -z-10" />
             </div>
             <Select onValueChange={handleFilterChange} value={initialCategory || 'all'}>
                 <SelectTrigger className="w-full md:w-[280px] h-14 text-base rounded-full bg-white border-2 border-zinc-200 focus:ring-yellow-400 focus:border-yellow-400 transition-shadow duration-300 shadow-sm hover:shadow-md focus:shadow-lg">
