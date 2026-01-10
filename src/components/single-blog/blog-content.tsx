@@ -106,12 +106,14 @@ function Sidebar({ currentPostId, category }: { currentPostId: string; category:
             </div>
         </motion.div>
         
-        <motion.div custom={2} variants={itemVariants} className="bg-white rounded-2xl p-8 border text-center moving-gradient-border">
-            <h3 className="text-2xl font-semibold text-zinc-900">Start Hiring</h3>
-            <div className="my-4">
-                <MagneticButton>
-                    <span className="text-[15px] font-medium px-4">Book a Meeting</span>
-                </MagneticButton>
+        <motion.div custom={2} variants={itemVariants} className="space-y-4">
+            <div className="bg-white rounded-2xl p-8 border text-center moving-gradient-border">
+                <h3 className="text-2xl font-semibold text-zinc-900">Start Hiring</h3>
+                <div className="my-4">
+                    <MagneticButton>
+                        <span className="text-[15px] font-medium px-4">Book a Meeting</span>
+                    </MagneticButton>
+                </div>
             </div>
             <div className="flex items-center justify-center gap-4">
                 <span className="text-sm font-semibold">SHARE</span>
