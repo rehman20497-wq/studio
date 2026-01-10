@@ -2,6 +2,7 @@
 import Header from "@/components/layout/header";
 import Hero from "@/components/blogs/hero";
 import BlogsGrid from "@/components/blogs/blogs-grid";
+import FeaturedBlogPost from "@/components/blogs/featured-blog-post";
 
 export default function BlogsPage() {
   return (
@@ -9,6 +10,7 @@ export default function BlogsPage() {
       <Header />
       <main>
         <Hero />
+        <FeaturedBlogPost />
         <BlogsGrid />
       </main>
     </div>
