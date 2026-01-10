@@ -7,6 +7,7 @@ import { doc } from 'firebase/firestore';
 import ClientOnly from '@/components/client-only';
 import Hero from '@/components/single-blog/hero';
 import { Skeleton } from '@/components/ui/skeleton';
+import BlogContent from '@/components/single-blog/blog-content';
 
 type BlogPost = {
   id: string;
@@ -41,6 +42,15 @@ export default function SingleBlogPage() {
         </ClientOnly>
         <main className="py-8 px-[3%]">
           <Skeleton className="w-full h-[480px] rounded-2xl" />
+          <div className="mt-12 grid grid-cols-12 gap-8">
+            <div className="col-span-4">
+              <Skeleton className="w-full h-96 rounded-xl" />
+            </div>
+            <div className="col-span-8">
+              <Skeleton className="w-full h-16 mb-4" />
+              <Skeleton className="w-full h-96" />
+            </div>
+          </div>
         </main>
       </div>
     );
@@ -68,6 +78,7 @@ export default function SingleBlogPage() {
       </ClientOnly>
       <main>
         <Hero post={post} />
+        <BlogContent post={post} />
       </main>
     </div>
   );
