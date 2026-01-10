@@ -36,9 +36,9 @@ export default function BuildTeamCta() {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="relative text-center p-12 rounded-2xl overflow-hidden mt-16"
+            className="relative text-center p-12 rounded-2xl overflow-hidden mt-16 bg-yellow-100/50 border border-yellow-200"
         >
-            <div className="absolute inset-0 border-2 rounded-2xl border-transparent border-glow" />
+            <div className="absolute -inset-2 rounded-2xl border-transparent border-glow -z-10" />
             <motion.h2 
                 className="text-4xl font-bold font-headline text-zinc-900"
                 variants={textVariants}
