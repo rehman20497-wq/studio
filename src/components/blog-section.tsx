@@ -6,7 +6,7 @@ import { useRef, useEffect, useMemo } from 'react';
 import BlogCard, { type BlogCardProps } from './blog-card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, where, orderBy, limit } from 'firebase/firestore';
+import { collection, query, where, limit } from 'firebase/firestore';
 import { format } from 'date-fns';
 
 type BlogPost = {
@@ -102,7 +102,6 @@ export default function BlogSection() {
     return query(
       collection(firestore, 'blog_posts'),
       where('published', '==', true),
-      orderBy('createdAt', 'desc'),
       limit(4)
     );
   }, [firestore]);
@@ -111,7 +110,10 @@ export default function BlogSection() {
 
   const blogPosts: BlogCardProps[] = useMemo(() => {
     if (!posts) return [];
-    return posts.map(post => ({
+    // Manually sort by date on the client side
+    const sortedPosts = [...posts].sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+
+    return sortedPosts.map(post => ({
         type: 'article', // You might want to make this dynamic if your data supports it
         date: format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase(),
         categories: [post.category],
