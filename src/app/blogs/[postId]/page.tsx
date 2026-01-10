@@ -39,8 +39,8 @@ export default function SingleBlogPage() {
         <ClientOnly>
           <Header />
         </ClientOnly>
-        <main className="py-12 px-[3%]">
-          <Skeleton className="w-full h-[450px] rounded-2xl" />
+        <main className="py-8 px-[3%]">
+          <Skeleton className="w-full h-[480px] rounded-2xl" />
         </main>
       </div>
     );
@@ -53,8 +53,8 @@ export default function SingleBlogPage() {
           <Header />
         </ClientOnly>
         <main className="flex items-center justify-center h-[50vh]">
-          <p className="text-red-500">
-            {error ? 'Error loading post.' : 'Blog post not found.'}
+          <p className="text-red-500 text-lg">
+            {error ? 'Error loading post.' : 'This blog post could not be found.'}
           </p>
         </main>
       </div>
