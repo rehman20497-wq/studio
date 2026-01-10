@@ -1,8 +1,8 @@
-
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useForm, FormProvider, useSpring, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
+import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -263,3 +263,4 @@ export default function ContactForm() {
         </div>
     );
 }
+    
