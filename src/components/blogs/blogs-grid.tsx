@@ -132,9 +132,9 @@ export default function BlogsGrid({ searchTerm, categoryFilter }: { searchTerm: 
       ) : paginatedPosts.length > 0 ? (
         <>
             {/* First row with 2 items */}
-            <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center mb-8" variants={containerVariants}>
+            <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8" variants={containerVariants}>
                 {firstRowPosts.map(post => (
-                    <motion.div key={post.id} variants={cardVariants} className="w-full max-w-[480px]">
+                    <motion.div key={post.id} variants={cardVariants} className="w-full">
                         <BlogCard 
                             type="article"
                             date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}

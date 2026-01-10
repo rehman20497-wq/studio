@@ -26,7 +26,7 @@ export default function NewsletterSignup() {
   return (
     <motion.section
       ref={ref}
-      className="py-12 px-[3%] mt-8"
+      className="py-0 px-[3%] mt-0"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}

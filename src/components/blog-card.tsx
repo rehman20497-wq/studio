@@ -79,8 +79,8 @@ export default function BlogCard({
   const primaryCategory = categories[0] || 'Article';
     
   return (
-    <Link href="#" className="block group">
-      <div className="relative flex-shrink-0 w-full max-w-[480px] h-[520px] bg-white rounded-2xl shadow-lg p-4 mb-4 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
+    <Link href="#" className="block group w-full h-full">
+      <div className="relative flex-shrink-0 w-full h-full min-h-[520px] bg-white rounded-2xl shadow-lg p-4 mb-4 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
          <svg
             className="absolute inset-0 pointer-events-none"
             width="100%"
