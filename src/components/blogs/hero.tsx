@@ -81,7 +81,7 @@ export default function Hero() {
                 viewBox="0 0 600 150"
             >
                 <path id="curve" d="M20 130 C 120 20, 480 20, 580 130" fill="transparent" />
-                <text className="text-6xl font-bold text-zinc-900 font-headline" fill="currentColor">
+                <text className="font-bold text-zinc-900 font-headline" fill="currentColor" style={{ fontSize: '40px' }}>
                     <textPath href="#curve" startOffset="50%" textAnchor="middle">
                         Telesys Resources
                     </textPath>
