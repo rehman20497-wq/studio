@@ -69,7 +69,7 @@ export default function FeaturedBlogPost() {
 
   if (isLoading || !randomPost) {
     return (
-      <section className="bg-[#FCFBF8] py-12 px-[3%]">
+      <section className="bg-[#FCFBF8] px-[3%]">
         <FeaturedPostSkeleton />
       </section>
     );
@@ -78,7 +78,7 @@ export default function FeaturedBlogPost() {
   return (
     <motion.section
       ref={ref}
-      className="bg-[#FCFBF8] py-12 px-[3%]"
+      className="bg-[#FCFBF8] px-[3%]"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
