@@ -35,7 +35,7 @@ export default function QuoteSection({ quote }: { quote: string }) {
             transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
         >
             <div className="absolute top-4 left-4">
-                <Image src="/doub.gif" alt="Opening quote" width={40} height={40} unoptimized />
+                <Image src="/doub.gif" alt="Opening quote" width={52} height={52} unoptimized />
             </div>
 
             <p className={`${dancingScript.className} text-4xl text-zinc-800 leading-normal text-center`}>
@@ -45,10 +45,16 @@ export default function QuoteSection({ quote }: { quote: string }) {
                     return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word} </Word>
                 })}
             </p>
+            <div className="absolute bottom-4 right-4 rotate-[-180deg]">
+  <Image
+    src="/doub.gif"
+    alt="Closing quote"
+    width={52}
+    height={52}
+    unoptimized
+  />
+</div>
 
-            <div className="absolute bottom-4 right-4">
-                <Image src="/doubn.gif" alt="Closing quote" width={40} height={40} unoptimized />
-            </div>
         </motion.div>
     )
 }

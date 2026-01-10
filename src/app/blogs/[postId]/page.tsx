@@ -64,7 +64,7 @@ export default function SingleBlogPage() {
         </ClientOnly>
         <main className="flex items-center justify-center h-[50vh]">
           <p className="text-red-500 text-lg">
-            {error ? 'Error loading post.' : 'This blog post could not be found.'}
+            {error ? 'Error loading post.' : 'Loading Blog Post.'}
           </p>
         </main>
       </div>
@@ -76,10 +76,15 @@ export default function SingleBlogPage() {
       <ClientOnly>
         <Header />
       </ClientOnly>
-      <main>
-        <Hero post={post} />
-        <BlogContent post={post} />
-      </main>
+      <main className="relative overflow-visible">
+  <Hero post={post} />
+
+  {/* Sticky-safe isolation layer */}
+  <div className="relative overflow-visible">
+    <BlogContent post={post} />
+  </div>
+</main>
+
     </div>
   );
 }

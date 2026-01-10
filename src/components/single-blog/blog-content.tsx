@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -13,6 +12,7 @@ import { XIcon } from 'lucide-react';
 import MagneticButton from '../magnetic-button';
 import 'react-quill/dist/quill.snow.css';
 import QuoteSection from './quote-section';
+import BuildTeamCta from './build-team-cta';
 
 
 type BlogPost = {
@@ -129,6 +129,26 @@ function Sidebar({ currentPostId, category }: { currentPostId: string; category:
   )
 }
 
+const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.2 });
+  
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <div
+          className="prose prose-lg max-w-none text-zinc-700 ql-editor"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
+      </motion.div>
+    );
+};
+  
+
 export default function BlogContent({ post }: { post: BlogPost }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -138,8 +158,6 @@ export default function BlogContent({ post }: { post: BlogPost }) {
   let contentPart2 = '';
 
   if (hasQuote) {
-    // A simple way to split content is by paragraphs.
-    // This could be made more sophisticated if needed.
     const paragraphs = post.content.split('</p>');
     const splitIndex = Math.floor(paragraphs.length / 2);
     if (paragraphs.length > 1) {
@@ -152,29 +170,26 @@ export default function BlogContent({ post }: { post: BlogPost }) {
   return (
     <motion.div 
       ref={ref}
-      className="px-[6%] py-12 grid grid-cols-12 gap-x-12 items-start"
+      className="px-[6%] py-12"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      <div className="col-span-4">
-        <Sidebar currentPostId={post.id} category={post.category} />
-      </div>
-      <motion.div custom={1} variants={itemVariants} className="col-span-8 space-y-8">
-        <div
-            className="prose prose-lg max-w-none text-zinc-700 ql-editor"
-            dangerouslySetInnerHTML={{ __html: contentPart1 }}
-        />
+        <div className="grid grid-cols-12 gap-x-12 items-start">
+            <div className="col-span-4">
+                <Sidebar currentPostId={post.id} category={post.category} />
+            </div>
+            <div className="col-span-8 space-y-8">
+                <ContentBlock htmlContent={contentPart1} />
 
-        {hasQuote && <QuoteSection quote={post.quote!} />}
+                {hasQuote && <QuoteSection quote={post.quote!} />}
 
-        {hasQuote && (
-             <div
-                className="prose prose-lg max-w-none text-zinc-700 ql-editor"
-                dangerouslySetInnerHTML={{ __html: contentPart2 }}
-            />
-        )}
-      </motion.div>
+                {hasQuote && (
+                    <ContentBlock htmlContent={contentPart2} />
+                )}
+                 <BuildTeamCta />
+            </div>
+        </div>
     </motion.div>
   );
 }
