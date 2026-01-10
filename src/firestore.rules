@@ -3,20 +3,18 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper function to check if the user is an authenticated admin
+    // Helper function to check if the user is signed in via the admin panel
     function isSignedIn() {
       return request.auth != null;
     }
 
     // Rules for the 'providers' collection
-    // Allow public read access, but only admins can write.
     match /providers/{providerId} {
       allow read: if true;
       allow write: if isSignedIn();
     }
 
     // Rules for the 'blog_posts' collection
-    // Allow public read access, but only admins can write.
     match /blog_posts/{postId} {
       allow read: if true;
       allow write: if isSignedIn();
@@ -24,8 +22,6 @@ service cloud.firestore {
 
     // Fallback for any other collections not explicitly defined
     match /{path=**} {
-      // Default to deny all reads and writes unless specified above.
-      // This is a more secure default.
       allow read, write: if isSignedIn();
     }
   }
