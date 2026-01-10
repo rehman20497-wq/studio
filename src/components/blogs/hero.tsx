@@ -78,16 +78,16 @@ export default function Hero() {
 
             <svg
                 className="w-full h-auto max-w-lg"
-                viewBox="0 0 400 60"
+                viewBox="0 0 400 80"
             >
-                <path id="curve" d="M20 40 C 100 10, 300 10, 380 40" fill="transparent" />
+                <path id="curve" d="M20 50 C 100 20, 300 20, 380 50" fill="transparent" />
                 <text className="text-6xl font-bold text-zinc-900 font-headline" fill="currentColor">
                     <textPath href="#curve" startOffset="50%" textAnchor="middle">
                         Telesys Resources
                     </textPath>
                 </text>
                  <motion.path
-                    d="M100 55 C 150 50, 250 50, 300 55"
+                    d="M100 65 C 150 60, 250 60, 300 65"
                     stroke="black"
                     strokeWidth="3"
                     fill="transparent"
