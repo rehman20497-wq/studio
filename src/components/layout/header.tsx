@@ -15,10 +15,10 @@ import { cn } from "@/lib/utils";
 import {
   ChevronDown,
   BookOpen,
-  Briefcase,
   MessageSquareQuestion,
   Newspaper,
   Building,
+  Briefcase,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
