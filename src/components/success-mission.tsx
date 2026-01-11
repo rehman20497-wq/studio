@@ -1,5 +1,4 @@
 
-
 "use client";
 import { useRef } from 'react';
 import Image from "next/image";
@@ -132,9 +131,9 @@ const SuccessMission = () => {
         </svg>
       </div>
 
-      <div ref={ref} className="relative pt-32 pb-24 pl-[10%] pr-8">
+      <div ref={ref} className="relative pt-24 md:pt-32 pb-24 px-4 md:pl-[10%] md:pr-8">
         <motion.div 
-            className="relative -ml-[10%] w-[110%] flex justify-center mb-24"
+            className="relative md:-ml-[10%] md:w-[110%] flex justify-center mb-16 md:mb-24"
             variants={itemVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -181,9 +180,9 @@ const SuccessMission = () => {
             </div>
           </motion.div>
           <div className="flex justify-center items-center">
-            <div className="relative w-[548px] h-[548px]">
+            <div className="relative w-full max-w-[548px] h-auto aspect-square">
               <motion.div
-                className="absolute w-[520px] h-[520px] bg-[#F5D34A] rounded-xl overflow-hidden"
+                className="absolute w-[95%] h-[95%] bg-[#F5D34A] rounded-xl overflow-hidden"
                 style={{transformOrigin: 'top right', top: "-20px", right: "-20px"}}
                 variants={yellowBgVariants}
               >
@@ -198,7 +197,7 @@ const SuccessMission = () => {
               </motion.div>
 
               <div className="absolute top-0 left-0 w-full h-full">
-                <div className="relative w-[548px] h-[548px] bg-white rounded-xl shadow-lg overflow-hidden">
+                <div className="relative w-full h-full bg-white rounded-xl shadow-lg overflow-hidden">
                     <motion.div 
                       className="absolute p-8 inset-0 z-10 flex flex-col"
                       variants={containerVariants}
