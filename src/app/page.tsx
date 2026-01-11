@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -27,7 +28,7 @@ export default function Home() {
   const isFooterInView = useInView(footerRef, { once: true, amount: 0.2 });
 
   return (
-    <div className="bg-white text-zinc-900 font-body">
+    <div className="bg-white text-zinc-900 font-body overflow-hidden">
       <ClientOnly>
         <Header />
       </ClientOnly>
