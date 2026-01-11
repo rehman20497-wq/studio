@@ -14,10 +14,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  ChevronDown,
+  Home,
   Building,
   Briefcase,
-  Home,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionItem } from "@/components/ui/accordion";
@@ -79,7 +78,7 @@ export default function Header() {
         </a>
         .
       </div>
-      <div className="w-full px-[4%] flex items-center justify-between py-4">
+      <div className="w-full px-[4%] flex items-center justify-between py-4 group">
         <Link href="/" aria-label="Hugo logo">
           <HugoLogo />
         </Link>
@@ -88,15 +87,15 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-10">
           {isMounted && (
             <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
+              <NavigationMenuList className="group">
+                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
                   <Link href="/" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                       Home
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
                   <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="relative w-[250px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
@@ -124,7 +123,7 @@ export default function Header() {
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
                   <NavigationMenuTrigger>Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
@@ -147,7 +146,7 @@ export default function Header() {
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
                   <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
@@ -174,7 +173,7 @@ export default function Header() {
             </NavigationMenu>
           )}
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:block group-hover:blur-sm transition-all duration-300 hover:!blur-none">
             <Button asChild className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6">
                 <Link href="/contact">Get Started</Link>
             </Button>
