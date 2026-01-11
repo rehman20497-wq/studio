@@ -9,6 +9,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,9 +17,10 @@ import {
   ChevronDown,
   Building,
   Briefcase,
+  Home,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Accordion, AccordionItem } from "@/components/ui/accordion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -53,6 +55,7 @@ const resources = [
 ];
 
 const mobileNavItems = [
+    { title: "Home", href: "/", icon: Home, isImage: false },
     { title: "Providers", href: "/providers", icon: Building, isImage: false },
     { title: "About", href: "/about", icon: Building, isImage: false },
     { title: "Careers", href: "/careers", icon: Briefcase, isImage: false },
@@ -86,6 +89,13 @@ export default function Header() {
           {isMounted && (
             <NavigationMenu>
               <NavigationMenuList>
+                <NavigationMenuItem>
+                  <Link href="/" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                      Home
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
