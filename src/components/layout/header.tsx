@@ -16,7 +16,6 @@ import {
   ChevronDown,
   BookOpen,
   MessageSquareQuestion,
-  Newspaper,
   Building,
   Briefcase,
 } from "lucide-react";
@@ -50,16 +49,16 @@ const company = [
   { title: "Careers", href: "/careers", icon: Briefcase },
 ];
 const resources = [
-    { title: "Articles", href: "/blogs", icon: Newspaper },
-    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion },
+    { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
+    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion, isImage: false },
 ];
 
 const mobileNavItems = [
-    { title: "Providers", href: "/providers", icon: Building },
-    { title: "About", href: "/about", icon: Building },
-    { title: "Careers", href: "/careers", icon: Briefcase },
-    { title: "Articles", href: "/blogs", icon: Newspaper },
-    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion },
+    { title: "Providers", href: "/providers", icon: Building, isImage: false },
+    { title: "About", href: "/about", icon: Building, isImage: false },
+    { title: "Careers", href: "/careers", icon: Briefcase, isImage: false },
+    { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
+    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion, isImage: false },
 ]
 
 export default function Header() {
@@ -140,7 +139,11 @@ export default function Header() {
                            <li key={item.title}>
                              <NavigationMenuLink asChild>
                                <a href={item.href} className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50">
-                                 <item.icon className="w-5 h-5 text-zinc-600" />
+                                  {item.isImage ? (
+                                    <Image src={item.icon as string} alt={`${item.title} icon`} width={20} height={20} className="text-zinc-600" />
+                                  ) : (
+                                    React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })
+                                  )}
                                  <span className="font-medium text-sm">{item.title}</span>
                                </a>
                              </NavigationMenuLink>
@@ -187,7 +190,11 @@ export default function Header() {
                          {mobileNavItems.map(item => (
                             <AccordionItem value={item.title} key={item.title} className="border-b border-yellow-200">
                                 <Link href={item.href} className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
-                                    <item.icon className="w-8 h-8" />
+                                    {item.isImage ? (
+                                      <Image src={item.icon as string} alt={`${item.title} icon`} width={32} height={32} />
+                                    ) : (
+                                      React.createElement(item.icon, { className: "w-8 h-8" })
+                                    )}
                                     {item.title}
                                 </Link>
                             </AccordionItem>
