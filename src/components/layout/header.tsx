@@ -81,7 +81,7 @@ export default function Header() {
         .
       </div>
       <div className="w-full px-[4%] flex items-center justify-between py-4">
-        <Link href="/" aria-label="Hugo logo">
+        <Link href="/">
           <HugoLogo />
         </Link>
 
@@ -89,16 +89,16 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-10">
           {isMounted && (
             <NavigationMenu>
-              <NavigationMenuList className="group">
-                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
+              <NavigationMenuList>
+                <NavigationMenuItem className="group">
                   <Link href="/" passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
                       Home
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
-                  <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
+                <NavigationMenuItem className="group">
+                  <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="relative w-[250px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="flex flex-col gap-1">
@@ -121,8 +121,8 @@ export default function Header() {
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
-                  <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+                <NavigationMenuItem className="group">
+                  <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
@@ -140,8 +140,8 @@ export default function Header() {
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
-                  <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                <NavigationMenuItem className="group">
+                  <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
@@ -185,7 +185,7 @@ export default function Header() {
             <SheetContent side="top" className="p-0 bg-transparent border-none">
                 <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
                 <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
-                    <Link href="/" aria-label="Hugo logo">
+                    <Link href="/">
                         <HugoLogo />
                     </Link>
                     <SheetClose asChild>
