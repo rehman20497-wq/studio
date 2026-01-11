@@ -219,73 +219,72 @@ export default function Header() {
                         </button>
                     </SheetClose>
                 </div>
-                <div className="bg-[#FEF9F2] px-6 pt-8 h-[calc(100vh-90px)] flex flex-col">
-                     <Accordion type="multiple" className="w-full flex-grow overflow-y-auto">
-                        <AccordionItem value="Home" className="border-b border-yellow-200">
-                             <Link href="/" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
-                                <Home className="w-8 h-8" />
-                                Home
-                            </Link>
-                        </AccordionItem>
-                        <AccordionItem value="Solutions">
-                            <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
-                                <Zap className="w-8 h-8" />
-                                Solutions
-                            </AccordionTrigger>
-                            <AccordionContent className="pl-16">
-                                <ul className="space-y-4">
-                                    {solutions.map(item => (
-                                        <li key={item.title}>
-                                            <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </AccordionContent>
-                        </AccordionItem>
-                         <AccordionItem value="Providers" className="border-b border-yellow-200">
-                             <Link href="/providers" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
-                                <Building className="w-8 h-8" />
-                                Providers
-                            </Link>
-                        </AccordionItem>
-                         <AccordionItem value="Company">
-                            <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
-                                <Building className="w-8 h-8" />
-                                Company
-                            </AccordionTrigger>
-                            <AccordionContent className="pl-16">
-                                <ul className="space-y-4">
-                                    {company.map(item => (
-                                        <li key={item.title}>
-                                            <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </AccordionContent>
-                        </AccordionItem>
-                         <AccordionItem value="Resources">
-                            <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
-                                <BookOpen className="w-8 h-8" />
-                                Resources
-                            </AccordionTrigger>
-                            <AccordionContent className="pl-16">
-                                <ul className="space-y-4">
-                                    {resources.map(item => (
-                                        <li key={item.title}>
-                                            <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
+                <div className="bg-[#FEF9F2] h-[calc(100vh-90px)] flex flex-col">
+                     <div className="flex-grow overflow-y-auto px-6 pt-8">
+                        <Accordion type="multiple" className="w-full">
+                            <AccordionItem value="Home" className="border-b border-yellow-200">
+                                <Link href="/" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
+                                    <Home className="w-8 h-8" />
+                                    Home
+                                </Link>
+                            </AccordionItem>
+                            <AccordionItem value="Solutions" className="border-b border-yellow-200">
+                                <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
+                                    <Zap className="w-8 h-8" />
+                                    Solutions
+                                </AccordionTrigger>
+                                <AccordionContent className="pl-16">
+                                    <ul className="space-y-4">
+                                        {solutions.map(item => (
+                                            <li key={item.title}>
+                                                <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="Providers" className="border-b border-yellow-200">
+                                <Link href="/providers" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
+                                    <Building className="w-8 h-8" />
+                                    Providers
+                                </Link>
+                            </AccordionItem>
+                            <AccordionItem value="Company" className="border-b border-yellow-200">
+                                <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
+                                    <Building className="w-8 h-8" />
+                                    Company
+                                </AccordionTrigger>
+                                <AccordionContent className="pl-16">
+                                    <ul className="space-y-4">
+                                        {company.map(item => (
+                                            <li key={item.title}>
+                                                <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="Resources" className="border-b border-yellow-200">
+                                <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
+                                    <BookOpen className="w-8 h-8" />
+                                    Resources
+                                </AccordionTrigger>
+                                <AccordionContent className="pl-16">
+                                    <ul className="space-y-4">
+                                        {resources.map(item => (
+                                            <li key={item.title}>
+                                                <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                     </div>
 
-                    <div className="relative -mx-6 mt-auto">
+                    <div className="relative mt-auto">
                         <div className="bg-[#F5D34A] rounded-t-[40px] pt-12 pb-8 px-6 text-center">
                             <h3 className="text-4xl font-normal">Book a Demo</h3>
-                             <div className="relative inline-block my-2">
-                                <span className="absolute inset-x-0 bottom-0 h-1.5 bg-black"></span>
-                            </div>
                             <Button asChild className="rounded-full bg-black text-white hover:bg-zinc-800 px-8 py-6 text-lg mt-4 w-full">
                                 <Link href="/contact">Get Started</Link>
                             </Button>
