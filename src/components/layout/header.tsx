@@ -229,9 +229,11 @@ export default function Header() {
                                 </Link>
                             </AccordionItem>
                             <AccordionItem value="Solutions" className="border-b border-yellow-200">
-                                <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
-                                    <Zap className="w-8 h-8" />
-                                    Solutions
+                                <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
+                                    <div className="flex items-center gap-4">
+                                        <Zap className="w-8 h-8" />
+                                        Solutions
+                                    </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pl-16">
                                     <ul className="space-y-4">
@@ -250,9 +252,11 @@ export default function Header() {
                                 </Link>
                             </AccordionItem>
                             <AccordionItem value="Company" className="border-b border-yellow-200">
-                                <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
-                                    <Building className="w-8 h-8" />
-                                    Company
+                                <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
+                                    <div className="flex items-center gap-4">
+                                        <Building className="w-8 h-8" />
+                                        Company
+                                    </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pl-16">
                                     <ul className="space-y-4">
@@ -264,10 +268,12 @@ export default function Header() {
                                     </ul>
                                 </AccordionContent>
                             </AccordionItem>
-                            <AccordionItem value="Resources" className="border-b border-yellow-200">
-                                <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
-                                    <BookOpen className="w-8 h-8" />
-                                    Resources
+                            <AccordionItem value="Resources" className="border-b-0">
+                                <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
+                                    <div className="flex items-center gap-4">
+                                        <BookOpen className="w-8 h-8" />
+                                        Resources
+                                    </div>
                                 </AccordionTrigger>
                                 <AccordionContent className="pl-16">
                                     <ul className="space-y-4">
