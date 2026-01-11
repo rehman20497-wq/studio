@@ -20,6 +20,10 @@ import {
   BookOpen,
   Newspaper,
   MessageCircleQuestion,
+  Cloud,
+  Wifi,
+  Cpu,
+  Zap
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionItem } from "@/components/ui/accordion";
@@ -28,7 +32,7 @@ import Link from "next/link";
 
 
 const HugoLogo = ({ className } : {className?: string}) => (
-  <Image src="/log.png" alt="Hugo Logo" width={80} height={28} className={className} />
+  <Image src="/log.png" alt="Hugo Logo" width={160} height={160} className={className} />
 );
 
 const CloseIcon = ({ className }: { className?: string }) => (
@@ -41,9 +45,28 @@ const CloseIcon = ({ className }: { className?: string }) => (
 
 const solutions = [
     {
-      icon: Building,
-      title: "All Providers",
-      href: "/providers",
+      title: "Cloud Solutions",
+      href: "/providers?solution=cloud-solutions",
+      icon: Cloud,
+      description: "Scalable and secure cloud infrastructure."
+    },
+    {
+      title: "Communications",
+      href: "/providers?solution=communications",
+      icon: Wifi,
+      description: "Seamless, high-quality communication platforms."
+    },
+    {
+      title: "AI Solutions",
+      href: "/providers?solution=ai-solutions",
+      icon: Cpu,
+      description: "Harnessing the power of Artificial Intelligence."
+    },
+    {
+      title: "Connectivity",
+      href: "/providers?solution=connectivity",
+      icon: Zap,
+      description: "Fast, stable, and secure connectivity."
     },
 ];
 const company = [
@@ -52,7 +75,7 @@ const company = [
 ];
 const resources = [
     { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
-    { title: "FAQs", href: "/faq", icon: '/faq.svg', isImage: true },
+    { title: "FAQs", href: "/faq", icon: '/faq.png', isImage: true },
 ];
 
 const mobileNavItems = [
@@ -61,7 +84,7 @@ const mobileNavItems = [
     { title: "About", href: "/about", icon: Building, isImage: false },
     { title: "Careers", href: "/careers", icon: Briefcase, isImage: false },
     { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
-    { title: "FAQs", href: "/faq", icon: '/faq.svg', isImage: true },
+    { title: "FAQs", href: "/faq", icon: '/faq.png', isImage: true },
 ]
 
 export default function Header() {
@@ -86,10 +109,10 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center">
           {isMounted && (
             <NavigationMenu>
-              <NavigationMenuList>
+              <NavigationMenuList className="group">
                 <NavigationMenuItem className="group">
                   <Link href="/" passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
@@ -100,19 +123,22 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="relative w-[250px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
-                      <ul className="flex flex-col gap-1">
+                    <div className="relative w-[550px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
+                      <ul className="grid grid-cols-2 gap-4">
                         {solutions.map((item) => (
                           <li key={item.title}>
                             <NavigationMenuLink asChild>
                               <a
                                 href={item.href}
-                                className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50"
+                                className="flex flex-col justify-center p-4 rounded-md hover:bg-yellow-100/50 h-full"
                               >
-                                {item.icon && React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })}
-                                <span className="font-medium text-sm">
-                                  {item.title}
-                                </span>
+                                <div className="flex items-center gap-3">
+                                  {item.icon && React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })}
+                                  <span className="font-medium text-sm">
+                                    {item.title}
+                                  </span>
+                                </div>
+                                <p className="text-sm text-zinc-500 mt-1 ml-8">{item.description}</p>
                               </a>
                             </NavigationMenuLink>
                           </li>
@@ -120,6 +146,13 @@ export default function Header() {
                       </ul>
                     </div>
                   </NavigationMenuContent>
+                </NavigationMenuItem>
+                 <NavigationMenuItem className="group">
+                  <Link href="/providers" passHref>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                      Providers
+                    </NavigationMenuLink>
+                  </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Company</NavigationMenuTrigger>
@@ -167,8 +200,8 @@ export default function Header() {
             </NavigationMenu>
           )}
         </div>
-        <div className="hidden md:block group-hover:blur-sm transition-all duration-300 hover:!blur-none">
-            <Button asChild className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6">
+        <div className="hidden md:block">
+            <Button asChild className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6 group-hover:blur-sm transition-all duration-300 hover:!blur-none">
                 <Link href="/contact">Get Started</Link>
             </Button>
         </div>
