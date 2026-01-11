@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import Image from "next/image";
 
 
 const ListItem = React.forwardRef<
@@ -90,15 +91,6 @@ const HugoLogo = ({ className } : {className?: string}) => (
       fill="currentColor"
     />
   </svg>
-);
-
-const HamburgerIcon = ({ className }: { className?: string }) => (
-    <svg className={className} width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="50" cy="50" r="50" fill="black"/>
-      <path d="M30 40H70" stroke="white" strokeWidth="5" strokeLinecap="round" strokeDasharray="40" style={{ pathLength: 40, strokeDashoffset: '0px' }} />
-      <path d="M30 50H70" stroke="white" strokeWidth="5" strokeLinecap="round" strokeDasharray="40" style={{ pathLength: 40, strokeDashoffset: '0px' }} />
-      <path d="M30 60H70" stroke="white" strokeWidth="5" strokeLinecap="round" strokeDasharray="40" style={{ pathLength: 40, strokeDashoffset: '0px' }} />
-    </svg>
 );
 
 const CloseIcon = ({ className }: { className?: string }) => (
@@ -325,7 +317,7 @@ export default function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent h-auto w-auto">
-                <HamburgerIcon className="w-10 h-10"/>
+                <Image src="/ham.gif" alt="menu" width={40} height={40} unoptimized />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
