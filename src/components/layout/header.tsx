@@ -9,17 +9,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  ChevronRight,
-  CircuitBoard,
-  Cpu,
-  LayoutGrid,
-  ShieldCheck,
-  Wifi,
   ChevronDown,
   BookOpen,
   Briefcase,
@@ -32,32 +25,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Image from "next/image";
 import Link from "next/link";
 
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-stone-100 focus:bg-stone-100",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-stone-500">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";
 
 const HugoLogo = ({ className } : {className?: string}) => (
   <Image src="/log.png" alt="Hugo Logo" width={80} height={28} className={className} />
@@ -89,9 +56,9 @@ const resources = [
 ];
 
 const mobileNavItems = [
-    { title: "Solutions", items: solutions },
-    { title: "Company", items: company },
-    { title: "Resources", items: resources },
+    { title: "Solutions", items: solutions, href: null },
+    { title: "Company", items: company, href: null },
+    { title: "Resources", items: resources, href: null },
 ]
 
 export default function Header() {
@@ -111,9 +78,9 @@ export default function Header() {
         .
       </div>
       <div className="w-full px-[4%] flex items-center justify-between py-4">
-        <a href="/" aria-label="Hugo logo" className="text-[#F5D34A]">
+        <Link href="/" aria-label="Hugo logo">
           <HugoLogo />
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-10">
@@ -204,9 +171,9 @@ export default function Header() {
             <SheetContent side="top" className="p-0 bg-transparent border-none">
                 <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
                 <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
-                    <a href="/" aria-label="Hugo logo" className="text-black">
+                    <Link href="/" aria-label="Hugo logo">
                         <HugoLogo />
-                    </a>
+                    </Link>
                     <SheetClose asChild>
                         <button className="h-10 w-10">
                             <CloseIcon className="w-10 h-10" />
@@ -228,14 +195,17 @@ export default function Header() {
                                             <ul className="space-y-3 mt-2">
                                                 {item.items.map(subItem => (
                                                     <li key={subItem.title}>
-                                                        <a href={subItem.href} className="text-xl text-zinc-700 hover:underline">{subItem.title}</a>
+                                                        <Link href={subItem.href} className="text-xl text-zinc-700 hover:underline flex items-center gap-2">
+                                                            <subItem.icon className="w-5 h-5" />
+                                                            {subItem.title}
+                                                        </Link>
                                                     </li>
                                                 ))}
                                             </ul>
                                         </AccordionContent>
                                     </AccordionItem>
                                 ) : (
-                                    <a href={'#'} className="text-3xl block w-full py-2">{item.title}</a>
+                                    <a href={item.href || '#'} className="text-3xl block w-full py-2">{item.title}</a>
                                 )}
                             </div>
                         ))}
