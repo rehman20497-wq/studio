@@ -93,7 +93,7 @@ const HugoLogo = ({ className } : {className?: string}) => (
 );
 
 const HamburgerIcon = () => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="80" height="80" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="20" cy="20" r="20" fill="black"/>
     <rect x="10" y="14" width="20" height="2.5" rx="1.25" fill="white"/>
     <rect x="10" y="19" width="20" height="2.5" rx="1.25" fill="white"/>
@@ -102,7 +102,7 @@ const HamburgerIcon = () => (
 );
 
 const CloseIcon = () => (
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="80" height="80" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="20" cy="20" r="20" fill="black"/>
         <path d="M13 13L27 27" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
         <path d="M27 13L13 27" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
