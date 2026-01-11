@@ -17,6 +17,9 @@ import {
   Home,
   Building,
   Briefcase,
+  BookOpen,
+  Newspaper,
+  MessageCircleQuestion,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionItem } from "@/components/ui/accordion";
@@ -41,12 +44,11 @@ const solutions = [
       icon: Building,
       title: "All Providers",
       href: "/providers",
-      isImage: false,
     },
 ];
 const company = [
-  { title: "About", href: "/about", icon: Building, isImage: false },
-  { title: "Careers", href: "/careers", icon: Briefcase, isImage: false },
+  { title: "About", href: "/about", icon: Building },
+  { title: "Careers", href: "/careers", icon: Briefcase },
 ];
 const resources = [
     { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
@@ -78,7 +80,7 @@ export default function Header() {
         </a>
         .
       </div>
-      <div className="w-full px-[4%] flex items-center justify-between py-4 group">
+      <div className="w-full px-[4%] flex items-center justify-between py-4">
         <Link href="/" aria-label="Hugo logo">
           <HugoLogo />
         </Link>
@@ -89,7 +91,7 @@ export default function Header() {
             <NavigationMenu>
               <NavigationMenuList className="group">
                 <NavigationMenuItem className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">
-                  <Link href="/" legacyBehavior passHref>
+                  <Link href="/" passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                       Home
                     </NavigationMenuLink>
@@ -107,11 +109,7 @@ export default function Header() {
                                 href={item.href}
                                 className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50"
                               >
-                                {item.isImage ? (
-                                    <Image src={item.icon as string} alt={`${item.title} icon`} width={20} height={20} className="text-zinc-600" />
-                                  ) : (
-                                    React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })
-                                  )}
+                                {item.icon && React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })}
                                 <span className="font-medium text-sm">
                                   {item.title}
                                 </span>
@@ -132,11 +130,7 @@ export default function Header() {
                            <li key={item.title}>
                              <NavigationMenuLink asChild>
                                <a href={item.href} className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50">
-                                 {item.isImage ? (
-                                    <Image src={item.icon as string} alt={`${item.title} icon`} width={20} height={20} className="text-zinc-600" />
-                                  ) : (
-                                    React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })
-                                  )}
+                                 {item.icon && React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })}
                                  <span className="font-medium text-sm">{item.title}</span>
                                </a>
                              </NavigationMenuLink>
@@ -158,7 +152,7 @@ export default function Header() {
                                   {item.isImage ? (
                                     <Image src={item.icon as string} alt={`${item.title} icon`} width={20} height={20} className="text-zinc-600" />
                                   ) : (
-                                    React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })
+                                    item.icon && React.createElement(item.icon as React.ElementType, { className: "w-5 h-5 text-zinc-600" })
                                   )}
                                  <span className="font-medium text-sm">{item.title}</span>
                                </a>
@@ -209,7 +203,7 @@ export default function Header() {
                                     {item.isImage ? (
                                       <Image src={item.icon as string} alt={`${item.title} icon`} width={32} height={32} />
                                     ) : (
-                                      React.createElement(item.icon, { className: "w-8 h-8" })
+                                      item.icon && React.createElement(item.icon as React.ElementType, { className: "w-8 h-8" })
                                     )}
                                     {item.title}
                                 </Link>
