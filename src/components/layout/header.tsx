@@ -38,7 +38,6 @@ const CloseIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
-
 const solutions = [
     {
       icon: Building,
@@ -184,16 +183,16 @@ export default function Header() {
                     </SheetClose>
                 </div>
                 <div className="bg-[#FEF9F2] px-6 pt-8 h-[calc(100vh-90px)] flex flex-col">
-                    <ul className="w-full flex-grow">
-                        {mobileNavItems.map(item => (
-                            <li key={item.title} className="border-b border-yellow-200 py-3">
-                                <Link href={item.href} className="text-3xl hover:no-underline font-normal py-2 flex items-center gap-4">
+                     <Accordion type="multiple" className="w-full flex-grow">
+                         {mobileNavItems.map(item => (
+                            <AccordionItem value={item.title} key={item.title} className="border-b border-yellow-200">
+                                <Link href={item.href} className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
                                     <item.icon className="w-8 h-8" />
                                     {item.title}
                                 </Link>
-                            </li>
+                            </AccordionItem>
                         ))}
-                    </ul>
+                    </Accordion>
 
                     <div className="relative -mx-6 mt-auto">
                         <div className="bg-[#F5D34A] rounded-t-[40px] pt-12 pb-8 px-6 text-center">
