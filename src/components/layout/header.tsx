@@ -26,7 +26,7 @@ import {
   Zap
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
-import { Accordion, AccordionItem } from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -77,15 +77,6 @@ const resources = [
     { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
     { title: "FAQs", href: "/faq", icon: '/faq.png', isImage: true },
 ];
-
-const mobileNavItems = [
-    { title: "Home", href: "/", icon: Home, isImage: false },
-    { title: "Providers", href: "/providers", icon: Building, isImage: false },
-    { title: "About", href: "/about", icon: Building, isImage: false },
-    { title: "Careers", href: "/careers", icon: Briefcase, isImage: false },
-    { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
-    { title: "FAQs", href: "/faq", icon: '/faq.png', isImage: true },
-]
 
 export default function Header() {
   const [isMounted, setIsMounted] = useState(false);
@@ -157,7 +148,7 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[325px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {company.map((item) => (
                            <li key={item.title}>
@@ -176,7 +167,7 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[325px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {resources.map((item) => (
                            <li key={item.title}>
@@ -211,7 +202,7 @@ export default function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent h-auto w-auto">
-                <Image src="/ham.gif" alt="menu" width={65} height={65} unoptimized />
+                <Image src="/ham.svg" alt="menu" width={65} height={65} unoptimized />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
@@ -219,7 +210,7 @@ export default function Header() {
                 <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
                 <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
                     <Link href="/">
-                        <HugoLogo />
+                        <Image src="/mob.png" alt="Telesys Logo" width={120} height={30} className="h-auto" />
                     </Link>
                     <SheetClose asChild>
                         <button className="h-10 w-10">
@@ -229,19 +220,64 @@ export default function Header() {
                     </SheetClose>
                 </div>
                 <div className="bg-[#FEF9F2] px-6 pt-8 h-[calc(100vh-90px)] flex flex-col">
-                     <Accordion type="multiple" className="w-full flex-grow">
-                         {mobileNavItems.map(item => (
-                            <AccordionItem value={item.title} key={item.title} className="border-b border-yellow-200">
-                                <Link href={item.href} className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
-                                    {item.isImage ? (
-                                      <Image src={item.icon as string} alt={`${item.title} icon`} width={32} height={32} />
-                                    ) : (
-                                      item.icon && React.createElement(item.icon as React.ElementType, { className: "w-8 h-8" })
-                                    )}
-                                    {item.title}
-                                </Link>
-                            </AccordionItem>
-                        ))}
+                     <Accordion type="multiple" className="w-full flex-grow overflow-y-auto">
+                        <AccordionItem value="Home" className="border-b border-yellow-200">
+                             <Link href="/" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
+                                <Home className="w-8 h-8" />
+                                Home
+                            </Link>
+                        </AccordionItem>
+                        <AccordionItem value="Solutions">
+                            <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
+                                <Zap className="w-8 h-8" />
+                                Solutions
+                            </AccordionTrigger>
+                            <AccordionContent className="pl-16">
+                                <ul className="space-y-4">
+                                    {solutions.map(item => (
+                                        <li key={item.title}>
+                                            <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </AccordionContent>
+                        </AccordionItem>
+                         <AccordionItem value="Providers" className="border-b border-yellow-200">
+                             <Link href="/providers" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
+                                <Building className="w-8 h-8" />
+                                Providers
+                            </Link>
+                        </AccordionItem>
+                         <AccordionItem value="Company">
+                            <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
+                                <Building className="w-8 h-8" />
+                                Company
+                            </AccordionTrigger>
+                            <AccordionContent className="pl-16">
+                                <ul className="space-y-4">
+                                    {company.map(item => (
+                                        <li key={item.title}>
+                                            <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </AccordionContent>
+                        </AccordionItem>
+                         <AccordionItem value="Resources">
+                            <AccordionTrigger className="flex items-center gap-4 w-full py-4 text-3xl font-normal hover:no-underline">
+                                <BookOpen className="w-8 h-8" />
+                                Resources
+                            </AccordionTrigger>
+                            <AccordionContent className="pl-16">
+                                <ul className="space-y-4">
+                                    {resources.map(item => (
+                                        <li key={item.title}>
+                                            <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </AccordionContent>
+                        </AccordionItem>
                     </Accordion>
 
                     <div className="relative -mx-6 mt-auto">
