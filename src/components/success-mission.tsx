@@ -207,15 +207,23 @@ const SuccessMission = () => {
                         <motion.div variants={itemVariants} className="relative w-full max-w-sm h-48 mx-auto -mt-4">
                             <div className="absolute inset-0 w-full h-full z-0">
                               <svg className='w-full h-full' viewBox="0 0 400 200">
-                                  <path
-                                  d="M10 170 C 100 20, 300 20, 390 170"
-                                  fill="none"
-                                  stroke="black"
-                                  strokeWidth="4"
-                                  strokeDasharray="10 10"
-                                  strokeLinecap="round"
-                                  className="animate-marching-ants"
-                                  />
+                              <path
+  d="M10 170 C 100 20, 300 20, 390 170"
+  fill="none"
+  stroke="black"
+  strokeWidth="4"
+  strokeDasharray="10 10"
+  strokeLinecap="round"
+>
+  <animate
+    attributeName="stroke-dashoffset"
+    from="0"
+    to="-20"        /* positive value = reverse */
+    dur="1s"
+    repeatCount="indefinite"
+  />
+</path>
+
                               </svg>
                             </div>
                             <div className="absolute z-10" style={{ top: '110px', left: '-30px' }}>

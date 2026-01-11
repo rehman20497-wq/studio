@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, useInView } from "framer-motion";
@@ -44,7 +45,7 @@ export default function SurgeProtectSection() {
           <path d="M0,0 C50,100 50,100 100,0 Z" fill="white" />
         </svg>
         
-        <div className="py-[10%]">
+        <div className="py-[10%] pt-[10%] md:py-[10%]">
         <Image
   src="/surge.png"
   alt="Surge Protect Scale"

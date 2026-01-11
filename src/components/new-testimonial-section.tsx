@@ -177,9 +177,10 @@ export default function NewTestimonialSection() {
                         <div className="absolute -left-8 -top-4 hidden md:block">
                         <QuoteIcon />
                         </div>
-                        <p className="text-xl text-zinc-800 leading-relaxed h-24">
-                        {currentTestimonial.text}
-                        </p>
+                        <p className="text-xl text-zinc-800 leading-relaxed">
+  {currentTestimonial.text}
+</p>
+                        
                         <div className="absolute -right-8 -bottom-4 transform scale-y-[-1] scale-x-[-1] hidden md:block">
                         <QuoteIcon />
                         </div>
@@ -196,8 +197,8 @@ export default function NewTestimonialSection() {
         </div>
       </motion.div>
       <motion.div
-        className="max-w-2xl mx-auto mt-12"
-        initial={{ opacity: 0 }}
+className="max-w-2xl mx-auto mt-12 md:mt-4"
+initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ delay: 1, duration: 0.5 }}
       >
