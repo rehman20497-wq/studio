@@ -56,9 +56,9 @@ const resources = [
 ];
 
 const mobileNavItems = [
-    { title: "Solutions", items: solutions, href: null },
-    { title: "Company", items: company, href: null },
-    { title: "Resources", items: resources, href: null },
+    { title: "Solutions", items: solutions },
+    { title: "Company", items: company },
+    { title: "Resources", items: resources },
 ]
 
 export default function Header() {
@@ -185,28 +185,24 @@ export default function Header() {
                     <Accordion type="single" collapsible className="w-full flex-grow">
                         {mobileNavItems.map(item => (
                             <div key={item.title} className="border-b border-yellow-200 py-3">
-                                {item.items ? (
-                                    <AccordionItem value={item.title!} className="border-none">
-                                        <AccordionTrigger className="text-3xl hover:no-underline font-normal py-2">
-                                            {item.title}
-                                            <ChevronDown className="h-8 w-8 shrink-0 transition-transform duration-200 text-black/80" />
-                                        </AccordionTrigger>
-                                        <AccordionContent className="pl-4 pb-2">
-                                            <ul className="space-y-3 mt-2">
-                                                {item.items.map(subItem => (
-                                                    <li key={subItem.title}>
-                                                        <Link href={subItem.href} className="text-xl text-zinc-700 hover:underline flex items-center gap-2">
-                                                            <subItem.icon className="w-5 h-5" />
-                                                            {subItem.title}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                ) : (
-                                    <a href={item.href || '#'} className="text-3xl block w-full py-2">{item.title}</a>
-                                )}
+                                <AccordionItem value={item.title!} className="border-none">
+                                    <AccordionTrigger className="text-3xl hover:no-underline font-normal py-2">
+                                        {item.title}
+                                        <ChevronDown className="h-8 w-8 shrink-0 transition-transform duration-200 text-black/80" />
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pl-4 pb-2">
+                                        <ul className="space-y-3 mt-2">
+                                            {item.items.map(subItem => (
+                                                <li key={subItem.title}>
+                                                    <Link href={subItem.href} className="text-xl text-zinc-700 hover:underline flex items-center gap-2">
+                                                        <subItem.icon className="w-5 h-5" />
+                                                        {subItem.title}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </AccordionContent>
+                                </AccordionItem>
                             </div>
                         ))}
                     </Accordion>
