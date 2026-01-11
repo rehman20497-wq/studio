@@ -60,43 +60,7 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem";
 
 const HugoLogo = ({ className } : {className?: string}) => (
-  <svg
-    width="80"
-    height="28"
-    viewBox="0 0 80 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
-    <path
-      d="M13.674 19.5742V8.56641H8.71074V19.5742H13.674Z"
-      fill="currentColor"
-    />
-    <path
-      d="M21.5796 19.5742V8.56641H16.6164V19.5742H21.5796Z"
-      fill="currentColor"
-    />
-    <path
-      d="M29.5891 19.5742V8.56641H24.6259V19.5742H29.5891Z"
-      fill="currentColor"
-    />
-    <path
-      d="M37.5458 19.5742V8.56641H32.5826V19.5742H37.5458Z"
-      fill="currentColor"
-    />
-    <path
-      d="M48.2434 23.3672C43.9113 23.3672 41.5173 20.3164 40.3541 15.5234H56.033C55.9804 15.1445 55.7173 12.8359 55.7173 12.7832C55.0854 9.67969 52.3217 6.68164 48.2434 6.68164C42.4831 6.68164 38.8985 11.2617 38.8985 15.0273C38.8985 18.793 42.4831 23.3672 48.2434 23.3672ZM48.2434 8.51367C50.6901 8.51367 52.4266 10.1992 53.0585 12.4551H43.4284C44.0604 10.1992 45.797 8.51367 48.2434 8.51367Z"
-      fill="currentColor"
-    />
-    <path
-      d="M59.1831 19.5742V8.56641H54.2199V19.5742H59.1831Z"
-      fill="currentColor"
-    />
-    <path
-      d="M62.3387 14.0703C62.3387 9.87109 64.9754 6.68164 69.3075 6.68164C73.6396 6.68164 76.2763 9.87109 76.2763 14.0703C76.2763 18.2695 73.6396 21.459 69.3075 21.459C64.9754 21.459 62.3387 18.2695 62.3387 14.0703ZM71.3134 14.0703C71.3134 11.2617 70.3026 8.56641 69.3075 8.56641C68.3124 8.56641 67.3016 11.2617 67.3016 14.0703C67.3016 16.8789 68.3124 19.5742 69.3075 19.5742C70.3026 19.5742 71.3134 16.8789 71.3134 14.0703Z"
-      fill="currentColor"
-    />
-  </svg>
+  <Image src="/log.png" alt="Hugo Logo" width={80} height={28} className={className} />
 );
 
 const CloseIcon = ({ className }: { className?: string }) => (
@@ -110,37 +74,10 @@ const CloseIcon = ({ className }: { className?: string }) => (
 
 const solutions = [
   {
-    icon: Wifi,
-    title: "Customer Support",
-    href: "/providers?solution=communications",
-  },
-  {
-    icon: LayoutGrid,
-    title: "Digital Operations",
-    href: "/providers?solution=connectivity",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Trust & Safety",
-    href: "/providers?solution=ai",
-  },
-  {
-    icon: CircuitBoard,
-    title: "Data & AI",
-    href: "/providers?solution=cloud",
-  },
-  {
     icon: Building,
     title: "All Providers",
     href: "/providers",
   },
-];
-const industries = [
-  { title: "eCommerce", href: "#" },
-  { title: "Fintech", href: "#" },
-  { title: "Healthcare", href: "#" },
-  { title: "Marketplace", href: "#" },
-  { title: "SaaS", href: "#" },
 ];
 const company = [
   { title: "About Us", href: "/about", icon: Building },
@@ -149,14 +86,10 @@ const company = [
 const resources = [
     { title: "Articles", href: "/blogs", icon: Newspaper },
     { title: "FAQs", href: "/faq", icon: MessageSquareQuestion },
-    { title: "Case Studies", href: "#", icon: BookOpen },
 ];
 
 const mobileNavItems = [
     { title: "Solutions", items: solutions },
-    { title: "Industries", items: industries },
-    { title: "Our Agents", href: "#" },
-    { title: "Pricing", href: "#" },
     { title: "Company", items: company },
     { title: "Resources", items: resources },
 ]
@@ -210,39 +143,6 @@ export default function Header() {
                       </ul>
                     </div>
                   </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>Industries</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
-                      <ul className="space-y-1">
-                        {industries.map((item) => (
-                          <ListItem
-                            key={item.title}
-                            title={item.title}
-                            href={item.href}
-                            className="hover:bg-yellow-100/50"
-                          />
-                        ))}
-                      </ul>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    className={navigationMenuTriggerStyle()}
-                    href="#"
-                  >
-                    Our Agents
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    className={navigationMenuTriggerStyle()}
-                    href="#"
-                  >
-                    Pricing
-                  </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Company</NavigationMenuTrigger>
@@ -317,7 +217,7 @@ export default function Header() {
                 <div className="bg-[#FEF9F2] px-6 pt-8 h-[calc(100vh-90px)] flex flex-col">
                     <Accordion type="single" collapsible className="w-full flex-grow">
                         {mobileNavItems.map(item => (
-                            <div key={item.title || item.href} className="border-b border-yellow-200 py-3">
+                            <div key={item.title} className="border-b border-yellow-200 py-3">
                                 {item.items ? (
                                     <AccordionItem value={item.title!} className="border-none">
                                         <AccordionTrigger className="text-3xl hover:no-underline font-normal py-2">
@@ -335,7 +235,7 @@ export default function Header() {
                                         </AccordionContent>
                                     </AccordionItem>
                                 ) : (
-                                    <a href={item.href} className="text-3xl block w-full py-2">{item.title}</a>
+                                    <a href={'#'} className="text-3xl block w-full py-2">{item.title}</a>
                                 )}
                             </div>
                         ))}
