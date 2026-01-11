@@ -32,7 +32,7 @@ import Link from "next/link";
 
 
 const HugoLogo = ({ className } : {className?: string}) => (
-  <Image src="/log.jpg" alt="Hugo Logo" width={160} height={160} className={className} />
+  <Image src="/tele.png" alt="Telesys Logo" width={160} height={40} className={cn("h-auto", className)} />
 );
 
 const CloseIcon = ({ className }: { className?: string }) => (
@@ -115,8 +115,8 @@ export default function Header() {
               <NavigationMenuList className="group">
                 <NavigationMenuItem className="group">
                   <Link href="/" passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
-                      Home
+                    <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                      <a>Home</a>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -149,8 +149,8 @@ export default function Header() {
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
                   <Link href="/providers" passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
-                     Providers
+                    <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                     <a>Providers</a>
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
