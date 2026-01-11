@@ -179,8 +179,8 @@ const SuccessMission = () => {
               </MagneticButton>
             </div>
           </motion.div>
-          <div className="flex justify-center items-center">
-            <div className="relative w-full max-w-[548px] h-auto aspect-square">
+          <div className="hidden lg:flex justify-center items-center">
+          <div className="relative w-full max-w-[548px] h-auto aspect-square">
               <motion.div
                 className="absolute w-[95%] h-[95%] bg-[#F5D34A] rounded-xl overflow-hidden"
                 style={{transformOrigin: 'top right', top: "-20px", right: "-20px"}}
@@ -264,6 +264,22 @@ const SuccessMission = () => {
 
             </div>
           </div>
+          {/* MOBILE & TABLET — IMAGE WITH FADE-IN (NEW) */}
+          <motion.div
+            className="flex lg:hidden justify-center items-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <Image
+              src="/new.png"
+              alt="Success mission illustration"
+              width={600}
+              height={600}
+              className="w-full max-w-sm object-contain"
+              priority
+            />
+          </motion.div>
         </motion.div>
       </div>
       <div className="absolute bottom-0 left-0 w-full h-24 bg-white">
