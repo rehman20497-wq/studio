@@ -31,7 +31,7 @@ const HugoLogo = ({ className } : {className?: string}) => (
 );
 
 const CloseIcon = ({ className }: { className?: string }) => (
-    <svg className={className} width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={className} width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" fill="black"/>
         <path d="M35 35L65 65" stroke="white" strokeWidth="5" strokeLinecap="round"/>
         <path d="M65 35L35 65" stroke="white" strokeWidth="5" strokeLinecap="round"/>
@@ -40,14 +40,14 @@ const CloseIcon = ({ className }: { className?: string }) => (
 
 
 const solutions = [
-  {
-    icon: Building,
-    title: "All Providers",
-    href: "/providers",
-  },
+    {
+      icon: Building,
+      title: "All Providers",
+      href: "/providers",
+    },
 ];
 const company = [
-  { title: "About Us", href: "/about", icon: Building },
+  { title: "About", href: "/about", icon: Building },
   { title: "Careers", href: "/careers", icon: Briefcase },
 ];
 const resources = [
@@ -56,9 +56,11 @@ const resources = [
 ];
 
 const mobileNavItems = [
-    { title: "Solutions", items: solutions },
-    { title: "Company", items: company },
-    { title: "Resources", items: resources },
+    { title: "Providers", href: "/providers", icon: Building },
+    { title: "About", href: "/about", icon: Building },
+    { title: "Careers", href: "/careers", icon: Briefcase },
+    { title: "Articles", href: "/blogs", icon: Newspaper },
+    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion },
 ]
 
 export default function Header() {
@@ -182,30 +184,16 @@ export default function Header() {
                     </SheetClose>
                 </div>
                 <div className="bg-[#FEF9F2] px-6 pt-8 h-[calc(100vh-90px)] flex flex-col">
-                    <Accordion type="single" collapsible className="w-full flex-grow">
+                    <ul className="w-full flex-grow">
                         {mobileNavItems.map(item => (
-                            <div key={item.title} className="border-b border-yellow-200 py-3">
-                                <AccordionItem value={item.title!} className="border-none">
-                                    <AccordionTrigger className="text-3xl hover:no-underline font-normal py-2">
-                                        {item.title}
-                                        <ChevronDown className="h-8 w-8 shrink-0 transition-transform duration-200 text-black/80" />
-                                    </AccordionTrigger>
-                                    <AccordionContent className="pl-4 pb-2">
-                                        <ul className="space-y-3 mt-2">
-                                            {item.items.map(subItem => (
-                                                <li key={subItem.title}>
-                                                    <Link href={subItem.href} className="text-xl text-zinc-700 hover:underline flex items-center gap-2">
-                                                        <subItem.icon className="w-5 h-5" />
-                                                        {subItem.title}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </div>
+                            <li key={item.title} className="border-b border-yellow-200 py-3">
+                                <Link href={item.href} className="text-3xl hover:no-underline font-normal py-2 flex items-center gap-4">
+                                    <item.icon className="w-8 h-8" />
+                                    {item.title}
+                                </Link>
+                            </li>
                         ))}
-                    </Accordion>
+                    </ul>
 
                     <div className="relative -mx-6 mt-auto">
                         <div className="bg-[#F5D34A] rounded-t-[40px] pt-12 pb-8 px-6 text-center">
