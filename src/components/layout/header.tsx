@@ -92,20 +92,20 @@ const HugoLogo = ({ className } : {className?: string}) => (
   </svg>
 );
 
-const HamburgerIcon = () => (
-  <svg width="80" height="80" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="20" cy="20" r="20" fill="black"/>
-    <rect x="10" y="14" width="20" height="2.5" rx="1.25" fill="white"/>
-    <rect x="10" y="19" width="20" height="2.5" rx="1.25" fill="white"/>
-    <rect x="10" y="24" width="20" height="2.5" rx="1.25" fill="white"/>
-  </svg>
+const HamburgerIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="50" fill="black"/>
+      <path d="M30 40H70" stroke="white" strokeWidth="5" strokeLinecap="round" strokeDasharray="40" style={{ pathLength: 40, strokeDashoffset: '0px' }} />
+      <path d="M30 50H70" stroke="white" strokeWidth="5" strokeLinecap="round" strokeDasharray="40" style={{ pathLength: 40, strokeDashoffset: '0px' }} />
+      <path d="M30 60H70" stroke="white" strokeWidth="5" strokeLinecap="round" strokeDasharray="40" style={{ pathLength: 40, strokeDashoffset: '0px' }} />
+    </svg>
 );
 
-const CloseIcon = () => (
-    <svg width="80" height="80" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" fill="black"/>
-        <path d="M13 13L27 27" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-        <path d="M27 13L13 27" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+const CloseIcon = ({ className }: { className?: string }) => (
+    <svg className={className} width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="50" fill="black"/>
+        <path d="M35 35L65 65" stroke="white" strokeWidth="5" strokeLinecap="round"/>
+        <path d="M65 35L35 65" stroke="white" strokeWidth="5" strokeLinecap="round"/>
     </svg>
 );
 
@@ -324,8 +324,8 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <HamburgerIcon />
+              <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent h-auto w-auto">
+                <HamburgerIcon className="w-10 h-10"/>
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
@@ -336,8 +336,8 @@ export default function Header() {
                         <HugoLogo />
                     </a>
                     <SheetClose asChild>
-                        <button>
-                            <CloseIcon />
+                        <button className="h-10 w-10">
+                            <CloseIcon className="w-10 h-10" />
                             <span className="sr-only">Close menu</span>
                         </button>
                     </SheetClose>
