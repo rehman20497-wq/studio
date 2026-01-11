@@ -21,10 +21,16 @@ import {
   ShieldCheck,
   Wifi,
   ChevronDown,
+  BookOpen,
+  Briefcase,
+  MessageSquareQuestion,
+  Newspaper,
+  Building,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
+import Link from "next/link";
 
 
 const ListItem = React.forwardRef<
@@ -106,43 +112,27 @@ const solutions = [
   {
     icon: Wifi,
     title: "Customer Support",
-    href: "#",
-    subItems: [
-        { name: "General Support", href: "#" },
-        { name: "Call Center Outsourcing", href: "#" },
-        { name: "Live Chat Support Outsourcing", href: "#" },
-        { name: "Email Support Outsourcing", href: "#" },
-      ],
+    href: "/providers?solution=communications",
   },
   {
     icon: LayoutGrid,
     title: "Digital Operations",
-    href: "#",
-    subItems: [
-        { name: "Back Office Support", href: "#" },
-        { name: "Data Entry", href: "#" },
-        { name: "E-commerce Support", href: "#" },
-      ],
+    href: "/providers?solution=connectivity",
   },
   {
     icon: ShieldCheck,
     title: "Trust & Safety",
-    href: "#",
-    subItems: [
-        { name: "Content Moderation", href: "#" },
-        { name: "Fraud Detection", href: "#" },
-        { name: "User Verification", href: "#" },
-      ],
+    href: "/providers?solution=ai",
   },
   {
     icon: CircuitBoard,
     title: "Data & AI",
-    href: "#",
-    subItems: [
-        { name: "Data Annotation", href: "#" },
-        { name: "AI Model Training", href: "#" },
-        { name: "Data Validation", href: "#" },
-      ],
+    href: "/providers?solution=cloud",
+  },
+  {
+    icon: Building,
+    title: "All Providers",
+    href: "/providers",
   },
 ];
 const industries = [
@@ -153,19 +143,17 @@ const industries = [
   { title: "SaaS", href: "#" },
 ];
 const company = [
-  { title: "About Us", href: "/about" },
-  { title: "Careers", href: "/careers" },
-  { title: "Blogs", href: "/blogs" },
+  { title: "About Us", href: "/about", icon: Building },
+  { title: "Careers", href: "/careers", icon: Briefcase },
 ];
 const resources = [
-  { title: "Case Studies", href: "#" },
-  { title: "Playbooks", href: "#" },
-  { title: "Guides", href: "#" },
-  { title: "FAQs", href: "/faq" },
+    { title: "Articles", href: "/blogs", icon: Newspaper },
+    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion },
+    { title: "Case Studies", href: "#", icon: BookOpen },
 ];
 
 const mobileNavItems = [
-    { title: "Solutions", items: solutions.map(s => ({ title: s.title, href: s.href })) },
+    { title: "Solutions", items: solutions },
     { title: "Industries", items: industries },
     { title: "Our Agents", href: "#" },
     { title: "Pricing", href: "#" },
@@ -184,7 +172,7 @@ export default function Header() {
     <header className="w-full bg-[#FCFBF8] text-zinc-900 font-body">
       <div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
         Hugo is hiring! Explore our positions and{" "}
-        <a href="#" className="underline hover:opacity-80">
+        <a href="/careers" className="underline hover:opacity-80">
           apply today
         </a>
         .
@@ -202,36 +190,24 @@ export default function Header() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="relative w-[500px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
-                      <div className="grid grid-cols-2 gap-4">
-                        <ul className="flex flex-col gap-2 border-r pr-4">
-                          {solutions.map((item) => (
-                            <li key={item.title}>
-                              <NavigationMenuLink asChild>
-                                <a
-                                  href={item.href}
-                                  className="flex items-center gap-3 p-2 rounded-md hover:bg-yellow-100/50"
-                                >
-                                  <item.icon className="w-5 h-5 text-zinc-600" />
-                                  <span className="font-medium text-sm">
-                                    {item.title}
-                                  </span>
-                                  <ChevronRight className="w-4 h-4 ml-auto text-zinc-500" />
-                                </a>
-                              </NavigationMenuLink>
-                            </li>
-                          ))}
-                        </ul>
-                        <ul className="flex flex-col gap-3 p-2">
-                            {solutions[0].subItems.map(item => (
-                                <li key={item.name}>
-                                    <a href={item.href} className="text-sm font-medium hover:underline">
-                                    {item.name}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                      </div>
+                    <div className="relative w-[250px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                      <ul className="flex flex-col gap-1">
+                        {solutions.map((item) => (
+                          <li key={item.title}>
+                            <NavigationMenuLink asChild>
+                              <a
+                                href={item.href}
+                                className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50"
+                              >
+                                <item.icon className="w-5 h-5 text-zinc-600" />
+                                <span className="font-medium text-sm">
+                                  {item.title}
+                                </span>
+                              </a>
+                            </NavigationMenuLink>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -271,15 +247,17 @@ export default function Header() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {company.map((item) => (
-                          <ListItem
-                            key={item.title}
-                            title={item.title}
-                            href={item.href}
-                             className="hover:bg-yellow-100/50"
-                          />
+                           <li key={item.title}>
+                             <NavigationMenuLink asChild>
+                               <a href={item.href} className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50">
+                                 <item.icon className="w-5 h-5 text-zinc-600" />
+                                 <span className="font-medium text-sm">{item.title}</span>
+                               </a>
+                             </NavigationMenuLink>
+                           </li>
                         ))}
                       </ul>
                     </div>
@@ -288,15 +266,17 @@ export default function Header() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {resources.map((item) => (
-                          <ListItem
-                            key={item.title}
-                            title={item.title}
-                            href={item.href}
-                             className="hover:bg-yellow-100/50"
-                          />
+                           <li key={item.title}>
+                             <NavigationMenuLink asChild>
+                               <a href={item.href} className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50">
+                                 <item.icon className="w-5 h-5 text-zinc-600" />
+                                 <span className="font-medium text-sm">{item.title}</span>
+                               </a>
+                             </NavigationMenuLink>
+                           </li>
                         ))}
                       </ul>
                     </div>
@@ -307,8 +287,8 @@ export default function Header() {
           )}
         </div>
         <div className="hidden md:block">
-            <Button className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6">
-                Get Started
+            <Button asChild className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6">
+                <Link href="/contact">Get Started</Link>
             </Button>
         </div>
 
@@ -317,7 +297,7 @@ export default function Header() {
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent h-auto w-auto">
-                <Image src="/ham.gif" alt="menu" width={40} height={40} unoptimized />
+                <Image src="/ham.gif" alt="menu" width={65} height={65} unoptimized />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
@@ -367,8 +347,8 @@ export default function Header() {
                              <div className="relative inline-block my-2">
                                 <span className="absolute inset-x-0 bottom-0 h-1.5 bg-black"></span>
                             </div>
-                            <Button className="rounded-full bg-black text-white hover:bg-zinc-800 px-8 py-6 text-lg mt-4 w-full">
-                                Get Started
+                            <Button asChild className="rounded-full bg-black text-white hover:bg-zinc-800 px-8 py-6 text-lg mt-4 w-full">
+                                <Link href="/contact">Get Started</Link>
                             </Button>
                         </div>
                     </div>
