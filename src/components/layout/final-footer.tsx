@@ -56,70 +56,11 @@ const SocialIcon = ({ href, icon: Icon }: { href: string, icon: React.ElementTyp
 )
 
 const solutions = [
-    {
-      name: "Customer Support",
-      submenu: [
-        { name: "General Support", href: "#" },
-        { name: "Call Center Outsourcing", href: "#" },
-        { name: "Live Chat Support Outsourcing", href: "#" },
-        { name: "Email Support Outsourcing", href: "#" },
-      ],
-    },
-    {
-      name: "Digital Operations",
-       submenu: [
-        { name: "Back Office Support", href: "#" },
-        { name: "Data Entry", href: "#" },
-        { name: "E-commerce Support", href: "#" },
-      ],
-    },
-    {
-      name: "Trust & Safety",
-      submenu: [
-        { name: "Content Moderation", href: "#" },
-        { name: "Fraud Detection", href: "#" },
-        { name: "User Verification", href: "#" },
-      ],
-    },
-    {
-      name: "Data & AI",
-       submenu: [
-        { name: "Data Annotation", href: "#" },
-        { name: "AI Model Training", href: "#" },
-        { name: "Data Validation", href: "#" },
-      ],
-    },
+    { name: "Cloud Solutions", href: "/providers?solution=cloud-solutions" },
+    { name: "Communications", href: "/providers?solution=communications" },
+    { name: "AI Solutions", href: "/providers?solution=ai-solutions" },
+    { name: "Connectivity", href: "/providers?solution=connectivity" },
   ];
-
-const HoverPopover = ({
-    trigger,
-    children
-}: {
-    trigger: React.ReactNode,
-    children: React.ReactNode
-}) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-            <PopoverTrigger asChild>
-                <div onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-                    {trigger}
-                </div>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-64 bg-white p-4 rounded-lg shadow-lg border-4"
-              style={{ borderColor: 'rgba(245, 211, 74, 0.7)' }}
-              onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}
-              side="right"
-              align="start"
-              sideOffset={-40}
-            >
-                {children}
-            </PopoverContent>
-        </Popover>
-    );
-};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -202,28 +143,10 @@ export default function FinalFooter() {
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Solutions</h3>
                 <ul className="space-y-3 text-zinc-700">
                     {solutions.map((solution) => (
-                        <li key={solution.name}>
-                            {solution.submenu ? (
-                                <HoverPopover
-                                    trigger={
-                                        <Link href="#" className="hover:underline flex items-center text-base">
-                                            {solution.name} <ChevronRight className="w-4 h-4 ml-1" />
-                                        </Link>
-                                    }
-                                >
-                                    <ul className="space-y-3">
-                                        {solution.submenu.map(item => (
-                                            <li key={item.name}>
-                                                <Link href={item.href} className="hover:underline text-base">{item.name}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </HoverPopover>
-                            ) : (
-                                <Link href={'#'} className="hover:underline flex items-center text-base">
-                                    {solution.name} <ChevronRight className="w-4 h-4 ml-1" />
-                                </Link>
-                            )}
+                        <li key={solution.name} className="group">
+                           <Link href={solution.href} className="text-base">
+                                <span className="underline-draw">{solution.name}</span>
+                            </Link>
                         </li>
                     ))}
                 </ul>
@@ -231,16 +154,16 @@ export default function FinalFooter() {
             <motion.div variants={slideFromBottom}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Company</h3>
                 <ul className="space-y-3 text-zinc-700">
-                    <li><Link href="/about" className="hover:underline text-base">About</Link></li>
-                    <li><Link href="/careers" className="hover:underline text-base">Careers</Link></li>
-                    <li><Link href="/contact" className="hover:underline text-base">Contact</Link></li>
+                    <li className="group"><Link href="/about" className="text-base"><span className="underline-draw">About</span></Link></li>
+                    <li className="group"><Link href="/careers" className="text-base"><span className="underline-draw">Careers</span></Link></li>
+                    <li className="group"><Link href="/contact" className="text-base"><span className="underline-draw">Contact</span></Link></li>
                 </ul>
             </motion.div>
             <motion.div variants={slideFromTop}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Resources</h3>
                 <ul className="space-y-3 text-zinc-700">
-                    <li><Link href="#" className="hover:underline text-base">Resources</Link></li>
-                    <li><Link href="/faq" className="hover:underline text-base">FAQs</Link></li>
+                    <li className="group"><Link href="/blogs" className="text-base"><span className="underline-draw">Resources</span></Link></li>
+                    <li className="group"><Link href="/faq" className="text-base"><span className="underline-draw">FAQs</span></Link></li>
                 </ul>
             </motion.div>
             <motion.div variants={slideFromBottom}>
@@ -276,9 +199,9 @@ export default function FinalFooter() {
                  <motion.div variants={imageItemVariant}>
                     <Image src="/l3.png" alt="AICPA SOC" width={90} height={90} data-ai-hint="certification logo" />
                 </motion.div>
-                <motion.div className="flex flex-col sm:flex-row gap-4" variants={slideFromBottom}>
-                    <Link href="/privacy-policy" className="text-zinc-600 hover:underline text-sm">Privacy Policy</Link>
-                    <Link href="/terms-and-conditions" className="text-zinc-600 hover:underline text-sm">Terms & Conditions</Link>
+                <motion.div className="flex flex-col sm:flex-row gap-4 group" variants={slideFromBottom}>
+                    <Link href="/privacy-policy" className="text-zinc-600 text-sm"><span className="underline-draw">Privacy Policy</span></Link>
+                    <Link href="/terms-and-conditions" className="text-zinc-600 text-sm"><span className="underline-draw">Terms & Conditions</span></Link>
                 </motion.div>
             </motion.div>
         </motion.div>

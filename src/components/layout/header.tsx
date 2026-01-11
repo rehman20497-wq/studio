@@ -32,7 +32,7 @@ import Link from "next/link";
 
 
 const HugoLogo = ({ className } : {className?: string}) => (
-  <Image src="/log.png" alt="Hugo Logo" width={160} height={160} className={className} />
+  <Image src="/log.jpg" alt="Hugo Logo" width={160} height={160} className={className} />
 );
 
 const CloseIcon = ({ className }: { className?: string }) => (
@@ -95,8 +95,8 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full bg-[#FCFBF8] text-zinc-900 font-body">
-      <div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
+<header className="relative z-50 w-full bg-[#FCFBF8] text-zinc-900 font-body">
+<div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
         Hugo is hiring! Explore our positions and{" "}
         <a href="/careers" className="underline hover:opacity-80">
           apply today
@@ -123,7 +123,7 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="relative w-[550px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
+                    <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
                       <ul className="grid grid-cols-2 gap-4">
                         {solutions.map((item) => (
                           <li key={item.title}>
@@ -157,7 +157,7 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                     <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {company.map((item) => (
                            <li key={item.title}>
@@ -176,7 +176,7 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                     <div className="relative w-[200px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {resources.map((item) => (
                            <li key={item.title}>
