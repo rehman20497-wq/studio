@@ -14,8 +14,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   ChevronDown,
-  BookOpen,
-  MessageSquareQuestion,
   Building,
   Briefcase,
 } from "lucide-react";
@@ -42,15 +40,16 @@ const solutions = [
       icon: Building,
       title: "All Providers",
       href: "/providers",
+      isImage: false,
     },
 ];
 const company = [
-  { title: "About", href: "/about", icon: Building },
-  { title: "Careers", href: "/careers", icon: Briefcase },
+  { title: "About", href: "/about", icon: Building, isImage: false },
+  { title: "Careers", href: "/careers", icon: Briefcase, isImage: false },
 ];
 const resources = [
     { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
-    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion, isImage: false },
+    { title: "FAQs", href: "/faq", icon: '/faq.svg', isImage: true },
 ];
 
 const mobileNavItems = [
@@ -58,7 +57,7 @@ const mobileNavItems = [
     { title: "About", href: "/about", icon: Building, isImage: false },
     { title: "Careers", href: "/careers", icon: Briefcase, isImage: false },
     { title: "Articles", href: "/blogs", icon: '/news.svg', isImage: true },
-    { title: "FAQs", href: "/faq", icon: MessageSquareQuestion, isImage: false },
+    { title: "FAQs", href: "/faq", icon: '/faq.svg', isImage: true },
 ]
 
 export default function Header() {
@@ -99,7 +98,11 @@ export default function Header() {
                                 href={item.href}
                                 className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50"
                               >
-                                <item.icon className="w-5 h-5 text-zinc-600" />
+                                {item.isImage ? (
+                                    <Image src={item.icon as string} alt={`${item.title} icon`} width={20} height={20} className="text-zinc-600" />
+                                  ) : (
+                                    React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })
+                                  )}
                                 <span className="font-medium text-sm">
                                   {item.title}
                                 </span>
@@ -120,7 +123,11 @@ export default function Header() {
                            <li key={item.title}>
                              <NavigationMenuLink asChild>
                                <a href={item.href} className="flex items-center gap-3 p-3 rounded-md hover:bg-yellow-100/50">
-                                 <item.icon className="w-5 h-5 text-zinc-600" />
+                                 {item.isImage ? (
+                                    <Image src={item.icon as string} alt={`${item.title} icon`} width={20} height={20} className="text-zinc-600" />
+                                  ) : (
+                                    React.createElement(item.icon, { className: "w-5 h-5 text-zinc-600" })
+                                  )}
                                  <span className="font-medium text-sm">{item.title}</span>
                                </a>
                              </NavigationMenuLink>
