@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -33,8 +32,8 @@ export default function Home() {
         <Header />
       </ClientOnly>
       <main className="bg-background font-body">
-        <div className="flex w-full">
-          <div className="relative w-1/2 h-screen flex items-center justify-center">
+        <div className="flex flex-col md:flex-row w-full">
+          <div className="relative w-full md:w-1/2 h-[60vh] md:h-screen flex items-center justify-center">
             <div className="relative w-full h-full">
               <UsaMap />
               <div className="absolute inset-0 bg-background/50" />
@@ -43,7 +42,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="w-1/2 h-screen bg-[#FEF9F2] flex items-center justify-center">
+          <div className="w-full md:w-1/2 h-auto md:h-screen bg-[#FEF9F2] flex items-center justify-center py-12 md:py-0">
             <RightColumn />
           </div>
         </div>

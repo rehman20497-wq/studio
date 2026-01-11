@@ -5,12 +5,12 @@ import TestimonialCarousel from "@/components/testimonial-carousel";
 
 export default function RightColumn() {
   return (
-    <div className="flex flex-col h-full justify-center py-[7%] pl-[8%]">
+    <div className="flex flex-col h-full justify-center py-[7%] px-4 md:px-0 md:pl-[8%]">
       <div className="animate-fade-in-up">
         <h2 className="text-xl font-medium">
           <span className="underline-draw">Outsourcing+</span>
         </h2>
-        <h1 className="text-[46px] font-bold mt-4 leading-tight text-black">
+        <h1 className="text-4xl md:text-[46px] font-bold mt-4 leading-tight text-black">
           Built to make
           <br />
           you better.
