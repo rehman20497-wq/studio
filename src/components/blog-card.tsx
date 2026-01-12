@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -7,6 +6,7 @@ import { MessageSquare, Search, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 export type BlogCardProps = {
+  id?: string;
   type: "interview" | "case-study" | "article" | "guide";
   date: string;
   categories: string[];

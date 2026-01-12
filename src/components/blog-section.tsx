@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, where, limit } from 'firebase/firestore';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 /* ---------------- Types ---------------- */
 
@@ -93,6 +94,7 @@ export default function BlogSection() {
     return [...posts]
       .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
       .map(post => ({
+        id: post.id,
         type: 'article',
         date: format(
           new Date(post.createdAt.seconds * 1000),
@@ -208,7 +210,9 @@ export default function BlogSection() {
                 key={index}
                 className="flex-shrink-0 w-[80vw] sm:w-[45vw] lg:w-[30vw]"
               >
-                <BlogCard {...post} />
+                <Link href={`/blogs/${post.id}`}>
+                  <BlogCard {...post} />
+                </Link>
               </div>
             ))}
           </motion.div>
