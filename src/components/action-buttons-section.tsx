@@ -52,7 +52,7 @@ export default function ActionButtonsSection() {
   return (
     <section ref={ref} className="bg-white pb-20 px-[6%]">
       <motion.div
-        className="container mx-auto flex flex-row flex-wrap items-center justify-center gap-8"
+        className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-8"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
