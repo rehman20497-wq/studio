@@ -18,8 +18,10 @@ service cloud.firestore {
     match /newsletter_subscribers/{subscriberId} {
       // Anyone can sign up for the newsletter
       allow create: if true;
-      // Nobody else can read, update or delete the list of subscribers
-      allow read, update, delete: if false;
+      // Admins can read the list
+      allow read: if isSignedIn();
+      // Nobody else can update or delete
+      allow update, delete: if false;
     }
 
     // Rules for the 'providers' collection
