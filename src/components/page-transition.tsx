@@ -1,65 +1,72 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Playfair_Display } from 'next/font/google';
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['700'],
+});
 
 const sentence = {
-    hidden: { opacity: 1 },
-    visible: {
-        opacity: 1,
-        transition: {
-            delay: 0.3,
-            staggerChildren: 0.15,
-        },
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.5,
+      staggerChildren: 0.18,
     },
+  },
 };
 
 const letter = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.8,
-            ease: "easeOut",
-        }
+  hidden: { opacity: 0, y: 80 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
     },
+  },
 };
 
-const text = "TELSYS";
+const text = 'TELSYS';
 
 export default function PageTransition() {
-    return (
-        <>
-            {/* Base Curtain (Off-white) - slower */}
-            <motion.div
-                className="fixed top-0 left-0 w-full h-full bg-[#FCFBF8] origin-top z-[60]"
-                initial={{ scaleY: 1 }}
-                animate={{ scaleY: 0 }}
-                exit={{ scaleY: 1 }}
-                transition={{ duration: 1.5, ease: [0.83, 0, 0.17, 1] }}
-            />
+  return (
+    <motion.div
+      className="fixed inset-0 bg-[#F5D34A] origin-top z-[80] flex flex-col items-center justify-center"
+      initial={{ scaleY: 1, y: 0 }}
+      animate={{ scaleY: 0, y: -40 }} // ⬅ continuous roll
+      transition={{
+        delay: 2.4,
+        duration: 3,
+        ease: [0.45, 0, 0.15, 1], // smooth heavy gravity curve
+      }}
+    >
+      {/* Copyright */}
+      <div className="mb-6 text-black/70 text-sm tracking-widest">
+        © {new Date().getFullYear()} TELSYS
+      </div>
 
-            {/* Top Curtain (Yellow) - faster */}
-            <motion.div 
-                className="fixed top-0 left-0 w-full h-full bg-[#F5D34A] origin-top z-[70] flex items-center justify-center"
-                initial={{ scaleY: 1 }}
-                animate={{ scaleY: 0 }}
-                exit={{ scaleY: 1 }}
-                transition={{ duration: 1.2, ease: [0.83, 0, 0.17, 1] }}
-            >
-                <motion.h1
-                    className="text-8xl md:text-9xl font-headline font-bold text-black overflow-hidden"
-                    variants={sentence}
-                    initial="hidden"
-                    animate="visible"
-                >
-                    {text.split("").map((char, index) => (
-                        <motion.span key={char + "-" + index} variants={letter}>
-                            {char}
-                        </motion.span>
-                    ))}
-                </motion.h1>
-            </motion.div>
-        </>
-    )
+      {/* Brand Text */}
+      <motion.h1
+        className={`${playfair.className} text-8xl md:text-9xl font-bold text-black flex overflow-hidden tracking-[0.15em]`}
+        variants={sentence}
+        initial="hidden"
+        animate="visible"
+      >
+        {text.split('').map((char, index) => (
+          <motion.span
+            key={index}
+            variants={letter}
+            className="inline-block"
+          >
+            {char}
+          </motion.span>
+        ))}
+      </motion.h1>
+    </motion.div>
+  );
 }
