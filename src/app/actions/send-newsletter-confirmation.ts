@@ -32,7 +32,7 @@ export async function sendNewsletterConfirmation(email: string) {
             </p>
             
             <div style="text-align: center; margin-bottom: 40px;">
-              <a href="${appUrl}/blogs" style="background-color: hsl(var(--primary)); color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; margin: 0 10px; display: inline-block; transition: transform 0.2s;">Explore Our Blog</a>
+              <a href="${appUrl}/blogs" style="background-color: #00ADBF; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; margin: 0 10px; display: inline-block; box-shadow: 0 4px 15px rgba(0, 173, 191, 0.4); transition: all 0.3s ease;">Explore Our Blog</a>
               <a href="${appUrl}/about" style="background-color: #333; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; margin: 0 10px; display: inline-block; transition: transform 0.2s;">About Telesys</a>
             </div>
           </div>
