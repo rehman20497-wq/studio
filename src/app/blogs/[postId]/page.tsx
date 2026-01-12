@@ -77,14 +77,13 @@ export default function SingleBlogPage() {
         <Header />
       </ClientOnly>
       <main className="relative overflow-visible">
-  <Hero post={post} />
+        <Hero post={post} />
 
-  {/* Sticky-safe isolation layer */}
-  <div className="relative overflow-visible">
-    <BlogContent post={post} />
-  </div>
-</main>
-
+        {/* Sticky-safe isolation layer */}
+        <div className="relative overflow-visible">
+            <BlogContent post={post} />
+        </div>
+      </main>
     </div>
   );
 }

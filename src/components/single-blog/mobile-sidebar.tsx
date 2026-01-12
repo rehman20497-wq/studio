@@ -14,8 +14,8 @@ const triggerVariants = {
         y: 0,
         transition: { delay: 0.5, duration: 0.5, ease: 'easeOut' }
     },
-    hover: { scale: 1.1, rotate: 5 },
-    tap: { scale: 0.9 }
+    hover: { scale: 1.05 },
+    tap: { scale: 0.95 }
 };
 
 export default function MobileSidebar({ currentPostId, category }: { currentPostId: string; category: string; }) {
@@ -30,9 +30,10 @@ export default function MobileSidebar({ currentPostId, category }: { currentPost
                     animate="visible"
                     whileHover="hover"
                     whileTap="tap"
-                    className="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full bg-zinc-900 text-white flex items-center justify-center shadow-lg"
+                    className="fixed bottom-6 right-6 z-40 h-14 px-6 rounded-full bg-zinc-900 text-white flex items-center justify-center gap-2 shadow-lg"
                 >
-                    <PanelLeft className="w-8 h-8" />
+                    <PanelLeft className="w-6 h-6" />
+                    <span className="font-medium">More Articles</span>
                 </motion.button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0 w-[85%] max-w-sm">
