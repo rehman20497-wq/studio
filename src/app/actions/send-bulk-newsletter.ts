@@ -1,13 +1,21 @@
-
 'use server';
 
 import { sendEmail } from '@/lib/email';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { initializeFirebase } from '@/firebase/server-init';
+import { initializeApp, getApps } from 'firebase/app';
+import { firebaseConfig } from '@/firebase/config';
 
 interface NewsletterPayload {
   subject: string;
   body: string;
+}
+
+// Helper to initialize Firebase client SDK on the server
+function initializeClientApp() {
+    if (getApps().length) {
+        return getApps()[0];
+    }
+    return initializeApp(firebaseConfig);
 }
 
 export async function sendBulkNewsletter(payload: NewsletterPayload) {
@@ -16,8 +24,9 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
     throw new Error('Server configuration error.');
   }
 
-  // Initialize Firebase Admin on the server
-  const { firestore } = initializeFirebase();
+  // Initialize Firebase Client on the server
+  const app = initializeClientApp();
+  const firestore = getFirestore(app);
 
   // Fetch all subscriber emails
   const subscribersCollection = collection(firestore, 'newsletter_subscribers');
