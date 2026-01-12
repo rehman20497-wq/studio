@@ -26,5 +26,15 @@ service cloud.firestore {
       // Admins can write
       allow write: if request.auth != null;
     }
+    
+    // Rules for newsletter subscribers
+    match /newsletter_subscribers/{subscriberId} {
+      // Anyone can sign up for the newsletter
+      allow create: if true;
+      // Nobody can read, update or delete the list of subscribers
+      allow read, update, delete: if false;
+    }
   }
 }
+
+    

@@ -148,7 +148,7 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                     <div className="relative w-[325px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {company.map((item) => (
                            <li key={item.title}>
@@ -167,7 +167,7 @@ export default function Header() {
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                     <div className="relative w-[325px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
+                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
                         {resources.map((item) => (
                            <li key={item.title}>

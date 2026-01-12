@@ -106,11 +106,12 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="relative grid grid-cols-1 md:grid-cols-2 gap-[15%] items-center max-w-6xl w-full"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-      >
+  className="relative grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-[15%] items-center max-w-6xl w-full"
+  variants={containerVariants}
+  initial="hidden"
+  animate={isInView ? 'visible' : 'hidden'}
+>
+
         {/* Main Card */}
         <motion.div
           className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-2xl relative"

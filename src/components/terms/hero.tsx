@@ -63,12 +63,13 @@ export default function Hero() {
             viewport={{ once: true, amount: 0.5 }}
         >
             <motion.h1
-                className="text-8xl font-bold font-headline tracking-tighter"
-                style={{ textShadow: '0 0 30px rgba(34, 211, 238, 0.4)' }}
-                variants={textVariants}
-            >
-                Terms & Conditions
-            </motion.h1>
+    className="text-5xl md:text-6xl lg:text-8xl font-bold font-headline tracking-tighter"
+    style={{ textShadow: '0 0 30px rgba(34, 211, 238, 0.4)' }}
+    variants={textVariants}
+>
+    Terms & Conditions
+</motion.h1>
+
             <motion.p
                 className="mt-6 text-lg text-zinc-300 max-w-2xl mx-auto"
                 variants={textVariants}
