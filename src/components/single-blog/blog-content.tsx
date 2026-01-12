@@ -39,7 +39,7 @@ const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <div
-          className="prose prose-lg max-w-none text-zinc-700 ql-editor"
+          className="prose prose-lg max-w-none text-zinc-700 ql-editor break-words"
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
       </motion.div>
@@ -68,7 +68,7 @@ export default function BlogContent({ post }: { post: BlogPost }) {
   return (
     <motion.div 
       ref={ref}
-      className="px-[6%] py-12"
+      className="px-4 sm:px-6 md:px-[6%] py-12"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
