@@ -9,6 +9,8 @@ import LoginScreen from '@/components/admin/login-screen';
 import { AnimatePresence, motion } from 'framer-motion';
 import WelcomeScreen from '@/components/admin/welcome-screen';
 import { signOut } from 'firebase/auth';
+import { useIsMobile } from '@/hooks/use-mobile';
+
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
@@ -22,6 +24,7 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const [showWelcome, setShowWelcome] = useState(false);
+  const isMobile = useIsMobile();
 
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
   const welcomeTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -90,7 +93,7 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
     };
   }, [user, resetInactivityTimer]);
 
-  if (isUserLoading) {
+  if (isUserLoading || isMobile === undefined) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
         <p>Loading...</p>
@@ -99,7 +102,7 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
   }
 
   return (
-    <div className="bg-[#FEF9F2] min-h-screen overflow-hidden">
+    <div className="bg-[#FEF9F2] min-h-screen overflow-x-hidden">
         <AnimatePresence mode="wait">
           {!user ? (
             <motion.div
