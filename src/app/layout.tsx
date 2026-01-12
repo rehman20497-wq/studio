@@ -24,7 +24,7 @@ export default function RootLayout({
       <head>
         <title>TelSys – Enabling Confident Technology Decisions</title>
         <meta name="description" content="TelSys helps you make confident technology decisions with expert insights, innovative solutions, and reliable digital guidance." />
-        <link rel="icon" href="/fav.png" />
+        <link rel="icon" href="/fav.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />
