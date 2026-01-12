@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import ResourcesButtonSection from '@/components/resources-button-section';
@@ -9,6 +8,8 @@ import FooterCta from '@/components/footer-cta';
 import FinalFooter from '@/components/layout/final-footer';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import BlogSection from '@/components/blog-section';
+import { AnimatePresence } from 'framer-motion';
+import PageTransition from '@/components/page-transition';
 
 // Metadata cannot be exported from a client component.
 // We can either keep it here and accept the warning, or move it to a server component wrapper.
@@ -40,7 +41,13 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <FirebaseClientProvider>
-          {children}
+          <AnimatePresence mode="wait">
+            <div key={pathname}>
+              {children}
+              {!isAdminPage && <PageTransition />}
+            </div>
+          </AnimatePresence>
+
           {!isAdminPage && (
             <>
               <BlogSection />
