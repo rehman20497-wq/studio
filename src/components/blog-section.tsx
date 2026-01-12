@@ -161,7 +161,15 @@ export default function BlogSection() {
         </div>
 
         {/* Arrows */}
-        <div className="absolute right-4 top-20 flex gap-2 z-20">
+        <div className="
+  absolute 
+  top-40        /* mobile */
+  sm:top-40     /* small tablets */
+  md:top-40     /* tablets */
+  lg:top-20     /* desktop (same as now) */
+  right-4 
+  flex gap-2 z-20
+">
           <button
             onClick={() => scroll(-420)}
             className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 flex items-center justify-center shadow-lg"
