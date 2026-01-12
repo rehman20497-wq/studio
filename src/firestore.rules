@@ -8,6 +8,20 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // Default read-only access for most collections
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false; // Default to no write access
+    }
+    
+    // Rules for newsletter subscribers
+    match /newsletter_subscribers/{subscriberId} {
+      // Anyone can sign up for the newsletter
+      allow create: if true;
+      // Nobody else can read, update or delete the list of subscribers
+      allow read, update, delete: if false;
+    }
+
     // Rules for the 'providers' collection
     match /providers/{providerId} {
       // Admins can do anything
