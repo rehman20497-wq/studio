@@ -11,10 +11,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { User, Building, MessageSquare, ArrowRight, ArrowLeft, Send, Check } from 'lucide-react';
+import { User, Building, MessageSquare, ArrowRight, ArrowLeft, Send, Check, Home, Info, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { sendContactConfirmation } from '@/app/actions/send-contact-confirmation';
 import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
 const steps = [
     { id: 'Step 1', name: 'Personal Info', fields: ['name', 'email'] },
@@ -168,7 +169,7 @@ export default function ContactForm() {
                                     exit: (direction: number) => ({ x: direction < 0 ? '100%' : '-100%', opacity: 0 }),
                                 }}
                                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                                className="absolute w-full h-full overflow-y-auto no-scrollbar"
+                                className="absolute w-full h-full"
                             >
                                 {currentStep === 0 && (
                                     <div className="space-y-6">
@@ -219,16 +220,47 @@ export default function ContactForm() {
                                     </div>
                                 )}
                                 {currentStep === 3 && (
-                                    <div className="text-center pt-8">
+                                    <motion.div
+                                        className="text-center"
+                                        variants={{
+                                            center: { transition: { staggerChildren: 0.2, delayChildren: 0.3 } }
+                                        }}
+                                    >
                                         <motion.div
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1, transition: { delay: 0.2, type: 'spring' } }}
+                                            initial={{ scale: 0, rotate: -90 }}
+                                            animate={{ scale: 1, rotate: 0, transition: { delay: 0.2, type: 'spring', stiffness: 150 } }}
                                         >
-                                            <Check className="w-24 h-24 mx-auto bg-green-100 text-green-600 rounded-full p-4" />
+                                            <Check className="w-20 h-20 mx-auto bg-green-100 text-green-600 rounded-full p-3" />
                                         </motion.div>
-                                        <h2 className="text-2xl font-bold mt-4">Thank you!</h2>
-                                        <p className="text-zinc-600 mt-2">Your message has been sent. We'll be in touch shortly.</p>
-                                    </div>
+                                        <motion.h2 className="text-3xl font-bold mt-4 font-headline" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>Message Sent!</motion.h2>
+                                        <motion.p className="text-zinc-600 mt-2" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { delay: 0.1 } }}>Thank you for reaching out. We'll be in touch shortly. In the meantime, feel free to explore our site.</motion.p>
+                                        
+                                        <motion.div
+                                            className="mt-8 flex justify-center gap-4"
+                                            variants={{
+                                                center: { transition: { staggerChildren: 0.2, delayChildren: 0.6 } }
+                                            }}
+                                        >
+                                            <motion.div variants={{ enter: { y: 20, opacity: 0 }, center: { y: 0, opacity: 1 } }}>
+                                                <Link href="/" className="flex flex-col items-center gap-2 group">
+                                                    <div className="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 group-hover:bg-cyan-200 transition-colors"><Home /></div>
+                                                    <span className="text-sm font-medium text-zinc-700">Home</span>
+                                                </Link>
+                                            </motion.div>
+                                            <motion.div variants={{ enter: { y: 20, opacity: 0 }, center: { y: 0, opacity: 1 } }}>
+                                                <Link href="/about" className="flex flex-col items-center gap-2 group">
+                                                    <div className="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 group-hover:bg-pink-200 transition-colors"><Info /></div>
+                                                    <span className="text-sm font-medium text-zinc-700">About Us</span>
+                                                </Link>
+                                            </motion.div>
+                                            <motion.div variants={{ enter: { y: 20, opacity: 0 }, center: { y: 0, opacity: 1 } }}>
+                                                <Link href="/blogs" className="flex flex-col items-center gap-2 group">
+                                                    <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 group-hover:bg-purple-200 transition-colors"><BookOpen /></div>
+                                                    <span className="text-sm font-medium text-zinc-700">Our Blog</span>
+                                                </Link>
+                                            </motion.div>
+                                        </motion.div>
+                                    </motion.div>
                                 )}
                             </motion.div>
                         </AnimatePresence>
