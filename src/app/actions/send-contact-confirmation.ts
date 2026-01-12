@@ -1,3 +1,4 @@
+
 'use server';
 
 import { sendEmail } from '@/lib/email';
@@ -19,6 +20,7 @@ export async function sendContactConfirmation(formData: ContactFormData) {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:9002';
   const messageId = randomBytes(4).toString('hex').toUpperCase();
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${appUrl}/about`;
 
   // Email to the user
   await sendEmail({
@@ -29,8 +31,9 @@ export async function sendContactConfirmation(formData: ContactFormData) {
       <div style="background-color: #0a0a0a; color: #f0f0f0; font-family: 'Inter', Arial, sans-serif; padding: 40px; text-align: center;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 173, 191, 0.2);">
           
-          <div style="padding: 40px; text-align: left; border-bottom: 1px solid #333;">
+          <div style="padding: 40px; text-align: left; border-bottom: 1px solid #333; position: relative;">
             <img src="${appUrl}/tele.png" alt="Telesys Logo" style="width: 150px; margin-bottom: 30px;">
+            <img src="${appUrl}/cont.gif" alt="contact us icon" style="position: absolute; top: 30px; right: 40px; width: 50px; height: 50px;">
             
             <h1 style="font-family: 'Raleway', Arial, sans-serif; font-size: 28px; color: #ffffff; margin-bottom: 20px;">
               Your Message is in Good Hands.
@@ -45,6 +48,12 @@ export async function sendContactConfirmation(formData: ContactFormData) {
               <h3 style="font-size: 14px; color: #00ADBF; margin: 0 0 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Your Submitted Details</h3>
               <p style="font-size: 14px; color: #a0a0a0; margin: 0;"><strong>Service:</strong> ${formData.service}</p>
               <p style="font-size: 14px; color: #a0a0a0; margin: 5px 0 0;"><strong>Message Reference ID:</strong> #${messageId}</p>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center; background-color: #222; padding: 20px; border-radius: 10px;">
+                <h3 style="font-size: 14px; color: #00ADBF; margin: 0 0 10px; font-weight: bold; letter-spacing: 1px;">MEET THE TEAM</h3>
+                <img src="${qrCodeUrl}" alt="QR Code to About Page" style="width: 120px; height: 120px; margin: 0 auto 10px; border: 4px solid #333; border-radius: 8px;">
+                <p style="font-size: 12px; color: #a0a0a0; margin: 0;">Scan to learn more about us!</p>
             </div>
             
             <p style="font-size: 14px; color: #b3b3b3; margin-top: 30px;">
@@ -109,5 +118,3 @@ export async function sendContactConfirmation(formData: ContactFormData) {
     `,
   });
 }
-
-    
