@@ -105,9 +105,9 @@ export default function Header() {
             <NavigationMenu>
               <NavigationMenuList className="group">
                 <NavigationMenuItem className="group">
-                  <Link href="/" passHref>
-                    <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
-                      <a>Home</a>
+                  <Link href="/" legacyBehavior passHref>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                      Home
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -139,9 +139,9 @@ export default function Header() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
-                  <Link href="/providers" passHref>
-                    <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
-                     <a>Providers</a>
+                  <Link href="/providers" legacyBehavior passHref>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                     Providers
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
