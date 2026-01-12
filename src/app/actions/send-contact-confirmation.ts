@@ -105,7 +105,7 @@ export async function sendContactConfirmation(formData: ContactFormData) {
             </table>
 
             <h3 style="font-size: 16px; color: #005F79; margin: 25px 0 15px; border-bottom: 2px solid #eef2f1; padding-bottom: 10px;">💬 Message</h3>
-            <div style="background-color: #f9fafb; border-radius: 8px; padding: 20px; font-size: 14px; line-height: 1.7; color: #444;">
+            <div style="background-color: #f9fafb; border-radius: 8px; padding: 20px; font-size: 14px; line-height: 1.7; color: #444; white-space: pre-wrap; word-wrap: break-word;">
               ${formData.message}
             </div>
           </div>
