@@ -55,7 +55,7 @@ export default function SingleProviderPage() {
             </ClientOnly>
             <main className="flex items-center justify-center h-[50vh]">
                 <p className="text-red-500">
-                    {error ? "Error: Could not load provider. Please check the ID or try again later." : "Provider not found."}
+                    {error ? "Error: Could not load provider. Please check the ID or try again later." : "Provider Loading....."}
                 </p>
             </main>
         </div>
@@ -77,6 +77,7 @@ export default function SingleProviderPage() {
       <main>
         <Hero 
           solutionType={primarySolution}
+          logoUrl={providerData.logoUrl}
         />
         <div className="bg-[#FCFBF8] px-[3%]">
             <ProviderFilter initialSolution={primarySolution} />

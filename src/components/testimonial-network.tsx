@@ -286,34 +286,31 @@ export default function TestimonialNetwork() {
       </div>
       
       {activeProfile && phase === 'POPOVER' && (
-        <div
-          className="absolute z-50 w-64 animate-emerge-from-circle"
-          style={
-            {
-              left: activeProfile.coords.x,
-              top: activeProfile.coords.y,
-              transform: `translate(-50%, calc(-100% - ${
-                CIRCLE_RADIUS + 12
-              }px))`,
-            } as React.CSSProperties
-          }
-        >
-          <div className="relative p-6 rounded-xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border border-white/20 shadow-2xl">
-            <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border-r border-b border-white/20 rotate-45" />
-            <p className="text-sm text-black dark:text-white/80 italic">
-              "{activeProfile.review}"
-            </p>
-            <div className="mt-3 text-right">
-              <p className="font-semibold text-black dark:text-white">
-                {activeProfile.name}
-              </p>
-              <p className="text-xs text-black/60 dark:text-white/50">
-                {activeProfile.designation}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+  <div
+    className="absolute z-50 w-64 animate-emerge-from-circle hidden md:block"
+    style={{
+      left: activeProfile.coords.x,
+      top: activeProfile.coords.y,
+      transform: `translate(-50%, calc(-100% - ${CIRCLE_RADIUS + 12}px))`,
+    } as React.CSSProperties}
+  >
+    <div className="relative p-6 rounded-xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border border-white/20 shadow-2xl">
+      <div className="absolute -bottom-2 left-8 w-4 h-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border-r border-b border-white/20 rotate-45" />
+      <p className="text-sm text-black dark:text-white/80 italic">
+        "{activeProfile.review}"
+      </p>
+      <div className="mt-3 text-right">
+        <p className="font-semibold text-black dark:text-white">
+          {activeProfile.name}
+        </p>
+        <p className="text-xs text-black/60 dark:text-white/50">
+          {activeProfile.designation}
+        </p>
+      </div>
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -99,7 +100,21 @@ const textItemVariants = {
   },
 };
 
-export default function Hero({ solutionType }: { solutionType: SolutionType }) {
+const logoVariants = {
+  hidden: { opacity: 0, scale: 0.5 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delay: 1.5,
+      type: 'spring',
+      damping: 12,
+      stiffness: 100,
+    },
+  },
+};
+
+export default function Hero({ solutionType, logoUrl }: { solutionType: SolutionType, logoUrl: string }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
   const data = solutionData[solutionType] || solutionData.cloud;
@@ -155,6 +170,15 @@ export default function Hero({ solutionType }: { solutionType: SolutionType }) {
             </motion.div>
           </motion.div>
         </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-[2%] right-[2%] bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-lg"
+        variants={logoVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+      >
+        <Image src={logoUrl} alt="Provider Logo" width={120} height={40} className="object-contain" />
       </motion.div>
     </section>
   );

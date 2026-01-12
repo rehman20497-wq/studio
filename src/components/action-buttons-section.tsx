@@ -50,13 +50,14 @@ export default function ActionButtonsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-white pb-20 px-[6%]">
+    <section ref={ref} className="bg-white pb-20 ">
       <motion.div
-        className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-8"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-      >
+  className="container mx-auto flex flex-row items-center justify-center gap-8"
+  variants={containerVariants}
+  initial="hidden"
+  animate={isInView ? 'visible' : 'hidden'}
+>
+
         <motion.div variants={slideInLeft}>
           <MagneticButton>
             <span className="text-[15px] font-medium px-4">Clutch Reviews</span>

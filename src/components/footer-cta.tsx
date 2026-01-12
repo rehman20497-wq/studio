@@ -70,12 +70,41 @@ const balloonVariants = {
 
 const smiles = [
   { src: '/smileo.gif', alt: 'smile', className: 'absolute top-[20%] left-[25%] w-16 h-16' },
-  { src: '/smile1o.gif', alt: 'smile', className: 'absolute top-[25%] right-[30%] w-16 h-16' },
-  { src: '/smile2o.gif', alt: 'smile', className: 'absolute top-[35%] right-[10%] w-16 h-16' },
-  { src: '/smile3o.gif', alt: 'smile', className: 'absolute bottom-[17%] right-[22%] w-20 h-20' },
+  {
+    src: '/smile1o.gif',
+    alt: 'smile',
+    className: `
+      absolute
+      top-[12%] right-[10%] w-16 h-16
+      md:top-[18%] md:right-[18%] md:w-16 md:h-16
+      lg:top-[25%] lg:right-[30%] lg:w-16 lg:h-16
+    `
+  },
+  
+  {
+    src: '/smile2o.gif',
+    alt: 'smile',
+    className: `
+      absolute
+      top-[12%] right-[75%] w-16 h-16
+      md:top-[28%] md:right-[8%] md:w-16 md:h-16
+      lg:top-[35%] lg:right-[10%] lg:w-16 lg:h-16
+    `
+  },
+    { src: '/smile3o.gif', alt: 'smile', className: 'absolute bottom-[17%] right-[22%] w-20 h-20' },
   { src: '/smile4o.gif', alt: 'smile', className: 'absolute bottom-[15%] left-[25%] w-16 h-16' },
   { src: '/line.gif', alt: 'smile', className: 'absolute bottom-[37%] right-[22%] w-12 h-12' },
-  { src: '/circle.gif', alt: 'smile', className: 'absolute bottom-[45%] left-[15%] w-12 h-12' },
+  {
+    src: '/circle.gif',
+    alt: 'smile',
+    className: `
+      absolute
+      bottom-[10%] left-[8%] w-8 h-8        // mobile
+      md:bottom-[18%] md:left-[12%] md:w-10 md:h-10  // tablet
+      lg:bottom-[45%] lg:left-[15%] lg:w-12 lg:h-12  // desktop (original)
+    `
+  }
+  ,
   { src: '/robot.gif', alt: 'smile', className: 'absolute bottom-[35%] left-[30%] w-12 h-12' },  
 ];
 
