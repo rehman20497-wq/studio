@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -63,20 +62,20 @@ export default function ComposeNewsletterDialog({ isOpen, onOpenChange }: Compos
             Create and send an email to all your newsletter subscribers.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col gap-4 overflow-y-auto pr-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col gap-4 overflow-y-hidden pr-2">
           <div>
             <Label htmlFor="subject">Subject</Label>
             <Input id="subject" {...register('subject')} />
             {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>}
           </div>
 
-          <div className='flex-grow flex flex-col'>
+          <div className='flex-grow flex flex-col min-h-0'>
             <Label>Body</Label>
             <Controller
               name="body"
               control={control}
               render={({ field }) => (
-                <div className='flex-grow'>
+                <div className='flex-grow relative'>
                     <RichTextEditor
                     value={field.value || ''}
                     onChange={field.onChange}
