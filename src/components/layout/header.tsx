@@ -88,7 +88,7 @@ export default function Header() {
   return (
 <header className="relative z-50 w-full bg-[#FCFBF8] text-zinc-900 font-body">
 <div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
-        Hugo is hiring! Explore our positions and{" "}
+        TelSys is hiring! Explore our positions and{" "}
         <a href="/careers" className="underline hover:opacity-80">
           apply today
         </a>
