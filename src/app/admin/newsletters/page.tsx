@@ -6,10 +6,12 @@ import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy } from 'firebase/firestore';
 import { format } from 'date-fns';
-import { Newspaper, Search } from 'lucide-react';
+import { Newspaper, Search, Mail } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdminHeader from '@/components/admin/admin-header';
+import { Button } from '@/components/ui/button';
+import ComposeNewsletterDialog from '@/components/admin/compose-newsletter-dialog';
 
 type Subscriber = {
   id: string;
@@ -38,6 +40,7 @@ const itemVariants = {
 export default function NewslettersPage() {
   const firestore = useFirestore();
   const [searchTerm, setSearchTerm] = useState('');
+  const [isComposeOpen, setIsComposeOpen] = useState(false);
 
   const memoizedQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -82,19 +85,29 @@ export default function NewslettersPage() {
       <div className="p-4 sm:p-8 md:p-12">
         <AdminHeader userName="Faizan" />
         <div className="mt-12">
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
               <h1 className="text-3xl font-bold font-headline text-zinc-900">Subscribers</h1>
               <p className="text-zinc-500">A list of all the users who have subscribed to your newsletter.</p>
             </div>
-            <div className="relative w-full max-w-sm">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                <Input
-                    placeholder="Search by email..."
-                    className="pl-12 h-12 text-base rounded-full bg-white border-2 border-zinc-200"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
+            <div className='flex gap-4 w-full sm:w-auto'>
+                <div className="relative w-full max-w-sm">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+                    <Input
+                        placeholder="Search by email..."
+                        className="pl-12 h-12 text-base rounded-full bg-white border-2 border-zinc-200"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <Button 
+                  size="lg" 
+                  className="rounded-full h-12 bg-zinc-800 hover:bg-zinc-700"
+                  onClick={() => setIsComposeOpen(true)}
+                >
+                  <Mail className="w-5 h-5 mr-2" />
+                  Compose
+                </Button>
             </div>
           </div>
 
@@ -133,6 +146,7 @@ export default function NewslettersPage() {
           </motion.div>
         </div>
       </div>
+      <ComposeNewsletterDialog isOpen={isComposeOpen} onOpenChange={setIsComposeOpen} />
     </AdminPageWrapper>
   );
 }
