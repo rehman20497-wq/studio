@@ -29,7 +29,7 @@ export default function QuoteSection({ quote }: { quote: string }) {
     return (
         <motion.div
             ref={container}
-            className="relative p-[8%] my-12 rounded-2xl overflow-hidden wavy-gradient-background"
+            className="relative p-8 sm:p-12 my-12 rounded-2xl overflow-hidden wavy-gradient-background max-w-full"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
@@ -38,8 +38,8 @@ export default function QuoteSection({ quote }: { quote: string }) {
                 <Image src="/doub.gif" alt="Opening quote" width={52} height={52} unoptimized />
             </div>
 
-            <p className={`${dancingScript.className} text-4xl text-zinc-800 leading-normal text-center`}>
-                {words.map((word, i) => {
+            <p className={`${dancingScript.className} text-4xl text-zinc-800 leading-normal text-center break-words`}>
+            {words.map((word, i) => {
                     const start = i / words.length;
                     const end = start + (1 / words.length);
                     return <Word key={i} progress={scrollYProgress} range={[start, end]}>{word} </Word>

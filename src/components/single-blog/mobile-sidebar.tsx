@@ -30,7 +30,7 @@ export default function MobileSidebar({ currentPostId, category }: { currentPost
                     animate="visible"
                     whileHover="hover"
                     whileTap="tap"
-                    className="fixed bottom-6 right-6 z-40 h-14 px-6 rounded-full bg-zinc-900 text-white flex items-center justify-center gap-2 shadow-lg"
+                    className="fixed bottom-6 right-1 z-40 h-14 px-6 rounded-full bg-zinc-900 text-white flex items-center justify-center gap-2 shadow-lg"
                 >
                     <PanelLeft className="w-6 h-6" />
                     <span className="font-medium">More Articles</span>

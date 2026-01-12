@@ -38,10 +38,11 @@ const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <div
-          className="prose prose-lg max-w-none text-zinc-700 ql-editor break-words"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+       <div
+  className="prose prose-lg max-w-full text-zinc-700 ql-editor break-words"
+  dangerouslySetInnerHTML={{ __html: htmlContent }}
+/>
+
       </motion.div>
     );
 };
@@ -77,8 +78,8 @@ export default function BlogContent({ post }: { post: BlogPost }) {
             <div className="hidden md:block md:col-span-4">
                 <Sidebar currentPostId={post.id} category={post.category} />
             </div>
-            <div className="col-span-12 md:col-span-8 space-y-8">
-                <ContentBlock htmlContent={contentPart1} />
+            <div className="w-full md:col-span-8 space-y-8">
+            <ContentBlock htmlContent={contentPart1} />
 
                 {hasQuote && <QuoteSection quote={post.quote!} />}
 

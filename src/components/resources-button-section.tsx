@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -23,7 +22,7 @@ export default function ResourcesButtonSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-[#FEF9F2] py-12">
+    <section ref={ref} className="bg-[#FEF9F2] pt-0 pb-12">
       <div className="container mx-auto flex justify-center">
         <motion.div
           variants={buttonVariants}
