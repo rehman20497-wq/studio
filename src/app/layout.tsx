@@ -15,7 +15,7 @@ import PageTransition from '@/components/page-transition';
 // We can either keep it here and accept the warning, or move it to a server component wrapper.
 // For this case, we'll keep it simple.
 // export const metadata: Metadata = {
-//   title: 'USA Testimonial Network',
+//   title: 'Telsys-Smarter Tech. Better Decisions',
 //   description: 'A premium, cinematic animated testimonial experience.',
 // };
 
@@ -30,8 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>USA Testimonial Network</title>
+        <title>Telsys-Smarter Tech. Better Decisions</title>
         <meta name="description" content="A premium, cinematic animated testimonial experience." />
+        <link rel="icon" href="/fav.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />

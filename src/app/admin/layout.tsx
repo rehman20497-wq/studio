@@ -2,7 +2,7 @@
 import type {Metadata} from 'next';
 
 export const metadata: Metadata = {
-  title: 'Admin Panel | USA Testimonial Network',
+  title: 'Admin Panel | Telsys-Smarter Tech. Better Decisions',
   description: 'Admin panel for managing the application.',
 };
 
