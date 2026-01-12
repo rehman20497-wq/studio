@@ -12,6 +12,7 @@ import { Send } from 'lucide-react';
 import { useFirestore, addDocumentNonBlocking } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
+import { sendNewsletterConfirmation } from '@/app/actions/send-newsletter-confirmation';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -57,10 +58,12 @@ export default function NewsletterSignup() {
         email: data.email,
         createdAt: serverTimestamp(),
       });
+      
+      await sendNewsletterConfirmation(data.email);
 
       toast({
         title: "Subscribed!",
-        description: "Thanks for signing up for our newsletter.",
+        description: "Thanks for signing up! Please check your email for a confirmation.",
       });
       reset();
 

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -12,6 +13,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Building, MessageSquare, ArrowRight, ArrowLeft, Send, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { sendContactConfirmation } from '@/app/actions/send-contact-confirmation';
+import { useToast } from '@/hooks/use-toast';
 
 const steps = [
     { id: 'Step 1', name: 'Personal Info', fields: ['name', 'email'] },
@@ -57,6 +60,7 @@ const StepProgressBar = ({ currentStep, totalSteps }: { currentStep: number; tot
 export default function ContactForm() {
     const [currentStep, setCurrentStep] = useState(0);
     const [previousStep, setPreviousStep] = useState(0);
+    const { toast } = useToast();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const x = useMotionValue(0);
@@ -125,9 +129,18 @@ export default function ContactForm() {
         }
     };
 
-    const onSubmit = (data: FormValues) => {
-        console.log(data);
-        next();
+    const onSubmit = async (data: FormValues) => {
+        try {
+            await sendContactConfirmation(data);
+            next();
+        } catch (error) {
+            console.error(error);
+            toast({
+                variant: "destructive",
+                title: "Failed to send message",
+                description: "There was a problem sending your message. Please try again later.",
+            });
+        }
     };
     
     const delta = currentStep - previousStep;
