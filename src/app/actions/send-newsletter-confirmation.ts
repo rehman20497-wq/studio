@@ -18,10 +18,23 @@ export async function sendNewsletterConfirmation(email: string) {
     text: `Thank you for subscribing to our newsletter! You will now receive the latest news and updates from us. Explore more at ${appUrl}/blogs or learn about us at ${appUrl}/about.`,
     html: `
       <div style="background-color: #0a0a0a; color: #f0f0f0; font-family: 'Inter', Arial, sans-serif; padding: 40px; text-align: center;">
+        <style>
+          .button-explore:hover {
+            background-color: #F5D34A !important;
+            color: #000000 !important;
+            box-shadow: 0 6px 20px rgba(245, 211, 74, 0.5) !important;
+            transform: translateY(-2px);
+          }
+          .button-about:hover {
+            background-color: #F5D34A !important;
+            color: #000000 !important;
+          }
+        </style>
         <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #333;">
           
-          <div style="padding: 30px 40px; text-align: left;">
+          <div style="padding: 30px 40px; text-align: left; position: relative;">
             <img src="${appUrl}/tele.png" alt="Telesys Logo" style="width: 150px; margin-bottom: 30px;">
+            <img src="${appUrl}/new.gif" alt="new" style="position: absolute; top: 30px; right: 40px; width: 50px; height: 50px;">
             
             <h1 style="font-family: 'Raleway', Arial, sans-serif; font-size: 32px; color: #ffffff; margin-bottom: 20px; text-shadow: 0 0 10px hsla(var(--primary), 0.5);">
               Welcome to the Network.
@@ -32,8 +45,8 @@ export async function sendNewsletterConfirmation(email: string) {
             </p>
             
             <div style="text-align: center; margin-bottom: 40px;">
-              <a href="${appUrl}/blogs" style="background-color: #00ADBF; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; margin: 0 10px; display: inline-block; box-shadow: 0 4px 15px rgba(0, 173, 191, 0.4); transition: all 0.3s ease;">Explore Our Blog</a>
-              <a href="${appUrl}/about" style="background-color: #333; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; margin: 0 10px; display: inline-block; transition: transform 0.2s;">About Telesys</a>
+              <a href="${appUrl}/blogs" class="button-explore" style="background-color: #00ADBF; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; margin: 0 10px; display: inline-block; box-shadow: 0 4px 15px rgba(0, 173, 191, 0.4); transition: all 0.3s ease;">Explore Our Blog</a>
+              <a href="${appUrl}/about" class="button-about" style="background-color: #333; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px; margin: 0 10px; display: inline-block; transition: all 0.3s ease;">About Telesys</a>
             </div>
           </div>
           
