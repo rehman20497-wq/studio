@@ -208,7 +208,7 @@ export default function FinalFooter() {
                 <p>© 2026 Copyright | All Rights Reserved</p>
                 <p className="flex items-center justify-center md:justify-start">Made with 
                     <span className="text-red-500 mx-1">❤️</span> 
-                Hugo and Griflan</p>
+               Telsysinc and Beta-tech solutions</p>
             </motion.div>
             <motion.div 
                 className="flex flex-wrap items-center justify-center gap-4"
