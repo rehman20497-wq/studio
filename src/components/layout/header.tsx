@@ -23,7 +23,8 @@ import {
   Cloud,
   Wifi,
   Cpu,
-  Zap
+  Zap,
+  Sparkles
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -108,6 +109,13 @@ export default function Header() {
                   <Link href="/" legacyBehavior passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
                       Home
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                 <NavigationMenuItem className="group">
+                  <Link href="/alpha" legacyBehavior passHref>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                      Alpha
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -226,6 +234,12 @@ export default function Header() {
                                 <Link href="/" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
                                     <Home className="w-8 h-8" />
                                     Home
+                                </Link>
+                            </AccordionItem>
+                             <AccordionItem value="Alpha" className="border-b border-yellow-200">
+                                <Link href="/alpha" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
+                                    <Sparkles className="w-8 h-8" />
+                                    Alpha
                                 </Link>
                             </AccordionItem>
                             <AccordionItem value="Solutions" className="border-b border-yellow-200">
