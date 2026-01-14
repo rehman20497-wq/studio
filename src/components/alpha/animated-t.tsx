@@ -33,12 +33,10 @@ const tPathIds = [
     // Top bar of 'T' - second row (4 circles)
     3, 4, 5, 6,
     // Vertical stem of 'T' - centered
-    1, // from first row (center)
-    5, // from second row (center-right of the 4)
+    // This stem is now correctly centered visually
     10, // from third row (center)
     15, // from fourth row (center)
     20, // from fifth row (center)
-    24, // from sixth row (center-left of the 3)
 ];
 
 
