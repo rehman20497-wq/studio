@@ -30,10 +30,15 @@ const allCircles = gridLayout.flatMap(({ row, count, offset }) => {
 
 // Define the path for the letter 'T' by the circle IDs
 const tPathIds = [
-    // Top bar of 'T'
-    3, 4, 5, 6, 7,
+    // Top bar of 'T' - second row (4 circles)
+    3, 4, 5, 6,
     // Vertical stem of 'T'
-    1, 5, 10, 15, 18
+    1, // from first row
+    5, // from second row (center)
+    10, // from third row (center)
+    15, // from fourth row (center)
+    20, // from fifth row (center)
+    24, // from sixth row (center)
 ];
 
 const containerVariants = {
@@ -51,7 +56,7 @@ const circleVariants = {
         stroke: tPathIds.includes(i) ? "#F5D34A" : "#f9f4e6",
         opacity: tPathIds.includes(i) ? 1 : 0.3,
         transition: {
-            delay: tPathIds.includes(i) ? tPathIds.indexOf(i) * 0.2 : 0,
+            delay: tPathIds.includes(i) ? tPathIds.indexOf(i) * 0.15 : 0,
             duration: 0.5,
             ease: "easeOut",
         },
@@ -91,3 +96,4 @@ export default function AnimatedT() {
         </div>
     );
 }
+
