@@ -32,14 +32,15 @@ const allCircles = gridLayout.flatMap(({ row, count, offset }) => {
 const tPathIds = [
     // Top bar of 'T' - second row (4 circles)
     3, 4, 5, 6,
-    // Vertical stem of 'T'
-    1, // from first row
-    5, // from second row (center)
+    // Vertical stem of 'T' - centered
+    1, // from first row (center)
+    5, // from second row (center-right of the 4)
     10, // from third row (center)
     15, // from fourth row (center)
     20, // from fifth row (center)
-    24, // from sixth row (center)
+    24, // from sixth row (center-left of the 3)
 ];
+
 
 const containerVariants = {
     hidden: {},
@@ -96,4 +97,3 @@ export default function AnimatedT() {
         </div>
     );
 }
-
