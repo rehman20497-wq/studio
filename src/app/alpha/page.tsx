@@ -11,7 +11,7 @@ export default function AlphaPage() {
         <div className="bg-white flex items-center justify-center p-8">
             <AbstractCircles />
         </div>
-        <div className="flex items-center justify-center p-8">
+        <div className="bg-white flex items-center justify-center p-8">
             <AnimatedT />
         </div>
       </main>

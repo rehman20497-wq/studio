@@ -15,10 +15,8 @@ const gridLayout = [
     { row: 2, count: 5, offset: 0 },
     { row: 3, count: 5, offset: 0 },
     { row: 4, count: 5, offset: 0 },
-    { row: 5, count: 5, offset: 0 },
-    { row: 6, count: 5, offset: 0 },
-    { row: 7, count: 3, offset: 1 },
-    { row: 8, count: 2, offset: 1.5 },
+    { row: 5, count: 3, offset: 1 },
+    { row: 6, count: 2, offset: 1.5 },
 ];
 
 let circleCounter = 0;
@@ -33,9 +31,9 @@ const allCircles = gridLayout.flatMap(({ row, count, offset }) => {
 // Define the path for the letter 'T' by the circle IDs
 const tPathIds = [
     // Top bar of 'T'
-    7, 8, 9, 10, 11,
+    3, 4, 5, 6, 7,
     // Vertical stem of 'T'
-    3, 9, 14, 19, 24
+    1, 5, 10, 15, 18
 ];
 
 const containerVariants = {
@@ -65,7 +63,7 @@ export default function AnimatedT() {
     const isInView = useInView(ref, { once: true, amount: 0.5 });
 
     const viewBoxWidth = boxSize * 5;
-    const viewBoxHeight = boxSize * 9;
+    const viewBoxHeight = boxSize * 7;
 
     return (
         <div ref={ref} className="w-full h-full flex items-center justify-center">
