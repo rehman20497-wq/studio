@@ -10,7 +10,7 @@ import TestimonialProgressBar from './testimonial-progress-bar';
 const testimonials = [
   {
     logo: <Image src="/meta.png" alt="Meta Logo" width={100} height={30} className="object-contain" />,
-    text: "We're constantly trying to bring the best the market has to offer to support our global business operations by identifying suppliers with the exact solution we need to solve our problem. In this case, we found an incredible partner in Hugo.",
+    text: "We're constantly trying to bring the best the market has to offer to support our global business operations by identifying suppliers with the exact solution we need to solve our problem. In this case, we found an incredible partner in TelSys.",
     author: 'Sarah L.',
     title: 'Director, Global Supplier Diversity',
     image: '/logos/Sarah.jpg',
@@ -18,7 +18,7 @@ const testimonials = [
   },
   {
     logo: <Image src="/consensys.png" alt="Consensys Logo" width={100} height={30} className="object-contain" />,
-    text: "Hugo's team is top-notch. Their proactive approach and deep understanding of our needs have been a game changer for our operations. We couldn't be happier with the results.",
+    text: "TelSys's team is top-notch. Their proactive approach and deep understanding of our needs have been a game changer for our operations. We couldn't be happier with the results.",
     author: 'Chris B.',
     title: 'COO, Consensys',
     image: '/logos/chris.jpg',
@@ -26,7 +26,7 @@ const testimonials = [
   },
     {
     logo: <Image src="/sakara.png" alt="Sakara Logo" width={100} height={30} className="object-contain" />,
-    text: "The level of detail and commitment from Hugo is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
+    text: "The level of detail and commitment from TelSys is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
     author: 'Quo T.',
     title: 'Head of Support, Sakara',
     image: '/logos/quo.jpg',

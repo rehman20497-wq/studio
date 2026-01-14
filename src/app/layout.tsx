@@ -11,14 +11,6 @@ import BlogSection from '@/components/blog-section';
 import { AnimatePresence } from 'framer-motion';
 import PageTransition from '@/components/page-transition';
 
-// Metadata cannot be exported from a client component.
-// We can either keep it here and accept the warning, or move it to a server component wrapper.
-// For this case, we'll keep it simple.
-// export const metadata: Metadata = {
-//   title: 'Telsys-Smarter Tech. Better Decisions',
-//   description: 'A premium, cinematic animated testimonial experience.',
-// };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Telsys-Smarter Tech. Better Decisions</title>
-        <meta name="description" content="A premium, cinematic animated testimonial experience." />
-        <link rel="icon" href="/fav.png" />
+        <title>TelSys – Enabling Confident Technology Decisions</title>
+        <meta name="description" content="TelSys helps you make confident technology decisions with expert insights, innovative solutions, and reliable digital guidance." />
+        <link rel="icon" href="/fav.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />
