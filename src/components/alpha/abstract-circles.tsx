@@ -3,9 +3,9 @@
 import { motion, useInView } from 'framer-motion';
 import React, { useRef } from 'react';
 
-const CIRCLE_RADIUS = 25;
-const STROKE_WIDTH = 8;
-const SPACING = 12;
+const CIRCLE_RADIUS = 35;
+const STROKE_WIDTH = 10;
+const SPACING = 16;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
 const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
