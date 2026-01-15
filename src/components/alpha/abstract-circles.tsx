@@ -188,12 +188,10 @@ export default function AbstractCircles() {
             const pairsToAnimate = pickFourNonOverlappingPairs();
             const currentColor = colors[colorIndex % colors.length];
             
-            const animationPromises = pairsToAnimate.map(pair => {
+            for (const pair of pairsToAnimate) {
                 const direction = Math.random() > 0.5 ? 'forward' : 'backward';
-                return animatePair(pair, currentColor, direction);
-            });
-
-            await Promise.all(animationPromises);
+                await animatePair(pair, currentColor, direction);
+            }
 
             colorIndex++;
             isAnimatingRef.current = false;
