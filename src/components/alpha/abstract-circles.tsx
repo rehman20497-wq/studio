@@ -106,13 +106,11 @@ export default function AbstractCircles() {
                 const c1 = topRow[i];
                 const c2 = topRow[i + 1];
 
-                // Find potential C3 candidates in the bottom row that are "under" C2
                 const potentialC3s = bottomRow.filter(c =>
                     Math.abs(c.cx - c2.cx) < BOX_SIZE
                 );
 
                 for (const c3 of potentialC3s) {
-                    // Find a C4 candidate that is a direct neighbor of C3
                     const c4 = bottomRow.find(c => c.col === c3.col + 1);
                     if (c4) {
                         chains.push([c1, c2, c3, c4]);
@@ -125,7 +123,6 @@ export default function AbstractCircles() {
 
 
     const animateChain = useCallback(async (chain: any[], color: string, direction: 'forward' | 'backward') => {
-        isAnimatingRef.current = true;
         const orderedChain = direction === 'forward' ? chain : [...chain].reverse();
 
         const animateCircle = async (id: string) => {
@@ -177,30 +174,52 @@ export default function AbstractCircles() {
         for (const circle of [...orderedChain].reverse()) {
             await unAnimateCircle(circle.id);
         }
-        
-        isAnimatingRef.current = false;
     }, [animate]);
 
     useEffect(() => {
         const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
         let colorIndex = 0;
-        let chainIndex = 0;
 
-        const runRandomAnimation = () => {
+        const pickTwoRandomChains = () => {
+            if (zChains.length < 2) return [];
+            let index1 = Math.floor(Math.random() * zChains.length);
+            let index2 = Math.floor(Math.random() * zChains.length);
+
+            const chain1 = zChains[index1];
+            let chain2 = zChains[index2];
+            
+            const chain1Ids = new Set(chain1.map(c => c.id));
+            let attempts = 0;
+
+            while (index1 === index2 || chain2.some(c => chain1Ids.has(c.id))) {
+                index2 = Math.floor(Math.random() * zChains.length);
+                chain2 = zChains[index2];
+                attempts++;
+                if (attempts > 20) return [chain1]; // Failsafe
+            }
+            return [chain1, chain2];
+        }
+
+        const runAnimationCycle = async () => {
              if (isAnimatingRef.current || zChains.length === 0) return;
+             isAnimatingRef.current = true;
 
-            const chainToAnimate = zChains[chainIndex % zChains.length];
+            const chainsToAnimate = pickTwoRandomChains();
             const currentColor = colors[colorIndex % colors.length];
-            const direction = Math.random() > 0.5 ? 'forward' : 'backward';
+            
+            const animationPromises = chainsToAnimate.map(chain => {
+                const direction = Math.random() > 0.5 ? 'forward' : 'backward';
+                return animateChain(chain, currentColor, direction);
+            });
 
-            animateChain(chainToAnimate, currentColor, direction);
+            await Promise.all(animationPromises);
 
-            chainIndex++;
             colorIndex++;
+            isAnimatingRef.current = false;
         };
         
-        const interval = setInterval(runRandomAnimation, 7000);
-        runRandomAnimation();
+        const interval = setInterval(runAnimationCycle, 7000);
+        runAnimationCycle();
         
         return () => clearInterval(interval);
 
