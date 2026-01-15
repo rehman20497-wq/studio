@@ -5,9 +5,9 @@ import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 
-const CIRCLE_RADIUS = 20;
-const STROKE_WIDTH = 6;
-const SPACING = 0;
+const CIRCLE_RADIUS = 16;
+const STROKE_WIDTH = 4;
+const SPACING = 4;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
 const CIRCUMFERENCE = 2 * Math.PI * (CIRCLE_RADIUS - STROKE_WIDTH / 2);
@@ -95,36 +95,31 @@ export default function AbstractCircles() {
     const [layout] = useState(generateInitialLayout());
     const isAnimatingRef = useRef(false);
 
-    const rowPairs = useMemo(() => {
-        return layout.map(rowCircles => {
+    const horizontalPairs = useMemo(() => {
+        return layout.flatMap(rowCircles => {
             const pairs = [];
             for (let i = 0; i < rowCircles.length - 1; i++) {
                 pairs.push([rowCircles[i], rowCircles[i + 1]]);
             }
             return pairs;
-        }).filter(pairs => pairs.length > 0);
+        });
     }, [layout]);
 
-
     const pickFourNonOverlappingPairs = useCallback(() => {
-        const shuffledRows = [...rowPairs].sort(() => 0.5 - Math.random());
+        const shuffledPairs = [...horizontalPairs].sort(() => 0.5 - Math.random());
         const selectedPairs = [];
         const usedRows = new Set();
         
-        for(const pairsInRow of shuffledRows) {
+        for (const pair of shuffledPairs) {
             if (selectedPairs.length >= 4) break;
-            if (pairsInRow.length > 0) {
-                const rowIndex = pairsInRow[0][0].row;
-                if (!usedRows.has(rowIndex)) {
-                    // Pick a random pair from the row
-                    const randomPair = pairsInRow[Math.floor(Math.random() * pairsInRow.length)];
-                    selectedPairs.push(randomPair);
-                    usedRows.add(rowIndex);
-                }
+            const rowIndex = pair[0].row;
+            if (!usedRows.has(rowIndex)) {
+                selectedPairs.push(pair);
+                usedRows.add(rowIndex);
             }
         }
         return selectedPairs;
-    }, [rowPairs]);
+    }, [horizontalPairs]);
 
     useEffect(() => {
         const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
