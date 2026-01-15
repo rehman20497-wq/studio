@@ -17,9 +17,9 @@ const GRID_LAYOUT = [
     { row: 0, count: 3, offset: 2 },
     { row: 1, count: 4, offset: 1 },
     { row: 2, count: 5, offset: 0 },
-    { row: 3, count: 4, offset: 0 },
+    { row: 3, count: 4, offset: 1 },
     { row: 4, count: 5, offset: 0 },
-    { row: 5, count: 3, offset: 0 },
+    { row: 5, count: 3, offset: 2 },
 ];
 
 let circleCounter = 0;
@@ -119,8 +119,8 @@ const AnimatedCircle = ({ cx, cy, fillPercentage, imageUrl, color }: { cx: numbe
                             <motion.div
                                 className="relative rounded-full overflow-hidden"
                                 style={{
-                                    width: (CIRCLE_RADIUS - 8) * 2,
-                                    height: (CIRCLE_RADIUS - 8) * 2,
+                                    width: (CIRCLE_RADIUS - 12) * 2,
+                                    height: (CIRCLE_RADIUS - 12) * 2,
                                 }}
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } }}
@@ -155,8 +155,7 @@ export default function AbstractCircles() {
                 const newAnimations = [];
                 
                 const currentColor = STROKE_COLORS[colorIndex];
-                setColorIndex(prev => (prev + 1) % STROKE_COLORS.length);
-
+                
 
                 for (let i = 0; i < numToAnimate && i < shuffled.length; i++) {
                     newAnimations.push({
@@ -171,7 +170,14 @@ export default function AbstractCircles() {
                 
                 setTimeout(() => {
                     const idsToRemove = newAnimations.map(a => a.id);
-                    setAnimatedCircles(prev => prev.filter(c => !idsToRemove.includes(c.id)));
+                    setAnimatedCircles(prev => {
+                        const remaining = prev.filter(c => !idsToRemove.includes(c.id));
+                        // If all animations for this color are done, change color for next batch
+                        if (remaining.every(c => c.color !== currentColor)) {
+                            setColorIndex(prevIdx => (prevIdx + 1) % STROKE_COLORS.length);
+                        }
+                        return remaining;
+                    });
                 }, 3000);
 
             }, 1200); 
@@ -188,7 +194,7 @@ export default function AbstractCircles() {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      <svg viewBox={`0 0 ${BOX_SIZE * 5} ${BOX_SIZE * 6}`} className="w-full max-w-2xl aspect-square">
+      <svg viewBox={`0 0 ${BOX_SIZE * 6} ${BOX_SIZE * 6}`} className="w-full max-w-2xl aspect-square">
         <AnimatePresence>
             {ALL_CIRCLES.map((circle) => {
                 const animationInfo = animatedCircles.find(c => c.id === circle.id);
