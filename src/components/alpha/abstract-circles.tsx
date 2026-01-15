@@ -94,36 +94,19 @@ export default function AbstractCircles() {
     const [layout] = useState(generateInitialLayout());
     const isAnimatingRef = useRef(false);
 
-    const zChains = useMemo(() => {
-        const chains: any[][] = [];
-        const circlesByRow = layout;
-
-        for (let r = 0; r < circlesByRow.length - 1; r++) {
-            const topRow = circlesByRow[r];
-            const bottomRow = circlesByRow[r + 1];
-
-            for (let i = 0; i < topRow.length - 1; i++) {
-                const c1 = topRow[i];
-                const c2 = topRow[i + 1];
-
-                const potentialC3s = bottomRow.filter(c =>
-                    Math.abs(c.cx - c2.cx) < BOX_SIZE
-                );
-
-                for (const c3 of potentialC3s) {
-                    const c4 = bottomRow.find(c => c.col === c3.col + 1);
-                    if (c4) {
-                        chains.push([c1, c2, c3, c4]);
-                    }
-                }
+    const rowPairs = useMemo(() => {
+        return layout.map(rowCircles => {
+            const pairs = [];
+            for (let i = 0; i < rowCircles.length - 1; i++) {
+                pairs.push([rowCircles[i], rowCircles[i + 1]]);
             }
-        }
-        return chains;
+            return pairs;
+        });
     }, [layout]);
 
 
-    const animateChain = useCallback(async (chain: any[], color: string, direction: 'forward' | 'backward') => {
-        const orderedChain = direction === 'forward' ? chain : [...chain].reverse();
+    const animatePair = useCallback(async (pair: any[], color: string, direction: 'forward' | 'backward') => {
+        const orderedPair = direction === 'forward' ? pair : [...pair].reverse();
 
         const animateCircle = async (id: string) => {
             await animate(
@@ -165,13 +148,13 @@ export default function AbstractCircles() {
             );
         };
         
-        for (const circle of orderedChain) {
+        for (const circle of orderedPair) {
             await animateCircle(circle.id);
         }
 
         await new Promise(resolve => setTimeout(resolve, 1500));
 
-        for (const circle of [...orderedChain].reverse()) {
+        for (const circle of [...orderedPair].reverse()) {
             await unAnimateCircle(circle.id);
         }
     }, [animate]);
@@ -180,36 +163,34 @@ export default function AbstractCircles() {
         const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
         let colorIndex = 0;
 
-        const pickTwoRandomChains = () => {
-            if (zChains.length < 2) return [];
-            let index1 = Math.floor(Math.random() * zChains.length);
-            let index2 = Math.floor(Math.random() * zChains.length);
-
-            const chain1 = zChains[index1];
-            let chain2 = zChains[index2];
+        const pickFourNonOverlappingPairs = () => {
+            const shuffledRows = [...rowPairs].sort(() => 0.5 - Math.random());
+            const selectedPairs = [];
+            const usedRows = new Set();
             
-            const chain1Ids = new Set(chain1.map(c => c.id));
-            let attempts = 0;
-
-            while (index1 === index2 || chain2.some(c => chain1Ids.has(c.id))) {
-                index2 = Math.floor(Math.random() * zChains.length);
-                chain2 = zChains[index2];
-                attempts++;
-                if (attempts > 20) return [chain1]; // Failsafe
+            for (const pairsInRow of shuffledRows) {
+                if (pairsInRow.length > 0 && selectedPairs.length < 4) {
+                    const rowIndex = pairsInRow[0][0].row;
+                    if (!usedRows.has(rowIndex)) {
+                        const randomPair = pairsInRow[Math.floor(Math.random() * pairsInRow.length)];
+                        selectedPairs.push(randomPair);
+                        usedRows.add(rowIndex);
+                    }
+                }
             }
-            return [chain1, chain2];
+            return selectedPairs;
         }
 
         const runAnimationCycle = async () => {
-             if (isAnimatingRef.current || zChains.length === 0) return;
+             if (isAnimatingRef.current || rowPairs.length === 0) return;
              isAnimatingRef.current = true;
 
-            const chainsToAnimate = pickTwoRandomChains();
+            const pairsToAnimate = pickFourNonOverlappingPairs();
             const currentColor = colors[colorIndex % colors.length];
             
-            const animationPromises = chainsToAnimate.map(chain => {
+            const animationPromises = pairsToAnimate.map(pair => {
                 const direction = Math.random() > 0.5 ? 'forward' : 'backward';
-                return animateChain(chain, currentColor, direction);
+                return animatePair(pair, currentColor, direction);
             });
 
             await Promise.all(animationPromises);
@@ -223,7 +204,7 @@ export default function AbstractCircles() {
         
         return () => clearInterval(interval);
 
-    }, [zChains, animateChain]);
+    }, [rowPairs, animatePair]);
 
 
     const viewBoxWidth = BOX_SIZE * 5;
