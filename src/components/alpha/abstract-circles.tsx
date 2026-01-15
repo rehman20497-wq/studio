@@ -95,41 +95,42 @@ export default function AbstractCircles() {
     const [layout] = useState(generateInitialLayout());
     const isAnimatingRef = useRef(false);
 
-    const allPairs = useMemo(() => {
-        return layout.flatMap(rowCircles => {
+    const rowPairs = useMemo(() => {
+        return layout.map(rowCircles => {
             const pairs = [];
             for (let i = 0; i < rowCircles.length - 1; i++) {
                 pairs.push([rowCircles[i], rowCircles[i + 1]]);
             }
             return pairs;
-        });
+        }).filter(pairs => pairs.length > 0);
     }, [layout]);
 
 
     const pickFourNonOverlappingPairs = useCallback(() => {
-        const shuffledPairs = [...allPairs].sort(() => 0.5 - Math.random());
-        const selectedPairs: any[][] = [];
+        const shuffledRows = [...rowPairs].sort(() => 0.5 - Math.random());
+        const selectedPairs = [];
         const usedRows = new Set();
-        const usedCircles = new Set();
-
-        for (const pair of shuffledPairs) {
+        
+        for(const pairsInRow of shuffledRows) {
             if (selectedPairs.length >= 4) break;
-            const [circle1, circle2] = pair;
-            if (!usedRows.has(circle1.row) && !usedCircles.has(circle1.id) && !usedCircles.has(circle2.id)) {
-                selectedPairs.push(pair);
-                usedRows.add(circle1.row);
-                usedCircles.add(circle1.id);
-                usedCircles.add(circle2.id);
+            if (pairsInRow.length > 0) {
+                const rowIndex = pairsInRow[0][0].row;
+                if (!usedRows.has(rowIndex)) {
+                    // Pick a random pair from the row
+                    const randomPair = pairsInRow[Math.floor(Math.random() * pairsInRow.length)];
+                    selectedPairs.push(randomPair);
+                    usedRows.add(rowIndex);
+                }
             }
         }
         return selectedPairs;
-    }, [allPairs]);
+    }, [rowPairs]);
 
     useEffect(() => {
         const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
         let colorIndex = 0;
 
-        const animateCircle = async (id: string, color: string, rotation: number) => {
+        const animateCircle = async (id: string, color: string, rotation: number, fillPercentage: number) => {
             const {cx, cy} = layout.flat().find(c => c.id === id)!;
             const circleElement = document.querySelector(`#${id} .stroke-circle`);
             if(circleElement) {
@@ -138,7 +139,7 @@ export default function AbstractCircles() {
             
             await animate(
                 `#${id} .stroke-circle`,
-                { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
+                { strokeDashoffset: CIRCUMFERENCE * fillPercentage, stroke: color },
                 { duration: 1.2, ease: "easeOut" }
             );
             await animate([
@@ -191,16 +192,14 @@ export default function AbstractCircles() {
                 // Calculate rotations for connected stroke effect
                 const [c1, c2] = orderedPair;
                 const angle = Math.atan2(c2.cy - c1.cy, c2.cx - c1.cx) * (180 / Math.PI);
-                const firstRotation = angle + 135; // End gap points towards second circle
-                const secondRotation = angle - 135; // Start gap points towards first circle
-
-                allCirclesInOrder.push({ ...c1, customRotation: firstRotation });
-                allCirclesInOrder.push({ ...c2, customRotation: secondRotation });
+                
+                allCirclesInOrder.push({ ...c1, customRotation: angle + 135, fillPercentage: 0.25 });
+                allCirclesInOrder.push({ ...c2, customRotation: angle - 135, fillPercentage: 0.50 });
             }
     
-            // Animate all 8 circles in sequence
+            // Animate all circles in sequence
             for (const circle of allCirclesInOrder) {
-                await animateCircle(circle.id, currentColor, circle.customRotation);
+                await animateCircle(circle.id, currentColor, circle.customRotation, circle.fillPercentage);
             }
     
             // Pause with all circles visible
@@ -219,7 +218,7 @@ export default function AbstractCircles() {
         
         return () => clearInterval(interval);
 
-    }, [allPairs, pickFourNonOverlappingPairs, animate, layout]);
+    }, [pickFourNonOverlappingPairs, animate, layout]);
 
 
     const viewBoxWidth = BOX_SIZE * 5;
