@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useAnimate } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 
 const CIRCLE_RADIUS = 45;
@@ -10,7 +10,6 @@ const SPACING = 0;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
 const CIRCUMFERENCE = 2 * Math.PI * (CIRCLE_RADIUS - STROKE_WIDTH / 2);
-
 const PROFILE_RADIUS = CIRCLE_RADIUS - STROKE_WIDTH;
 
 const GRID_LAYOUT_CONFIG = [
@@ -28,7 +27,7 @@ const getCircleId = (row: number, col: number) => `circle-${row}-${col}`;
 const generateInitialLayout = () => {
     let circleCounter = 0;
     const rotations = [0, 90, 180, 270];
-    return GRID_LAYOUT_CONFIG.flatMap(({ row, count, offset }) =>
+    return GRID_LAYOUT_CONFIG.map(({ row, count, offset }) =>
       Array.from({ length: count }).map((_, colIndex) => ({
         id: getCircleId(row, colIndex),
         row: row,
@@ -41,40 +40,6 @@ const generateInitialLayout = () => {
       }))
     );
 };
-
-const topRightToCenterOrder = [
-    getCircleId(0,2), getCircleId(4,0),
-    getCircleId(0,1), getCircleId(4,1),
-    getCircleId(1,3), getCircleId(3,0),
-    getCircleId(0,0), getCircleId(4,2),
-    getCircleId(1,2), getCircleId(3,1),
-    getCircleId(2,4), getCircleId(2,0),
-    getCircleId(1,1), getCircleId(3,2),
-    getCircleId(2,3), getCircleId(2,1),
-    getCircleId(1,0), getCircleId(3,3),
-    getCircleId(2,2)
-];
-
-const diagonalSweepOrder = [
-    getCircleId(0,0), getCircleId(4,2),
-    getCircleId(1,0), getCircleId(3,3),
-    getCircleId(0,1), getCircleId(4,1),
-    getCircleId(2,0), getCircleId(2,4),
-    getCircleId(1,1), getCircleId(3,2),
-    getCircleId(0,2), getCircleId(4,0),
-    getCircleId(2,1), getCircleId(2,3),
-    getCircleId(3,0), getCircleId(1,3),
-    getCircleId(3,1), getCircleId(1,2),
-    getCircleId(2,2)
-];
-
-const rounds = [
-  { order: topRightToCenterOrder, color: "#00E5FF" }, // Cyan
-  { order: diagonalSweepOrder, color: "#7C4DFF" }, // Purple
-  { order: [], color: "#00FF9C" }, // Lime (Will be populated with horizontal sweep)
-  { order: [], color: "#FF9100" }, // Orange (Random)
-];
-
 
 const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: number; id: string; image: string; rotation: number }) => {
     return (
@@ -127,96 +92,112 @@ const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: numbe
 
 export default function AbstractCircles() {
     const [scope, animate] = useAnimate();
-    const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
-    const [allCircles, setAllCircles] = useState(generateInitialLayout());
+    const [layout] = useState(generateInitialLayout());
+    const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isAnimatingRef = useRef(false);
 
-    useEffect(() => {
-        const horizontalSweepOrder = [...allCircles].sort((a, b) => a.cx - b.cx).map(c => c.id);
-        const randomOrder = [...allCircles].sort(() => Math.random() - 0.5).map(c => c.id);
-        rounds[2].order = horizontalSweepOrder;
-        rounds[3].order = randomOrder;
-
-        const runAnimationCycle = async () => {
-            const currentRound = rounds[currentRoundIndex];
-            const { order, color } = currentRound;
-
-            const animateCircle = async (id: string) => {
-                if (!id) return;
-                await animate(
-                    `#${id} .stroke-circle`,
-                    { strokeDashoffset: 0, stroke: color },
-                    { duration: 1.2, ease: "easeOut" }
-                );
-                await animate([
-                    [
-                        `#${id} .profile-clip`,
-                        { scale: [0, 1.1, 1] },
-                        { duration: 1, ease: [0.34, 1.56, 0.64, 1] },
-                    ],
-                    [
-                        `#${id} .profile-image-container`,
-                        { opacity: 1 },
-                        { at: '-0.8', duration: 0.8 },
-                    ],
-                ]);
-            };
-
-            for (let i = 0; i < order.length; i += 2) {
-                const circleId1 = order[i];
-                const circleId2 = order[i + 1];
-                
-                await animateCircle(circleId1);
-                await animateCircle(circleId2);
+    const rowPairs = useMemo(() => {
+        return layout.map(rowCircles => {
+            const pairs = [];
+            for (let i = 0; i < rowCircles.length - 1; i++) {
+                pairs.push([rowCircles[i], rowCircles[i+1]]);
             }
-            
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            return pairs;
+        });
+    }, [layout]);
 
-            const reversedOrder = [...order].reverse();
+    const animatePair = useCallback(async (pair: any[], color: string) => {
+        isAnimatingRef.current = true;
 
-            const unAnimateCircle = async (id: string) => {
-                 if (!id) return;
-                 await animate([
-                    [
-                        `#${id} .profile-image-container`,
-                        { opacity: 0 },
-                        { duration: 0.6, ease: 'easeIn' },
-                    ],
-                    [
-                        `#${id} .profile-clip`,
-                        { scale: 0 },
-                        { at: '-0.4', duration: 0.8, ease: 'easeIn' },
-                    ],
-                ]);
-                await animate(
-                    `#${id} .stroke-circle`,
-                    { strokeDashoffset: CIRCUMFERENCE * 0.75, stroke: '#f9f4e6' },
-                    { duration: 1.2, ease: "easeIn" }
-                );
-            };
-
-            for (let i = 0; i < reversedOrder.length; i += 2) {
-                const circleId1 = reversedOrder[i];
-                const circleId2 = reversedOrder[i+1];
-                
-                await unAnimateCircle(circleId1);
-                await unAnimateCircle(circleId2);
-            }
-
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            setCurrentRoundIndex((prev) => (prev + 1) % rounds.length);
+        const animateCircle = async (id: string) => {
+            await animate(
+                `#${id} .stroke-circle`,
+                { strokeDashoffset: 0, stroke: color },
+                { duration: 1.2, ease: "easeOut" }
+            );
+            await animate([
+                [
+                    `#${id} .profile-clip`,
+                    { scale: [0, 1.1, 1] },
+                    { duration: 1, ease: [0.34, 1.56, 0.64, 1] },
+                ],
+                [
+                    `#${id} .profile-image-container`,
+                    { opacity: 1 },
+                    { at: '-0.8', duration: 0.8 },
+                ],
+            ]);
         };
 
-        runAnimationCycle();
-    }, [currentRoundIndex, animate, allCircles]);
+        const unAnimateCircle = async (id: string) => {
+             await animate([
+                [
+                    `#${id} .profile-image-container`,
+                    { opacity: 0 },
+                    { duration: 0.6, ease: 'easeIn' },
+                ],
+                [
+                    `#${id} .profile-clip`,
+                    { scale: 0 },
+                    { at: '-0.4', duration: 0.8, ease: 'easeIn' },
+                ],
+            ]);
+            await animate(
+                `#${id} .stroke-circle`,
+                { strokeDashoffset: CIRCUMFERENCE * 0.75, stroke: '#f9f4e6' },
+                { duration: 1.2, ease: "easeIn" }
+            );
+        };
+        
+        // Animate first circle in pair
+        await animateCircle(pair[0].id);
+        // Animate second circle in pair
+        await animateCircle(pair[1].id);
+
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Hold the completed pair
+
+        // Un-animate in reverse order
+        await unAnimateCircle(pair[1].id);
+        await unAnimateCircle(pair[0].id);
+
+        isAnimatingRef.current = false;
+    }, [animate]);
+
+    useEffect(() => {
+        const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
+        let colorIndex = 0;
+
+        const runRandomAnimation = () => {
+             if (isAnimatingRef.current) return;
+
+            const randomRowIndex = Math.floor(Math.random() * rowPairs.length);
+            const availablePairs = rowPairs[randomRowIndex];
+
+            if (availablePairs && availablePairs.length > 0) {
+                const randomPairIndex = Math.floor(Math.random() * availablePairs.length);
+                const pairToAnimate = availablePairs[randomPairIndex];
+                
+                const currentColor = colors[colorIndex];
+                colorIndex = (colorIndex + 1) % colors.length;
+
+                animatePair(pairToAnimate, currentColor);
+            }
+        };
+        
+        const interval = setInterval(runRandomAnimation, 2500); // Trigger a new animation every 2.5s
+        
+        return () => clearInterval(interval);
+
+    }, [rowPairs, animatePair]);
+
 
     const viewBoxWidth = BOX_SIZE * 5 + 40;
     const viewBoxHeight = BOX_SIZE * 5;
 
+    const allCircles = layout.flat();
+
     return (
-        <div
-            className="w-full h-full flex items-center justify-center"
-        >
+        <div className="w-full h-full flex items-center justify-center">
             <svg 
                 ref={scope}
                 viewBox={`-20 0 ${viewBoxWidth} ${viewBoxHeight}`} 
