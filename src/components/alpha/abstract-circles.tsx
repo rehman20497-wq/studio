@@ -110,6 +110,7 @@ export default function AbstractCircles() {
             const { id } = circle;
             
             const fillPercentages = [0.25, 0.35, 0.5, 0.15]; // Corresponds to 75%, 65%, 50%, 85% fills
+            const randomFill = fillPercentages[Math.floor(Math.random() * fillPercentages.length)];
             const directions = [-90, 0, 90, 180]; // Top, Right, Bottom, Left
             const randomRotation = directions[Math.floor(Math.random() * directions.length)];
 
