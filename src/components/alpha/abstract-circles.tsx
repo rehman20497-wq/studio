@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -32,20 +31,40 @@ export default function AbstractCircles() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
     const circleRadius = 70;
-    const strokeWidth = 5;
-    const spacing = 10;
-    const gridSize = 5;
+    const strokeWidth = 3;
+    const spacing = 0; // No gap
 
     const totalRadius = circleRadius + strokeWidth / 2;
     const boxSize = totalRadius * 2 + spacing;
     
-    const circles = Array.from({ length: 25 }).map((_, i) => {
-        const row = Math.floor(i / gridSize);
-        const col = i % gridSize;
-        const x = col * boxSize + boxSize / 2 + (Math.random() - 0.5) * 20;
-        const y = row * boxSize + boxSize / 2 + (Math.random() - 0.5) * 20;
-        return { x, y };
-    });
+    const circles = [];
+
+    // Top row: 3 circles on the right
+    for (let i = 0; i < 3; i++) {
+        circles.push({
+            x: (i + 2) * boxSize + boxSize / 2,
+            y: 0 * boxSize + boxSize / 2,
+        });
+    }
+
+    // Middle 4 rows of 5 circles
+    for (let row = 1; row <= 4; row++) {
+        for (let col = 0; col < 5; col++) {
+            circles.push({
+                x: col * boxSize + boxSize / 2,
+                y: row * boxSize + boxSize / 2,
+            });
+        }
+    }
+
+    // Bottom row: 3 circles on the left
+    for (let i = 0; i < 3; i++) {
+        circles.push({
+            x: i * boxSize + boxSize / 2,
+            y: 5 * boxSize + boxSize / 2,
+        });
+    }
+
 
   return (
     <motion.div
@@ -55,7 +74,7 @@ export default function AbstractCircles() {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      <svg viewBox={`0 0 ${boxSize * gridSize} ${boxSize * gridSize}`} className="w-full max-w-2xl aspect-square">
+      <svg viewBox={`0 0 ${boxSize * 5} ${boxSize * 6}`} className="w-full max-w-2xl aspect-square">
         {circles.map((circle, i) => (
           <motion.circle
             key={i}
