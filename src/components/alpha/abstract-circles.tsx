@@ -94,18 +94,35 @@ export default function AbstractCircles() {
     const [layout] = useState(generateInitialLayout());
     const isAnimatingRef = useRef(false);
 
-    const chainsOfFour = useMemo(() => {
+    const zChains = useMemo(() => {
         const chains: any[][] = [];
-        // Find horizontal chains of 4
-        layout.forEach(row => {
-            if (row.length >= 4) {
-                for (let i = 0; i <= row.length - 4; i++) {
-                    chains.push(row.slice(i, i + 4));
+        const circlesByRow = layout;
+
+        for (let r = 0; r < circlesByRow.length - 1; r++) {
+            const topRow = circlesByRow[r];
+            const bottomRow = circlesByRow[r + 1];
+
+            for (let i = 0; i < topRow.length - 1; i++) {
+                const c1 = topRow[i];
+                const c2 = topRow[i + 1];
+
+                // Find potential C3 candidates in the bottom row that are "under" C2
+                const potentialC3s = bottomRow.filter(c =>
+                    Math.abs(c.cx - c2.cx) < BOX_SIZE
+                );
+
+                for (const c3 of potentialC3s) {
+                    // Find a C4 candidate that is a direct neighbor of C3
+                    const c4 = bottomRow.find(c => c.col === c3.col + 1);
+                    if (c4) {
+                        chains.push([c1, c2, c3, c4]);
+                    }
                 }
             }
-        });
+        }
         return chains;
     }, [layout]);
+
 
     const animateChain = useCallback(async (chain: any[], color: string, direction: 'forward' | 'backward') => {
         isAnimatingRef.current = true;
@@ -170,9 +187,9 @@ export default function AbstractCircles() {
         let chainIndex = 0;
 
         const runRandomAnimation = () => {
-             if (isAnimatingRef.current || chainsOfFour.length === 0) return;
+             if (isAnimatingRef.current || zChains.length === 0) return;
 
-            const chainToAnimate = chainsOfFour[chainIndex % chainsOfFour.length];
+            const chainToAnimate = zChains[chainIndex % zChains.length];
             const currentColor = colors[colorIndex % colors.length];
             const direction = Math.random() > 0.5 ? 'forward' : 'backward';
 
@@ -187,7 +204,7 @@ export default function AbstractCircles() {
         
         return () => clearInterval(interval);
 
-    }, [chainsOfFour, animateChain]);
+    }, [zChains, animateChain]);
 
 
     const viewBoxWidth = BOX_SIZE * 5;
