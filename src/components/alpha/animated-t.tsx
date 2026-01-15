@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -6,7 +5,7 @@ import { useRef } from 'react';
 
 const radius = 15;
 const spacing = 0; // Circles will touch corner to corner
-const strokeWidth = 8;
+const strokeWidth = 3;
 const boxSize = radius * 2 + spacing;
 
 const gridLayout = [
