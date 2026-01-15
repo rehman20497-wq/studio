@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useAnimate } from 'framer-motion';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 
 const CIRCLE_RADIUS = 45;
@@ -93,7 +93,6 @@ const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: numbe
 export default function AbstractCircles() {
     const [scope, animate] = useAnimate();
     const [layout] = useState(generateInitialLayout());
-    const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const isAnimatingRef = useRef(false);
 
     const rowPairs = useMemo(() => {
