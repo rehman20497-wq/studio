@@ -23,11 +23,11 @@ type AdminPageWrapperProps = {
 export default function AdminPageWrapper({ children, screenTitle, isLoading = false }: AdminPageWrapperProps) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
-  const [showWelcome, setShowWelcome] = useState(false);
+  // const [showWelcome, setShowWelcome] = useState(false);
   const isMobile = useIsMobile();
 
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const welcomeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // const welcomeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleLogout = useCallback(() => {
     if (auth) {
@@ -42,6 +42,7 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
   }, [auth]);
 
   // Show welcome screen ONCE when user logs in or page loads while logged in
+  /*
   useEffect(() => {
     if (user && !isLoading) {
       setShowWelcome(true);
@@ -64,6 +65,7 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
       }
     };
   }, [user, isLoading]);
+  */
 
   const resetInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
@@ -96,7 +98,10 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
   if (isUserLoading || isMobile === undefined) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
-        <p>Loading...</p>
+        <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-yellow-500"></div>
+            <p className="text-lg text-zinc-600">Loading Admin Panel...</p>
+        </div>
       </div>
     );
   }
@@ -116,14 +121,18 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
             </motion.div>
           ) : (
             <AdminLayout onLogout={handleLogout}>
-                {showWelcome || isLoading ? (
+                {isLoading ? (
                     <motion.div
                         key="welcome"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        className="flex items-center justify-center min-h-screen"
                         >
-                        <WelcomeScreen name={screenTitle} />
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-yellow-500"></div>
+                            <p className="text-lg text-zinc-600">{screenTitle}...</p>
+                        </div>
                     </motion.div>
                 ) : (
                     <motion.div
