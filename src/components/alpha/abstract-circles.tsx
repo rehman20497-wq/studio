@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useAnimate } from 'framer-motion';
@@ -176,14 +175,12 @@ export default function AbstractCircles() {
             
             const angle = Math.atan2(c2.cy - c1.cy, c2.cx - c1.cx) * (180 / Math.PI);
 
-            // For c1 (75% fill, 25% gap), the gap starts after the 75% mark.
-            // We want the middle of the gap (at 75% + 12.5% = 87.5% of circumference) to face c2.
-            // 87.5% of 360 is 315 degrees. We adjust the default rotation start (0 deg) to achieve this.
+            // For c1 (75% fill), the gap is 25%. The middle of the gap is at 87.5% of the circumference (315 degrees).
+            // To make this gap face c2, we rotate it by (angle - 315).
             const rotation1 = angle - 315;
 
-            // For c2 (50% fill, 50% gap), the gap is the latter half.
-            // We want the middle of its gap (at 50% + 25% = 75% of circumference) to face c1.
-            // 75% of 360 is 270 degrees.
+            // For c2 (50% fill), the gap is 50%. The middle of the gap is at 75% of the circumference (270 degrees).
+            // To make this gap face c1, the angle from c2 to c1 is (angle + 180). We rotate it by (angle + 180 - 270).
             const rotation2 = angle + 180 - 270;
 
             await animateCircle(c1.id, color, rotation1, 0.25); // 75% fill
@@ -198,7 +195,7 @@ export default function AbstractCircles() {
             const pairsToAnimate = pickFourNonOverlappingPairs();
             const currentColor = colors[colorIndex % colors.length];
     
-            // Animate all pairs one by one
+            // Animate all pairs sequentially
             for (const pair of pairsToAnimate) {
                 await animatePair(pair, currentColor);
             }
@@ -249,3 +246,4 @@ export default function AbstractCircles() {
         </div>
     );
 }
+    
