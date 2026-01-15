@@ -4,8 +4,8 @@ import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 
-const CIRCLE_RADIUS = 76;
-const STROKE_WIDTH = 16;
+const CIRCLE_RADIUS = 66;
+const STROKE_WIDTH = 14;
 const SPACING = 0;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
@@ -110,7 +110,6 @@ export default function AbstractCircles() {
             const { id } = circle;
             
             const fillPercentages = [0.25, 0.35, 0.5, 0.15]; // Corresponds to 75%, 65%, 50%, 85% fills
-            const randomFill = fillPercentages[Math.floor(Math.random() * fillPercentages.length)];
             const directions = [-90, 0, 90, 180]; // Top, Right, Bottom, Left
             const randomRotation = directions[Math.floor(Math.random() * directions.length)];
 
@@ -119,6 +118,7 @@ export default function AbstractCircles() {
                 { 
                     strokeDashoffset: CIRCUMFERENCE * randomFill, 
                     stroke: color,
+                    rotate: randomRotation,
                 },
                 { duration: 2.5, ease: "easeOut" }
             );
