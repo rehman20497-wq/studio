@@ -1,8 +1,7 @@
-
 'use client';
 
 import { motion, useAnimate } from 'framer-motion';
-import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 
 const CIRCLE_RADIUS = 76;
@@ -40,7 +39,7 @@ const generateInitialLayout = () => {
     );
 };
 
-const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: number; id: string; image: string; rotation: number }) => {
+const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: string; image: string; }) => {
     return (
         <g id={id}>
             <circle
@@ -61,8 +60,7 @@ const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: numbe
                 strokeWidth={STROKE_WIDTH}
                 strokeDasharray={`${CIRCUMFERENCE * 0.75} ${CIRCUMFERENCE * 0.25}`}
                 strokeDashoffset={CIRCUMFERENCE}
-                transform={`rotate(${rotation} ${cx} ${cy})`}
-                initial={{ strokeDashoffset: CIRCUMFERENCE }}
+                initial={{ strokeDashoffset: CIRCUMFERENCE, rotate: 0 }}
             />
             <clipPath id={`clip-${id}`}>
                 <motion.circle
@@ -109,20 +107,19 @@ export default function AbstractCircles() {
         let shuffledCircles = shuffle(allCirclesFlat);
 
         const animateOn = (circle: any, showProfile: boolean, color: string) => {
-            const { id, cx, cy } = circle;
+            const { id } = circle;
             
-            const fillPercentages = [0.25, 0.35, 0.5, 0.15]; // 75%, 65%, 50%, 85% fills
+            const fillPercentages = [0.25, 0.35, 0.5, 0.15]; // Corresponds to 75%, 65%, 50%, 85% fills
             const randomFill = fillPercentages[Math.floor(Math.random() * fillPercentages.length)];
             const randomRotation = Math.random() * 360;
 
-            const circleElement = document.querySelector(`#${id} .stroke-circle`);
-            if(circleElement) {
-                circleElement.setAttribute('transform', `rotate(${randomRotation} ${cx} ${cy})`);
-            }
-
             animate(
                 `#${id} .stroke-circle`,
-                { strokeDashoffset: CIRCUMFERENCE * randomFill, stroke: color },
+                { 
+                    strokeDashoffset: CIRCUMFERENCE * randomFill, 
+                    stroke: color,
+                    rotate: randomRotation
+                },
                 { duration: 1.2, ease: "easeOut" }
             );
             
@@ -139,19 +136,34 @@ export default function AbstractCircles() {
             animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 0.8, ease: 'easeIn' });
             animate(
                 `#${id} .stroke-circle`,
-                { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
+                { 
+                    strokeDashoffset: CIRCUMFERENCE, 
+                    stroke: '#f9f4e6',
+                    rotate: Math.random() * 360 // Animate to a new random rotation on exit for fluidity
+                },
                 { at: '-0.4', duration: 1.2, ease: "easeIn" }
             );
         };
         
         const runCycle = async () => {
             while (!isCancelled) {
-                const currentColor = colors[colorIndex % colors.length];
-
                 const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
                 
                 activeCircleQueue.push(circleOn);
                 
+                if (animationIndex > 0 && animationIndex % 9 === 0) {
+                    colorIndex++;
+                    const newColor = colors[colorIndex % colors.length];
+                    // Animate all currently active circles to the new color
+                    activeCircleQueue.forEach(c => {
+                        if (c) { // Ensure circle object exists
+                            animate(`#${c.id} .stroke-circle`, { stroke: newColor }, { duration: 0.5, ease: 'easeInOut' });
+                        }
+                    });
+                }
+
+                // Always use the latest color for the new circle
+                const currentColor = colors[colorIndex % colors.length];
                 animateOn(circleOn, animationIndex % 2 === 0, currentColor);
 
                 const DISPLAY_WINDOW = 6; 
@@ -166,10 +178,6 @@ export default function AbstractCircles() {
 
                 if (animationIndex > 0 && animationIndex % shuffledCircles.length === 0) {
                    shuffledCircles = shuffle(allCirclesFlat);
-                }
-
-                if (animationIndex > 0 && animationIndex % 9 === 0) {
-                    colorIndex++;
                 }
                 
                 await new Promise(resolve => setTimeout(resolve, 800));
@@ -203,11 +211,9 @@ export default function AbstractCircles() {
                         cx={cx} 
                         cy={cy}
                         image={image}
-                        rotation={0} 
                     />
                 )}
             </svg>
         </div>
     );
 }
-    
