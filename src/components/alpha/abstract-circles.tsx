@@ -119,28 +119,26 @@ export default function AbstractCircles() {
                 { 
                     strokeDashoffset: CIRCUMFERENCE * randomFill, 
                     stroke: color,
-                    rotate: randomRotation
                 },
                 { duration: 2.5, ease: "easeOut" }
             );
             
             if (showProfile) {
-                animate(`#${id} .profile-clip`, { scale: [0, 1.1, 1] }, { duration: 1, ease: [0.34, 1.56, 0.64, 1] });
-                animate(`#${id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 0.8 });
+                animate(`#${id} .profile-clip`, { scale: [0, 1.1, 1] }, { duration: 2.5, ease: [0.34, 1.56, 0.64, 1] });
+                animate(`#${id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 2.0 });
             }
         };
 
         const animateOff = (circle: any) => {
             const { id } = circle;
             
-            animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: 0.6, ease: 'easeIn' });
-            animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 0.8, ease: 'easeIn' });
+            animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: 1.0, ease: 'easeIn' });
+            animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 1.2, ease: 'easeIn' });
             animate(
                 `#${id} .stroke-circle`,
                 { 
                     strokeDashoffset: CIRCUMFERENCE, 
                     stroke: '#f9f4e6',
-                    rotate: Math.random() * 360
                 },
                 { at: '-0.4', duration: 2.5, ease: "easeIn" }
             );
@@ -148,24 +146,28 @@ export default function AbstractCircles() {
         
         const runCycle = async () => {
             while (!isCancelled) {
-                const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
-                
-                activeCircleQueue.push(circleOn);
-                
                 if (animationIndex > 0 && animationIndex % 9 === 0) {
                     colorIndex++;
                     const newColor = colors[colorIndex % colors.length];
                     activeCircleQueue.forEach(c => {
                         if (c) {
-                            animate(`#${c.id} .stroke-circle`, { stroke: newColor }, { duration: 0.5, ease: 'easeInOut' });
+                           animate(
+                                `#${c.id} .stroke-circle`, 
+                                { stroke: newColor }, 
+                                { duration: 0.5, ease: 'easeInOut' }
+                            );
                         }
                     });
                 }
+                
+                const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
+                
+                activeCircleQueue.push(circleOn);
 
                 const currentColor = colors[colorIndex % colors.length];
                 animateOn(circleOn, animationIndex % 2 === 0, currentColor);
 
-                const DISPLAY_WINDOW = 6; 
+                const DISPLAY_WINDOW = 7; 
                 if (activeCircleQueue.length > DISPLAY_WINDOW) {
                     const circleOff = activeCircleQueue.shift();
                     if (circleOff) {
