@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -14,8 +15,8 @@ const gridLayout = [
     { row: 2, count: 5, offset: 0 }, // Middle rows
     { row: 3, count: 5, offset: 0 },
     { row: 4, count: 5, offset: 0 },
-    { row: 5, count: 5, offset: 0 }, // Second-to-last row of 5
-    { row: 6, count: 3, offset: 1 }, // Last row
+    { row: 5, count: 3, offset: 1 }, // Second to last row
+    { row: 6, count: 2, offset: 1.5 }, // last row
 ];
 
 let circleCounter = 0;
@@ -35,7 +36,7 @@ const tPathIds = [
     10, // from third row (center)
     15, // from fourth row (center)
     20, // from fifth row (center)
-    25, // from sixth row (center) - ending on second last row of 5
+    24, // from sixth row (center)
 ];
 
 
@@ -71,7 +72,7 @@ export default function AnimatedT() {
     return (
         <div ref={ref} className="w-full h-full flex items-center justify-center">
             <motion.svg 
-                viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} 
+                viewBox={`-10 0 ${viewBoxWidth + 20} ${viewBoxHeight}`} 
                 className="w-full max-w-lg h-auto" 
                 preserveAspectRatio="xMidYMid meet"
                 variants={containerVariants}
