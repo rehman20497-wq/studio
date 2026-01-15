@@ -111,13 +111,8 @@ export default function Header() {
                       Home
                     </NavigationMenuLink>
                   </Link>
-                </NavigationMenuItem>
-                 <NavigationMenuItem className="group">
-                  <Link href="/alpha" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
-                      Alpha
-                    </NavigationMenuLink>
-                  </Link>
+                
+                 
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Solutions</NavigationMenuTrigger>
