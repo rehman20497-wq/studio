@@ -149,7 +149,7 @@ export default function AbstractCircles() {
                     await animate(
                         `#${id} .stroke-circle`,
                         { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
-                        { duration: 0.6, ease: "easeOut" }
+                        { duration: 1.2, ease: "easeOut" }
                     );
                     await animate([
                         [
@@ -164,9 +164,10 @@ export default function AbstractCircles() {
                         ],
                     ]);
                 };
-
+                
                 await animateCircle(circleId1);
                 await animateCircle(circleId2);
+
             }
             
             await new Promise(resolve => setTimeout(resolve, 1500));
@@ -175,7 +176,6 @@ export default function AbstractCircles() {
             for (let i = 0; i < reversedOrder.length; i += 2) {
                 const circleId1 = reversedOrder[i];
                 const circleId2 = reversedOrder[i+1];
-                const animations = [];
 
                 const unAnimateCircle = async (id: string) => {
                      if (!id) return;
@@ -194,10 +194,10 @@ export default function AbstractCircles() {
                     await animate(
                         `#${id} .stroke-circle`,
                         { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
-                        { duration: 0.6, ease: "easeIn" }
+                        { duration: 1.2, ease: "easeIn" }
                     );
                 };
-
+                
                 await unAnimateCircle(circleId1);
                 await unAnimateCircle(circleId2);
             }
