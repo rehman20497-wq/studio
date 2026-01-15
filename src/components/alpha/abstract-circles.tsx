@@ -101,14 +101,28 @@ export default function AbstractCircles() {
                 pairs.push([rowCircles[i], rowCircles[i + 1]]);
             }
             return pairs;
-        });
+        }).filter(row => row.length > 0);
     }, [layout]);
 
 
-    const animatePair = useCallback(async (pair: any[], color: string, direction: 'forward' | 'backward') => {
-        const orderedPair = direction === 'forward' ? pair : [...pair].reverse();
+    const pickFourNonOverlappingPairs = useCallback(() => {
+        const shuffledRows = [...rowPairs].sort(() => 0.5 - Math.random());
+        const selectedPairs = [];
+        
+        for (const pairsInRow of shuffledRows) {
+            if (pairsInRow.length > 0 && selectedPairs.length < 4) {
+                const randomPair = pairsInRow[Math.floor(Math.random() * pairsInRow.length)];
+                selectedPairs.push(randomPair);
+            }
+        }
+        return selectedPairs;
+    }, [rowPairs]);
 
-        const animateCircle = async (id: string) => {
+    useEffect(() => {
+        const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
+        let colorIndex = 0;
+
+        const animateCircle = async (id: string, color: string) => {
             await animate(
                 `#${id} .stroke-circle`,
                 { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
@@ -148,61 +162,43 @@ export default function AbstractCircles() {
             );
         };
         
-        for (const circle of orderedPair) {
-            await animateCircle(circle.id);
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        for (const circle of [...orderedPair].reverse()) {
-            await unAnimateCircle(circle.id);
-        }
-    }, [animate]);
-
-    useEffect(() => {
-        const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
-        let colorIndex = 0;
-
-        const pickFourNonOverlappingPairs = () => {
-            const shuffledRows = [...rowPairs].sort(() => 0.5 - Math.random());
-            const selectedPairs = [];
-            const usedRows = new Set();
-            
-            for (const pairsInRow of shuffledRows) {
-                if (pairsInRow.length > 0 && selectedPairs.length < 4) {
-                    const rowIndex = pairsInRow[0][0].row;
-                    if (!usedRows.has(rowIndex)) {
-                        const randomPair = pairsInRow[Math.floor(Math.random() * pairsInRow.length)];
-                        selectedPairs.push(randomPair);
-                        usedRows.add(rowIndex);
-                    }
-                }
-            }
-            return selectedPairs;
-        }
 
         const runAnimationCycle = async () => {
-             if (isAnimatingRef.current || rowPairs.length === 0) return;
+             if (isAnimatingRef.current || rowPairs.length < 4) return;
              isAnimatingRef.current = true;
 
             const pairsToAnimate = pickFourNonOverlappingPairs();
             const currentColor = colors[colorIndex % colors.length];
-            
-            for (const pair of pairsToAnimate) {
+
+            const allCirclesInOrder: any[] = [];
+            pairsToAnimate.forEach(pair => {
                 const direction = Math.random() > 0.5 ? 'forward' : 'backward';
-                await animatePair(pair, currentColor, direction);
+                const orderedPair = direction === 'forward' ? pair : [...pair].reverse();
+                allCirclesInOrder.push(...orderedPair);
+            });
+
+            // Animate all 8 circles in sequence
+            for (const circle of allCirclesInOrder) {
+                await animateCircle(circle.id, currentColor);
+            }
+
+            // Pause with all circles visible
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Un-animate all 8 circles in reverse sequence
+            for (const circle of [...allCirclesInOrder].reverse()) {
+                await unAnimateCircle(circle.id);
             }
 
             colorIndex++;
             isAnimatingRef.current = false;
         };
         
-        const interval = setInterval(runAnimationCycle, 7000);
-        runAnimationCycle();
+        const interval = setInterval(runAnimationCycle, 1000);
         
         return () => clearInterval(interval);
 
-    }, [rowPairs, animatePair]);
+    }, [rowPairs, pickFourNonOverlappingPairs, animate]);
 
 
     const viewBoxWidth = BOX_SIZE * 5;
