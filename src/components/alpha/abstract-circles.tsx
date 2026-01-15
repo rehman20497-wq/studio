@@ -111,7 +111,8 @@ export default function AbstractCircles() {
             
             const fillPercentages = [0.25, 0.35, 0.5, 0.15]; // Corresponds to 75%, 65%, 50%, 85% fills
             const randomFill = fillPercentages[Math.floor(Math.random() * fillPercentages.length)];
-            const randomRotation = Math.random() * 360;
+            const directions = [-90, 0, 90, 180]; // Top, Right, Bottom, Left
+            const randomRotation = directions[Math.floor(Math.random() * directions.length)];
 
             animate(
                 `#${id} .stroke-circle`,
@@ -120,7 +121,7 @@ export default function AbstractCircles() {
                     stroke: color,
                     rotate: randomRotation
                 },
-                { duration: 1.2, ease: "easeOut" }
+                { duration: 2.5, ease: "easeOut" }
             );
             
             if (showProfile) {
@@ -139,9 +140,9 @@ export default function AbstractCircles() {
                 { 
                     strokeDashoffset: CIRCUMFERENCE, 
                     stroke: '#f9f4e6',
-                    rotate: Math.random() * 360 // Animate to a new random rotation on exit for fluidity
+                    rotate: Math.random() * 360
                 },
-                { at: '-0.4', duration: 1.2, ease: "easeIn" }
+                { at: '-0.4', duration: 2.5, ease: "easeIn" }
             );
         };
         
@@ -154,15 +155,13 @@ export default function AbstractCircles() {
                 if (animationIndex > 0 && animationIndex % 9 === 0) {
                     colorIndex++;
                     const newColor = colors[colorIndex % colors.length];
-                    // Animate all currently active circles to the new color
                     activeCircleQueue.forEach(c => {
-                        if (c) { // Ensure circle object exists
+                        if (c) {
                             animate(`#${c.id} .stroke-circle`, { stroke: newColor }, { duration: 0.5, ease: 'easeInOut' });
                         }
                     });
                 }
 
-                // Always use the latest color for the new circle
                 const currentColor = colors[colorIndex % colors.length];
                 animateOn(circleOn, animationIndex % 2 === 0, currentColor);
 
