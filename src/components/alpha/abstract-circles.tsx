@@ -15,9 +15,9 @@ const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 
 const GRID_LAYOUT = [
     { row: 0, count: 3, offset: 2 },
-    { row: 1, count: 4, offset: 0 },
+    { row: 1, count: 4, offset: 1 },
     { row: 2, count: 5, offset: 0 },
-    { row: 3, count: 4, offset: 1 },
+    { row: 3, count: 4, offset: 0 },
     { row: 4, count: 5, offset: 0 },
     { row: 5, count: 3, offset: 0 },
 ];
@@ -104,19 +104,25 @@ const AnimatedCircle = ({ cx, cy, fillPercentage, imageUrl }: { cx: number; cy: 
                 transition={{ duration: 1.5, ease: "circOut" }}
             />
             {/* Animated Image */}
-            <foreignObject x={cx - CIRCLE_RADIUS} y={cy - CIRCLE_RADIUS} width={CIRCLE_RADIUS * 2} height={CIRCLE_RADIUS * 2}>
-                 <AnimatePresence>
-                    {showImage && (
-                        <motion.div
-                            className="w-full h-full rounded-full overflow-hidden"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } }}
-                            exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.4, ease: 'easeIn' } }}
-                        >
-                            <Image src={imageUrl} alt="Profile" width={50} height={50} className="w-full h-full object-cover" />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+            <foreignObject x={cx - CIRCLE_RADIUS} y={cy - CIRCLE_RADIUS} width={CIRCLE_RADIUS * 2} height={CIRCLE_RADIUS * 2} style={{ overflow: 'visible' }}>
+                 <div className="w-full h-full flex items-center justify-center">
+                    <AnimatePresence>
+                        {showImage && (
+                            <motion.div
+                                className="relative rounded-full overflow-hidden"
+                                style={{
+                                    width: (CIRCLE_RADIUS - 3) * 2,
+                                    height: (CIRCLE_RADIUS - 3) * 2,
+                                }}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } }}
+                                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.4, ease: 'easeIn' } }}
+                            >
+                                <Image src={imageUrl} alt="Profile" fill className="object-cover" />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </foreignObject>
         </g>
     );
