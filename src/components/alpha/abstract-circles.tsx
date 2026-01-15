@@ -4,9 +4,9 @@
 import { motion, useInView } from 'framer-motion';
 import React, { useRef } from 'react';
 
-const CIRCLE_RADIUS = 55;
+const CIRCLE_RADIUS = 45;
 const STROKE_WIDTH = 12;
-const SPACING = 0;
+const SPACING = 0; // Circles "hug" each other
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
 const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
@@ -79,7 +79,7 @@ export default function AbstractCircles() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
 
-    const viewBoxWidth = BOX_SIZE * 5;
+    const viewBoxWidth = BOX_SIZE * 5 + 40;
     const viewBoxHeight = BOX_SIZE * 5;
 
     return (
@@ -90,7 +90,7 @@ export default function AbstractCircles() {
             animate={isInView ? "visible" : "hidden"}
         >
             <motion.svg 
-                viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} 
+                viewBox={`-20 0 ${viewBoxWidth} ${viewBoxHeight}`} 
                 className="w-full max-w-2xl aspect-square"
                 variants={containerVariants}
             >
