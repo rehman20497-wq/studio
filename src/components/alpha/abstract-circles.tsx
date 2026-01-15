@@ -5,8 +5,8 @@ import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 
-const CIRCLE_RADIUS = 14;
-const STROKE_WIDTH = 3;
+const CIRCLE_RADIUS = 76;
+const STROKE_WIDTH = 16;
 const SPACING = 0;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
