@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useAnimate } from 'framer-motion';
@@ -129,11 +130,11 @@ export default function AbstractCircles() {
         let colorIndex = 0;
 
         const animateCircle = async (id: string, color: string, rotation: number) => {
+            const {cx, cy} = layout.flat().find(c => c.id === id)!;
             const circleElement = document.querySelector(`#${id} .stroke-circle`);
             if(circleElement) {
                 circleElement.setAttribute('transform', `rotate(${rotation} ${cx} ${cy})`);
             }
-            const {cx, cy} = layout.flat().find(c => c.id === id)!;
             
             await animate(
                 `#${id} .stroke-circle`,
