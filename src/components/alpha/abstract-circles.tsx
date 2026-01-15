@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useAnimate } from 'framer-motion';
@@ -141,47 +140,119 @@ export default function AbstractCircles() {
             const currentRound = rounds[currentRoundIndex];
             const { order, color } = currentRound;
 
-            for (const circleId of order) {
-                await animate(
-                    `#${circleId} .stroke-circle`,
-                    { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
-                    { duration: 0.6, ease: "easeOut" }
-                );
-                await animate([
-                    [
-                        `#${circleId} .profile-clip`,
-                        { scale: [0, 1.1, 1] },
-                        { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
-                    ],
-                    [
-                        `#${circleId} .profile-image-container`,
-                        { opacity: 1 },
-                        { at: '-0.4', duration: 0.4 },
-                    ],
-                ]);
+            for (let i = 0; i < order.length; i += 2) {
+                const circleId1 = order[i];
+                const circleId2 = order[i+1];
+
+                const animations = [];
+
+                if (circleId1) {
+                    animations.push(
+                        (async () => {
+                            await animate(
+                                `#${circleId1} .stroke-circle`,
+                                { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
+                                { duration: 0.6, ease: "easeOut" }
+                            );
+                            await animate([
+                                [
+                                    `#${circleId1} .profile-clip`,
+                                    { scale: [0, 1.1, 1] },
+                                    { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                                ],
+                                [
+                                    `#${circleId1} .profile-image-container`,
+                                    { opacity: 1 },
+                                    { at: '-0.4', duration: 0.4 },
+                                ],
+                            ]);
+                        })()
+                    );
+                }
+
+                 if (circleId2) {
+                    animations.push(
+                        (async () => {
+                            await animate(
+                                `#${circleId2} .stroke-circle`,
+                                { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
+                                { duration: 0.6, ease: "easeOut" }
+                            );
+                            await animate([
+                                [
+                                    `#${circleId2} .profile-clip`,
+                                    { scale: [0, 1.1, 1] },
+                                    { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                                ],
+                                [
+                                    `#${circleId2} .profile-image-container`,
+                                    { opacity: 1 },
+                                    { at: '-0.4', duration: 0.4 },
+                                ],
+                            ]);
+                        })()
+                    );
+                }
+                await Promise.all(animations);
             }
             
             await new Promise(resolve => setTimeout(resolve, 1500));
 
             const reversedOrder = [...order].reverse();
-            for (const circleId of reversedOrder) {
-                await animate([
-                    [
-                        `#${circleId} .profile-image-container`,
-                        { opacity: 0 },
-                        { duration: 0.3, ease: 'easeIn' },
-                    ],
-                    [
-                        `#${circleId} .profile-clip`,
-                        { scale: 0 },
-                        { at: '-0.2', duration: 0.4, ease: 'easeIn' },
-                    ],
-                ]);
-                await animate(
-                    `#${circleId} .stroke-circle`,
-                    { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
-                    { duration: 0.6, ease: "easeIn" }
-                );
+            for (let i = 0; i < reversedOrder.length; i += 2) {
+                const circleId1 = reversedOrder[i];
+                const circleId2 = reversedOrder[i+1];
+                const animations = [];
+
+                if(circleId1) {
+                    animations.push(
+                        (async () => {
+                             await animate([
+                                [
+                                    `#${circleId1} .profile-image-container`,
+                                    { opacity: 0 },
+                                    { duration: 0.3, ease: 'easeIn' },
+                                ],
+                                [
+                                    `#${circleId1} .profile-clip`,
+                                    { scale: 0 },
+                                    { at: '-0.2', duration: 0.4, ease: 'easeIn' },
+                                ],
+                            ]);
+                            await animate(
+                                `#${circleId1} .stroke-circle`,
+                                { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
+                                { duration: 0.6, ease: "easeIn" }
+                            );
+                        })()
+                    );
+                }
+
+                if(circleId2) {
+                    animations.push(
+                        (async () => {
+                             await animate([
+                                [
+                                    `#${circleId2} .profile-image-container`,
+                                    { opacity: 0 },
+                                    { duration: 0.3, ease: 'easeIn' },
+                                ],
+                                [
+                                    `#${circleId2} .profile-clip`,
+                                    { scale: 0 },
+                                    { at: '-0.2', duration: 0.4, ease: 'easeIn' },
+                                ],
+                            ]);
+                            await animate(
+                                `#${circleId2} .stroke-circle`,
+                                { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
+                                { duration: 0.6, ease: "easeIn" }
+                            );
+                        })()
+                    );
+                }
+
+                await Promise.all(animations);
             }
 
             await new Promise(resolve => setTimeout(resolve, 1000));
