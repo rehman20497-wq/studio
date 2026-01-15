@@ -171,6 +171,25 @@ export default function AbstractCircles() {
             );
         };
         
+        const animatePair = async (pair: any[], color: string) => {
+            const [c1, c2] = Math.random() > 0.5 ? pair : [...pair].reverse();
+            
+            const angle = Math.atan2(c2.cy - c1.cy, c2.cx - c1.cx) * (180 / Math.PI);
+
+            // For c1 (75% fill, 25% gap), the gap starts after the 75% mark.
+            // We want the middle of the gap (at 75% + 12.5% = 87.5% of circumference) to face c2.
+            // 87.5% of 360 is 315 degrees. We adjust the default rotation start (0 deg) to achieve this.
+            const rotation1 = angle - 315;
+
+            // For c2 (50% fill, 50% gap), the gap is the latter half.
+            // We want the middle of its gap (at 50% + 25% = 75% of circumference) to face c1.
+            // 75% of 360 is 270 degrees.
+            const rotation2 = angle + 180 - 270;
+
+            await animateCircle(c1.id, color, rotation1, 0.25); // 75% fill
+            await animateCircle(c2.id, color, rotation2, 0.5); // 50% fill
+        };
+
 
         const runAnimationCycle = async () => {
             if (isAnimatingRef.current) return;
@@ -179,30 +198,18 @@ export default function AbstractCircles() {
             const pairsToAnimate = pickFourNonOverlappingPairs();
             const currentColor = colors[colorIndex % colors.length];
     
-            const allCirclesInOrder: any[] = [];
+            // Animate all pairs one by one
             for (const pair of pairsToAnimate) {
-                const direction = Math.random() > 0.5 ? 'forward' : 'backward';
-                const orderedPair = direction === 'forward' ? pair : [...pair].reverse();
-
-                // Calculate rotations for connected stroke effect
-                const [c1, c2] = orderedPair;
-                const angle = Math.atan2(c2.cy - c1.cy, c2.cx - c1.cx) * (180 / Math.PI);
-                
-                allCirclesInOrder.push({ ...c1, customRotation: angle + 135, fillPercentage: 0.25 });
-                allCirclesInOrder.push({ ...c2, customRotation: angle - 135, fillPercentage: 0.50 });
-            }
-    
-            // Animate all circles in sequence
-            for (const circle of allCirclesInOrder) {
-                await animateCircle(circle.id, currentColor, circle.customRotation, circle.fillPercentage);
+                await animatePair(pair, currentColor);
             }
     
             // Pause with all circles visible
             await new Promise(resolve => setTimeout(resolve, 1500));
     
-            // Un-animate all 8 circles in reverse sequence
-            for (const circle of [...allCirclesInOrder].reverse()) {
-                await unAnimateCircle(circle.id);
+            const allAnimatedCircles = pairsToAnimate.flat();
+            // Un-animate all circles in reverse sequence
+            for (let i = allAnimatedCircles.length - 1; i >= 0; i--) {
+                await unAnimateCircle(allAnimatedCircles[i].id);
             }
     
             colorIndex++;
@@ -213,7 +220,7 @@ export default function AbstractCircles() {
         
         return () => clearInterval(interval);
 
-    }, [pickFourNonOverlappingPairs, animate, layout]);
+    }, [pickFourNonOverlappingPairs, animate, layout, horizontalPairs]);
 
 
     const viewBoxWidth = BOX_SIZE * 5;
