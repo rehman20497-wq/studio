@@ -14,7 +14,7 @@ const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
 
 const PROFILE_RADIUS = CIRCLE_RADIUS - STROKE_WIDTH;
 
-const GRID_LAYOUT = [
+const GRID_LAYOUT_CONFIG = [
     { row: 0, count: 3, offset: 1 },
     { row: 1, count: 4, offset: 0.5 },
     { row: 2, count: 5, offset: 0 },
@@ -22,26 +22,29 @@ const GRID_LAYOUT = [
     { row: 4, count: 3, offset: 1 },
 ];
 
-// Placeholder images for profiles
 const profileImages = Array.from({ length: 19 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
 
 const getCircleId = (row: number, col: number) => `circle-${row}-${col}`;
 
-let circleCounter = 0;
-const allCircles = GRID_LAYOUT.flatMap(({ row, count, offset }) =>
-  Array.from({ length: count }).map((_, colIndex) => ({
-    id: getCircleId(row, colIndex),
-    row: row,
-    col: colIndex,
-    cx: (colIndex + offset) * BOX_SIZE + (BOX_SIZE / 2),
-    cy: row * BOX_SIZE + (BOX_SIZE / 2),
-    image: profileImages[circleCounter++ % profileImages.length],
-  }))
-);
+const generateInitialLayout = () => {
+    let circleCounter = 0;
+    const rotations = [0, 90, 180, 270];
+    return GRID_LAYOUT_CONFIG.flatMap(({ row, count, offset }) =>
+      Array.from({ length: count }).map((_, colIndex) => ({
+        id: getCircleId(row, colIndex),
+        row: row,
+        col: colIndex,
+        cx: (colIndex + offset) * BOX_SIZE + (BOX_SIZE / 2),
+        cy: row * BOX_SIZE + (BOX_SIZE / 2),
+        image: profileImages[circleCounter % profileImages.length],
+        rotation: rotations[Math.floor(Math.random() * rotations.length)],
+        key: circleCounter++,
+      }))
+    );
+};
 
-// --- Animation Order Definitions ---
 const topRightToCenterOrder = [
-    getCircleId(0,2), getCircleId(4,0), // corners
+    getCircleId(0,2), getCircleId(4,0),
     getCircleId(0,1), getCircleId(4,1),
     getCircleId(1,3), getCircleId(3,0),
     getCircleId(0,0), getCircleId(4,2),
@@ -50,7 +53,7 @@ const topRightToCenterOrder = [
     getCircleId(1,1), getCircleId(3,2),
     getCircleId(2,3), getCircleId(2,1),
     getCircleId(1,0), getCircleId(3,3),
-    getCircleId(2,2) // center
+    getCircleId(2,2)
 ];
 
 const diagonalSweepOrder = [
@@ -66,21 +69,17 @@ const diagonalSweepOrder = [
     getCircleId(2,2)
 ];
 
-const horizontalSweepOrder = allCircles.slice().sort((a, b) => a.cx - b.cx).map(c => c.id);
-
-// --- Round Configuration ---
 const rounds = [
   { order: topRightToCenterOrder, color: "#00E5FF" }, // Cyan
   { order: diagonalSweepOrder, color: "#7C4DFF" }, // Purple
-  { order: horizontalSweepOrder, color: "#00FF9C" }, // Lime
-  { order: [...allCircles.map(c=>c.id)].sort(() => Math.random() - 0.5), color: "#FF9100" }, // Orange (Random)
+  { order: [], color: "#00FF9C" }, // Lime (Will be populated with horizontal sweep)
+  { order: [], color: "#FF9100" }, // Orange (Random)
 ];
 
 
-const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: string; image: string; }) => {
+const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: number; id: string; image: string; rotation: number }) => {
     return (
         <g id={id}>
-            {/* Background static circle */}
             <circle
                 cx={cx}
                 cy={cy}
@@ -89,7 +88,6 @@ const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: str
                 stroke="#f9f4e6"
                 strokeWidth={STROKE_WIDTH}
             />
-            {/* Animated 75% stroke circle */}
             <motion.circle
                 className="stroke-circle"
                 cx={cx}
@@ -100,10 +98,9 @@ const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: str
                 strokeWidth={STROKE_WIDTH}
                 strokeDasharray={`${CIRCUMFERENCE}`}
                 strokeLinecap="round"
-                transform={`rotate(-45 ${cx} ${cy})`}
+                transform={`rotate(${rotation} ${cx} ${cy})`}
                 initial={{ strokeDashoffset: CIRCUMFERENCE }}
             />
-            {/* Profile Picture */}
             <clipPath id={`clip-${id}`}>
                 <motion.circle
                     className="profile-clip"
@@ -132,21 +129,24 @@ const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: str
 export default function AbstractCircles() {
     const [scope, animate] = useAnimate();
     const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
+    const [allCircles, setAllCircles] = useState(generateInitialLayout());
 
     useEffect(() => {
+        const horizontalSweepOrder = [...allCircles].sort((a, b) => a.cx - b.cx).map(c => c.id);
+        const randomOrder = [...allCircles].sort(() => Math.random() - 0.5).map(c => c.id);
+        rounds[2].order = horizontalSweepOrder;
+        rounds[3].order = randomOrder;
+
         const runAnimationCycle = async () => {
             const currentRound = rounds[currentRoundIndex];
             const { order, color } = currentRound;
 
-            // --- FORWARD ANIMATION ---
             for (const circleId of order) {
-                // 1. Draw Stroke
                 await animate(
                     `#${circleId} .stroke-circle`,
                     { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
                     { duration: 0.6, ease: "easeOut" }
                 );
-                // 2. Reveal Profile
                 await animate([
                     [
                         `#${circleId} .profile-clip`,
@@ -161,13 +161,10 @@ export default function AbstractCircles() {
                 ]);
             }
             
-            // Pause before reversing
             await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // --- REVERSE ANIMATION ---
             const reversedOrder = [...order].reverse();
             for (const circleId of reversedOrder) {
-                // 1. Hide Profile
                 await animate([
                     [
                         `#${circleId} .profile-image-container`,
@@ -180,7 +177,6 @@ export default function AbstractCircles() {
                         { at: '-0.2', duration: 0.4, ease: 'easeIn' },
                     ],
                 ]);
-                // 2. Undraw Stroke
                 await animate(
                     `#${circleId} .stroke-circle`,
                     { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
@@ -188,15 +184,13 @@ export default function AbstractCircles() {
                 );
             }
 
-            // Pause before next round
             await new Promise(resolve => setTimeout(resolve, 1000));
             
-            // Move to the next round
             setCurrentRoundIndex((prev) => (prev + 1) % rounds.length);
         };
 
         runAnimationCycle();
-    }, [currentRoundIndex, animate]);
+    }, [currentRoundIndex, animate, allCircles]);
 
     const viewBoxWidth = BOX_SIZE * 5 + 40;
     const viewBoxHeight = BOX_SIZE * 5;
@@ -210,17 +204,17 @@ export default function AbstractCircles() {
                 viewBox={`-20 0 ${viewBoxWidth} ${viewBoxHeight}`} 
                 className="w-full max-w-2xl aspect-square"
             >
-                {allCircles.map(({ id, cx, cy, image }) => 
+                {allCircles.map(({ id, cx, cy, image, rotation, key }) => 
                     <AnimatedCircle 
-                        key={id} 
+                        key={key} 
                         id={id} 
                         cx={cx} 
                         cy={cy}
                         image={image}
+                        rotation={rotation}
                     />
                 )}
             </svg>
         </div>
     );
 }
-
