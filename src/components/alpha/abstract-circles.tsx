@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -31,8 +30,8 @@ const circleVariants = {
 export default function AbstractCircles() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
-    const circleRadius = 70;
-    const strokeWidth = 5;
+    const circleRadius = 25;
+    const strokeWidth = 8;
     const spacing = 0; // No gap
 
     const totalRadius = circleRadius + strokeWidth / 2;
