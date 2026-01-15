@@ -1,7 +1,6 @@
 'use client';
 
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import React, { useRef, useState, useEffect } from 'react';
 
 const circleRadius = 25;
@@ -11,15 +10,6 @@ const spacing = 0; // No gap
 const totalRadius = circleRadius + strokeWidth / 2;
 const boxSize = totalRadius * 2 + spacing;
 const circumference = 2 * Math.PI * circleRadius;
-
-const profileImages = [
-    '/t.png',
-    '/t1.png',
-    '/t2.png',
-    '/t3.png',
-    '/1.jpg',
-    '/2.jpg',
-];
 
 const gridLayout = [
     { row: 0, count: 3, offset: 2 }, // Top right
@@ -63,45 +53,8 @@ const initialCircleVariants = {
     },
 };
 
-const imageVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.5, ease: 'easeOut' },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.8,
-      transition: { duration: 0.5, ease: 'easeIn' },
-    },
-  };
-
-const AnimatedCircle = ({ cx, cy, isAnimating, imageUrl }: { cx: number; cy: number; isAnimating: boolean; imageUrl: string | null }) => {
-    const [showImage, setShowImage] = useState(false);
-  
-    useEffect(() => {
-      let imageTimeout: NodeJS.Timeout;
-      if (isAnimating) {
-        // Start showing the image slightly before the stroke animation ends
-        imageTimeout = setTimeout(() => {
-          setShowImage(true);
-        }, 1200); // 1.5s stroke duration - 0.3s
-      }
-  
-      return () => clearTimeout(imageTimeout);
-    }, [isAnimating]);
-
-    useEffect(() => {
-        let hideTimeout: NodeJS.Timeout;
-        if(showImage) {
-            // Hide the image after it has been visible for a while
-            hideTimeout = setTimeout(() => {
-                setShowImage(false);
-            }, 2000); // Visible for 2 seconds
-        }
-        return () => clearTimeout(hideTimeout);
-    }, [showImage]);
+const AnimatedCircle = ({ cx, cy, fillPercentage }: { cx: number; cy: number; fillPercentage: number; }) => {
+    const strokeDashoffset = circumference * (1 - fillPercentage / 100);
 
     return (
         <g>
@@ -124,24 +77,10 @@ const AnimatedCircle = ({ cx, cy, isAnimating, imageUrl }: { cx: number; cy: num
                 transform={`rotate(-90 ${cx} ${cy})`}
                 strokeDasharray={circumference}
                 initial={{ strokeDashoffset: circumference }}
-                animate={{ strokeDashoffset: isAnimating ? 0 : circumference }}
+                animate={{ strokeDashoffset: strokeDashoffset }}
+                exit={{ strokeDashoffset: circumference }}
                 transition={{ duration: 1.5, ease: "circOut" }}
             />
-            <foreignObject x={cx - circleRadius} y={cy - circleRadius} width={circleRadius * 2} height={circleRadius * 2}>
-                 <AnimatePresence>
-                    {showImage && imageUrl && (
-                        <motion.div
-                            variants={imageVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            className="w-full h-full rounded-full overflow-hidden"
-                        >
-                            <Image src={imageUrl} alt="Profile" fill className="object-cover" />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </foreignObject>
         </g>
     );
 };
@@ -149,42 +88,37 @@ const AnimatedCircle = ({ cx, cy, isAnimating, imageUrl }: { cx: number; cy: num
 export default function AbstractCircles() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
-    const [animatedCircles, setAnimatedCircles] = useState<Array<{ id: number; imageUrl: string }>>([]);
+    const [animatedCircles, setAnimatedCircles] = useState<Array<{ id: number; percentage: number }>>([]);
 
     useEffect(() => {
         if (isInView) {
             const interval = setInterval(() => {
-                const animatedIds = animatedCircles.map(c => c.id);
-                const availableCircles = allCircles.filter(c => !animatedIds.includes(c.id));
-                
-                if (availableCircles.length === 0) {
-                    setAnimatedCircles([]);
-                    return;
-                }
+                const activeIds = new Set(animatedCircles.map(c => c.id));
+                const availableCircles = allCircles.filter(c => !activeIds.has(c.id));
 
-                const newAnimated = [];
-                const shuffled = [...availableCircles].sort(() => 0.5 - Math.random());
-                const randomImage1 = profileImages[Math.floor(Math.random() * profileImages.length)];
-                newAnimated.push({id: shuffled[0].id, imageUrl: randomImage1 });
-                
-                if (shuffled.length > 1) {
-                    const randomImage2 = profileImages[Math.floor(Math.random() * profileImages.length)];
-                    newAnimated.push({id: shuffled[1].id, imageUrl: randomImage2});
-                }
-                
-                setAnimatedCircles(prev => [...prev, newAnimated[0]]);
-                if (newAnimated.length > 1) {
-                    setTimeout(() => {
-                        setAnimatedCircles(prev => [...prev, newAnimated[1]]);
-                    }, 800);
-                }
+                if (availableCircles.length < 2) return;
 
+                // Select 2 to 4 new circles to animate
+                const numToAnimate = Math.floor(Math.random() * 3) + 2;
+                const shuffled = availableCircles.sort(() => 0.5 - Math.random());
+                const newAnimations = [];
+
+                for (let i = 0; i < numToAnimate && i < shuffled.length; i++) {
+                    newAnimations.push({
+                        id: shuffled[i].id,
+                        percentage: Math.floor(Math.random() * 36) + 60, // 60% to 95%
+                    });
+                }
+                
+                setAnimatedCircles(prev => [...prev, ...newAnimations]);
+                
+                // Set a timeout to remove these circles from the animation queue
                 setTimeout(() => {
-                    const idsToReset = newAnimated.map(c => c.id);
-                    setAnimatedCircles(prev => prev.filter(c => !idsToReset.includes(c.id)));
-                }, 4000);
+                    const idsToRemove = newAnimations.map(a => a.id);
+                    setAnimatedCircles(prev => prev.filter(c => !idsToRemove.includes(c.id)));
+                }, 3000); // Animation duration (1.5s) + visible time (1.5s)
 
-            }, 2500);
+            }, 800); // New animations every 800ms
 
             return () => clearInterval(interval);
         }
@@ -200,19 +134,31 @@ export default function AbstractCircles() {
       animate={isInView ? "visible" : "hidden"}
     >
       <svg viewBox={`0 0 ${boxSize * 5} ${boxSize * 6}`} className="w-full max-w-2xl aspect-square">
-        {allCircles.map((circle) => {
-            const animationInfo = animatedCircles.find(c => c.id === circle.id);
-            return (
-                <motion.g key={circle.id} variants={initialCircleVariants}>
-                    <AnimatedCircle
-                    cx={circle.cx}
-                    cy={circle.cy}
-                    isAnimating={!!animationInfo}
-                    imageUrl={animationInfo?.imageUrl || null}
-                    />
-                </motion.g>
-            )
-        })}
+        <AnimatePresence>
+            {allCircles.map((circle) => {
+                const animationInfo = animatedCircles.find(c => c.id === circle.id);
+                return (
+                    <motion.g key={circle.id} variants={initialCircleVariants}>
+                       {animationInfo ? (
+                           <AnimatedCircle
+                                cx={circle.cx}
+                                cy={circle.cy}
+                                fillPercentage={animationInfo.percentage}
+                           />
+                       ) : (
+                        <circle
+                            cx={circle.cx}
+                            cy={circle.cy}
+                            r={circleRadius}
+                            fill="none"
+                            stroke="#f9f4e6"
+                            strokeWidth={strokeWidth}
+                        />
+                       )}
+                    </motion.g>
+                )
+            })}
+        </AnimatePresence>
       </svg>
     </motion.div>
   );
