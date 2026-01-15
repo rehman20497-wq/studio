@@ -56,16 +56,30 @@ const circleVariants = {
         opacity: 0.3,
         strokeDashoffset: isTPath ? circumference : 0,
     }),
-    visible: (isTPath: boolean) => ({
-        stroke: isTPath ? "#F5D34A" : "#f7edcf",
-        opacity: isTPath ? 1 : 0.3,
-        strokeDashoffset: 0,
-        transition: {
-            strokeDashoffset: { duration: 0.8, ease: "easeOut" },
-            stroke: { duration: 0.1 },
-            opacity: { duration: 0.1 },
-        },
-    }),
+    visible: (isTPath: boolean) => {
+        if (!isTPath) {
+            return {
+                stroke: "#f7edcf",
+                opacity: 0.3,
+                strokeDashoffset: 0,
+            };
+        }
+        return {
+            stroke: ["#F5D34A", "#61d7e2", "#b787e7", "#ff9172", "#F5D34A"],
+            opacity: 1,
+            strokeDashoffset: 0,
+            transition: {
+                strokeDashoffset: { duration: 0.8, ease: "easeOut" },
+                opacity: { duration: 0.1 },
+                stroke: {
+                    delay: 0.8, // Start color animation after stroke is drawn
+                    duration: 8,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                },
+            },
+        };
+    },
 };
 
 export default function AnimatedT() {
