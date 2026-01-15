@@ -8,6 +8,7 @@ const radius = 15;
 const spacing = 0; // Circles will touch corner to corner
 const strokeWidth = 3;
 const boxSize = radius * 2 + spacing;
+const circumference = 2 * Math.PI * radius;
 
 const gridLayout = [
     { row: 0, count: 3, offset: 1 }, // Top row
@@ -44,20 +45,25 @@ const containerVariants = {
     hidden: {},
     visible: {
         transition: {
-            staggerChildren: 0.05,
+            staggerChildren: 0.15, // Stagger the animation of each circle
         },
     },
 };
 
 const circleVariants = {
-    hidden: { stroke: "#f7edcf", opacity: 0.3 },
-    visible: (i: number) => ({
-        stroke: tPathIds.includes(i) ? "#F5D34A" : "#f7edcf",
-        opacity: tPathIds.includes(i) ? 1 : 0.3,
+    hidden: (isTPath: boolean) => ({
+        stroke: "#f7edcf",
+        opacity: 0.3,
+        strokeDashoffset: isTPath ? circumference : 0,
+    }),
+    visible: (isTPath: boolean) => ({
+        stroke: isTPath ? "#F5D34A" : "#f7edcf",
+        opacity: isTPath ? 1 : 0.3,
+        strokeDashoffset: 0,
         transition: {
-            delay: tPathIds.includes(i) ? tPathIds.indexOf(i) * 0.15 : 0,
-            duration: 0.5,
-            ease: "easeOut",
+            strokeDashoffset: { duration: 0.8, ease: "easeOut" },
+            stroke: { duration: 0.1 },
+            opacity: { duration: 0.1 },
         },
     }),
 };
@@ -79,19 +85,24 @@ export default function AnimatedT() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
             >
-                {allCircles.map(circle => (
-                    <motion.circle
-                        key={circle.id}
-                        cx={circle.cx}
-                        cy={circle.cy}
-                        r={radius}
-                        fill="none"
-                        strokeWidth={strokeWidth}
-                        custom={circle.id}
-                        variants={circleVariants}
-                    />
-                ))}
+                {allCircles.map(circle => {
+                    const isTPath = tPathIds.includes(circle.id);
+                    return (
+                        <motion.circle
+                            key={circle.id}
+                            cx={circle.cx}
+                            cy={circle.cy}
+                            r={radius}
+                            fill="none"
+                            strokeWidth={strokeWidth}
+                            strokeDasharray={circumference}
+                            custom={isTPath}
+                            variants={circleVariants}
+                        />
+                    );
+                })}
             </motion.svg>
         </div>
     );
 }
+
