@@ -10,12 +10,12 @@ const boxSize = radius * 2 + spacing;
 
 const gridLayout = [
     { row: 0, count: 3, offset: 1 }, // Top row
-    { row: 1, count: 5, offset: 0 }, // Middle rows
-    { row: 2, count: 5, offset: 0 },
+    { row: 1, count: 5, offset: 0 }, // Second row
+    { row: 2, count: 5, offset: 0 }, // Middle rows
     { row: 3, count: 5, offset: 0 },
     { row: 4, count: 5, offset: 0 },
-    { row: 5, count: 5, offset: 0 },
-    { row: 6, count: 3, offset: 1 }, // Bottom row
+    { row: 5, count: 5, offset: 0 }, // Second-to-last row of 5
+    { row: 6, count: 3, offset: 1 }, // Last row
 ];
 
 let circleCounter = 0;
@@ -28,14 +28,14 @@ const allCircles = gridLayout.flatMap(({ row, count, offset }) => {
 });
 
 // Define the path for the letter 'T' by the circle IDs
-// This path is now perfectly centered.
 const tPathIds = [
-    // Top bar of 'T' (3 circles in the middle of the 2nd row of 5)
-    4, 5, 6,
+    // Top bar of 'T' (full second row)
+    3, 4, 5, 6, 7,
     // Vertical stem of 'T'
     10, // from third row (center)
     15, // from fourth row (center)
     20, // from fifth row (center)
+    25, // from sixth row (center) - ending on second last row of 5
 ];
 
 
