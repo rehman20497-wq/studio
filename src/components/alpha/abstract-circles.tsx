@@ -1,12 +1,13 @@
+
 'use client';
 
 import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 
-const CIRCLE_RADIUS = 16;
-const STROKE_WIDTH = 4;
-const SPACING = 4;
+const CIRCLE_RADIUS = 14;
+const STROKE_WIDTH = 3;
+const SPACING = 0;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
 const CIRCUMFERENCE = 2 * Math.PI * (CIRCLE_RADIUS - STROKE_WIDTH / 2);
@@ -229,7 +230,7 @@ export default function AbstractCircles() {
         <div className="w-full h-full flex items-center justify-center">
             <svg 
                 ref={scope}
-                viewBox={`-20 0 ${viewBoxWidth} ${viewBoxHeight}`} 
+                viewBox={`-40 0 ${viewBoxWidth + 80} ${viewBoxHeight}`} 
                 className="w-full max-w-2xl aspect-square"
             >
                 {allCircles.map(({ id, cx, cy, image, rotation, key }) => 
