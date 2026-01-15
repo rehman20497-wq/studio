@@ -4,7 +4,7 @@
 import { motion, useInView } from 'framer-motion';
 import React, { useRef } from 'react';
 
-const CIRCLE_RADIUS = 50;
+const CIRCLE_RADIUS = 55;
 const STROKE_WIDTH = 12;
 const SPACING = 0;
 
@@ -14,12 +14,11 @@ const FILLED_STROKE = CIRCUMFERENCE * 0.75;
 const EMPTY_STROKE = CIRCUMFERENCE * 0.25;
 
 const GRID_LAYOUT = [
-    { row: 0, count: 3, offset: 2 },
-    { row: 1, count: 4, offset: 1 },
+    { row: 0, count: 3, offset: 1 },
+    { row: 1, count: 4, offset: 0.5 },
     { row: 2, count: 5, offset: 0 },
-    { row: 3, count: 4, offset: 1 },
-    { row: 4, count: 5, offset: 0 },
-    { row: 5, count: 3, offset: 2 },
+    { row: 3, count: 4, offset: 0.5 },
+    { row: 4, count: 3, offset: 1 },
 ];
 
 const containerVariants = {
@@ -80,8 +79,8 @@ export default function AbstractCircles() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
 
-    const viewBoxWidth = BOX_SIZE * 7;
-    const viewBoxHeight = BOX_SIZE * 6;
+    const viewBoxWidth = BOX_SIZE * 5;
+    const viewBoxHeight = BOX_SIZE * 5;
 
     return (
         <motion.div
