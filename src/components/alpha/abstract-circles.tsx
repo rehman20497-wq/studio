@@ -111,8 +111,8 @@ const AnimatedCircle = ({ cx, cy, fillPercentage, imageUrl }: { cx: number; cy: 
                             <motion.div
                                 className="relative rounded-full overflow-hidden"
                                 style={{
-                                    width: (CIRCLE_RADIUS - 3) * 2,
-                                    height: (CIRCLE_RADIUS - 3) * 2,
+                                    width: (CIRCLE_RADIUS - 8) * 2,
+                                    height: (CIRCLE_RADIUS - 8) * 2,
                                 }}
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } }}
