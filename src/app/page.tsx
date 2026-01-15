@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -8,8 +7,6 @@ import RightColumn from "@/components/layout/right-column";
 import LogoMarquee from "@/components/logo-marquee";
 import NewTestimonialSection from "@/components/new-testimonial-section";
 import SuccessMission from "@/components/success-mission";
-import TestimonialNetwork from "@/components/testimonial-network";
-import UsaMap from "@/components/usa-map";
 import GrowthSection from "@/components/growth-section";
 import SolutionsSection from "@/components/solutions-section";
 import BrushStrokes from "@/components/brush-strokes";
@@ -22,6 +19,7 @@ import ValidationSection from "@/components/validation-section";
 import CustomerStories from "@/components/customer-stories";
 import ActionButtonsSection from "@/components/action-buttons-section";
 import ClientOnly from '@/components/client-only';
+import AbstractCircles from '@/components/alpha/abstract-circles';
 
 export default function Home() {
   const footerRef = useRef(null);
@@ -34,13 +32,9 @@ export default function Home() {
       </ClientOnly>
       <main className="bg-background font-body">
         <div className="flex flex-col md:flex-row w-full">
-          <div className="relative w-full md:w-1/2 h-[60vh] md:h-screen flex items-center justify-center">
+          <div className="relative w-full md:w-1/2 h-[60vh] md:h-screen flex items-center justify-center bg-white">
             <div className="relative w-full h-full">
-              <UsaMap />
-              <div className="absolute inset-0 bg-background/50" />
-              <div className="absolute inset-0">
-                <TestimonialNetwork />
-              </div>
+              <AbstractCircles />
             </div>
           </div>
           <div className="w-full md:w-1/2 h-auto md:h-screen bg-[#FEF9F2] flex items-center justify-center py-12 md:py-0">
