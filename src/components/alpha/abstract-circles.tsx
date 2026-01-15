@@ -1,8 +1,9 @@
 
 'use client';
 
-import { motion, useAnimate, stagger } from 'framer-motion';
-import React, { useRef, useEffect, useState } from 'react';
+import { motion, useAnimate } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const CIRCLE_RADIUS = 45;
 const STROKE_WIDTH = 12;
@@ -10,8 +11,6 @@ const SPACING = 0;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
 const CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
-const FILLED_STROKE = CIRCUMFERENCE * 0.75;
-const EMPTY_STROKE = CIRCUMFERENCE * 0.25;
 
 const PROFILE_RADIUS = CIRCLE_RADIUS - STROKE_WIDTH;
 
@@ -23,8 +22,12 @@ const GRID_LAYOUT = [
     { row: 4, count: 3, offset: 1 },
 ];
 
+// Placeholder images for profiles
+const profileImages = Array.from({ length: 19 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
+
 const getCircleId = (row: number, col: number) => `circle-${row}-${col}`;
 
+let circleCounter = 0;
 const allCircles = GRID_LAYOUT.flatMap(({ row, count, offset }) =>
   Array.from({ length: count }).map((_, colIndex) => ({
     id: getCircleId(row, colIndex),
@@ -32,6 +35,7 @@ const allCircles = GRID_LAYOUT.flatMap(({ row, count, offset }) =>
     col: colIndex,
     cx: (colIndex + offset) * BOX_SIZE + (BOX_SIZE / 2),
     cy: row * BOX_SIZE + (BOX_SIZE / 2),
+    image: profileImages[circleCounter++ % profileImages.length],
   }))
 );
 
@@ -73,7 +77,7 @@ const rounds = [
 ];
 
 
-const AnimatedCircle = ({ cx, cy, id, color }: { cx: number; cy: number; id: string; color: string; }) => {
+const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: string; image: string; }) => {
     return (
         <g id={id}>
             {/* Background static circle */}
@@ -92,22 +96,35 @@ const AnimatedCircle = ({ cx, cy, id, color }: { cx: number; cy: number; id: str
                 cy={cy}
                 r={CIRCLE_RADIUS}
                 fill="none"
-                stroke={color}
+                stroke="#f9f4e6"
                 strokeWidth={STROKE_WIDTH}
-                strokeDasharray={`${FILLED_STROKE} ${EMPTY_STROKE}`}
+                strokeDasharray={`${CIRCUMFERENCE}`}
                 strokeLinecap="round"
                 transform={`rotate(-45 ${cx} ${cy})`}
-                initial={{ strokeDashoffset: FILLED_STROKE }}
+                initial={{ strokeDashoffset: CIRCUMFERENCE }}
             />
-             {/* Profile Circle */}
-            <motion.circle
-                className="profile-circle"
-                cx={cx}
-                cy={cy}
-                r={PROFILE_RADIUS}
-                fill={color}
-                initial={{ scale: 0, opacity: 0 }}
-            />
+            {/* Profile Picture */}
+            <clipPath id={`clip-${id}`}>
+                <motion.circle
+                    className="profile-clip"
+                    cx={cx}
+                    cy={cy}
+                    r={PROFILE_RADIUS}
+                    initial={{ scale: 0 }}
+                />
+            </clipPath>
+            <g clipPath={`url(#clip-${id})`}>
+                <motion.foreignObject
+                    className="profile-image-container"
+                    x={cx - PROFILE_RADIUS}
+                    y={cy - PROFILE_RADIUS}
+                    width={PROFILE_RADIUS * 2}
+                    height={PROFILE_RADIUS * 2}
+                    initial={{ opacity: 0 }}
+                >
+                    <Image src={image} alt="Profile" width={PROFILE_RADIUS * 2} height={PROFILE_RADIUS * 2} />
+                </motion.foreignObject>
+            </g>
         </g>
     );
 };
@@ -126,15 +143,22 @@ export default function AbstractCircles() {
                 // 1. Draw Stroke
                 await animate(
                     `#${circleId} .stroke-circle`,
-                    { strokeDashoffset: 0, stroke: color },
+                    { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
                     { duration: 0.6, ease: "easeOut" }
                 );
                 // 2. Reveal Profile
-                await animate(
-                    `#${circleId} .profile-circle`,
-                    { scale: 1, opacity: 1, fill: color },
-                    { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }
-                );
+                await animate([
+                    [
+                        `#${circleId} .profile-clip`,
+                        { scale: [0, 1.1, 1] },
+                        { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                    ],
+                    [
+                        `#${circleId} .profile-image-container`,
+                        { opacity: 1 },
+                        { at: '-0.4', duration: 0.4 },
+                    ],
+                ]);
             }
             
             // Pause before reversing
@@ -144,15 +168,22 @@ export default function AbstractCircles() {
             const reversedOrder = [...order].reverse();
             for (const circleId of reversedOrder) {
                 // 1. Hide Profile
-                await animate(
-                    `#${circleId} .profile-circle`,
-                    { scale: 0, opacity: 0 },
-                    { duration: 0.4, ease: "easeIn" }
-                );
+                await animate([
+                    [
+                        `#${circleId} .profile-image-container`,
+                        { opacity: 0 },
+                        { duration: 0.3, ease: 'easeIn' },
+                    ],
+                    [
+                        `#${circleId} .profile-clip`,
+                        { scale: 0 },
+                        { at: '-0.2', duration: 0.4, ease: 'easeIn' },
+                    ],
+                ]);
                 // 2. Undraw Stroke
                 await animate(
                     `#${circleId} .stroke-circle`,
-                    { strokeDashoffset: FILLED_STROKE },
+                    { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
                     { duration: 0.6, ease: "easeIn" }
                 );
             }
@@ -179,13 +210,13 @@ export default function AbstractCircles() {
                 viewBox={`-20 0 ${viewBoxWidth} ${viewBoxHeight}`} 
                 className="w-full max-w-2xl aspect-square"
             >
-                {allCircles.map(({ id, cx, cy }) => 
+                {allCircles.map(({ id, cx, cy, image }) => 
                     <AnimatedCircle 
                         key={id} 
                         id={id} 
                         cx={cx} 
                         cy={cy}
-                        color={rounds[currentRoundIndex].color}
+                        image={image}
                     />
                 )}
             </svg>
