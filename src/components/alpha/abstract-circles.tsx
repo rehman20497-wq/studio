@@ -59,20 +59,20 @@ const AnimatedRow = ({ row, count, offset }: { row: number, count: number, offse
             const cx = (i + offset) * BOX_SIZE + BOX_SIZE / 2;
             const cy = row * BOX_SIZE + BOX_SIZE / 2;
             
-            // If this isn't the first circle, move to its starting point.
             if (i > 0) {
                  const prev_cx = (i - 1 + offset) * BOX_SIZE + BOX_SIZE / 2;
-                 const prev_cy = row * BOX_SIZE + BOX_SIZE / 2;
-                 // A simple line to connect circles. For a curved path, a 'Q' or 'C' command would be used.
-                 path += ` M${prev_cx},${prev_cy + CIRCLE_RADIUS}`;
-                 path += ` L${cx},${cy - CIRCLE_RADIUS}`;
-                 length += Math.sqrt(Math.pow(cx - prev_cx, 2) + Math.pow((cy - CIRCLE_RADIUS) - (prev_cy + CIRCLE_RADIUS), 2));
+                 const controlPointX = (cx + prev_cx) / 2;
+                 // Use a quadratic Bézier curve for a smooth "S" transition
+                 path += ` Q ${controlPointX},${cy + CIRCLE_RADIUS * 2} ${cx},${cy + CIRCLE_RADIUS}`;
+                 // A simple approximation for curve length, can be refined if needed
+                 length += BOX_SIZE * 1.2; 
             }
 
-            // Arc command to draw the circle.
-            // M = moveto, A = arc
-            path += ` M${cx},${cy - CIRCLE_RADIUS}`; // Move to top of the circle
-            path += ` A${CIRCLE_RADIUS},${CIRCLE_RADIUS} 0 1,1 ${cx - 0.01},${cy - CIRCLE_RADIUS}`; // Draw a full circle
+            // Arc command to draw the circle. M = moveto, A = arc
+            // Move to bottom of circle to start curve
+            path += ` M${cx},${cy + CIRCLE_RADIUS}`; 
+            // Draw a full circle ending at the bottom again to connect smoothly
+            path += ` A${CIRCLE_RADIUS},${CIRCLE_RADIUS} 0 1,0 ${cx - 0.01},${cy + CIRCLE_RADIUS}`;
             length += CIRCUMFERENCE;
         }
 
