@@ -26,7 +26,6 @@ const getCircleId = (row: number, col: number) => `circle-${row}-${col}`;
 
 const generateInitialLayout = () => {
     let circleCounter = 0;
-    const rotations = [0, 90, 180, 270];
     return GRID_LAYOUT_CONFIG.map(({ row, count, offset }) =>
       Array.from({ length: count }).map((_, colIndex) => ({
         id: getCircleId(row, colIndex),
@@ -35,7 +34,7 @@ const generateInitialLayout = () => {
         cx: (colIndex + offset) * BOX_SIZE + (BOX_SIZE / 2),
         cy: row * BOX_SIZE + (BOX_SIZE / 2),
         image: profileImages[circleCounter % profileImages.length],
-        rotation: rotations[Math.floor(Math.random() * rotations.length)],
+        rotation: [0, 90, 180, 270][Math.floor(Math.random() * 4)],
         key: circleCounter++,
       }))
     );
@@ -61,9 +60,9 @@ const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: numbe
                 stroke="#f9f4e6"
                 strokeWidth={STROKE_WIDTH}
                 strokeDasharray={`${CIRCUMFERENCE * 0.75} ${CIRCUMFERENCE * 0.25}`}
-                strokeDashoffset={CIRCUMFERENCE * 0.75}
+                strokeDashoffset={CIRCUMFERENCE}
                 transform={`rotate(${rotation} ${cx} ${cy})`}
-                initial={{ strokeDashoffset: CIRCUMFERENCE * 0.75 }}
+                initial={{ strokeDashoffset: CIRCUMFERENCE }}
             />
             <clipPath id={`clip-${id}`}>
                 <motion.circle
@@ -95,23 +94,27 @@ export default function AbstractCircles() {
     const [layout] = useState(generateInitialLayout());
     const isAnimatingRef = useRef(false);
 
-    const rowPairs = useMemo(() => {
-        return layout.map(rowCircles => {
-            const pairs = [];
-            for (let i = 0; i < rowCircles.length - 1; i++) {
-                pairs.push([rowCircles[i], rowCircles[i+1]]);
+    const chainsOfFour = useMemo(() => {
+        const chains: any[][] = [];
+        // Find horizontal chains of 4
+        layout.forEach(row => {
+            if (row.length >= 4) {
+                for (let i = 0; i <= row.length - 4; i++) {
+                    chains.push(row.slice(i, i + 4));
+                }
             }
-            return pairs;
         });
+        return chains;
     }, [layout]);
 
-    const animatePair = useCallback(async (pair: any[], color: string) => {
+    const animateChain = useCallback(async (chain: any[], color: string, direction: 'forward' | 'backward') => {
         isAnimatingRef.current = true;
+        const orderedChain = direction === 'forward' ? chain : [...chain].reverse();
 
         const animateCircle = async (id: string) => {
             await animate(
                 `#${id} .stroke-circle`,
-                { strokeDashoffset: 0, stroke: color },
+                { strokeDashoffset: CIRCUMFERENCE * 0.25, stroke: color },
                 { duration: 1.2, ease: "easeOut" }
             );
             await animate([
@@ -143,54 +146,51 @@ export default function AbstractCircles() {
             ]);
             await animate(
                 `#${id} .stroke-circle`,
-                { strokeDashoffset: CIRCUMFERENCE * 0.75, stroke: '#f9f4e6' },
+                { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
                 { duration: 1.2, ease: "easeIn" }
             );
         };
         
-        // Animate first circle in pair
-        await animateCircle(pair[0].id);
-        // Animate second circle in pair
-        await animateCircle(pair[1].id);
+        for (const circle of orderedChain) {
+            await animateCircle(circle.id);
+        }
 
-        await new Promise(resolve => setTimeout(resolve, 1500)); // Hold the completed pair
+        await new Promise(resolve => setTimeout(resolve, 1500));
 
-        // Un-animate in reverse order
-        await unAnimateCircle(pair[1].id);
-        await unAnimateCircle(pair[0].id);
-
+        for (const circle of [...orderedChain].reverse()) {
+            await unAnimateCircle(circle.id);
+        }
+        
         isAnimatingRef.current = false;
     }, [animate]);
 
     useEffect(() => {
         const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
         let colorIndex = 0;
+        let chainIndex = 0;
 
         const runRandomAnimation = () => {
-             if (isAnimatingRef.current) return;
+             if (isAnimatingRef.current || chainsOfFour.length === 0) return;
 
-            const randomRowIndex = Math.floor(Math.random() * rowPairs.length);
-            const availablePairs = rowPairs[randomRowIndex];
+            const chainToAnimate = chainsOfFour[chainIndex % chainsOfFour.length];
+            const currentColor = colors[colorIndex % colors.length];
+            const direction = Math.random() > 0.5 ? 'forward' : 'backward';
 
-            if (availablePairs && availablePairs.length > 0) {
-                const randomPairIndex = Math.floor(Math.random() * availablePairs.length);
-                const pairToAnimate = availablePairs[randomPairIndex];
-                
-                const currentColor = colors[colorIndex];
-                colorIndex = (colorIndex + 1) % colors.length;
+            animateChain(chainToAnimate, currentColor, direction);
 
-                animatePair(pairToAnimate, currentColor);
-            }
+            chainIndex++;
+            colorIndex++;
         };
         
-        const interval = setInterval(runRandomAnimation, 2500); // Trigger a new animation every 2.5s
+        const interval = setInterval(runRandomAnimation, 7000);
+        runRandomAnimation();
         
         return () => clearInterval(interval);
 
-    }, [rowPairs, animatePair]);
+    }, [chainsOfFour, animateChain]);
 
 
-    const viewBoxWidth = BOX_SIZE * 5 + 40;
+    const viewBoxWidth = BOX_SIZE * 5;
     const viewBoxHeight = BOX_SIZE * 5;
 
     const allCircles = layout.flat();
