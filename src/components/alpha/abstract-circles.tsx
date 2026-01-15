@@ -40,6 +40,14 @@ const PROFILE_IMAGES = [
     'https://picsum.photos/seed/prof6/80/80',
 ];
 
+const STROKE_COLORS = [
+    '#F5D34A', // Yellow
+    '#0badbf', // Cyan
+    '#4ab01b', // Green
+    '#ec4899', // Pink
+    '#8b5cf6', // Purple
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -64,7 +72,7 @@ const initialCircleVariants = {
     },
 };
 
-const AnimatedCircle = ({ cx, cy, fillPercentage, imageUrl }: { cx: number; cy: number; fillPercentage: number; imageUrl: string; }) => {
+const AnimatedCircle = ({ cx, cy, fillPercentage, imageUrl, color }: { cx: number; cy: number; fillPercentage: number; imageUrl: string; color: string; }) => {
     const strokeDashoffset = CIRCUMFERENCE * (1 - fillPercentage / 100);
     const [showImage, setShowImage] = useState(false);
 
@@ -93,7 +101,7 @@ const AnimatedCircle = ({ cx, cy, fillPercentage, imageUrl }: { cx: number; cy: 
                 cy={cy}
                 r={CIRCLE_RADIUS}
                 fill="none"
-                stroke="#F5D34A"
+                stroke={color}
                 strokeWidth={STROKE_WIDTH}
                 strokeLinecap="round"
                 transform={`rotate(-90 ${cx} ${cy})`}
@@ -131,7 +139,8 @@ const AnimatedCircle = ({ cx, cy, fillPercentage, imageUrl }: { cx: number; cy: 
 export default function AbstractCircles() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
-    const [animatedCircles, setAnimatedCircles] = useState<Array<{ id: number; percentage: number; imageUrl: string }>>([]);
+    const [animatedCircles, setAnimatedCircles] = useState<Array<{ id: number; percentage: number; imageUrl: string; color: string; }>>([]);
+    const [colorIndex, setColorIndex] = useState(0);
 
     useEffect(() => {
         if (isInView) {
@@ -144,12 +153,17 @@ export default function AbstractCircles() {
                 const numToAnimate = Math.floor(Math.random() * 2) + 2; // 2 to 3 circles
                 const shuffled = availableCircles.sort(() => 0.5 - Math.random());
                 const newAnimations = [];
+                
+                const currentColor = STROKE_COLORS[colorIndex];
+                setColorIndex(prev => (prev + 1) % STROKE_COLORS.length);
+
 
                 for (let i = 0; i < numToAnimate && i < shuffled.length; i++) {
                     newAnimations.push({
                         id: shuffled[i].id,
                         percentage: Math.floor(Math.random() * 36) + 60, // 60% to 95%
                         imageUrl: PROFILE_IMAGES[Math.floor(Math.random() * PROFILE_IMAGES.length)],
+                        color: currentColor,
                     });
                 }
                 
@@ -164,7 +178,7 @@ export default function AbstractCircles() {
 
             return () => clearInterval(interval);
         }
-    }, [isInView, animatedCircles]);
+    }, [isInView, animatedCircles, colorIndex]);
 
   return (
     <motion.div
@@ -186,6 +200,7 @@ export default function AbstractCircles() {
                                 cy={circle.cy}
                                 fillPercentage={animationInfo.percentage}
                                 imageUrl={animationInfo.imageUrl}
+                                color={animationInfo.color}
                            />
                        ) : (
                         <circle
