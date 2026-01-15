@@ -35,7 +35,6 @@ const generateInitialLayout = () => {
         cx: (colIndex + offset) * BOX_SIZE + (BOX_SIZE / 2),
         cy: row * BOX_SIZE + (BOX_SIZE / 2),
         image: profileImages[circleCounter % profileImages.length],
-        rotation: [0, 90, 180, 270][Math.floor(Math.random() * 4)],
         key: circleCounter++,
       }))
     );
@@ -92,133 +91,97 @@ const AnimatedCircle = ({ cx, cy, id, image, rotation }: { cx: number; cy: numbe
 
 export default function AbstractCircles() {
     const [scope, animate] = useAnimate();
-    const [layout] = useState(generateInitialLayout());
-    const isAnimatingRef = useRef(false);
+    const [layout] = useState(generateInitialLayout);
+    const allCirclesFlat = useMemo(() => layout.flat(), [layout]);
 
-    const horizontalPairs = useMemo(() => {
-        return layout.flatMap(rowCircles => {
-            const pairs = [];
-            for (let i = 0; i < rowCircles.length - 1; i++) {
-                pairs.push([rowCircles[i], rowCircles[i + 1]]);
-            }
-            return pairs;
-        });
-    }, [layout]);
-
-    const pickFourNonOverlappingPairs = useCallback(() => {
-        const shuffledPairs = [...horizontalPairs].sort(() => 0.5 - Math.random());
-        const selectedPairs = [];
-        const usedRows = new Set();
-        
-        for (const pair of shuffledPairs) {
-            if (selectedPairs.length >= 4) break;
-            const rowIndex = pair[0].row;
-            if (!usedRows.has(rowIndex)) {
-                selectedPairs.push(pair);
-                usedRows.add(rowIndex);
-            }
-        }
-        return selectedPairs;
-    }, [horizontalPairs]);
+    const shuffle = useCallback((array: any[]) => {
+        return [...array].sort(() => 0.5 - Math.random());
+    }, []);
 
     useEffect(() => {
-        const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100"];
+        const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100", "#F5D34A"];
+        let animationIndex = 0;
         let colorIndex = 0;
+        
+        let activeCircleQueue: any[] = [];
+        let isCancelled = false;
 
-        const animateCircle = async (id: string, color: string, rotation: number, fillPercentage: number) => {
-            const {cx, cy} = layout.flat().find(c => c.id === id)!;
+        let shuffledCircles = shuffle(allCirclesFlat);
+
+        const animateOn = (circle: any, showProfile: boolean, color: string) => {
+            const { id, cx, cy } = circle;
+            
+            const fillPercentages = [0.25, 0.35, 0.5, 0.15]; // 75%, 65%, 50%, 85% fills
+            const randomFill = fillPercentages[Math.floor(Math.random() * fillPercentages.length)];
+            const randomRotation = Math.random() * 360;
+
             const circleElement = document.querySelector(`#${id} .stroke-circle`);
             if(circleElement) {
-                circleElement.setAttribute('transform', `rotate(${rotation} ${cx} ${cy})`);
+                circleElement.setAttribute('transform', `rotate(${randomRotation} ${cx} ${cy})`);
             }
-            
-            await animate(
+
+            animate(
                 `#${id} .stroke-circle`,
-                { strokeDashoffset: CIRCUMFERENCE * fillPercentage, stroke: color },
+                { strokeDashoffset: CIRCUMFERENCE * randomFill, stroke: color },
                 { duration: 1.2, ease: "easeOut" }
             );
-            await animate([
-                [
-                    `#${id} .profile-clip`,
-                    { scale: [0, 1.1, 1] },
-                    { duration: 1, ease: [0.34, 1.56, 0.64, 1] },
-                ],
-                [
-                    `#${id} .profile-image-container`,
-                    { opacity: 1 },
-                    { at: '-0.8', duration: 0.8 },
-                ],
-            ]);
+            
+            if (showProfile) {
+                animate(`#${id} .profile-clip`, { scale: [0, 1.1, 1] }, { duration: 1, ease: [0.34, 1.56, 0.64, 1] });
+                animate(`#${id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 0.8 });
+            }
         };
 
-        const unAnimateCircle = async (id: string) => {
-             await animate([
-                [
-                    `#${id} .profile-image-container`,
-                    { opacity: 0 },
-                    { duration: 0.6, ease: 'easeIn' },
-                ],
-                [
-                    `#${id} .profile-clip`,
-                    { scale: 0 },
-                    { at: '-0.4', duration: 0.8, ease: 'easeIn' },
-                ],
-            ]);
-            await animate(
+        const animateOff = (circle: any) => {
+            const { id } = circle;
+            
+            animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: 0.6, ease: 'easeIn' });
+            animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 0.8, ease: 'easeIn' });
+            animate(
                 `#${id} .stroke-circle`,
                 { strokeDashoffset: CIRCUMFERENCE, stroke: '#f9f4e6' },
-                { duration: 1.2, ease: "easeIn" }
+                { at: '-0.4', duration: 1.2, ease: "easeIn" }
             );
         };
         
-        const animatePair = async (pair: any[], color: string) => {
-            const [c1, c2] = Math.random() > 0.5 ? pair : [...pair].reverse();
-            
-            const angle = Math.atan2(c2.cy - c1.cy, c2.cx - c1.cx) * (180 / Math.PI);
+        const runCycle = async () => {
+            while (!isCancelled) {
+                const currentColor = colors[colorIndex % colors.length];
 
-            // For c1 (75% fill), the gap is 25%. The middle of the gap is at 87.5% of the circumference (315 degrees).
-            // To make this gap face c2, we rotate it by (angle - 315).
-            const rotation1 = angle - 315;
+                const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
+                
+                activeCircleQueue.push(circleOn);
+                
+                animateOn(circleOn, animationIndex % 2 === 0, currentColor);
 
-            // For c2 (50% fill), the gap is 50%. The middle of the gap is at 75% of the circumference (270 degrees).
-            // To make this gap face c1, the angle from c2 to c1 is (angle + 180). We rotate it by (angle + 180 - 270).
-            const rotation2 = angle + 180 - 270;
+                const DISPLAY_WINDOW = 6; 
+                if (activeCircleQueue.length > DISPLAY_WINDOW) {
+                    const circleOff = activeCircleQueue.shift();
+                    if (circleOff) {
+                        animateOff(circleOff);
+                    }
+                }
 
-            await animateCircle(c1.id, color, rotation1, 0.25); // 75% fill
-            await animateCircle(c2.id, color, rotation2, 0.5); // 50% fill
-        };
+                animationIndex++;
 
+                if (animationIndex > 0 && animationIndex % shuffledCircles.length === 0) {
+                   shuffledCircles = shuffle(allCirclesFlat);
+                }
 
-        const runAnimationCycle = async () => {
-            if (isAnimatingRef.current) return;
-            isAnimatingRef.current = true;
-    
-            const pairsToAnimate = pickFourNonOverlappingPairs();
-            const currentColor = colors[colorIndex % colors.length];
-    
-            // Animate all pairs sequentially
-            for (const pair of pairsToAnimate) {
-                await animatePair(pair, currentColor);
+                if (animationIndex > 0 && animationIndex % 9 === 0) {
+                    colorIndex++;
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 800));
             }
-    
-            // Pause with all circles visible
-            await new Promise(resolve => setTimeout(resolve, 1500));
-    
-            const allAnimatedCircles = pairsToAnimate.flat();
-            // Un-animate all circles in reverse sequence
-            for (let i = allAnimatedCircles.length - 1; i >= 0; i--) {
-                await unAnimateCircle(allAnimatedCircles[i].id);
-            }
-    
-            colorIndex++;
-            isAnimatingRef.current = false;
         };
         
-        const interval = setInterval(runAnimationCycle, 1000);
-        
-        return () => clearInterval(interval);
+        runCycle();
 
-    }, [pickFourNonOverlappingPairs, animate, layout, horizontalPairs]);
+        return () => {
+            isCancelled = true;
+        };
+    }, [animate, allCirclesFlat, shuffle]);
 
 
     const viewBoxWidth = BOX_SIZE * 5;
@@ -233,14 +196,14 @@ export default function AbstractCircles() {
                 viewBox={`-40 0 ${viewBoxWidth + 80} ${viewBoxHeight}`} 
                 className="w-full max-w-2xl aspect-square"
             >
-                {allCircles.map(({ id, cx, cy, image, rotation, key }) => 
+                {allCircles.map(({ id, cx, cy, image, key }) => 
                     <AnimatedCircle 
                         key={key} 
                         id={id} 
                         cx={cx} 
                         cy={cy}
                         image={image}
-                        rotation={rotation}
+                        rotation={0} 
                     />
                 )}
             </svg>
