@@ -96,19 +96,6 @@ function ManageUsersContent() {
     }
   }, [firestore, roles, rolesLoading, toast]);
 
-  // Seed initial admin user
-  useEffect(() => {
-      if(firestore && !usersLoading && users?.length === 0 && !rolesLoading && roles && roles.length > 0) {
-          const superAdminRole = roles.find(r => r.name === 'Super Admin');
-          if (superAdminRole) {
-              const passkey = `PASS-FAIZ-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
-              const firstUser = { name: 'Faizan', roleId: superAdminRole.id, passkey };
-              addDocumentNonBlocking(collection(firestore, 'admin_users'), firstUser);
-              toast({ title: 'Default Admin Created', description: `User "Faizan" created with passkey: ${passkey}. Save it securely.`, duration: 9000});
-          }
-      }
-  }, [firestore, users, usersLoading, roles, rolesLoading, toast]);
-
   const handleAddUser = async () => {
     if (!newUserName || !newUserRole) {
       toast({ variant: 'destructive', title: 'Error', description: 'Please enter a name and select a role.' });

