@@ -4,7 +4,7 @@ import { useState } from 'react';
 import AdminPageWrapper, { PermissionGuard } from '@/components/admin/admin-page-wrapper';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, BarChart3, PlusCircle, LayoutGrid, List, Eye, Power, PowerOff } from 'lucide-react';
+import { Edit, Trash2, BarChart3, PlusCircle, LayoutGrid, List, Eye, Power, PowerOff, MessageSquare, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { useCollection, useFirestore, useMemoFirebase, deleteDocumentNonBlocking, updateDocumentNonBlocking, useAdminUser } from '@/firebase';
@@ -13,6 +13,9 @@ import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import AdminHeader from '@/components/admin/admin-header';
 import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 type BlogPost = {
   id: string;
@@ -45,6 +48,80 @@ const itemVariants = {
   },
 };
 
+const generateMonthlyData = (totalViews: number, totalComments: number, totalShares: number) => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const viewDistribution = [0.12, 0.1, 0.25, 0.18, 0.2, 0.15];
+    const commentDistribution = [0.15, 0.11, 0.22, 0.2, 0.18, 0.14];
+    const shareDistribution = [0.10, 0.15, 0.20, 0.25, 0.15, 0.15];
+
+    return months.map((month, i) => ({
+        name: month,
+        Views: Math.round(totalViews * viewDistribution[i]),
+        Comments: Math.round(totalComments * commentDistribution[i]),
+        Shares: Math.round(totalShares * shareDistribution[i]),
+    }));
+};
+
+const BlogPostStatsView = ({ post }: { post: BlogPost }) => {
+    const views = post.views || 0;
+    const comments = post.comments || 0;
+    const shares = post.shares || 0;
+    const monthlyData = generateMonthlyData(views, comments, shares);
+
+    return (
+        <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Total Views</CardTitle>
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{views.toLocaleString()}</div>
+                        <p className="text-xs text-muted-foreground">+15% from last month</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Comments</CardTitle>
+                        <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{comments.toLocaleString()}</div>
+                        <p className="text-xs text-muted-foreground">+8% from last month</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Shares</CardTitle>
+                        <Share2 className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{shares.toLocaleString()}</div>
+                        <p className="text-xs text-muted-foreground">+5% from last month</p>
+                    </CardContent>
+                </Card>
+            </div>
+            <div>
+                <h3 className="text-lg font-semibold mb-4">Monthly Engagement</h3>
+                <div className="w-full h-[300px]">
+                    <ResponsiveContainer>
+                        <BarChart data={monthlyData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="Views" fill="#8884d8" />
+                            <Bar dataKey="Comments" fill="#82ca9d" />
+                            <Bar dataKey="Shares" fill="#ffc658" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function ManageBlogsContent() {
     const { toast } = useToast();
     const firestore = useFirestore();
@@ -52,6 +129,7 @@ function ManageBlogsContent() {
     const { session, hasPermission } = useAdminUser();
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isStatsDialogOpen, setIsStatsDialogOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
     const memoizedQuery = useMemoFirebase(
@@ -67,6 +145,11 @@ function ManageBlogsContent() {
     const openDeleteDialog = (post: BlogPost) => {
       setSelectedPost(post);
       setIsDeleteDialogOpen(true);
+    };
+
+    const openStatsDialog = (post: BlogPost) => {
+        setSelectedPost(post);
+        setIsStatsDialogOpen(true);
     };
     
     const handleTogglePublish = (post: BlogPost) => {
@@ -188,7 +271,7 @@ function ManageBlogsContent() {
                             <div className="flex items-center gap-2 mt-6 flex-wrap">
                                 <Button size="sm" variant="outline" className="rounded-full" disabled={!hasPermission('manage-blogs', 'edit')}><Edit className="w-4 h-4 mr-2" />Edit</Button>
                                 <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(post)} disabled={!hasPermission('manage-blogs', 'delete')}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
-                                <Button size="sm" variant="secondary" className="rounded-full"><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
+                                <Button size="sm" variant="secondary" className="rounded-full" onClick={() => openStatsDialog(post)}><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
                                 <Button 
                                   size="sm"
                                   variant={(post.published ?? false) ? 'default' : 'outline'}
@@ -223,6 +306,23 @@ function ManageBlogsContent() {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+
+        {/* Stats Dialog */}
+        <Dialog open={isStatsDialogOpen} onOpenChange={setIsStatsDialogOpen}>
+            <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                    <DialogTitle>Statistics for: {selectedPost?.title}</DialogTitle>
+                    <DialogDescription>
+                        Showing performance analytics for the last 6 months (sample data).
+                    </DialogDescription>
+                </DialogHeader>
+                {selectedPost && (
+                    <div className="mt-4">
+                        <BlogPostStatsView post={selectedPost} />
+                    </div>
+                )}
+            </DialogContent>
+        </Dialog>
     </PermissionGuard>
   );
 }
