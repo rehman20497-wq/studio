@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useCallback, useRef, type ReactNode, createContext, useContext } from 'react';
@@ -75,13 +74,26 @@ export const PermissionGuard = ({ pageId, children }: { pageId: string, children
 
 // --- End: Context and Guard ---
 
+const SESSION_STORAGE_KEY = 'admin-session';
+
 
 export default function AdminPageWrapper({ children, screenTitle, isLoading = false }: AdminPageWrapperProps) {
   const { user: firebaseUser, isUserLoading } = useUser();
   const auth = useAuth();
   const firestore = useFirestore();
   const isMobile = useIsMobile();
-  const [session, setSession] = useState<AdminUserSession | null>(null);
+  const [session, setSession] = useState<AdminUserSession | null>(() => {
+    if (typeof window === 'undefined') {
+        return null;
+    }
+    try {
+        const item = window.sessionStorage.getItem(SESSION_STORAGE_KEY);
+        return item ? JSON.parse(item) : null;
+    } catch (error) {
+        console.error("Error reading from sessionStorage", error);
+        return null;
+    }
+  });
   
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -101,6 +113,9 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
     if (auth) {
       signOut(auth);
     }
+    if (typeof window !== 'undefined') {
+        sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    }
     setSession(null);
   }, [auth, firestore]);
 
@@ -108,6 +123,13 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
     if (auth) {
       initiateAnonymousSignIn(auth); 
       setSession(loggedInSession);
+      if (typeof window !== 'undefined') {
+        try {
+            window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(loggedInSession));
+        } catch (error) {
+            console.error("Error writing to sessionStorage", error);
+        }
+      }
     }
   }, [auth]);
 
