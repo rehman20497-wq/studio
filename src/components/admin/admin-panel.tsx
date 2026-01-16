@@ -4,7 +4,7 @@
 import { motion, useInView, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
-import { Upload, BookOpen, Settings, FileText, Newspaper, Users, Eye } from 'lucide-react';
+import { Upload, BookOpen, Settings, FileText, Newspaper, Users, Eye, Users2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
@@ -150,6 +150,11 @@ export default function AdminPanel() {
                   <SectionCard title="Manage Blogs" icon={FileText} href="/admin/manage-blogs">
                       <p className="text-zinc-600">Edit, delete, and manage visibility of existing blog posts. View performance analytics.</p>
                   </SectionCard>
+                </SectionWrapper>
+                <SectionWrapper id="manage-users">
+                    <SectionCard title="Manage Users" icon={Users2} href="/admin/manage-users">
+                        <p className="text-zinc-600">Add new users, define roles, and manage permissions across the admin panel.</p>
+                    </SectionCard>
                 </SectionWrapper>
             </div>
 

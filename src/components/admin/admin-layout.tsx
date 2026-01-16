@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Upload, Settings, LogOut, FileText, BookOpen, Bug, X, Menu, Newspaper } from 'lucide-react';
+import { LayoutDashboard, Upload, Settings, LogOut, FileText, BookOpen, Bug, X, Menu, Newspaper, Users2 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -83,6 +83,7 @@ const SidebarContent = ({ onLogout, onLinkClick }: { onLogout: () => void; onLin
           <NavLink href="/admin/upload-blog" icon={BookOpen} onClick={onLinkClick}>Upload Blog</NavLink>
           <NavLink href="/admin/manage-blogs" icon={FileText} onClick={onLinkClick}>Manage Blogs</NavLink>
           <NavLink href="/admin/newsletters" icon={Newspaper} onClick={onLinkClick}>Newsletters</NavLink>
+          <NavLink href="/admin/manage-users" icon={Users2} onClick={onLinkClick}>Manage Users</NavLink>
           <NavLink href="/admin/debug" icon={Bug} onClick={onLinkClick}>Debug</NavLink>
         </motion.nav>
         <motion.button
