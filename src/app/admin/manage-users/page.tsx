@@ -55,7 +55,8 @@ const itemVariants = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: 'easeOut' } },
 };
 
-export default function ManageUsersPage() {
+
+function ManageUsersContent() {
   const { toast } = useToast();
   const firestore = useFirestore();
   const { session, hasPermission } = useAdminUser();
@@ -158,131 +159,136 @@ export default function ManageUsersPage() {
   
   if (usersLoading || rolesLoading) {
       return (
-          <AdminPageWrapper screenTitle="Manage Users" isLoading>
-               <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
-                  <p>Loading User Data...</p>
-              </div>
-          </AdminPageWrapper>
+          <div className="flex items-center justify-center p-12">
+            <div className="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-yellow-500"></div>
+          </div>
       )
   }
 
   return (
-    <AdminPageWrapper screenTitle="Manage Users & Roles">
-        <PermissionGuard pageId="manage-users">
-            <div className="p-4 sm:p-8 md:p-12 text-zinc-900">
-                <AdminHeader userName={session?.user.name || 'Admin'} />
+    <PermissionGuard pageId="manage-users">
+        <div className="p-4 sm:p-8 md:p-12 text-zinc-900">
+            <AdminHeader userName={session?.user.name || 'Admin'} />
 
-                <motion.div className="mt-12 space-y-12" variants={containerVariants} initial="hidden" animate="visible">
-                {/* User Management */}
-                <motion.div variants={itemVariants}>
-                    <div className="relative bg-white/60 backdrop-blur-2xl p-6 rounded-2xl shadow-xl border border-zinc-200/50">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-2xl font-bold font-headline flex items-center gap-3"><Users2 className="w-7 h-7 text-yellow-600" /> User Management</h2>
-                        {!isAddingUser && (
-                        <Button onClick={() => setIsAddingUser(true)} className="rounded-full bg-zinc-800 hover:bg-zinc-700" disabled={!hasPermission('manage-users', 'create')}>
-                            <Plus className="mr-2" /> Add User
-                        </Button>
-                        )}
+            <motion.div className="mt-12 space-y-12" variants={containerVariants} initial="hidden" animate="visible">
+            {/* User Management */}
+            <motion.div variants={itemVariants}>
+                <div className="relative bg-white/60 backdrop-blur-2xl p-6 rounded-2xl shadow-xl border border-zinc-200/50">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold font-headline flex items-center gap-3"><Users2 className="w-7 h-7 text-yellow-600" /> User Management</h2>
+                    {!isAddingUser && (
+                    <Button onClick={() => setIsAddingUser(true)} className="rounded-full bg-zinc-800 hover:bg-zinc-700" disabled={!hasPermission('manage-users', 'create')}>
+                        <Plus className="mr-2" /> Add User
+                    </Button>
+                    )}
+                </div>
+
+                <AnimatePresence>
+                    {isAddingUser && (
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="bg-yellow-50/50 p-4 rounded-lg mb-6 border border-yellow-200">
+                        <div className="flex flex-col sm:flex-row gap-4 items-end">
+                        <div className="flex-grow">
+                            <Label htmlFor="new-user-name">User Name</Label>
+                            <Input id="new-user-name" placeholder="e.g., John Doe" value={newUserName} onChange={e => setNewUserName(e.target.value)} />
+                        </div>
+                        <div className="w-full sm:w-52">
+                            <Label>Role</Label>
+                            <Select value={newUserRole} onValueChange={setNewUserRole}>
+                            <SelectTrigger><SelectValue placeholder="Select a role" /></SelectTrigger>
+                            <SelectContent>{roles?.map(r => <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>)}</SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex gap-2">
+                            <Button onClick={handleAddUser} size="icon"><Save /></Button>
+                            <Button onClick={() => setIsAddingUser(false)} size="icon" variant="destructive"><X /></Button>
+                        </div>
+                        </div>
+                    </motion.div>
+                    )}
+                </AnimatePresence>
+                
+                <div className="space-y-3">
+                    {users && users.map(user => (
+                    <div key={user.id} className="grid grid-cols-3 gap-4 items-center bg-white p-3 rounded-lg border border-zinc-100">
+                        <span className="font-medium">{user.name}</span>
+                        <span className="text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full text-center text-sm">{roles?.find(r => r.id === user.roleId)?.name}</span>
+                        <div className="flex items-center justify-end gap-2">
+                            <span className="font-mono text-xs bg-zinc-800 text-white px-2 py-1 rounded">{user.passkey}</span>
+                            <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => handleDeleteUser(user.id)} disabled={!hasPermission('manage-users', 'delete')}><Trash2 className="w-4 h-4 text-red-500"/></Button>
+                        </div>
                     </div>
+                    ))}
+                </div>
+                </div>
+            </motion.div>
+
+            {/* Role Management */}
+            <motion.div variants={itemVariants}>
+                <div className="relative bg-white/60 backdrop-blur-2xl p-6 rounded-2xl shadow-xl border border-zinc-200/50">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold font-headline flex items-center gap-3"><Shield className="w-7 h-7 text-yellow-600" /> Role & Permission Management</h2>
+                    {!isAddingRole && (
+                    <Button onClick={() => setIsAddingRole(true)} className="rounded-full bg-zinc-800 hover:bg-zinc-700" disabled={!hasPermission('manage-users', 'create')}>
+                        <Plus className="mr-2" /> Add Role
+                    </Button>
+                    )}
+                </div>
 
                     <AnimatePresence>
-                        {isAddingUser && (
-                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="bg-yellow-50/50 p-4 rounded-lg mb-6 border border-yellow-200">
-                            <div className="flex flex-col sm:flex-row gap-4 items-end">
-                            <div className="flex-grow">
-                                <Label htmlFor="new-user-name">User Name</Label>
-                                <Input id="new-user-name" placeholder="e.g., John Doe" value={newUserName} onChange={e => setNewUserName(e.target.value)} />
-                            </div>
-                            <div className="w-full sm:w-52">
-                                <Label>Role</Label>
-                                <Select value={newUserRole} onValueChange={setNewUserRole}>
-                                <SelectTrigger><SelectValue placeholder="Select a role" /></SelectTrigger>
-                                <SelectContent>{roles?.map(r => <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>)}</SelectContent>
-                                </Select>
-                            </div>
-                            <div className="flex gap-2">
-                                <Button onClick={handleAddUser} size="icon"><Save /></Button>
-                                <Button onClick={() => setIsAddingUser(false)} size="icon" variant="destructive"><X /></Button>
-                            </div>
-                            </div>
-                        </motion.div>
-                        )}
-                    </AnimatePresence>
-                    
-                    <div className="space-y-3">
-                        {users && users.map(user => (
-                        <div key={user.id} className="grid grid-cols-3 gap-4 items-center bg-white p-3 rounded-lg border border-zinc-100">
-                            <span className="font-medium">{user.name}</span>
-                            <span className="text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full text-center text-sm">{roles?.find(r => r.id === user.roleId)?.name}</span>
-                            <div className="flex items-center justify-end gap-2">
-                                <span className="font-mono text-xs bg-zinc-800 text-white px-2 py-1 rounded">{user.passkey}</span>
-                                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => handleDeleteUser(user.id)} disabled={!hasPermission('manage-users', 'delete')}><Trash2 className="w-4 h-4 text-red-500"/></Button>
-                            </div>
+                    {isAddingRole && (
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="bg-yellow-50/50 p-4 rounded-lg mb-6 border border-yellow-200">
+                        <div className="flex gap-4 items-end">
+                        <div className="flex-grow">
+                            <Label htmlFor="new-role-name">New Role Name</Label>
+                            <Input id="new-role-name" placeholder="e.g., Marketing" value={newRoleName} onChange={e => setNewRoleName(e.target.value)} />
                         </div>
+                        <div className="flex gap-2">
+                            <Button onClick={handleAddRole} size="icon"><Save /></Button>
+                            <Button onClick={() => setIsAddingRole(false)} size="icon" variant="destructive"><X /></Button>
+                        </div>
+                        </div>
+                    </motion.div>
+                    )}
+                </AnimatePresence>
+
+                    <div className="space-y-8">
+                        {roles && roles.map(role => (
+                            <div key={role.id} className="p-4 rounded-lg bg-white border border-zinc-100">
+                                <h3 className="text-xl font-semibold mb-4">{role.name}</h3>
+                                <div className="space-y-2">
+                                    {pages.map(page => (
+                                        <div key={page.id} className="grid grid-cols-2 md:grid-cols-5 items-center p-2 rounded-md hover:bg-zinc-50">
+                                            <span className="font-medium col-span-2 md:col-span-1">{page.name}</span>
+                                            {permissionTypes.map(pType => (
+                                                <div key={pType} className="flex items-center gap-2">
+                                                    <Checkbox 
+                                                        id={`${role.id}-${page.id}-${pType}`} 
+                                                        checked={role.permissions?.[page.id]?.[pType] || false}
+                                                        onCheckedChange={(checked) => handlePermissionChange(role.id, page.id, pType, !!checked)}
+                                                        disabled={!hasPermission('manage-users', 'edit')}
+                                                    />
+                                                    <Label htmlFor={`${role.id}-${page.id}-${pType}`} className="capitalize text-sm text-zinc-700">{pType}</Label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         ))}
                     </div>
-                    </div>
-                </motion.div>
+                </div>
+            </motion.div>
+            </motion.div>
+        </div>
+    </PermissionGuard>
+  );
+}
 
-                {/* Role Management */}
-                <motion.div variants={itemVariants}>
-                    <div className="relative bg-white/60 backdrop-blur-2xl p-6 rounded-2xl shadow-xl border border-zinc-200/50">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-2xl font-bold font-headline flex items-center gap-3"><Shield className="w-7 h-7 text-yellow-600" /> Role & Permission Management</h2>
-                        {!isAddingRole && (
-                        <Button onClick={() => setIsAddingRole(true)} className="rounded-full bg-zinc-800 hover:bg-zinc-700" disabled={!hasPermission('manage-users', 'create')}>
-                            <Plus className="mr-2" /> Add Role
-                        </Button>
-                        )}
-                    </div>
 
-                        <AnimatePresence>
-                        {isAddingRole && (
-                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="bg-yellow-50/50 p-4 rounded-lg mb-6 border border-yellow-200">
-                            <div className="flex gap-4 items-end">
-                            <div className="flex-grow">
-                                <Label htmlFor="new-role-name">New Role Name</Label>
-                                <Input id="new-role-name" placeholder="e.g., Marketing" value={newRoleName} onChange={e => setNewRoleName(e.target.value)} />
-                            </div>
-                            <div className="flex gap-2">
-                                <Button onClick={handleAddRole} size="icon"><Save /></Button>
-                                <Button onClick={() => setIsAddingRole(false)} size="icon" variant="destructive"><X /></Button>
-                            </div>
-                            </div>
-                        </motion.div>
-                        )}
-                    </AnimatePresence>
-
-                        <div className="space-y-8">
-                            {roles && roles.map(role => (
-                                <div key={role.id} className="p-4 rounded-lg bg-white border border-zinc-100">
-                                    <h3 className="text-xl font-semibold mb-4">{role.name}</h3>
-                                    <div className="space-y-2">
-                                        {pages.map(page => (
-                                            <div key={page.id} className="grid grid-cols-2 md:grid-cols-5 items-center p-2 rounded-md hover:bg-zinc-50">
-                                                <span className="font-medium col-span-2 md:col-span-1">{page.name}</span>
-                                                {permissionTypes.map(pType => (
-                                                    <div key={pType} className="flex items-center gap-2">
-                                                        <Checkbox 
-                                                            id={`${role.id}-${page.id}-${pType}`} 
-                                                            checked={role.permissions?.[page.id]?.[pType] || false}
-                                                            onCheckedChange={(checked) => handlePermissionChange(role.id, page.id, pType, !!checked)}
-                                                            disabled={!hasPermission('manage-users', 'edit')}
-                                                        />
-                                                        <Label htmlFor={`${role.id}-${page.id}-${pType}`} className="capitalize text-sm text-zinc-700">{pType}</Label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
-                </motion.div>
-            </div>
-        </PermissionGuard>
+export default function ManageUsersPage() {
+  return (
+    <AdminPageWrapper screenTitle="Manage Users & Roles">
+      <ManageUsersContent />
     </AdminPageWrapper>
   );
 }
