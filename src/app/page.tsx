@@ -37,7 +37,7 @@ export default function Home() {
               <AbstractCircles />
             </div>
           </div>
-          <div className="w-full md:w-1/2 h-auto md:h-screen bg-[#FEF9F2] flex items-center justify-center py-12 md:py-0">
+          <div className="w-full md:w-1/2 h-auto md:h-screen bg-white flex items-center justify-center py-12 md:py-0">
             <RightColumn />
           </div>
         </div>
