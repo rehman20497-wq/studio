@@ -5,17 +5,17 @@ import TestimonialCarousel from "@/components/testimonial-carousel";
 
 export default function RightColumn() {
   return (
-    <div className="flex flex-col h-full justify-center py-[7%] px-4 md:px-0 md:pl-[8%]">
+    <div className="flex flex-col h-full justify-center py-[7%] px-4 md:px-0">
       <div className="animate-fade-in-up">
-        <h2 className="text-xl font-medium">
+        <h2 className="text-[23px] font-medium">
           <span className="underline-draw">Outsourcing+</span>
         </h2>
-        <h1 className="text-4xl md:text-[46px] font-bold mt-4 leading-tight text-black">
+        <h1 className="text-[72px] font-bold mt-4 leading-[72.5px] text-black">
           Built to make
           <br />
           you better.
         </h1>
-        <p className="mt-6 text-base max-w-md text-zinc-600">
+        <p className="mt-6 text-[20px] max-w-md text-black leading-[28.7px]">
           We're not traditional outsourcers. We build world-class teams—from
           customer support to AI data solutions—helping you scale faster and
           smarter.
