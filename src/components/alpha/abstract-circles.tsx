@@ -122,12 +122,13 @@ export default function AbstractCircles() {
                     stroke: color,
                     rotate: randomRotation,
                 },
-                { duration: 4.5, ease: "easeOut" }
+                { duration: 2.5, ease: "easeOut" } // Faster duration
             );
             
             if (showProfile) {
-                animate(`#${id} .profile-clip`, { scale: [0, 1.1, 1] }, { duration: 4.5, ease: [0.34, 1.56, 0.64, 1] });
-                animate(`#${id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 4.0 });
+                // Smoother "grow from within" animation
+                animate(`#${id} .profile-clip`, { scale: 1 }, { duration: 2.5, ease: "easeOut" });
+                animate(`#${id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 2.0 });
             }
         };
 
@@ -135,8 +136,9 @@ export default function AbstractCircles() {
             const { id, hasProfile } = circle;
             
             if (hasProfile) {
-                animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: 2.0, ease: 'easeIn' });
-                animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 2.2, ease: 'easeIn' });
+                 // Faster exit animation
+                animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: 1.5, ease: 'easeIn' });
+                animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 1.7, ease: 'easeIn' });
             }
             
             animate(
@@ -145,7 +147,7 @@ export default function AbstractCircles() {
                     strokeDashoffset: CIRCUMFERENCE, 
                     stroke: '#f9f4e6',
                 },
-                { at: '-0.4', duration: 4.5, ease: "easeIn" }
+                { at: '-0.4', duration: 2.5, ease: "easeIn" } // Faster duration
             );
         };
         
