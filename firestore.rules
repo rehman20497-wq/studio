@@ -6,22 +6,18 @@ service cloud.firestore {
 
     // Helper functions to check permissions based on the user's role
     function getRole() {
-      // Get the user's role ID from their session document, which is keyed by their anonymous auth UID
-      let roleId = get(/databases/$(database)/documents/admin_sessions/$(request.auth.uid)).data.roleId;
-      if (roleId == null) {
-        return null;
-      }
-      // Get the actual role document from the admin_roles collection
-      return get(/databases/$(database)/documents/admin_roles/$(roleId)).data;
+      // Directly access the role document through the session document.
+      // The 'get' call will return null if the session document or roleId doesn't exist.
+      return get(/databases/$(database)/documents/admin_roles/$(get(/databases/$(database)/documents/admin_sessions/$(request.auth.uid)).data.roleId)).data;
     }
 
     function hasPermission(pageId, permission) {
       let role = getRole();
-      if (role == null || role.permissions == null || role.permissions[pageId] == null) {
-        return false;
-      }
-      // Check if the specific permission (e.g., 'view', 'create') is true
-      return role.permissions[pageId][permission] == true;
+      // Check for nulls and the permission itself in a single return statement.
+      return role != null &&
+             role.permissions != null &&
+             role.permissions[pageId] != null &&
+             role.permissions[pageId][permission] == true;
     }
     
     // Default to read-only for public, no write access
