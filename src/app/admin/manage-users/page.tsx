@@ -74,28 +74,6 @@ function ManageUsersContent() {
   const rolesQuery = useMemoFirebase(() => firestore ? collection(firestore, 'admin_roles') : null, [firestore]);
   const { data: roles, isLoading: rolesLoading } = useCollection<Role>(rolesQuery);
 
-  // Seed initial roles
-  useEffect(() => {
-    if (firestore && !rolesLoading && roles?.length === 0) {
-      const allPermissions = pages.reduce((acc, page) => {
-        acc[page.id] = { view: true, create: true, edit: true, delete: true };
-        return acc;
-      }, {} as Role['permissions']);
-      
-      const initialRoles: Omit<Role, 'id'>[] = [
-        { name: 'Super Admin', permissions: allPermissions },
-        { name: 'Editor', permissions: { 'manage-blogs': { view: true, edit: true, create: true }, 'upload-blog': { view: true, create: true } } },
-        { name: 'Moderator', permissions: { 'manage-providers': { view: true, edit: true } } },
-        { name: 'Content Writer', permissions: { 'upload-blog': { view: true, create: true } } },
-      ];
-      const rolesCollection = collection(firestore, 'admin_roles');
-      initialRoles.forEach((role) => {
-        addDocumentNonBlocking(rolesCollection, role);
-      });
-      toast({title: "Initial roles created", description: "Default roles have been added."});
-    }
-  }, [firestore, roles, rolesLoading, toast]);
-
   const handleAddUser = async () => {
     if (!newUserName || !newUserRole) {
       toast({ variant: 'destructive', title: 'Error', description: 'Please enter a name and select a role.' });
