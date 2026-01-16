@@ -4,48 +4,77 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Default to read-only for all, and write-only for authenticated users.
-    // This can be overridden by more specific rules below.
+    // Helper functions to check permissions based on the user's role
+    function getRole() {
+      // Get the user's role ID from their session document, which is keyed by their anonymous auth UID
+      let roleId = get(/databases/$(database)/documents/admin_sessions/$(request.auth.uid)).data.roleId;
+      if (roleId == null) {
+        return null;
+      }
+      // Get the actual role document from the admin_roles collection
+      return get(/databases/$(database)/documents/admin_roles/$(roleId)).data;
+    }
+
+    function hasPermission(pageId, permission) {
+      let role = getRole();
+      if (role == null || role.permissions == null || role.permissions[pageId] == null) {
+        return false;
+      }
+      // Check if the specific permission (e.g., 'view', 'create') is true
+      return role.permissions[pageId][permission] == true;
+    }
+    
+    // Default to read-only for public, no write access
     match /{document=**} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false; 
     }
 
-    // Rules for the 'providers' collection
-    match /providers/{providerId} {
-      // Public can read all published providers
-      allow read: if resource.data.published == true;
-       // Admins can write
-      allow write: if request.auth != null;
+    // Rules for admin sessions. Users can only manage their own session document.
+    match /admin_sessions/{uid} {
+      allow read, write: if request.auth.uid == uid;
     }
 
-    // Rules for the 'blog_posts' collection
-    match /blog_posts/{postId} {
-      // Public can read all blog posts
-      allow read: if true;
-      // Admins can write
-      allow write: if request.auth != null;
+    // Rules for admin users and roles. Only users with 'manage-users' permission can access.
+    match /admin_users/{userId} {
+      allow read: if hasPermission('manage-users', 'view');
+      allow create: if hasPermission('manage-users', 'create');
+      allow update: if hasPermission('manage-users', 'edit');
+      allow delete: if hasPermission('manage-users', 'delete');
+    }
+    match /admin_roles/{roleId} {
+      allow read: if hasPermission('manage-users', 'view');
+      allow create: if hasPermission('manage-users', 'create');
+      allow update: if hasPermission('manage-users', 'edit');
+      allow delete: if hasPermission('manage-users', 'delete');
     }
     
     // Rules for newsletter subscribers
     match /newsletter_subscribers/{subscriberId} {
-      // Anyone can sign up for the newsletter
-      allow create: if true;
-      // Admins can read and delete subscribers
-      allow read, delete: if request.auth != null;
-      // Nobody can update the list of subscribers
-      allow update: if false;
+      allow create: if true; // Public can subscribe
+      allow read: if hasPermission('newsletters', 'view');
+      allow delete: if hasPermission('newsletters', 'delete');
     }
 
-    // Rules for admin users and roles
-    match /admin_users/{userId} {
-        allow read, write: if request.auth != null;
+    // Rules for the 'providers' collection
+    match /providers/{providerId} {
+      // Public read access for published providers
+      allow get: if resource.data.published == true;
+      allow list: if request.query.where.size() > 0 && request.query.where[0][2] == true;
+      // Granular admin write access
+      allow create: if hasPermission('upload-provider', 'create');
+      allow update: if hasPermission('manage-providers', 'edit');
+      allow delete: if hasPermission('manage-providers', 'delete');
+      // Admin read access
+      allow read: if hasPermission('manage-providers', 'view') || hasPermission('upload-provider', 'view') || hasPermission('debug', 'view');
     }
 
-    match /admin_roles/{roleId} {
-        allow read, write: if request.auth != null;
+    // Rules for the 'blog_posts' collection
+    match /blog_posts/{postId} {
+      allow read: if true; // Public can read all blog posts
+      allow create: if hasPermission('upload-blog', 'create');
+      allow update: if hasPermission('manage-blogs', 'edit');
+      allow delete: if hasPermission('manage-blogs', 'delete');
     }
   }
 }
-
-    

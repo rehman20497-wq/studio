@@ -1,7 +1,8 @@
+
 'use client';
 
 import { useState, useEffect, useCallback, useRef, type ReactNode, createContext, useContext } from 'react';
-import { useAuth, useUser } from '@/firebase';
+import { useAuth, useUser, useFirestore } from '@/firebase';
 import { initiateAnonymousSignIn } from '@/firebase/non-blocking-login';
 import AdminLayout from '@/components/admin/admin-layout';
 import LoginScreen from '@/components/admin/login-screen';
@@ -10,6 +11,7 @@ import WelcomeScreen from '@/components/admin/welcome-screen';
 import { signOut } from 'firebase/auth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ShieldAlert } from 'lucide-react';
+import { doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
@@ -74,6 +76,7 @@ export const PermissionGuard = ({ pageId, children }: { pageId: string, children
 export default function AdminPageWrapper({ children, screenTitle, isLoading = false }: AdminPageWrapperProps) {
   const { user: firebaseUser, isUserLoading } = useUser();
   const auth = useAuth();
+  const firestore = useFirestore();
   const isMobile = useIsMobile();
   const [session, setSession] = useState<AdminUserSession | null>(null);
 
@@ -81,15 +84,22 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
 
   const hasPermission = useCallback((pageId: string, permission: 'view' | 'create' | 'edit' | 'delete'): boolean => {
     if (!session) return false;
+    // Super Admins have all permissions
+    if (session.role.name === 'Super Admin') return true;
     return session.role.permissions?.[pageId]?.[permission] || false;
   }, [session]);
   
   const handleLogout = useCallback(() => {
+    if (auth && auth.currentUser && firestore) {
+      // Delete the session document on logout
+      const sessionRef = doc(firestore, 'admin_sessions', auth.currentUser.uid);
+      deleteDoc(sessionRef).catch(console.error); // fire-and-forget deletion
+    }
     if (auth) {
       signOut(auth);
     }
     setSession(null);
-  }, [auth]);
+  }, [auth, firestore]);
 
   const handleAuthentication = useCallback((loggedInSession: AdminUserSession) => {
     if (auth) {
@@ -97,6 +107,19 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
       setSession(loggedInSession);
     }
   }, [auth]);
+
+  // Effect to sync custom session with Firestore session doc for security rules
+  useEffect(() => {
+    if (firebaseUser && session && firestore) {
+      const sessionRef = doc(firestore, 'admin_sessions', firebaseUser.uid);
+      setDoc(sessionRef, {
+        roleId: session.user.roleId,
+        userId: session.user.id,
+        createdAt: serverTimestamp(),
+      });
+    }
+  }, [firebaseUser, session, firestore]);
+
 
   const resetInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
