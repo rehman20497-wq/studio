@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
 import AdminHeader from '@/components/admin/admin-header';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -13,17 +13,22 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { useCollection, useFirestore, useMemoFirebase, addDocumentNonBlocking, deleteDocumentNonBlocking, updateDocumentNonBlocking } from '@/firebase';
+import { collection, doc } from 'firebase/firestore';
 
-// Mock Data
-const initialRoles = [
-  { id: 'role1', name: 'Editor', permissions: { 'manage-blogs': { view: true, edit: true, create: true }, 'upload-blog': { view: true, create: true } } },
-  { id: 'role2', name: 'Moderator', permissions: { 'manage-providers': { view: true, edit: true } } },
-  { id: 'role3', name: 'Content Writer', permissions: { 'upload-blog': { view: true, create: true } } },
-];
-const initialUsers = [
-  { id: 'user1', name: 'Alice', roleId: 'role1', passkey: 'PASS-ALICE-123' },
-  { id: 'user2', name: 'Bob', roleId: 'role2', passkey: 'PASS-BOB-456' },
-];
+// Data Types
+type User = {
+  id: string;
+  name: string;
+  roleId: string;
+  passkey: string;
+};
+type Role = {
+  id: string;
+  name: string;
+  permissions: { [key: string]: { [key: string]: boolean } };
+};
+
 
 const pages = [
     { id: 'dashboard', name: 'Dashboard' },
@@ -53,37 +58,89 @@ const itemVariants = {
 
 export default function ManageUsersPage() {
   const { toast } = useToast();
-  const [users, setUsers] = useState(initialUsers);
-  const [roles, setRoles] = useState(initialRoles);
+  const firestore = useFirestore();
+
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [newUserName, setNewUserName] = useState('');
   const [newUserRole, setNewUserRole] = useState('');
 
-  const handleAddUser = () => {
+  const [isAddingRole, setIsAddingRole] = useState(false);
+  const [newRoleName, setNewRoleName] = useState('');
+
+  const usersQuery = useMemoFirebase(() => firestore ? collection(firestore, 'admin_users') : null, [firestore]);
+  const { data: users, isLoading: usersLoading } = useCollection<User>(usersQuery);
+
+  const rolesQuery = useMemoFirebase(() => firestore ? collection(firestore, 'admin_roles') : null, [firestore]);
+  const { data: roles, isLoading: rolesLoading } = useCollection<Role>(rolesQuery);
+
+  // Seed initial roles if the collection is empty
+  useEffect(() => {
+    if (firestore && !rolesLoading && roles && roles.length === 0) {
+      const initialRoles: Omit<Role, 'id'>[] = [
+        { name: 'Editor', permissions: { 'manage-blogs': { view: true, edit: true, create: true }, 'upload-blog': { view: true, create: true } } },
+        { name: 'Moderator', permissions: { 'manage-providers': { view: true, edit: true } } },
+        { name: 'Content Writer', permissions: { 'upload-blog': { view: true, create: true } } },
+      ];
+      const rolesCollection = collection(firestore, 'admin_roles');
+      initialRoles.forEach((role) => {
+        addDocumentNonBlocking(rolesCollection, role);
+      });
+      toast({title: "Initial roles created", description: "Editor, Moderator, and Content Writer roles have been added."});
+    }
+  }, [firestore, roles, rolesLoading, toast]);
+
+  const handleAddUser = async () => {
     if (!newUserName || !newUserRole) {
       toast({ variant: 'destructive', title: 'Error', description: 'Please enter a name and select a role.' });
       return;
     }
+    if (!firestore) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Database not connected.' });
+      return;
+    }
     const passkey = `PASS-${newUserName.toUpperCase().slice(0, 4)}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
-    const newUser = { id: `user${users.length + 1}`, name: newUserName, roleId: newUserRole, passkey };
-    setUsers([...users, newUser]);
+    const newUser = { name: newUserName, roleId: newUserRole, passkey };
+    await addDocumentNonBlocking(collection(firestore, 'admin_users'), newUser);
+    
     toast({ title: 'User Added', description: `${newUserName}'s passkey is ${passkey}. Please save it securely.` });
     setNewUserName('');
     setNewUserRole('');
     setIsAddingUser(false);
   };
 
-  const handlePermissionChange = (roleId: string, pageId: string, permission: string, checked: boolean) => {
-    setRoles(roles.map(role => {
-      if (role.id === roleId) {
-        const newPermissions = { ...role.permissions };
-        if (!newPermissions[pageId]) newPermissions[pageId] = {};
-        newPermissions[pageId][permission] = checked;
-        return { ...role, permissions: newPermissions };
-      }
-      return role;
-    }));
+  const handleDeleteUser = (userId: string) => {
+    if (!firestore) return;
+    deleteDocumentNonBlocking(doc(firestore, 'admin_users', userId));
+    toast({ title: 'User Deleted', variant: 'destructive' });
   };
+
+  const handleAddRole = async () => {
+    if (!newRoleName) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Please enter a role name.' });
+        return;
+    }
+    if (!firestore) return;
+    await addDocumentNonBlocking(collection(firestore, 'admin_roles'), { name: newRoleName, permissions: {} });
+    toast({ title: 'Role Added' });
+    setNewRoleName('');
+    setIsAddingRole(false);
+  };
+
+  const handlePermissionChange = (roleId: string, pageId: string, permission: string, checked: boolean) => {
+    if (!firestore) return;
+    const fieldPath = `permissions.${pageId}.${permission}`;
+    updateDocumentNonBlocking(doc(firestore, 'admin_roles', roleId), { [fieldPath]: checked });
+  };
+  
+  if (usersLoading || rolesLoading) {
+      return (
+          <AdminPageWrapper screenTitle="Manage Users" isLoading>
+               <div className="flex items-center justify-center min-h-screen bg-[#FEF9F2]">
+                  <p>Loading User Data...</p>
+              </div>
+          </AdminPageWrapper>
+      )
+  }
 
   return (
     <AdminPageWrapper screenTitle="Manage Users">
@@ -115,7 +172,7 @@ export default function ManageUsersPage() {
                         <Label>Role</Label>
                         <Select value={newUserRole} onValueChange={setNewUserRole}>
                           <SelectTrigger><SelectValue placeholder="Select a role" /></SelectTrigger>
-                          <SelectContent>{roles.map(r => <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>)}</SelectContent>
+                          <SelectContent>{roles?.map(r => <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>)}</SelectContent>
                         </Select>
                       </div>
                       <div className="flex gap-2">
@@ -128,13 +185,13 @@ export default function ManageUsersPage() {
               </AnimatePresence>
               
               <div className="space-y-3">
-                {users.map(user => (
+                {users && users.map(user => (
                   <div key={user.id} className="grid grid-cols-3 gap-4 items-center bg-white p-3 rounded-lg border border-zinc-100">
                     <span className="font-medium">{user.name}</span>
-                    <span className="text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full text-center text-sm">{roles.find(r => r.id === user.roleId)?.name}</span>
+                    <span className="text-zinc-600 bg-zinc-100 px-3 py-1 rounded-full text-center text-sm">{roles?.find(r => r.id === user.roleId)?.name}</span>
                     <div className="flex items-center justify-end gap-2">
                         <span className="font-mono text-xs bg-zinc-800 text-white px-2 py-1 rounded">{user.passkey}</span>
-                        <Button size="icon" variant="ghost" className="h-8 w-8"><Trash2 className="w-4 h-4 text-red-500"/></Button>
+                        <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => handleDeleteUser(user.id)}><Trash2 className="w-4 h-4 text-red-500"/></Button>
                     </div>
                   </div>
                 ))}
@@ -145,9 +202,34 @@ export default function ManageUsersPage() {
           {/* Role Management */}
           <motion.div variants={itemVariants}>
              <div className="relative bg-white/60 backdrop-blur-2xl p-6 rounded-2xl shadow-xl border border-zinc-200/50">
-               <h2 className="text-2xl font-bold font-headline flex items-center gap-3 mb-6"><Shield className="w-7 h-7 text-yellow-600" /> Role & Permission Management</h2>
+               <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold font-headline flex items-center gap-3"><Shield className="w-7 h-7 text-yellow-600" /> Role & Permission Management</h2>
+                 {!isAddingRole && (
+                  <Button onClick={() => setIsAddingRole(true)} className="rounded-full bg-zinc-800 hover:bg-zinc-700">
+                    <Plus className="mr-2" /> Add Role
+                  </Button>
+                )}
+               </div>
+
+                <AnimatePresence>
+                {isAddingRole && (
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="bg-yellow-50/50 p-4 rounded-lg mb-6 border border-yellow-200">
+                    <div className="flex gap-4 items-end">
+                      <div className="flex-grow">
+                        <Label htmlFor="new-role-name">New Role Name</Label>
+                        <Input id="new-role-name" placeholder="e.g., Marketing" value={newRoleName} onChange={e => setNewRoleName(e.target.value)} />
+                      </div>
+                      <div className="flex gap-2">
+                        <Button onClick={handleAddRole} size="icon"><Save /></Button>
+                        <Button onClick={() => setIsAddingRole(false)} size="icon" variant="destructive"><X /></Button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
                 <div className="space-y-8">
-                    {roles.map(role => (
+                    {roles && roles.map(role => (
                         <div key={role.id} className="p-4 rounded-lg bg-white border border-zinc-100">
                              <h3 className="text-xl font-semibold mb-4">{role.name}</h3>
                              <div className="space-y-2">
@@ -158,7 +240,7 @@ export default function ManageUsersPage() {
                                             <div key={pType} className="flex items-center gap-2">
                                                 <Checkbox 
                                                     id={`${role.id}-${page.id}-${pType}`} 
-                                                    checked={role.permissions[page.id]?.[pType] || false}
+                                                    checked={role.permissions?.[page.id]?.[pType] || false}
                                                     onCheckedChange={(checked) => handlePermissionChange(role.id, page.id, pType, !!checked)}
                                                 />
                                                 <Label htmlFor={`${role.id}-${page.id}-${pType}`} className="capitalize text-sm text-zinc-700">{pType}</Label>
@@ -177,4 +259,3 @@ export default function ManageUsersPage() {
     </AdminPageWrapper>
   );
 }
-

@@ -110,6 +110,8 @@ export default function DebugPage() {
             <div className="mt-12 max-w-4xl mx-auto space-y-6">
                 <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
                 <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
+                <FirestoreConnectionTest collectionName="admin_users" testName="Admin Users Collection Test" />
+                <FirestoreConnectionTest collectionName="admin_roles" testName="Admin Roles Collection Test" />
                 <CloudinaryConnectionTest />
             </div>
         </div>

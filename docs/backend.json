@@ -261,6 +261,52 @@
         }
       },
       "required": ["id", "email", "createdAt"]
+    },
+    "AdminUser": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AdminUser",
+      "type": "object",
+      "description": "Represents an administrator or privileged user in the admin panel.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AdminUser."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the admin user."
+        },
+        "roleId": {
+          "type": "string",
+          "description": "Reference to the AdminRole entity."
+        },
+        "passkey": {
+          "type": "string",
+          "description": "The unique passkey for the user to log in."
+        }
+      },
+      "required": ["id", "name", "roleId", "passkey"]
+    },
+    "AdminRole": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AdminRole",
+      "type": "object",
+      "description": "Defines a role with a set of permissions for the admin panel.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AdminRole."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the role (e.g., Editor, Moderator)."
+        },
+        "permissions": {
+          "type": "object",
+          "description": "A map of page IDs to their specific permissions (view, create, edit, delete)."
+        }
+      },
+      "required": ["id", "name", "permissions"]
     }
   },
   "auth": {
@@ -363,6 +409,38 @@
             {
               "name": "subscriberId",
               "description": "The unique identifier for the newsletter subscriber."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/admin_users/{userId}",
+        "definition": {
+          "entityName": "AdminUser",
+          "schema": {
+            "$ref": "#/entities/AdminUser"
+          },
+          "description": "Stores user accounts for the admin panel.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the admin user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/admin_roles/{roleId}",
+        "definition": {
+          "entityName": "AdminRole",
+          "schema": {
+            "$ref": "#/entities/AdminRole"
+          },
+          "description": "Stores roles and permissions for the admin panel.",
+          "params": [
+            {
+              "name": "roleId",
+              "description": "The unique identifier for the admin role."
             }
           ]
         }
