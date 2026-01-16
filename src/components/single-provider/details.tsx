@@ -5,6 +5,10 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { Cloud, Cpu, Wifi, Zap } from 'lucide-react';
 import MagneticButton from '../magnetic-button';
+import { useFirestore, updateDocumentNonBlocking } from '@/firebase';
+import { doc, increment } from 'firebase/firestore';
+import { cn } from '@/lib/utils';
+
 
 const solutionMap = {
   'Cloud Solutions': { name: 'Cloud Solutions', icon: Cloud, color: 'bg-blue-100 text-blue-800' },
@@ -76,14 +80,26 @@ const bannerVariants = {
 };
 
 interface DetailsProps {
+  providerId: string;
   solutions: string[];
   description: string;
   bannerImage: string;
 }
 
-export default function Details({ solutions, description, bannerImage }: DetailsProps) {
+export default function Details({ providerId, solutions, description, bannerImage }: DetailsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
+  const firestore = useFirestore();
+
+  const handleLearnMoreClick = () => {
+    if (firestore && providerId) {
+      const docRef = doc(firestore, 'providers', providerId);
+      updateDocumentNonBlocking(docRef, {
+        clicks: increment(1)
+      });
+      // Optionally, navigate to an external link if one exists for the provider
+    }
+  };
 
   return (
     <section ref={ref} className="bg-[#FCFBF8] py-0 px-[3%]">
@@ -119,6 +135,7 @@ export default function Details({ solutions, description, bannerImage }: Details
             className="mt-8"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0, transition: { delay: 1, duration: 0.8 } } : {}}
+            onClick={handleLearnMoreClick}
           >
             <MagneticButton>
               <span className="text-[15px] font-medium px-4">Learn More</span>

@@ -2,12 +2,13 @@
 
 import { useParams } from 'next/navigation';
 import Header from '@/components/layout/header';
-import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useDoc, useFirestore, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
+import { doc, increment } from 'firebase/firestore';
 import ClientOnly from '@/components/client-only';
 import Hero from '@/components/single-blog/hero';
 import { Skeleton } from '@/components/ui/skeleton';
 import BlogContent from '@/components/single-blog/blog-content';
+import { useEffect } from 'react';
 
 type BlogPost = {
   id: string;
@@ -20,6 +21,7 @@ type BlogPost = {
   authorImageUrl: string;
   createdAt: { seconds: number };
   published: boolean;
+  views: number;
 };
 
 export default function SingleBlogPage() {
@@ -33,6 +35,17 @@ export default function SingleBlogPage() {
   );
 
   const { data: post, isLoading, error } = useDoc<BlogPost>(postRef);
+  
+  // Track view
+  useEffect(() => {
+    if (firestore && postId) {
+      const docRef = doc(firestore, 'blog_posts', postId);
+      updateDocumentNonBlocking(docRef, {
+        views: increment(1)
+      });
+    }
+  }, [firestore, postId]);
+
 
   if (isLoading) {
     return (

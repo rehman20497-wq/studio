@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,23 +11,28 @@ type ProviderData = {
   clicks?: number;
 };
 
-// Placeholder stats data for the chart
-const monthlyStatsData = [
-    { name: 'Jan', Clicks: 400, Impressions: 2400 },
-    { name: 'Feb', Clicks: 300, Impressions: 1398 },
-    { name: 'Mar', Clicks: 500, Impressions: 9800 },
-    { name: 'Apr', Clicks: 478, Impressions: 3908 },
-    { name: 'May', Clicks: 689, Impressions: 4800 },
-    { name: 'Jun', Clicks: 890, Impressions: 3800 },
-];
+// This function generates placeholder monthly data based on total counts
+const generateMonthlyData = (totalImpressions: number, totalClicks: number) => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    // Simple distributions for placeholder data
+    const impressionDistribution = [0.12, 0.1, 0.25, 0.18, 0.2, 0.15];
+    const clickDistribution = [0.15, 0.11, 0.22, 0.2, 0.18, 0.14];
+
+    return months.map((month, i) => ({
+        name: month,
+        Impressions: Math.round(totalImpressions * impressionDistribution[i]),
+        Clicks: Math.round(totalClicks * clickDistribution[i]),
+    }));
+};
 
 export default function ProviderStats({ provider }: { provider: ProviderData }) {
     const impressions = provider.impressions || 0;
     const clicks = provider.clicks || 0;
     const ctr = impressions > 0 ? (clicks / impressions) * 100 : 0;
+    const monthlyData = generateMonthlyData(impressions, clicks);
 
     return (
-        <div className="py-12 px-[3%] bg-[#FCFBF8]">
+        <div className="py-24 px-[3%] bg-[#FCFBF8]">
             <div className="max-w-6xl mx-auto space-y-8">
                 <h2 className="text-3xl font-bold font-headline text-zinc-900 text-center mb-12">Provider Analytics</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -64,10 +68,10 @@ export default function ProviderStats({ provider }: { provider: ProviderData }) 
                     </Card>
                 </div>
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-center">Monthly Performance</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-center">Monthly Performance (Sample Data)</h3>
                     <div className="w-full h-[300px]">
                         <ResponsiveContainer>
-                            <BarChart data={monthlyStatsData}>
+                            <BarChart data={monthlyData}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" />
                                 <YAxis />
@@ -82,5 +86,3 @@ export default function ProviderStats({ provider }: { provider: ProviderData }) 
         </div>
     );
 }
-
-    

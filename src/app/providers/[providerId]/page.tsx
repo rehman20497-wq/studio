@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -6,10 +5,12 @@ import Header from "@/components/layout/header";
 import Hero from "@/components/single-provider/hero";
 import Details from "@/components/single-provider/details";
 import Testimonial from "@/components/single-provider/testimonial";
-import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useDoc, useFirestore, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
+import { doc, increment } from 'firebase/firestore';
 import ProviderFilter from '@/components/providers/provider-filter';
 import ClientOnly from '@/components/client-only';
+import { useEffect } from 'react';
+import ProviderStats from '@/components/single-provider/provider-stats';
 
 type ProviderData = {
   id: string;
@@ -33,6 +34,16 @@ export default function SingleProviderPage() {
   );
   
   const { data: providerData, isLoading, error } = useDoc<ProviderData>(providerRef);
+
+  // Track impression
+  useEffect(() => {
+    if (firestore && providerId) {
+      const docRef = doc(firestore, 'providers', providerId);
+      updateDocumentNonBlocking(docRef, {
+        impressions: increment(1)
+      });
+    }
+  }, [firestore, providerId]);
 
   if (isLoading) {
     return (
@@ -83,10 +94,12 @@ export default function SingleProviderPage() {
             <ProviderFilter initialSolution={primarySolution} />
         </div>
         <Details
+          providerId={providerData.id}
           solutions={providerData.solutions}
           description={providerData.description}
           bannerImage={providerData.bannerImageUrl || 'https://picsum.photos/seed/default-banner/800/600'}
         />
+        <ProviderStats provider={providerData} />
         <Testimonial 
           solutionType={primarySolution} 
         />
