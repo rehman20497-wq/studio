@@ -99,24 +99,28 @@ const CloudinaryConnectionTest = () => {
     return <StatusIndicator status={status} title="Cloudinary Connection" message={message} data={displayData} />;
 }
 
+function DebugContent() {
+  const { session } = useAdminUser();
+  return (
+    <PermissionGuard pageId="debug">
+      <div className="p-4 sm:p-8 md:p-12">
+          <AdminHeader userName={session?.user.name || 'Admin'} />
+          <div className="mt-12 max-w-4xl mx-auto space-y-6">
+              <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
+              <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
+              <FirestoreConnectionTest collectionName="admin_users" testName="Admin Users Collection Test" />
+              <FirestoreConnectionTest collectionName="admin_roles" testName="Admin Roles Collection Test" />
+              <CloudinaryConnectionTest />
+          </div>
+      </div>
+    </PermissionGuard>
+  );
+}
 
 export default function DebugPage() {
-  const { session } = useAdminUser();
-  
   return (
     <AdminPageWrapper screenTitle="Debug Panel">
-      <PermissionGuard pageId="debug">
-        <div className="p-4 sm:p-8 md:p-12">
-            <AdminHeader userName={session?.user.name || 'Admin'} />
-            <div className="mt-12 max-w-4xl mx-auto space-y-6">
-                <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
-                <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
-                <FirestoreConnectionTest collectionName="admin_users" testName="Admin Users Collection Test" />
-                <FirestoreConnectionTest collectionName="admin_roles" testName="Admin Roles Collection Test" />
-                <CloudinaryConnectionTest />
-            </div>
-        </div>
-      </PermissionGuard>
+      <DebugContent />
     </AdminPageWrapper>
   );
 }

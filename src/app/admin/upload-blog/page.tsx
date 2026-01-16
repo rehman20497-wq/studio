@@ -125,8 +125,7 @@ const ImageUploader = ({
   </div>
 );
 
-
-export default function UploadBlogPage() {
+function UploadBlogContent() {
   const { toast } = useToast();
   const firestore = useFirestore();
   const { session, hasPermission } = useAdminUser();
@@ -283,142 +282,148 @@ export default function UploadBlogPage() {
   const canCreate = hasPermission('upload-blog', 'create');
 
   return (
-    <AdminPageWrapper screenTitle="Upload Blog">
-        <PermissionGuard pageId="upload-blog">
-            <div className="p-4 sm:p-8 md:p-12">
-                <AdminHeader userName={session?.user.name || 'Admin'} />
-                <div className="mt-12">
-                    <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-16" onMouseMove={handleMouseMove}>
-                        <SectionWrapper title="Title & Category" step={1} icon={Type}>
+    <PermissionGuard pageId="upload-blog">
+        <div className="p-4 sm:p-8 md:p-12">
+            <AdminHeader userName={session?.user.name || 'Admin'} />
+            <div className="mt-12">
+                <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-16" onMouseMove={handleMouseMove}>
+                    <SectionWrapper title="Title & Category" step={1} icon={Type}>
+                        <div className="space-y-4">
+                            <div>
+                                <label htmlFor="title" className="font-semibold text-zinc-700">Blog Title</label>
+                                <Input id="title" placeholder="e.g., The Future of AI in Tech" {...register('title')} />
+                                {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+                            </div>
+                            <div>
+                                <label htmlFor="category" className="font-semibold text-zinc-700">Category</label>
+                                <Input id="category" placeholder="e.g., Artificial Intelligence" {...register('category')} />
+                                {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>}
+                            </div>
+                        </div>
+                    </SectionWrapper>
+
+                    <SectionWrapper title="Featured Image" step={2} icon={ImageIcon}>
+                        <ImageUploader
+                        id="featured-image"
+                        label="Upload Featured Image"
+                        subtext="Recommended size: 1200x630px"
+                        preview={featuredImagePreview}
+                        progress={featuredImageProgress}
+                        error={errors.featuredImageUrl?.message}
+                        onFileChange={(e) => handleFileChange(e, 'featuredImageUrl')}
+                        />
+                    </SectionWrapper>
+
+                    <SectionWrapper title="Content" step={3} icon={FileText}>
+                        <Controller
+                            name="content"
+                            control={control}
+                            render={({ field }) => (
+                                <>
+                                <RichTextEditor
+                                value={field.value || ''}
+                                onChange={field.onChange}
+                                placeholder="Start writing your masterpiece..."
+                                />
+                                {errors.content && <p className="text-red-500 text-sm mt-2">{errors.content.message}</p>}
+                                </>
+                            )}
+                        />
+                    </SectionWrapper>
+
+                    <SectionWrapper title="Pull-Quote (Optional)" step={4} icon={MessageSquare}>
+                        <div className="relative">
+                            <Textarea 
+                                placeholder="Enter a powerful quote to feature in your post..." 
+                                {...register('quote')}
+                                className="pl-10 text-lg italic"
+                            />
+                            <div className="absolute top-4 left-3 text-zinc-400">
+                            <MessageSquare className="w-5 h-5" />
+                            </div>
+                        </div>
+                    </SectionWrapper>
+
+                    <SectionWrapper title="Author" step={5} icon={User}>
+                    <div className="grid md:grid-cols-2 gap-8 items-start">
+                        <ImageUploader
+                            id="author-image"
+                            label="Upload Author's Image"
+                            subtext="Square image recommended"
+                            preview={authorImagePreview}
+                            progress={authorImageProgress}
+                            error={errors.authorImageUrl?.message}
+                            onFileChange={(e) => handleFileChange(e, 'authorImageUrl')}
+                            />
                             <div className="space-y-4">
                                 <div>
-                                    <label htmlFor="title" className="font-semibold text-zinc-700">Blog Title</label>
-                                    <Input id="title" placeholder="e.g., The Future of AI in Tech" {...register('title')} />
-                                    {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
-                                </div>
-                                <div>
-                                    <label htmlFor="category" className="font-semibold text-zinc-700">Category</label>
-                                    <Input id="category" placeholder="e.g., Artificial Intelligence" {...register('category')} />
-                                    {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>}
+                                <label htmlFor="authorName" className="font-semibold text-zinc-700">Author's Name</label>
+                                <Input id="authorName" placeholder="e.g., Jane Doe" {...register('authorName')} />
+                                {errors.authorName && <p className="text-red-500 text-sm mt-1">{errors.authorName.message}</p>}
                                 </div>
                             </div>
-                        </SectionWrapper>
-
-                        <SectionWrapper title="Featured Image" step={2} icon={ImageIcon}>
-                            <ImageUploader
-                            id="featured-image"
-                            label="Upload Featured Image"
-                            subtext="Recommended size: 1200x630px"
-                            preview={featuredImagePreview}
-                            progress={featuredImageProgress}
-                            error={errors.featuredImageUrl?.message}
-                            onFileChange={(e) => handleFileChange(e, 'featuredImageUrl')}
-                            />
-                        </SectionWrapper>
-
-                        <SectionWrapper title="Content" step={3} icon={FileText}>
-                            <Controller
-                                name="content"
-                                control={control}
-                                render={({ field }) => (
-                                    <>
-                                    <RichTextEditor
-                                    value={field.value || ''}
-                                    onChange={field.onChange}
-                                    placeholder="Start writing your masterpiece..."
-                                    />
-                                    {errors.content && <p className="text-red-500 text-sm mt-2">{errors.content.message}</p>}
-                                    </>
-                                )}
-                            />
-                        </SectionWrapper>
-
-                        <SectionWrapper title="Pull-Quote (Optional)" step={4} icon={MessageSquare}>
-                            <div className="relative">
-                                <Textarea 
-                                    placeholder="Enter a powerful quote to feature in your post..." 
-                                    {...register('quote')}
-                                    className="pl-10 text-lg italic"
+                    </div>
+                    </SectionWrapper>
+                    
+                    <SectionWrapper title="Publish Status" step={6} icon={Shield}>
+                        <Controller
+                            name="published"
+                            control={control}
+                            render={({ field }) => (
+                                <div className="flex items-center space-x-4 p-4 bg-zinc-50 rounded-lg">
+                                <Switch
+                                    id="published-status"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
                                 />
-                                <div className="absolute top-4 left-3 text-zinc-400">
-                                <MessageSquare className="w-5 h-5" />
+                                <Label htmlFor="published-status" className="flex flex-col">
+                                    <span className="font-semibold text-zinc-800">
+                                    {field.value ? 'Published' : 'Draft'}
+                                    </span>
+                                    <span className="text-sm text-zinc-600">
+                                    {field.value
+                                        ? 'This post will be visible to the public.'
+                                        : 'This post will be saved as a draft.'}
+                                    </span>
+                                </Label>
                                 </div>
-                            </div>
-                        </SectionWrapper>
-
-                        <SectionWrapper title="Author" step={5} icon={User}>
-                        <div className="grid md:grid-cols-2 gap-8 items-start">
-                            <ImageUploader
-                                id="author-image"
-                                label="Upload Author's Image"
-                                subtext="Square image recommended"
-                                preview={authorImagePreview}
-                                progress={authorImageProgress}
-                                error={errors.authorImageUrl?.message}
-                                onFileChange={(e) => handleFileChange(e, 'authorImageUrl')}
-                                />
-                                <div className="space-y-4">
-                                    <div>
-                                    <label htmlFor="authorName" className="font-semibold text-zinc-700">Author's Name</label>
-                                    <Input id="authorName" placeholder="e.g., Jane Doe" {...register('authorName')} />
-                                    {errors.authorName && <p className="text-red-500 text-sm mt-1">{errors.authorName.message}</p>}
-                                    </div>
-                                </div>
-                        </div>
-                        </SectionWrapper>
-                        
-                        <SectionWrapper title="Publish Status" step={6} icon={Shield}>
-                            <Controller
-                                name="published"
-                                control={control}
-                                render={({ field }) => (
-                                    <div className="flex items-center space-x-4 p-4 bg-zinc-50 rounded-lg">
-                                    <Switch
-                                        id="published-status"
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                    <Label htmlFor="published-status" className="flex flex-col">
-                                        <span className="font-semibold text-zinc-800">
-                                        {field.value ? 'Published' : 'Draft'}
-                                        </span>
-                                        <span className="text-sm text-zinc-600">
-                                        {field.value
-                                            ? 'This post will be visible to the public.'
-                                            : 'This post will be saved as a draft.'}
-                                        </span>
-                                    </Label>
-                                    </div>
-                                )}
-                            />
-                        </SectionWrapper>
+                            )}
+                        />
+                    </SectionWrapper>
 
 
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true, amount: 0.5 }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            className="flex justify-end"
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className="flex justify-end"
+                    >
+                        <motion.button
+                            ref={buttonRef}
+                            style={{ x: springX, y: springY }}
+                            type="submit" 
+                            className={cn("bg-zinc-900 text-white rounded-full px-10 py-6 text-lg font-bold flex items-center gap-3 transition-all duration-300 ease-out",
+                                !isValid || isSubmitting || !canCreate ? 'bg-zinc-400 text-zinc-100 cursor-not-allowed' : 'bg-zinc-900 hover:bg-zinc-700 text-white'
+                            )}
+                            disabled={!isValid || isSubmitting || !canCreate}
+                            whileTap={{ scale: isValid && canCreate ? 0.95 : 1 }}
                         >
-                            <motion.button
-                                ref={buttonRef}
-                                style={{ x: springX, y: springY }}
-                                type="submit" 
-                                className={cn("bg-zinc-900 text-white rounded-full px-10 py-6 text-lg font-bold flex items-center gap-3 transition-all duration-300 ease-out",
-                                    !isValid || isSubmitting || !canCreate ? 'bg-zinc-400 text-zinc-100 cursor-not-allowed' : 'bg-zinc-900 hover:bg-zinc-700 text-white'
-                                )}
-                                disabled={!isValid || isSubmitting || !canCreate}
-                                whileTap={{ scale: isValid && canCreate ? 0.95 : 1 }}
-                            >
-                                <BookOpen className="w-5 h-5"/>
-                                {isSubmitting ? 'Submitting...' : 'Submit Post'}
-                            </motion.button>
-                        </motion.div>
-                    </form>
-                </div>
+                            <BookOpen className="w-5 h-5"/>
+                            {isSubmitting ? 'Submitting...' : 'Submit Post'}
+                        </motion.button>
+                    </motion.div>
+                </form>
             </div>
-        </PermissionGuard>
+        </div>
+    </PermissionGuard>
+  );
+}
+
+export default function UploadBlogPage() {
+  return (
+    <AdminPageWrapper screenTitle="Upload Blog">
+      <UploadBlogContent />
     </AdminPageWrapper>
   );
 }
