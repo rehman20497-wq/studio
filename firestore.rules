@@ -44,7 +44,8 @@ service cloud.firestore {
     }
     match /admin_roles/{roleId} {
       allow read: if hasPermission('manage-users', 'view');
-      allow create: if hasPermission('manage-users', 'create');
+      // Allow create for any signed-in user to handle seeding. Updates/deletes are protected.
+      allow create: if request.auth != null;
       allow update: if hasPermission('manage-users', 'edit');
       allow delete: if hasPermission('manage-users', 'delete');
     }

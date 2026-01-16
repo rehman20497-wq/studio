@@ -1,11 +1,12 @@
+
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
-import { useCollection, useFirestore, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import type { AdminUserSession } from '@/components/admin/admin-page-wrapper';
@@ -33,17 +34,6 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 };
 
-const pages = [
-    { id: 'dashboard', name: 'Dashboard' },
-    { id: 'upload-provider', name: 'Upload Provider' },
-    { id: 'manage-providers', name: 'Manage Providers' },
-    { id: 'upload-blog', name: 'Upload Blog' },
-    { id: 'manage-blogs', name: 'Manage Blogs' },
-    { id: 'newsletters', name: 'Newsletters' },
-    { id: 'debug', name: 'Debug' },
-    { id: 'manage-users', name: 'Manage Users' },
-];
-
 
 export default function LoginScreen({ onAuthenticated }: { onAuthenticated: (session: AdminUserSession) => void }) {
   const [passkey, setPasskey] = useState('');
@@ -57,28 +47,6 @@ export default function LoginScreen({ onAuthenticated }: { onAuthenticated: (ses
   const { data: roles, isLoading: rolesLoading, error: rolesError } = useCollection<Role>(rolesQuery);
   
   const isLoading = usersLoading || rolesLoading;
-
-  // Seed initial roles if they don't exist
-  useEffect(() => {
-    if (firestore && !rolesLoading && roles?.length === 0) {
-      const allPermissions = pages.reduce((acc, page) => {
-        acc[page.id] = { view: true, create: true, edit: true, delete: true };
-        return acc;
-      }, {} as Role['permissions']);
-      
-      const initialRoles: Omit<Role, 'id'>[] = [
-        { name: 'Super Admin', permissions: allPermissions },
-        { name: 'Editor', permissions: { 'manage-blogs': { view: true, edit: true, create: true }, 'upload-blog': { view: true, create: true } } },
-        { name: 'Moderator', permissions: { 'manage-providers': { view: true, edit: true } } },
-        { name: 'Content Writer', permissions: { 'upload-blog': { view: true, create: true } } },
-      ];
-      const rolesCollection = collection(firestore, 'admin_roles');
-      initialRoles.forEach((role) => {
-        addDocumentNonBlocking(rolesCollection, role);
-      });
-      toast({title: "Initial roles created", description: "Default roles have been added."});
-    }
-  }, [firestore, roles, rolesLoading, toast]);
   
   const handleLogin = () => {
     if (isLoading || isChecking || !users || !roles) return;

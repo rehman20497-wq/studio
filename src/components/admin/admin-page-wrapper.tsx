@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef, type ReactNode, createContext, useContext } from 'react';
-import { useAuth, useUser, useFirestore } from '@/firebase';
+import { useAuth, useUser, useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { initiateAnonymousSignIn } from '@/firebase/non-blocking-login';
 import AdminLayout from '@/components/admin/admin-layout';
 import LoginScreen from '@/components/admin/login-screen';
@@ -11,7 +11,10 @@ import WelcomeScreen from '@/components/admin/welcome-screen';
 import { signOut } from 'firebase/auth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ShieldAlert } from 'lucide-react';
-import { doc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, serverTimestamp, collection, query, limit } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
@@ -79,8 +82,52 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
   const firestore = useFirestore();
   const isMobile = useIsMobile();
   const [session, setSession] = useState<AdminUserSession | null>(null);
+  const { toast } = useToast();
+  const hasSeeded = useRef(false);
 
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const rolesQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'admin_roles'), limit(1)) : null, [firestore]);
+  const { data: roles, isLoading: rolesLoading } = useCollection<Role>(rolesQuery);
+
+  useEffect(() => {
+    // This effect runs once after the first successful login (when session is set)
+    // to seed the initial roles if the database is empty.
+    if (session && !rolesLoading && roles && roles.length === 0 && !hasSeeded.current) {
+        hasSeeded.current = true; // Prevents re-running
+
+        const pages = [
+            { id: 'dashboard', name: 'Dashboard' },
+            { id: 'upload-provider', name: 'Upload Provider' },
+            { id: 'manage-providers', name: 'Manage Providers' },
+            { id: 'upload-blog', name: 'Upload Blog' },
+            { id: 'manage-blogs', name: 'Manage Blogs' },
+            { id: 'newsletters', name: 'Newsletters' },
+            { id: 'debug', name: 'Debug' },
+            { id: 'manage-users', name: 'Manage Users' },
+        ];
+        
+        const allPermissions = pages.reduce((acc, page) => {
+            acc[page.id] = { view: true, create: true, edit: true, delete: true };
+            return acc;
+        }, {} as Role['permissions']);
+      
+        const initialRoles: Omit<Role, 'id'>[] = [
+            { name: 'Super Admin', permissions: allPermissions },
+            { name: 'Editor', permissions: { 'manage-blogs': { view: true, edit: true, create: true }, 'upload-blog': { view: true, create: true } } },
+            { name: 'Moderator', permissions: { 'manage-providers': { view: true, edit: true } } },
+            { name: 'Content Writer', permissions: { 'upload-blog': { view: true, create: true } } },
+        ];
+        
+        const rolesCollection = collection(firestore, 'admin_roles');
+        initialRoles.forEach((role) => {
+            addDocumentNonBlocking(rolesCollection, role);
+        });
+
+        toast({title: "Initial roles created", description: "Default admin roles have been seeded."});
+    }
+  }, [session, firestore, roles, rolesLoading, toast]);
+
 
   const hasPermission = useCallback((pageId: string, permission: 'view' | 'create' | 'edit' | 'delete'): boolean => {
     if (!session) return false;
