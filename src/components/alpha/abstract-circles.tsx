@@ -4,8 +4,8 @@ import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 
-const CIRCLE_RADIUS = 66;
-const STROKE_WIDTH = 14;
+const CIRCLE_RADIUS = 55;
+const STROKE_WIDTH = 12;
 const SPACING = 0;
 
 const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
@@ -61,6 +61,7 @@ const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: str
                 strokeDasharray={`${CIRCUMFERENCE * 0.75} ${CIRCUMFERENCE * 0.25}`}
                 strokeDashoffset={CIRCUMFERENCE}
                 initial={{ strokeDashoffset: CIRCUMFERENCE, rotate: 0 }}
+                strokeLinecap="round"
             />
             <clipPath id={`clip-${id}`}>
                 <motion.circle
