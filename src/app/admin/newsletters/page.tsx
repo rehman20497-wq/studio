@@ -1,17 +1,27 @@
-
 'use client';
 
 import { useState } from 'react';
 import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { useCollection, useFirestore, useMemoFirebase, deleteDocumentNonBlocking } from '@/firebase';
+import { collection, query, orderBy, doc } from 'firebase/firestore';
 import { format } from 'date-fns';
-import { Newspaper, Search, Mail } from 'lucide-react';
+import { Newspaper, Search, Mail, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdminHeader from '@/components/admin/admin-header';
 import { Button } from '@/components/ui/button';
 import ComposeNewsletterDialog from '@/components/admin/compose-newsletter-dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
 
 type Subscriber = {
   id: string;
@@ -41,6 +51,9 @@ export default function NewslettersPage() {
   const firestore = useFirestore();
   const [searchTerm, setSearchTerm] = useState('');
   const [isComposeOpen, setIsComposeOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedSubscriber, setSelectedSubscriber] = useState<Subscriber | null>(null);
+  const { toast } = useToast();
 
   const memoizedQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -52,6 +65,27 @@ export default function NewslettersPage() {
   const filteredSubscribers = subscribers?.filter(sub =>
     sub.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const openDeleteDialog = (subscriber: Subscriber) => {
+    setSelectedSubscriber(subscriber);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (!firestore || !selectedSubscriber) return;
+
+    const subscriberRef = doc(firestore, 'newsletter_subscribers', selectedSubscriber.id);
+    deleteDocumentNonBlocking(subscriberRef);
+
+    toast({
+        title: 'Subscriber Deleted',
+        description: `${selectedSubscriber.email} has been removed from the mailing list.`,
+        variant: 'destructive',
+    });
+
+    setIsDeleteDialogOpen(false);
+    setSelectedSubscriber(null);
+  };
 
   if (isLoading) {
     return (
@@ -135,6 +169,9 @@ export default function NewslettersPage() {
                             </p>
                         </div>
                     </div>
+                    <Button size="icon" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(sub)}>
+                        <Trash2 className="w-4 h-4" />
+                    </Button>
                 </motion.div>
               ))
             ) : (
@@ -147,6 +184,22 @@ export default function NewslettersPage() {
         </div>
       </div>
       <ComposeNewsletterDialog isOpen={isComposeOpen} onOpenChange={setIsComposeOpen} />
+
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the subscriber
+                from your database.
+            </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminPageWrapper>
   );
 }
