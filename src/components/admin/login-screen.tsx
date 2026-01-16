@@ -1,12 +1,12 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { useCollection, useFirestore, useMemoFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import type { AdminUserSession } from '@/components/admin/admin-page-wrapper';
@@ -46,6 +46,60 @@ export default function LoginScreen({ onAuthenticated }: { onAuthenticated: (ses
   const rolesQuery = useMemoFirebase(() => firestore ? collection(firestore, 'admin_roles') : null, [firestore]);
   const { data: roles, isLoading: rolesLoading, error: rolesError } = useCollection<Role>(rolesQuery);
   
+  const hasSeededRoles = useRef(false);
+  const hasSeededUsers = useRef(false);
+
+  useEffect(() => {
+    if (!firestore || rolesLoading || roles === null || hasSeededRoles.current) return;
+    if (roles.length === 0) {
+        hasSeededRoles.current = true;
+
+        const pages = [
+            { id: 'dashboard', name: 'Dashboard' },
+            { id: 'upload-provider', name: 'Upload Provider' },
+            { id: 'manage-providers', name: 'Manage Providers' },
+            { id: 'upload-blog', name: 'Upload Blog' },
+            { id: 'manage-blogs', name: 'Manage Blogs' },
+            { id: 'newsletters', name: 'Newsletters' },
+            { id: 'debug', name: 'Debug' },
+            { id: 'manage-users', name: 'Manage Users' },
+        ];
+        
+        const allPermissions = pages.reduce((acc, page) => {
+            acc[page.id] = { view: true, create: true, edit: true, delete: true };
+            return acc;
+        }, {} as Role['permissions']);
+      
+        const initialRoles: Omit<Role, 'id'>[] = [
+            { name: 'Super Admin', permissions: allPermissions },
+            { name: 'Editor', permissions: { 'manage-blogs': { view: true, edit: true, create: true }, 'upload-blog': { view: true, create: true } } },
+            { name: 'Moderator', permissions: { 'manage-providers': { view: true, edit: true } } },
+            { name: 'Content Writer', permissions: { 'upload-blog': { view: true, create: true } } },
+        ];
+        
+        const rolesCollection = collection(firestore, 'admin_roles');
+        initialRoles.forEach(role => addDocumentNonBlocking(rolesCollection, role));
+        toast({ title: 'Seeding Roles', description: 'Initial admin roles are being created.' });
+    }
+  }, [firestore, roles, rolesLoading, toast]);
+
+  useEffect(() => {
+    if (!firestore || usersLoading || users === null || rolesLoading || roles === null || hasSeededUsers.current) return;
+    
+    const superAdminRole = roles.find(r => r.name === 'Super Admin');
+    if (users.length === 0 && superAdminRole) {
+        hasSeededUsers.current = true;
+        const adminUser = {
+            name: 'Faizan',
+            roleId: superAdminRole.id,
+            passkey: 'F@izan&1122'
+        };
+        addDocumentNonBlocking(collection(firestore, 'admin_users'), adminUser);
+        toast({ title: 'Seeding Admin', description: 'Default admin user "Faizan" has been created.' });
+    }
+  }, [firestore, users, usersLoading, roles, rolesLoading, toast]);
+
+
   const isLoading = usersLoading || rolesLoading;
   
   const handleLogin = () => {
@@ -57,14 +111,14 @@ export default function LoginScreen({ onAuthenticated }: { onAuthenticated: (ses
         const superAdminRole = roles.find(r => r.name === 'Super Admin');
         if (superAdminRole) {
             const adminUser: User = {
-                id: 'super-admin-faizan', // A static ID for this special user
+                id: users.find(u => u.name === 'Faizan')?.id || 'super-admin-faizan', // A static ID for this special user
                 name: 'Faizan',
                 roleId: superAdminRole.id,
                 passkey: 'F@izan&1122'
             };
             onAuthenticated({ user: adminUser, role: superAdminRole });
         } else {
-            toast({ title: 'Login Error', description: 'Super Admin role not found. Please ensure roles are seeded.', variant: 'destructive' });
+            toast({ title: 'Login Error', description: 'Super Admin role not found. Please wait a moment for roles to seed and try again.', variant: 'destructive' });
             setIsChecking(false);
         }
         return;

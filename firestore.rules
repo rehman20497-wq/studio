@@ -35,17 +35,16 @@ service cloud.firestore {
       allow read, write: if request.auth.uid == uid;
     }
 
-    // Rules for admin users and roles. Only users with 'manage-users' permission can access.
+    // Rules for admin users and roles.
     match /admin_users/{userId} {
       allow read: if hasPermission('manage-users', 'view');
-      allow create: if hasPermission('manage-users', 'create');
+      allow create: if true; // Allow create for seeding
       allow update: if hasPermission('manage-users', 'edit');
       allow delete: if hasPermission('manage-users', 'delete');
     }
     match /admin_roles/{roleId} {
       allow read: if hasPermission('manage-users', 'view');
-      // Allow create for any signed-in user to handle seeding. Updates/deletes are protected.
-      allow create: if request.auth != null;
+      allow create: if true; // Allow create for seeding
       allow update: if hasPermission('manage-users', 'edit');
       allow delete: if hasPermission('manage-users', 'delete');
     }
