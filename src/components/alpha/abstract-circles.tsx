@@ -150,15 +150,20 @@ export default function AbstractCircles() {
                 if (animationIndex > 0 && animationIndex % 9 === 0) {
                     colorIndex++;
                     const newColor = colors[colorIndex % colors.length];
-                    activeCircleQueue.forEach(c => {
-                        if (c) {
-                           animate(
-                                `#${c.id} .stroke-circle`, 
+                    if (activeCircleQueue.length > 0) {
+                        const selector = activeCircleQueue
+                            .filter(c => c)
+                            .map(c => `#${c.id} .stroke-circle`)
+                            .join(", ");
+                        
+                        if (selector) {
+                            animate(
+                                selector, 
                                 { stroke: newColor }, 
-                                { duration: 0.5, ease: 'easeInOut' }
+                                { duration: 1.5, ease: 'easeInOut' }
                             );
                         }
-                    });
+                    }
                 }
                 
                 const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
