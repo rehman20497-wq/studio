@@ -10,7 +10,7 @@ export default function RightColumn() {
         <h2 className="text-[23px] font-medium">
           <span className="underline-draw">Outsourcing+</span>
         </h2>
-        <h1 className="text-[72px] font-bold mt-4 leading-[72.5px] text-black">
+        <h1 className="text-[72px] font-normal mt-4 leading-[72.5px] text-black">
           Built to make
           <br />
           you better.
