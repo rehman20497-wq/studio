@@ -20,10 +20,8 @@ function AdminDashboardContent() {
 }
 
 export default function AdminDashboardPage() {
-  const { session } = useAdminUser();
-
   return (
-    <AdminPageWrapper screenTitle={`Welcome, ${session?.user.name || 'Admin'}!`}>
+    <AdminPageWrapper screenTitle="Dashboard">
       <AdminDashboardContent />
     </AdminPageWrapper>
   );
