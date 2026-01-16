@@ -105,6 +105,7 @@ export default function AbstractCircles() {
         let isCancelled = false;
 
         let shuffledCircles = shuffle(allCirclesFlat);
+        let profileIsPending = false;
 
         const animateOn = (circle: any, showProfile: boolean, color: string) => {
             const { id } = circle;
@@ -121,27 +122,30 @@ export default function AbstractCircles() {
                     stroke: color,
                     rotate: randomRotation,
                 },
-                { duration: 2.5, ease: "easeOut" }
+                { duration: 4.5, ease: "easeOut" }
             );
             
             if (showProfile) {
-                animate(`#${id} .profile-clip`, { scale: [0, 1.1, 1] }, { duration: 2.5, ease: [0.34, 1.56, 0.64, 1] });
-                animate(`#${id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 2.0 });
+                animate(`#${id} .profile-clip`, { scale: [0, 1.1, 1] }, { duration: 4.5, ease: [0.34, 1.56, 0.64, 1] });
+                animate(`#${id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 4.0 });
             }
         };
 
         const animateOff = (circle: any) => {
-            const { id } = circle;
+            const { id, hasProfile } = circle;
             
-            animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: 1.0, ease: 'easeIn' });
-            animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 1.2, ease: 'easeIn' });
+            if (hasProfile) {
+                animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: 2.0, ease: 'easeIn' });
+                animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: 2.2, ease: 'easeIn' });
+            }
+            
             animate(
                 `#${id} .stroke-circle`,
                 { 
                     strokeDashoffset: CIRCUMFERENCE, 
                     stroke: '#f9f4e6',
                 },
-                { at: '-0.4', duration: 2.5, ease: "easeIn" }
+                { at: '-0.4', duration: 4.5, ease: "easeIn" }
             );
         };
         
@@ -168,10 +172,24 @@ export default function AbstractCircles() {
                 
                 const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
                 
-                activeCircleQueue.push(circleOn);
+                let showProfileThisTurn = (animationIndex % 2 === 0) || profileIsPending;
+                profileIsPending = false; // Reset
+
+                if (showProfileThisTurn) {
+                    const rowHasProfile = activeCircleQueue.some(
+                        c => c && c.row === circleOn.row && c.hasProfile
+                    );
+                    if (rowHasProfile) {
+                        showProfileThisTurn = false;
+                        profileIsPending = true; // Defer to next circle
+                    }
+                }
+
+                const circleToAdd = { ...circleOn, hasProfile: showProfileThisTurn };
+                activeCircleQueue.push(circleToAdd);
 
                 const currentColor = colors[colorIndex % colors.length];
-                animateOn(circleOn, animationIndex % 2 === 0, currentColor);
+                animateOn(circleOn, showProfileThisTurn, currentColor);
 
                 const DISPLAY_WINDOW = 7; 
                 if (activeCircleQueue.length > DISPLAY_WINDOW) {
