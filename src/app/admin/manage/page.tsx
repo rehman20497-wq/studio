@@ -58,15 +58,20 @@ const itemVariants = {
 
 
 const generateMonthlyData = (totalImpressions: number, totalClicks: number) => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-    // Distribute total values across 6 months with some variance
-    const impressionDistribution = [0.12, 0.1, 0.25, 0.18, 0.2, 0.15];
-    const clickDistribution = [0.15, 0.11, 0.22, 0.2, 0.18, 0.14];
+    const now = new Date();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const months = Array.from({ length: 6 }, (_, i) => {
+        const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+        return monthNames[d.getMonth()];
+    });
+
+    // Simple growth distribution
+    const distribution = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25];
 
     return months.map((month, i) => ({
         name: month,
-        Impressions: Math.round(totalImpressions * impressionDistribution[i]),
-        Clicks: Math.round(totalClicks * clickDistribution[i]),
+        Impressions: Math.round(totalImpressions * distribution[i]),
+        Clicks: Math.round(totalClicks * distribution[i]),
     }));
 };
 
@@ -86,7 +91,7 @@ const ProviderStatsView = ({ provider }: { provider: Provider }) => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{impressions.toLocaleString()}</div>
-                        <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+                        <p className="text-xs text-muted-foreground">Total all-time impressions</p>
                     </CardContent>
                 </Card>
                 <Card>
@@ -96,7 +101,7 @@ const ProviderStatsView = ({ provider }: { provider: Provider }) => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{clicks.toLocaleString()}</div>
-                        <p className="text-xs text-muted-foreground">+12.5% from last month</p>
+                        <p className="text-xs text-muted-foreground">Total all-time clicks</p>
                     </CardContent>
                 </Card>
                 <Card>
@@ -106,7 +111,7 @@ const ProviderStatsView = ({ provider }: { provider: Provider }) => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{ctr.toFixed(2)}%</div>
-                        <p className="text-xs text-muted-foreground">+2.1% from last month</p>
+                        <p className="text-xs text-muted-foreground">Overall click-through rate</p>
                     </CardContent>
                 </Card>
             </div>
@@ -308,7 +313,7 @@ function ManageProvidersContent() {
                 <DialogHeader>
                     <DialogTitle>Statistics for: {selectedProvider?.name}</DialogTitle>
                     <DialogDescription>
-                        Showing performance analytics for the last 6 months.
+                        Showing performance analytics for the last 6 months (sample data).
                     </DialogDescription>
                 </DialogHeader>
                 {selectedProvider && (

@@ -49,16 +49,21 @@ const itemVariants = {
 };
 
 const generateMonthlyData = (totalViews: number, totalComments: number, totalShares: number) => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-    const viewDistribution = [0.12, 0.1, 0.25, 0.18, 0.2, 0.15];
-    const commentDistribution = [0.15, 0.11, 0.22, 0.2, 0.18, 0.14];
-    const shareDistribution = [0.10, 0.15, 0.20, 0.25, 0.15, 0.15];
+    const now = new Date();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const months = Array.from({ length: 6 }, (_, i) => {
+        const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+        return monthNames[d.getMonth()];
+    });
+
+    // Simple growth distribution
+    const distribution = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25];
 
     return months.map((month, i) => ({
         name: month,
-        Views: Math.round(totalViews * viewDistribution[i]),
-        Comments: Math.round(totalComments * commentDistribution[i]),
-        Shares: Math.round(totalShares * shareDistribution[i]),
+        Views: Math.round(totalViews * distribution[i]),
+        Comments: Math.round(totalComments * distribution[i]),
+        Shares: Math.round(totalShares * distribution[i]),
     }));
 };
 
@@ -78,7 +83,7 @@ const BlogPostStatsView = ({ post }: { post: BlogPost }) => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{views.toLocaleString()}</div>
-                        <p className="text-xs text-muted-foreground">+15% from last month</p>
+                        <p className="text-xs text-muted-foreground">Total all-time views</p>
                     </CardContent>
                 </Card>
                 <Card>
@@ -88,7 +93,7 @@ const BlogPostStatsView = ({ post }: { post: BlogPost }) => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{comments.toLocaleString()}</div>
-                        <p className="text-xs text-muted-foreground">+8% from last month</p>
+                        <p className="text-xs text-muted-foreground">Total all-time comments</p>
                     </CardContent>
                 </Card>
                 <Card>
@@ -98,7 +103,7 @@ const BlogPostStatsView = ({ post }: { post: BlogPost }) => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{shares.toLocaleString()}</div>
-                        <p className="text-xs text-muted-foreground">+5% from last month</p>
+                        <p className="text-xs text-muted-foreground">Total all-time shares</p>
                     </CardContent>
                 </Card>
             </div>
