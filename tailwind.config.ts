@@ -11,8 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['"PP Mori"', 'sans-serif'],
-        headline: ['"PP Mori"', 'sans-serif'],
+        body: ['PP Mori', 'sans-serif'],
+        headline: ['PP Mori', 'sans-serif'],
         code: ['monospace'],
         poppins: ['Poppins', 'sans-serif'],
       },
