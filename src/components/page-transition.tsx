@@ -2,59 +2,66 @@
 
 import { motion } from 'framer-motion';
 
-const sentence = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      delayChildren: 0.5,
-      staggerChildren: 0.1,
-    },
-  },
-};
+const container = {
+    initial: {},
+    animate: {
+        transition: {
+            staggerChildren: 0.2,
+        }
+    }
+}
 
-const letter = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
+const circle = {
+    initial: {
+        scale: 0,
+        opacity: 0,
     },
-  },
-};
-
-const text = 'TELSYS';
+    animate: {
+        scale: [0, 1, 1.2],
+        opacity: [0, 0.7, 0],
+        transition: {
+            duration: 1.5,
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatDelay: 1,
+        }
+    }
+}
 
 export default function PageTransition() {
   return (
     <motion.div
-      className="fixed inset-0 bg-zinc-900 origin-bottom z-[80] flex flex-col items-center justify-center"
-      initial={{ scaleY: 1 }}
-      animate={{ scaleY: 0 }}
+      className="fixed inset-0 bg-[#0A0F1A] z-[80] flex items-center justify-center pointer-events-none"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0 }}
       transition={{
-        delay: 2.4,
-        duration: 1.5,
-        ease: [0.85, 0, 0.15, 1],
+        delay: 2.0, // Total time loader is visible before fading
+        duration: 0.5,
+        ease: "easeOut",
       }}
     >
-      <motion.h1
-        className="font-headline text-8xl md:text-9xl font-bold text-white flex overflow-hidden tracking-[0.2em]"
-        variants={sentence}
-        initial="hidden"
-        animate="visible"
+      <motion.div 
+        className="relative w-48 h-48"
+        variants={container}
+        initial="initial"
+        animate="animate"
       >
-        {text.split('').map((char, index) => (
-          <motion.span
-            key={index}
-            variants={letter}
-            className="inline-block"
-          >
-            {char}
-          </motion.span>
+        {[...Array(4)].map((_, i) => (
+            <motion.div
+                key={i}
+                className="absolute inset-0 border-2 rounded-full"
+                style={{
+                    borderColor: 'hsl(var(--primary))',
+                    boxShadow: '0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary))'
+                }}
+                variants={circle}
+                transition={{
+                    ...circle.animate.transition,
+                    delay: i * 0.2,
+                }}
+            />
         ))}
-      </motion.h1>
+      </motion.div>
     </motion.div>
   );
 }
