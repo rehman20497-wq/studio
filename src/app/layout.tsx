@@ -8,8 +8,6 @@ import FooterCta from '@/components/footer-cta';
 import FinalFooter from '@/components/layout/final-footer';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import BlogSection from '@/components/blog-section';
-import { AnimatePresence } from 'framer-motion';
-import PageTransition from '@/components/page-transition';
 
 export default function RootLayout({
   children,
@@ -34,12 +32,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <FirebaseClientProvider>
-          <AnimatePresence mode="wait">
-            <div key={pathname}>
-              {children}
-              {!isAdminPage && <PageTransition />}
-            </div>
-          </AnimatePresence>
+          {children}
 
           {!isAdminPage && (
             <>
