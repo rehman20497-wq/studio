@@ -1,10 +1,9 @@
-
 "use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import CustomAccordion from "./custom-accordion";
-import CircleAnimation from "./circle-animation";
+import AnimatedT from "./alpha/animated-t";
 import AnimatedButton from "./animated-button";
 
 const containerVariants = {
@@ -47,7 +46,7 @@ export default function FaqSection() {
           <CustomAccordion />
         </motion.div>
         <motion.div variants={itemVariants} className="flex">
-          <CircleAnimation />
+          <AnimatedT />
         </motion.div>
       </motion.div>
       <motion.div
