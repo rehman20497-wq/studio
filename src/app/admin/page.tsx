@@ -1,19 +1,23 @@
-
 'use client';
 
-import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
+import AdminPageWrapper, { PermissionGuard } from '@/components/admin/admin-page-wrapper';
 import AdminPanel from '@/components/admin/admin-panel';
 import AdminHeader from '@/components/admin/admin-header';
+import { useAdminUser } from '@/firebase';
 
 export default function AdminDashboardPage() {
+  const { session } = useAdminUser();
+
   return (
-    <AdminPageWrapper screenTitle="Welcome, Faizan!">
-      <div className="p-4 sm:p-8 md:p-12">
-        <AdminHeader userName="Faizan" />
-        <div className="mt-12">
-          <AdminPanel />
+    <AdminPageWrapper screenTitle={`Welcome, ${session?.user.name || 'Admin'}!`}>
+      <PermissionGuard pageId="dashboard">
+        <div className="p-4 sm:p-8 md:p-12">
+          <AdminHeader userName={session?.user.name || 'Admin'} />
+          <div className="mt-12">
+            <AdminPanel />
+          </div>
         </div>
-      </div>
+      </PermissionGuard>
     </AdminPageWrapper>
   );
 }

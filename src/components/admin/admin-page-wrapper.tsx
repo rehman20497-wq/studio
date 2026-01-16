@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useEffect, useCallback, useRef, type ReactNode } from 'react';
+import { useState, useEffect, useCallback, useRef, type ReactNode, createContext, useContext } from 'react';
 import { useAuth, useUser } from '@/firebase';
 import { initiateAnonymousSignIn } from '@/firebase/non-blocking-login';
 import AdminLayout from '@/components/admin/admin-layout';
@@ -10,7 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import WelcomeScreen from '@/components/admin/welcome-screen';
 import { signOut } from 'firebase/auth';
 import { useIsMobile } from '@/hooks/use-mobile';
-
+import { ShieldAlert } from 'lucide-react';
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
@@ -20,68 +19,100 @@ type AdminPageWrapperProps = {
     isLoading?: boolean;
 };
 
+// --- Start: Define Context and User types here for use across the admin panel ---
+type Role = {
+    id: string;
+    name: string;
+    permissions: { [key: string]: { [key: string]: boolean } };
+};
+type User = {
+    id: string;
+    name: string;
+    roleId: string;
+    passkey: string;
+};
+export type AdminUserSession = {
+    user: User;
+    role: Role;
+};
+interface AdminUserContextType {
+    session: AdminUserSession | null;
+    hasPermission: (pageId: string, permission: 'view' | 'create' | 'edit' | 'delete') => boolean;
+}
+const AdminUserContext = createContext<AdminUserContextType | undefined>(undefined);
+
+export const useAdminUser = () => {
+    const context = useContext(AdminUserContext);
+    if (context === undefined) {
+        throw new Error('useAdminUser must be used within an AdminPageWrapper');
+    }
+    return context;
+};
+
+const AccessDenied = () => (
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-center p-8">
+        <ShieldAlert className="w-24 h-24 text-red-500 mb-4" />
+        <h1 className="text-4xl font-bold font-headline text-zinc-800">Access Denied</h1>
+        <p className="text-zinc-600 mt-2 text-lg">You do not have permission to view this page.</p>
+        <p className="text-zinc-500 mt-1 text-sm">Please contact your administrator if you believe this is an error.</p>
+    </div>
+);
+
+export const PermissionGuard = ({ pageId, children }: { pageId: string, children: React.ReactNode }) => {
+    const { hasPermission } = useAdminUser();
+
+    if (!hasPermission(pageId, 'view')) {
+        return <AccessDenied />;
+    }
+
+    return <>{children}</>;
+};
+
+// --- End: Context and Guard ---
+
+
 export default function AdminPageWrapper({ children, screenTitle, isLoading = false }: AdminPageWrapperProps) {
-  const { user, isUserLoading } = useUser();
+  const { user: firebaseUser, isUserLoading } = useUser();
   const auth = useAuth();
-  // const [showWelcome, setShowWelcome] = useState(false);
   const isMobile = useIsMobile();
+  const [session, setSession] = useState<AdminUserSession | null>(null);
 
   const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
-  // const welcomeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const hasPermission = useCallback((pageId: string, permission: 'view' | 'create' | 'edit' | 'delete'): boolean => {
+    if (!session) return false;
+    return session.role.permissions?.[pageId]?.[permission] || false;
+  }, [session]);
+  
   const handleLogout = useCallback(() => {
     if (auth) {
       signOut(auth);
     }
+    setSession(null);
   }, [auth]);
 
-  const handleAuthentication = useCallback(() => {
+  const handleAuthentication = useCallback((loggedInSession: AdminUserSession) => {
     if (auth) {
-      initiateAnonymousSignIn(auth);
+      initiateAnonymousSignIn(auth); 
+      setSession(loggedInSession);
     }
   }, [auth]);
-
-  // Show welcome screen ONCE when user logs in or page loads while logged in
-  /*
-  useEffect(() => {
-    if (user && !isLoading) {
-      setShowWelcome(true);
-
-      if (welcomeTimerRef.current) {
-        clearTimeout(welcomeTimerRef.current);
-      }
-
-      welcomeTimerRef.current = setTimeout(() => {
-        setShowWelcome(false);
-      }, 4000); // Welcome screen duration
-    } else {
-        // If user logs out or is loading, don't show welcome
-        setShowWelcome(false);
-    }
-
-    return () => {
-      if (welcomeTimerRef.current) {
-        clearTimeout(welcomeTimerRef.current);
-      }
-    };
-  }, [user, isLoading]);
-  */
 
   const resetInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
       clearTimeout(inactivityTimerRef.current);
     }
 
-    if (user) {
+    if (session) { // Use our custom session to track inactivity
       inactivityTimerRef.current = setTimeout(() => {
         handleLogout();
       }, INACTIVITY_TIMEOUT);
     }
-  }, [user, handleLogout]);
+  }, [session, handleLogout]);
 
   // Attach inactivity listeners
   useEffect(() => {
-    if (!user) return;
+    if (!session) return;
 
     const events = ['mousemove', 'keydown', 'click', 'scroll'];
     events.forEach(event => window.addEventListener(event, resetInactivityTimer));
@@ -93,7 +124,7 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
       }
        events.forEach(event => window.removeEventListener(event, resetInactivityTimer));
     };
-  }, [user, resetInactivityTimer]);
+  }, [session, resetInactivityTimer]);
 
   if (isUserLoading || isMobile === undefined) {
     return (
@@ -105,48 +136,52 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
       </div>
     );
   }
+  
+  const isAuthenticated = firebaseUser && session;
 
   return (
-    <div className="bg-[#FEF9F2] min-h-screen overflow-x-hidden">
-        <AnimatePresence mode="wait">
-          {!user ? (
-            <motion.div
-              key="login"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
-              <LoginScreen onAuthenticated={handleAuthentication} />
-            </motion.div>
-          ) : (
-            <AdminLayout onLogout={handleLogout}>
-                {isLoading ? (
-                    <motion.div
-                        key="welcome"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="flex items-center justify-center min-h-screen"
+    <AdminUserContext.Provider value={{ session, hasPermission }}>
+        <div className="bg-[#FEF9F2] min-h-screen overflow-x-hidden">
+            <AnimatePresence mode="wait">
+            {!isAuthenticated ? (
+                <motion.div
+                key="login"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                >
+                <LoginScreen onAuthenticated={handleAuthentication} />
+                </motion.div>
+            ) : (
+                <AdminLayout onLogout={handleLogout}>
+                    {isLoading ? (
+                        <motion.div
+                            key="welcome"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="flex items-center justify-center min-h-screen"
+                            >
+                            <div className="flex flex-col items-center gap-4">
+                                <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-yellow-500"></div>
+                                <p className="text-lg text-zinc-600">{screenTitle}...</p>
+                            </div>
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="panel"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.7, delay: 0.3 }}
                         >
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-yellow-500"></div>
-                            <p className="text-lg text-zinc-600">{screenTitle}...</p>
-                        </div>
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        key="panel"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.7, delay: 0.3 }}
-                    >
-                        {children}
-                    </motion.div>
-                )}
-            </AdminLayout>
-          )}
-        </AnimatePresence>
-    </div>
+                            {children}
+                        </motion.div>
+                    )}
+                </AdminLayout>
+            )}
+            </AnimatePresence>
+        </div>
+    </AdminUserContext.Provider>
   );
 }

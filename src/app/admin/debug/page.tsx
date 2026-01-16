@@ -1,13 +1,11 @@
-
 'use client';
 
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { collection, limit, query } from 'firebase/firestore';
-import { useFirestore, useMemoFirebase } from '@/firebase';
+import { useFirestore, useMemoFirebase, useAdminUser } from '@/firebase';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
-import Header from '@/components/layout/header';
-import AdminPageWrapper from '@/components/admin/admin-page-wrapper';
+import AdminPageWrapper, { PermissionGuard } from '@/components/admin/admin-page-wrapper';
 import AdminHeader from '@/components/admin/admin-header';
 
 const StatusIndicator = ({ status, title, message, data }: { status: 'loading' | 'success' | 'error'; title: string; message: string, data?: any }) => {
@@ -103,10 +101,13 @@ const CloudinaryConnectionTest = () => {
 
 
 export default function DebugPage() {
+  const { session } = useAdminUser();
+  
   return (
     <AdminPageWrapper screenTitle="Debug Panel">
+      <PermissionGuard pageId="debug">
         <div className="p-4 sm:p-8 md:p-12">
-            <AdminHeader userName="Admin" />
+            <AdminHeader userName={session?.user.name || 'Admin'} />
             <div className="mt-12 max-w-4xl mx-auto space-y-6">
                 <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
                 <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
@@ -115,6 +116,7 @@ export default function DebugPage() {
                 <CloudinaryConnectionTest />
             </div>
         </div>
+      </PermissionGuard>
     </AdminPageWrapper>
   );
 }

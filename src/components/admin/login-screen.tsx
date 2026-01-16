@@ -1,12 +1,18 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
-import { Lock } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Lock, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import type { AdminUserSession } from '@/components/admin/admin-page-wrapper';
 
-const CORRECT_PASSKEY = 'F@izan&1122';
+type User = AdminUserSession['user'];
+type Role = AdminUserSession['role'];
+
 
 const containerVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -27,52 +33,54 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 };
 
-export default function LoginScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
+export default function LoginScreen({ onAuthenticated }: { onAuthenticated: (session: AdminUserSession) => void }) {
   const [passkey, setPasskey] = useState('');
-  const [isWrong, setIsWrong] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const { toast } = useToast();
 
-  const isCorrect = passkey === CORRECT_PASSKEY;
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springConfig = { stiffness: 300, damping: 20 };
-  const springX = useSpring(x, springConfig);
-  const springY = useSpring(y, springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isCorrect || !buttonRef.current) return;
-
-    const { clientX, clientY } = e;
-    const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
-    
-    const dx = clientX - (left + width / 2);
-    const dy = clientY - (top + height / 2);
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    const maxMove = 80;
-    if (distance < 120) {
-      const angle = Math.atan2(dy, dx);
-      const moveDistance = ((120 - distance) / 120) * maxMove;
-      x.set(-Math.cos(angle) * moveDistance);
-      y.set(-Math.sin(angle) * moveDistance);
-    } else {
-      x.set(0);
-      y.set(0);
-    }
-  };
-
+  const firestore = useFirestore();
+  const usersQuery = useMemoFirebase(() => firestore ? collection(firestore, 'admin_users') : null, [firestore]);
+  const { data: users, isLoading: usersLoading, error: usersError } = useCollection<User>(usersQuery);
+  const rolesQuery = useMemoFirebase(() => firestore ? collection(firestore, 'admin_roles') : null, [firestore]);
+  const { data: roles, isLoading: rolesLoading, error: rolesError } = useCollection<Role>(rolesQuery);
+  
+  const isLoading = usersLoading || rolesLoading;
+  
   const handleLogin = () => {
-    if (isCorrect) {
-      onAuthenticated();
+    if (isLoading || isChecking || !users || !roles) return;
+    
+    setIsChecking(true);
+    
+    const matchedUser = users.find(u => u.passkey === passkey);
+
+    if (matchedUser) {
+      const matchedRole = roles.find(r => r.id === matchedUser.roleId);
+      if (matchedRole) {
+        onAuthenticated({ user: matchedUser, role: matchedRole });
+      } else {
+        toast({ title: 'Login Error', description: `User '${matchedUser.name}' has an invalid role assigned.`, variant: 'destructive' });
+        setIsChecking(false);
+      }
     } else {
-      setIsWrong(true);
-      setTimeout(() => setIsWrong(false), 500);
+      toast({ title: 'Login Failed', description: 'The passkey you entered is incorrect.', variant: 'destructive' });
+      setIsChecking(false);
     }
   };
+  
+  if (usersError || rolesError) {
+      return (
+          <div className="min-h-screen flex items-center justify-center bg-red-50 text-red-700 p-4">
+              <div>
+                <h2 className="text-xl font-bold">Database Connection Error</h2>
+                <p>Could not fetch user data. Please check your Firestore permissions.</p>
+                <pre className="mt-4 text-xs bg-red-100 p-2 rounded">{(usersError || rolesError)?.message}</pre>
+              </div>
+          </div>
+      )
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FEF9F2] px-4" onMouseMove={handleMouseMove}>
+    <div className="min-h-screen flex items-center justify-center bg-[#FEF9F2] px-4">
       <motion.div
         className="w-full max-w-md"
         variants={containerVariants}
@@ -102,27 +110,22 @@ export default function LoginScreen({ onAuthenticated }: { onAuthenticated: () =
                 placeholder="Enter Passkey"
                 value={passkey}
                 onChange={(e) => setPasskey(e.target.value)}
-                className={cn(
-                  'h-12 text-lg text-center tracking-widest',
-                  isWrong ? 'animate-shake border-red-500' : ''
-                )}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleLogin()}}
+                className={'h-12 text-lg text-center tracking-widest'}
               />
             </div>
 
             <motion.button
-              ref={buttonRef}
               onClick={handleLogin}
-              style={{ x: springX, y: springY }}
               className={cn(
-                'w-full py-3 rounded-full text-lg font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300',
-                isCorrect
-                  ? 'bg-zinc-900 text-white hover:bg-zinc-800'
-                  : 'bg-zinc-400 text-zinc-100 cursor-not-allowed'
+                'w-full py-3 rounded-full text-lg font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-yellow-300 flex items-center justify-center',
+                'bg-zinc-900 text-white hover:bg-zinc-800',
+                (isLoading || isChecking) && 'cursor-not-allowed bg-zinc-400'
               )}
-              disabled={!isCorrect}
-              whileTap={{ scale: isCorrect ? 0.95 : 1 }}
+              disabled={isLoading || isChecking}
+              whileTap={{ scale: 0.95 }}
             >
-              Login
+              {isLoading ? 'Loading...' : isChecking ? <Loader2 className="w-6 h-6 animate-spin"/> : 'Login'}
             </motion.button>
           </div>
         </motion.div>

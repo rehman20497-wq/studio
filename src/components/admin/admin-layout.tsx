@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -8,6 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAdminUser } from '@/components/admin/admin-page-wrapper';
 
 
 const sidebarVariants = {
@@ -45,9 +45,14 @@ const navContainerVariants = {
     }
 }
 
-const NavLink = ({ href, icon: Icon, children, onClick }: { href: string; icon: React.ElementType; children: React.ReactNode, onClick?: () => void }) => {
+const NavLink = ({ href, icon: Icon, children, onClick, pageId }: { href: string; icon: React.ElementType; children: React.ReactNode, onClick?: () => void, pageId: string }) => {
     const pathname = usePathname();
     const isActive = pathname === href;
+    const { hasPermission } = useAdminUser();
+
+    if (!hasPermission(pageId, 'view')) {
+        return null;
+    }
 
     return (
         <motion.div variants={navItemVariants}>
@@ -77,14 +82,14 @@ const SidebarContent = ({ onLogout, onLinkClick }: { onLogout: () => void; onLin
             initial="hidden"
             animate="visible"
         >
-          <NavLink href="/admin" icon={LayoutDashboard} onClick={onLinkClick}>Dashboard</NavLink>
-          <NavLink href="/admin/upload" icon={Upload} onClick={onLinkClick}>Upload Provider</NavLink>
-          <NavLink href="/admin/manage" icon={Settings} onClick={onLinkClick}>Manage Providers</NavLink>
-          <NavLink href="/admin/upload-blog" icon={BookOpen} onClick={onLinkClick}>Upload Blog</NavLink>
-          <NavLink href="/admin/manage-blogs" icon={FileText} onClick={onLinkClick}>Manage Blogs</NavLink>
-          <NavLink href="/admin/newsletters" icon={Newspaper} onClick={onLinkClick}>Newsletters</NavLink>
-          <NavLink href="/admin/manage-users" icon={Users2} onClick={onLinkClick}>Manage Users</NavLink>
-          <NavLink href="/admin/debug" icon={Bug} onClick={onLinkClick}>Debug</NavLink>
+          <NavLink href="/admin" icon={LayoutDashboard} onClick={onLinkClick} pageId="dashboard">Dashboard</NavLink>
+          <NavLink href="/admin/upload" icon={Upload} onClick={onLinkClick} pageId="upload-provider">Upload Provider</NavLink>
+          <NavLink href="/admin/manage" icon={Settings} onClick={onLinkClick} pageId="manage-providers">Manage Providers</NavLink>
+          <NavLink href="/admin/upload-blog" icon={BookOpen} onClick={onLinkClick} pageId="upload-blog">Upload Blog</NavLink>
+          <NavLink href="/admin/manage-blogs" icon={FileText} onClick={onLinkClick} pageId="manage-blogs">Manage Blogs</NavLink>
+          <NavLink href="/admin/newsletters" icon={Newspaper} onClick={onLinkClick} pageId="newsletters">Newsletters</NavLink>
+          <NavLink href="/admin/manage-users" icon={Users2} onClick={onLinkClick} pageId="manage-users">Manage Users</NavLink>
+          <NavLink href="/admin/debug" icon={Bug} onClick={onLinkClick} pageId="debug">Debug</NavLink>
         </motion.nav>
         <motion.button
           onClick={onLogout}
