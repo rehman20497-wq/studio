@@ -74,7 +74,7 @@ export const PermissionGuard = ({ pageId, children }: { pageId: string, children
 
 // --- End: Context and Guard ---
 
-const SESSION_STORAGE_KEY = 'admin-session';
+const LOCAL_STORAGE_KEY = 'admin-session';
 
 
 export default function AdminPageWrapper({ children, screenTitle, isLoading = false }: AdminPageWrapperProps) {
@@ -87,10 +87,10 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
         return null;
     }
     try {
-        const item = window.sessionStorage.getItem(SESSION_STORAGE_KEY);
+        const item = window.localStorage.getItem(LOCAL_STORAGE_KEY);
         return item ? JSON.parse(item) : null;
     } catch (error) {
-        console.error("Error reading from sessionStorage", error);
+        console.error("Error reading from localStorage", error);
         return null;
     }
   });
@@ -114,7 +114,7 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
       signOut(auth);
     }
     if (typeof window !== 'undefined') {
-        sessionStorage.removeItem(SESSION_STORAGE_KEY);
+        window.localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
     setSession(null);
   }, [auth, firestore]);
@@ -125,9 +125,9 @@ export default function AdminPageWrapper({ children, screenTitle, isLoading = fa
       setSession(loggedInSession);
       if (typeof window !== 'undefined') {
         try {
-            window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(loggedInSession));
+            window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(loggedInSession));
         } catch (error) {
-            console.error("Error writing to sessionStorage", error);
+            console.error("Error writing to localStorage", error);
         }
       }
     }
