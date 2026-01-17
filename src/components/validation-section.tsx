@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -82,12 +81,12 @@ export default function ValidationSection() {
   return (
     <section ref={ref} className="bg-white py-20 px-[6%]">
       <motion.div
-        className="container mx-auto flex items-center justify-center"
+        className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-8"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div variants={imageVariants}>
+        <motion.div variants={imageVariants} className="order-1 md:order-1">
           <Image
             src="/global.webp"
             alt="Global Award"
@@ -97,8 +96,18 @@ export default function ValidationSection() {
           />
         </motion.div>
 
+        <motion.div variants={imageVariants} className="order-2 md:order-3">
+          <Image
+            src="/clutch.png"
+            alt="Clutch Award"
+            width={120}
+            height={150}
+            className="object-contain"
+          />
+        </motion.div>
+
         <motion.h2
-          className="text-[46px] font-medium text-zinc-800 text-center leading-tight font-headline mx-[4%]"
+          className="text-[32px] md:text-[46px] font-medium text-zinc-800 text-center leading-tight font-headline mx-0 md:mx-[4%] order-3 md:order-2"
           variants={textVariants}
         >
           Validated by{' '}
@@ -112,16 +121,6 @@ export default function ValidationSection() {
             <Underline color="#00A79D" delay={1.6} />
           </span>
         </motion.h2>
-
-        <motion.div variants={imageVariants}>
-          <Image
-            src="/clutch.png"
-            alt="Clutch Award"
-            width={120}
-            height={150}
-            className="object-contain"
-          />
-        </motion.div>
       </motion.div>
     </section>
   );
