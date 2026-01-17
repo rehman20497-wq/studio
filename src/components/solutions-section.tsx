@@ -115,8 +115,8 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
       <AnimatedBorder radius={16} />
       <div className="mb-6 flex items-center justify-center h-[125px]">{icon}</div>
       <h3 className="text-xl font-bold text-zinc-900 mb-4">{title}</h3>
-      <p className="text-zinc-600 text-sm mb-8 flex-grow">{description}</p>
-      <button className="bg-black text-white font-semibold py-2 px-6 rounded-full w-fit hover:bg-zinc-800 transition-colors">
+      <p className="text-black text-[13px] mb-8 flex-grow">{description}</p>
+      <button className="bg-black text-white text-[15px] font-bold py-2 px-6 rounded-full w-fit hover:bg-zinc-800 transition-colors">
         Learn More
       </button>
     </motion.div>
@@ -136,7 +136,6 @@ const DashedLine = ({ className, delay = 0, path, viewBox }: { className: string
               strokeWidth="2"
               strokeDasharray="10 10"
               strokeDashoffset={200}
-              strokeLinecap="round"
               animate={
                 isInView
                   ? {
