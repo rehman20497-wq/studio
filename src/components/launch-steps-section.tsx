@@ -37,7 +37,7 @@ export default function LaunchStepsSection() {
             <LaunchBrushStroke />
             <motion.div
                 ref={ref}
-                className="container mx-auto px-4 py-[4%] text-center"
+                className="container mx-auto px-4 py-[2%] text-center"
                 variants={containerVariants}
                 initial="hidden"
                 animate={isInView ? 'visible' : 'hidden'}

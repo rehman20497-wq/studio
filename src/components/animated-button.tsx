@@ -66,7 +66,7 @@ const Stroke = ({ className, delay, children }) => (
 ======================= */
 export default function AnimatedButton() {
   return (
-    <div className="relative w-full h-12 flex items-center justify-center bg-[white]">
+    <div className="relative w-full h-12 flex items-center justify-center bg-[#fff9e6]">
       <div className="relative">
 
         {/* LEFT ARROW */}

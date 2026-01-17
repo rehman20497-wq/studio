@@ -1,11 +1,10 @@
 "use client";
-
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const BrushStroke = ({
   d,
-  duration = 1.5,
+  duration = 2,
   delay = 0,
 }: {
   d: string;
@@ -20,14 +19,14 @@ const BrushStroke = ({
       ref={ref}
       viewBox="0 0 1440 80"
       preserveAspectRatio="none"
-      className="w-full h-[40px] md:h-[80px]"
+      className="w-full h-[60px] md:h-[120px]"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <motion.path
         d={d}
-        stroke="#FFD9CF"
-        strokeWidth="80"
+        stroke="#fed9d2"
+        strokeWidth="60"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
         animate={isInView ? { pathLength: 1 } : {}}
@@ -42,15 +41,19 @@ const BrushStroke = ({
 };
 
 export default function LaunchBrushStroke() {
-  return (
-    <div className="relative my-12">
-      <BrushStroke
-        d="M -20 20
-C 520 36, 720 54, 1220 20
-S 1960 96, 1900 90
+  const wavePath = `
+    M -20 40
+    C 480 0, 960 80, 1440 40
+  `;
 
-"
-      />
+  return (
+    <div
+      className="relative mb-12 py-4"
+      style={{
+        background: "linear-gradient(to bottom, #ffffff 50%, #fff9e6 50%)",
+      }}
+    >
+      <BrushStroke d={wavePath} duration={2} />
     </div>
   );
 }
