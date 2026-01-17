@@ -141,7 +141,7 @@ export default function CustomerStories() {
         </div>
       </motion.div>
       
-      <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex gap-2 z-10">
+      <div className="absolute bottom-2 right-4 md:bottom-4 md:right-8 flex gap-2 z-10">
           <Button onClick={scrollPrev} size="icon" className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12">
             <ArrowLeft className="w-6 h-6" />
           </Button>
