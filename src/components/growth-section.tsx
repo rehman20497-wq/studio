@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -55,7 +54,7 @@ export default function GrowthSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-[#FEF9F2] py-24 overflow-hidden">
+    <section ref={ref} className="bg-white py-24 overflow-hidden">
       <motion.div
         className="container mx-auto px-4 text-center"
         variants={containerVariants}
@@ -63,13 +62,13 @@ export default function GrowthSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-5xl font-bold font-headline text-zinc-900"
+          className="text-[46px] font-normal font-headline text-black"
           variants={itemVariants}
         >
           + More Growth, Less Risk
         </motion.h2>
         <motion.p
-          className="mt-6 text-lg text-zinc-600 max-w-3xl mx-auto font-body"
+          className="mt-6 text-[20px] text-black max-w-3xl mx-auto font-body"
           variants={itemVariants}
         >
           Focus on <Underline delay={0.5}>growth</Underline>, we'll take care of

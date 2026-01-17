@@ -106,10 +106,11 @@ export default function NewTestimonialSection() {
   const currentTestimonial = testimonials[index];
 
   return (
-    <div ref={ref} className="bg-[#FEF9F2] py-24 px-[9%] overflow-hidden">
+    <div ref={ref} className="bg-[#ffffff] pt-12 pb-20 px-[9%] overflow-hidden">
       <motion.div
-        className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16"
-        variants={containerVariants}
+className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-16
+"
+variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
