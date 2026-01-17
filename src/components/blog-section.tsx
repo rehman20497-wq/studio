@@ -138,7 +138,7 @@ export default function BlogSection() {
 
   return (
     <motion.section
-      className="bg-[#FEF9F2] py-12 overflow-hidden"
+      className="bg-[#f7edcf] py-12 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
@@ -148,14 +148,14 @@ export default function BlogSection() {
         {/* Heading */}
         <div className="text-center">
           <motion.h2
-            className="text-5xl font-bold font-headline text-zinc-900"
+            className="text-[46px] font-normal font-headline text-black"
             variants={slideInRight}
           >
             See what's new and what's next.
           </motion.h2>
 
           <motion.p
-            className="mt-3 text-lg text-zinc-600"
+            className="mt-3 text-[20px] text-black"
             variants={slideInLeft}
           >
             Thought leadership and actionable insights to help you grow faster.
