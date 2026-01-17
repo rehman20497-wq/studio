@@ -86,28 +86,30 @@ export default function ValidationSection() {
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div variants={imageVariants} className="order-1 md:order-1">
-          <Image
-            src="/global.webp"
-            alt="Global Award"
-            width={120}
-            height={150}
-            className="object-contain"
-          />
-        </motion.div>
+        <div className="flex flex-row items-center justify-center gap-8 md:contents">
+          <motion.div variants={imageVariants} className="md:order-1">
+            <Image
+              src="/global.webp"
+              alt="Global Award"
+              width={120}
+              height={150}
+              className="object-contain"
+            />
+          </motion.div>
 
-        <motion.div variants={imageVariants} className="order-2 md:order-3">
-          <Image
-            src="/clutch.png"
-            alt="Clutch Award"
-            width={120}
-            height={150}
-            className="object-contain"
-          />
-        </motion.div>
+          <motion.div variants={imageVariants} className="md:order-3">
+            <Image
+              src="/clutch.png"
+              alt="Clutch Award"
+              width={120}
+              height={150}
+              className="object-contain"
+            />
+          </motion.div>
+        </div>
 
         <motion.h2
-          className="text-[32px] md:text-[46px] font-medium text-zinc-800 text-center leading-tight font-headline mx-0 md:mx-[4%] order-3 md:order-2"
+          className="text-[32px] md:text-[46px] font-medium text-zinc-800 text-center leading-tight font-headline mx-0 md:mx-[4%] md:order-2"
           variants={textVariants}
         >
           Validated by{' '}
