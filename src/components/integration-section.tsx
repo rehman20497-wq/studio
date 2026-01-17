@@ -32,21 +32,26 @@ export default function IntegrationSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-white py-[6%]">
+    <section ref={ref} className="bg-white py-[4%]">
       <motion.div
-        className="container mx-auto px-[7%] text-center"
+        className="container mx-auto px-[1%] text-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-[72px] font-headline font-medium text-black max-w-4xl mx-auto leading-tight"
-          variants={itemVariants}
-        >
-          We integrate seamlessly with technology built for scale & customer
-          excellence.
-        </motion.h2>
-        <motion.div className="mt-12" variants={itemVariants}>
+  className="
+    font-headline font-medium text-black max-w-[65rem] mx-auto
+    text-[40px] leading-[45px]
+    lg:text-[72.5px] lg:leading-[72.5px]
+  "
+  variants={itemVariants}
+>
+  We integrate seamlessly with technology built for scale & customer
+  excellence.
+</motion.h2>
+
+        <motion.div className="mt-8" variants={itemVariants}>
           <MagneticButton>
             <span className="text-[15px] font-bold">Build your Team</span>
           </MagneticButton>

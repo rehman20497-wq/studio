@@ -33,7 +33,7 @@ export default function LaunchStepsSection() {
     const isInView = useInView(ref, { once: true, amount: 0.5 });
 
     return (
-        <section className="bg-[#fffef9] overflow-hidden">
+        <section className="bg-[#fff9e6] overflow-hidden">
             <LaunchBrushStroke />
             <motion.div
                 ref={ref}
@@ -50,15 +50,15 @@ export default function LaunchStepsSection() {
                         height={40}
                         className="object-contain"
                     />
-                    <h2 className="text-4xl md:text-5xl font-headline font-medium text-zinc-900">
+                    <h2 className="text-[46px] leading-[57px] font-headline font-medium text-zinc-900">
                         Launch in 5 easy steps
                     </h2>
                 </motion.div>
                 <motion.p 
-                    className="mt-6 text-lg text-zinc-600 max-w-md mx-auto"
+                    className="mt-6 text-xl text-zinc-900 max-w-md mx-auto"
                     variants={itemVariants}
                 >
-                    We source, train, and assemble your new team in as little as 2 weeks. Once you go live, we continuously work to ensure you hit KPIs.
+                  We source, train, and assemble your new team in as little as 2 weeks. Once you go live, we continuously work to ensure you hit KPIs.
                 </motion.p>
             </motion.div>
         </section>
