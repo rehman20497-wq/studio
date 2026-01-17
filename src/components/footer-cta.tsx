@@ -120,7 +120,7 @@ export default function FooterCta() {
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-      <div className="absolute top-0 left-0 w-full h-24 text-[#fffef9]">
+      <div className="absolute top-0 left-0 w-full h-24 text-[#f7edcf]">
         <svg
           className="w-full h-full"
           viewBox="0 0 1440 100"

@@ -206,9 +206,7 @@ export default function FinalFooter() {
         >
             <motion.div variants={slideFromLeft} className="text-zinc-600 text-[14px] mb-8 md:mb-0 text-center md:text-left">
                 <p>© 2026 Copyright | All Rights Reserved</p>
-                <p className="flex items-center justify-center md:justify-start">Made with 
-                    <span className="text-red-500 mx-1">❤️</span> 
-               Telsysinc and Beta-tech solutions</p>
+                
             </motion.div>
             <motion.div 
                 className="flex flex-wrap items-center justify-center gap-4"

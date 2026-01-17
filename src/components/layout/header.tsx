@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -30,6 +29,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
 import Link from "next/link";
+import MagneticButton from "../magnetic-button";
 
 
 const HugoLogo = ({ className } : {className?: string}) => (
@@ -87,7 +87,7 @@ export default function Header() {
   }, []);
 
   return (
-<header className="relative z-50 w-full bg-[#FCFBF8] text-zinc-900 font-body">
+<header className="relative z-50 w-full bg-[#FCFBF8] text-black font-body">
 <div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
         TelSys is hiring! Explore our positions and{" "}
         <a href="/careers" className="underline hover:opacity-80">
@@ -107,20 +107,20 @@ export default function Header() {
               <NavigationMenuList className="group">
                 <NavigationMenuItem className="group">
                   <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
                       Home
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
                   <Link href="/alpha" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
                       Alpha
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
-                  <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Solutions</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="transition-all duration-300">Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
                       <ul className="grid grid-cols-2 gap-4">
@@ -148,13 +148,13 @@ export default function Header() {
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
                   <Link href="/providers" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
                      Providers
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
-                  <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Company</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="transition-all duration-300">Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
@@ -173,7 +173,7 @@ export default function Header() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
-                  <NavigationMenuTrigger className="group-hover:blur-sm transition-all duration-300 hover:!blur-none">Resources</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="transition-all duration-300">Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
@@ -200,9 +200,11 @@ export default function Header() {
           )}
         </div>
         <div className="hidden md:block">
-            <Button asChild className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 px-6 group-hover:blur-sm transition-all duration-300 hover:!blur-none">
-                <Link href="/contact">Get Started</Link>
-            </Button>
+            <Link href="/contact">
+              <MagneticButton>
+                <span className="text-[15px] font-bold">Get Started</span>
+              </MagneticButton>
+            </Link>
         </div>
 
         {/* Mobile Navigation */}
