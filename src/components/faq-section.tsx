@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, useInView } from "framer-motion";
@@ -35,7 +36,7 @@ export default function FaqSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-white pt-8 pb-24 px-[8%]">
+    <section ref={ref} className="bg-[#fff9e6] pt-8 pb-24 px-[8%]">
       <motion.div
         className="container mx-auto grid md:grid-cols-2 gap-16 items-stretch"
         variants={containerVariants}
