@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -33,7 +32,7 @@ export default function IntegrationSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-white py-32">
+    <section ref={ref} className="bg-white py-[6%]">
       <motion.div
         className="container mx-auto px-4 text-center"
         variants={containerVariants}
@@ -41,7 +40,7 @@ export default function IntegrationSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-5xl md:text-6xl font-headline font-medium text-zinc-900 max-w-4xl mx-auto leading-tight"
+          className="text-[72px] font-headline font-medium text-black max-w-4xl mx-auto leading-tight"
           variants={itemVariants}
         >
           We integrate seamlessly with technology built for scale & customer
@@ -49,7 +48,7 @@ export default function IntegrationSection() {
         </motion.h2>
         <motion.div className="mt-12" variants={itemVariants}>
           <MagneticButton>
-            <span className="text-[15px] font-medium">Build your Team</span>
+            <span className="text-[15px] font-bold">Build your Team</span>
           </MagneticButton>
         </motion.div>
       </motion.div>
