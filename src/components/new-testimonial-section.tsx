@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -177,9 +176,9 @@ export default function NewTestimonialSection() {
                         <div className="absolute -left-8 -top-4 hidden md:block">
                         <QuoteIcon />
                         </div>
-                        <p className="text-xl text-zinc-800 leading-relaxed">
-  {currentTestimonial.text}
-</p>
+                        <p className="text-base text-black leading-relaxed">
+                          {currentTestimonial.text}
+                        </p>
                         
                         <div className="absolute -right-8 -bottom-4 transform scale-y-[-1] scale-x-[-1] hidden md:block">
                         <QuoteIcon />
@@ -187,10 +186,10 @@ export default function NewTestimonialSection() {
                     </motion.div>
 
                     <motion.div className="mt-8" variants={itemVariants}>
-                        <p className="font-bold text-lg text-zinc-900">
-                        {currentTestimonial.author}
+                        <p className="font-bold text-[13px] text-black">
+                          {currentTestimonial.author}
                         </p>
-                        <p className="text-zinc-600">{currentTestimonial.title}</p>
+                        <p className="text-[13px] text-zinc-600">{currentTestimonial.title}</p>
                     </motion.div>
                 </motion.div>
             </AnimatePresence>

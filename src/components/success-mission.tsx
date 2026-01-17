@@ -121,7 +121,7 @@ const SuccessMission = () => {
 
   return (
     <div className="relative bg-[#ffea97] text-zinc-900">
-      <div className="absolute top-0 left-0 w-full h-24 bg-[#FEF9F2]">
+      <div className="absolute top-0 left-0 w-full h-24 bg-[#ffffff]">
         <svg
           className="w-full h-full"
           viewBox="0 0 100 100"
@@ -155,11 +155,11 @@ const SuccessMission = () => {
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.div className="max-w-xl" variants={itemVariants}>
-            <h2 className="text-[55px] font-bold mb-6 font-headline">
-              You deserve better.
+          <h2 className="text-[45px] font-normal mb-3 font-headline text-black">
+          You deserve better.
             </h2>
-            <div className="space-y-4 text-zinc-700 text-lg">
-              <p>
+            <div className="space-y-4 text-black text-[16px]">
+            <p>
                 You deserve better outcomes, insights, and conversations. You
                 deserve to work with the best proactive teams that embrace
                 complexity, adapt to ambiguity, and flex to your needs with
@@ -171,10 +171,10 @@ const SuccessMission = () => {
                 Hugo you get more than outsourcing – you get what you deserve.
               </p>
             </div>
-            <div className="mt-8">
+            <div className="mt-6">
               <MagneticButton>
-                <span className="text-base font-medium">
-                  Take Hugo for a spin
+              <span className="text-[15px] font-bold">
+              Take Hugo for a spin
                 </span>
               </MagneticButton>
             </div>
