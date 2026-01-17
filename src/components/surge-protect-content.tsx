@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, useInView } from "framer-motion";
@@ -53,13 +54,13 @@ export default function SurgeProtectContent() {
       animate={isInView ? "visible" : "hidden"}
     >
       <motion.div variants={itemVariants} className="md:col-span-2">
-        <p className="text-[19px] text-zinc-900 leading-[25.5px] max-w-md">
+        <p className="text-[20px] text-zinc-900 leading-[25.5px] max-w-md">
           From expected surges and urgent projects to unexpected demands, we've
           got your back. Access elite talent instantly, scale down seamlessly.
         </p>
         <div className="mt-8">
           <MagneticButton>
-            <span className="text-[15px] font-medium">Speak to an expert</span>
+            <span className="text-[15px] font-bold">Speak to an expert</span>
           </MagneticButton>
         </div>
       </motion.div>
@@ -73,7 +74,7 @@ export default function SurgeProtectContent() {
           {listItems.map((item, index) => (
             <motion.li
               key={index}
-              className="flex items-center text-[19px] leading-[25.5px] group"
+              className="flex items-center text-[20px] leading-[25.5px] group"
               custom={index}
               variants={{
                 hidden: { opacity: 0, x: -20 },
