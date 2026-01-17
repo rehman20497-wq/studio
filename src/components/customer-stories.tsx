@@ -1,11 +1,14 @@
-
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { Star } from 'lucide-react';
+import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Button } from '@/components/ui/button';
 
 const testimonials = [
   {
@@ -59,25 +62,10 @@ const testimonials = [
   },
 ];
 
-const duplicatedTestimonials = [...testimonials, ...testimonials];
-
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.5 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 1, 0.5, 1]
-    }
-  }
-};
-
-const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (typeof testimonials)[0], featured?: boolean }) => (
-  <motion.div
-    variants={cardVariants}
+const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0] }) => (
+  <div
     className={cn(
-      'flex-shrink-0 w-[420px] rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200'
+      'h-full rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200'
     )}
   >
     <div className="flex justify-between items-start">
@@ -102,7 +90,7 @@ const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (type
       <p className="font-bold text-sm text-black">{testimonial.designation}</p>
       <p className="text-sm text-zinc-600">Industry: {testimonial.industry}</p>
     </div>
-  </motion.div>
+  </div>
 );
 
 const containerVariants = {
@@ -110,50 +98,58 @@ const containerVariants = {
     visible: { 
         opacity: 1,
         transition: {
-            staggerChildren: 0.2,
-            delayChildren: 0.3,
+            delay: 0.3,
         }
     }
 }
 
-const marqueeVariants = {
-    animate: {
-      x: ['0%', '-50%'],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: 'loop',
-          duration: 70, 
-          ease: 'linear',
-        },
-      },
-    },
-};
-
 export default function CustomerStories() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isMobile = useIsMobile();
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: 'start' },
+    [Autoplay({ playOnInit: true, delay: isMobile ? 3000 : 5000, stopOnInteraction: false, stopOnMouseEnter: true })]
+  );
+  
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    if(!emblaApi) return;
+    if (isInView) {
+      emblaApi.plugins().autoplay?.play();
+    }
+  }, [isInView, emblaApi]);
 
   return (
-    <section ref={ref} className="bg-white pb-[4%] overflow-hidden">
+    <section ref={ref} className="bg-white pb-12 md:pb-[4%] overflow-hidden relative">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
       >
-        <motion.div 
-            className="flex gap-8"
-            variants={marqueeVariants}
-            animate={isInView ? "animate" : {}}
-        >
-            {duplicatedTestimonials.map((testimonial, index) => (
-                <TestimonialCard key={`first-${index}`} testimonial={testimonial} featured={testimonial.featured} />
-            ))}
-            {duplicatedTestimonials.map((testimonial, index) => (
-                <TestimonialCard key={`second-${index}`} testimonial={testimonial} featured={testimonial.featured} />
-            ))}
-        </motion.div>
+        <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex -ml-8">
+                {testimonials.map((testimonial, index) => (
+                    <div key={index} className="flex-[0_0_90%] sm:flex-[0_0_420px] pl-8">
+                        <TestimonialCard testimonial={testimonial} />
+                    </div>
+                ))}
+            </div>
+        </div>
       </motion.div>
+      
+      <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex gap-2 z-10">
+          <Button onClick={scrollPrev} size="icon" className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12">
+            <ArrowLeft className="w-6 h-6" />
+          </Button>
+          <Button onClick={scrollNext} size="icon" className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12">
+            <ArrowRight className="w-6 h-6" />
+          </Button>
+      </div>
+
     </section>
   );
 }
