@@ -54,7 +54,7 @@ export default function GrowthSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-white py-24 overflow-hidden">
+    <section ref={ref} className="bg-white py-[2%]">
       <motion.div
         className="container mx-auto px-4 text-center"
         variants={containerVariants}
