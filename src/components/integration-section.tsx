@@ -34,7 +34,7 @@ export default function IntegrationSection() {
   return (
     <section ref={ref} className="bg-white py-[6%]">
       <motion.div
-        className="container mx-auto px-4 text-center"
+        className="container mx-auto px-[7%] text-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
