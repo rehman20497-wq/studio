@@ -31,7 +31,7 @@ export default function Home() {
         <Header />
       </ClientOnly>
       <main className="bg-background font-body">
-        <div className="flex flex-col md:flex-row w-full">
+        <div className="flex flex-col-reverse md:flex-row w-full">
           <div className="relative w-full md:w-1/2 h-[60vh] md:h-screen flex items-center justify-center bg-white">
             <div className="relative w-full h-full">
               <AbstractCircles />
