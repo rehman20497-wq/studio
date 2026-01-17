@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useCallback, useEffect } from 'react';
-import useEmblaCarousel from 'embla-carousel-react'
-import Autoplay from 'embla-carousel-autoplay'
+import { useRef, useCallback } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
@@ -26,7 +26,6 @@ const testimonials = [
     companySize: '11-50',
     designation: 'VP of Growth',
     industry: 'Gaming',
-    featured: true,
   },
   {
     title: 'A Partner with Exceptional Understanding of Our Culture',
@@ -63,11 +62,7 @@ const testimonials = [
 ];
 
 const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0] }) => (
-  <div
-    className={cn(
-      'h-full rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200'
-    )}
-  >
+  <div className="h-full rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200">
     <div className="flex justify-between items-start">
       <div className="flex gap-1 text-black">
         {[...Array(5)].map((_, i) => (
@@ -76,17 +71,17 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
       </div>
       <Image src="/sound.png" alt="Sound wave icon" width={24} height={24} />
     </div>
-    <div className="flex-grow mt-5 flex flex-col">
+
+    <div className="flex-grow mt-5">
       <h3 className="text-xl font-normal font-headline text-black">{testimonial.title}</h3>
-      <p className="mt-4 text-sm text-zinc-700 leading-6 flex-grow">
-        {testimonial.content}
-      </p>
+      <p className="mt-4 text-[13px] text-zinc-700 leading-6">{testimonial.content}</p>
     </div>
+
     <div>
       <p className="text-sm text-zinc-600 mt-4">
         Company Size: {testimonial.companySize}
       </p>
-      <div className="border-t border-zinc-300 my-4"></div>
+      <div className="border-t border-zinc-300 my-4" />
       <p className="font-bold text-sm text-black">{testimonial.designation}</p>
       <p className="text-sm text-zinc-600">Industry: {testimonial.industry}</p>
     </div>
@@ -94,62 +89,91 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
 );
 
 const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { delay: 0.3 },
+  },
+};
+
+const arrowsVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
         opacity: 1,
+        y: 0,
         transition: {
-            delay: 0.3,
+            delay: 0.5,
+            duration: 0.8,
+            ease: "easeOut"
         }
     }
-}
+};
 
 export default function CustomerStories() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const isMobile = useIsMobile();
+
+  const autoplay = Autoplay({
+    playOnInit: true,
+    delay: isMobile ? 3000 : 5000,
+    stopOnInteraction: false,
+    stopOnMouseEnter: true,
+  });
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: 'start' },
-    [Autoplay({ playOnInit: true, delay: isMobile ? 3000 : 5000, stopOnInteraction: false, stopOnMouseEnter: true })]
+    [autoplay]
   );
-  
+
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
-  useEffect(() => {
-    if(!emblaApi) return;
-    if (isInView) {
-      emblaApi.plugins().autoplay?.play();
-    }
-  }, [isInView, emblaApi]);
-
   return (
-    <section ref={ref} className="bg-white pb-12 md:pb-[4%] overflow-hidden relative">
+    <section ref={sectionRef} className="bg-white pb-12 md:pb-[4%] overflow-hidden relative">
       <motion.div
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+        animate={isInView ? 'visible' : 'hidden'}
       >
         <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex -ml-8">
-                {testimonials.map((testimonial, index) => (
-                    <div key={index} className="flex-[0_0_90%] sm:flex-[0_0_420px] pl-8">
-                        <TestimonialCard testimonial={testimonial} />
-                    </div>
-                ))}
-            </div>
+          <div className="flex -ml-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="flex-[0_0_90%] sm:flex-[0_0_420px] pl-8">
+                <TestimonialCard testimonial={testimonial} />
+              </div>
+            ))}
+          </div>
         </div>
       </motion.div>
-      
-      <div className="absolute bottom-2 right-4 md:bottom-4 md:right-8 flex gap-2 z-10">
-          <Button onClick={scrollPrev} size="icon" className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12">
-            <ArrowLeft className="w-6 h-6" />
-          </Button>
-          <Button onClick={scrollNext} size="icon" className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12">
-            <ArrowRight className="w-6 h-6" />
-          </Button>
-      </div>
 
+      {/* Controls */}
+      <motion.div 
+        className="absolute bottom-[16px] right-4 md:bottom-[28px] md:right-8 flex gap-2 z-10"
+        variants={arrowsVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+      >
+      <Button
+          size="icon"
+          onClick={scrollPrev}
+          onMouseEnter={() => emblaApi?.plugins().autoplay?.stop()}
+          onMouseLeave={() => emblaApi?.plugins().autoplay?.play()}
+          className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12"
+        >
+          <ArrowLeft className="w-6 h-6" />
+        </Button>
+
+        <Button
+          size="icon"
+          onClick={scrollNext}
+          onMouseEnter={() => emblaApi?.plugins().autoplay?.stop()}
+          onMouseLeave={() => emblaApi?.plugins().autoplay?.play()}
+          className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12"
+        >
+          <ArrowRight className="w-6 h-6" />
+        </Button>
+      </motion.div>
     </section>
   );
 }
