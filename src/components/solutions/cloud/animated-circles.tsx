@@ -83,7 +83,7 @@ export default function AnimatedCircles() {
         // Big circle 'T' animation
         const tPath = scope.current.querySelector('#t-path');
         if (tPath) {
-            const tPathLength = tPath.getTotalLength();
+            const tPathLength = (tPath as SVGPathElement).getTotalLength();
             animate(
                 tPath, 
                 { strokeDashoffset: [tPathLength, 0, 0, tPathLength, tPathLength] }, 
@@ -110,7 +110,7 @@ export default function AnimatedCircles() {
 
                 const [circle1, circle2] = pair;
                 
-                const animateOn = async (circle: any, delay: number) => {
+                const animateOn = async (circle: any) => {
                     const randomRotation = Math.random() * 360;
                     const randomStrokePercent = Math.random() * 0.25 + 0.7; // 70% to 95%
                     const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE}`;
@@ -128,28 +128,32 @@ export default function AnimatedCircles() {
                     await animate(
                         `#${circle.id}-stroke`,
                         { strokeDashoffset: 0 },
-                        { duration: 1.5, ease: 'circOut', delay }
+                        { duration: 1.5, ease: 'circOut' }
                     );
                 }
 
-                const animateOff = async (circle: any, delay: number) => {
+                const animateOff = async (circle: any) => {
                     await animate(
                         `#${circle.id}-stroke`,
                         { strokeDashoffset: -SMALL_CIRCUMFERENCE },
-                        { duration: 1.5, ease: 'circIn', delay }
+                        { duration: 1.5, ease: 'circIn' }
                     );
                 }
-
-                animateOn(circle1, 0);
-                await animateOn(circle2, 0.2);
+                
+                // Sequential animation for the pair
+                await animateOn(circle1);
+                if (isCancelled) return;
+                await animateOn(circle2);
 
                 await sleep(2500); 
                 if (isCancelled) return;
+                
+                // Sequential off-animation
+                await animateOff(circle1);
+                if (isCancelled) return;
+                await animateOff(circle2);
 
-                animateOff(circle1, 0);
-                await animateOff(circle2, 0.2);
-
-                await sleep(500);
+                await sleep(500); // Wait before next pair
             }
         };
 
@@ -188,7 +192,7 @@ export default function AnimatedCircles() {
                             cy={circle.cy}
                             r={SMALL_CIRCLE_RADIUS}
                             fill="none"
-                            stroke="#00BCD4"
+                            stroke="#abe9ef"
                             strokeWidth={STROKE_WIDTH}
                             initial={{ strokeDashoffset: SMALL_CIRCUMFERENCE }}
                             strokeLinecap="round"
@@ -202,7 +206,7 @@ export default function AnimatedCircles() {
                         cx={bigCircle.cx}
                         cy={bigCircle.cy}
                         r={BIG_CIRCLE_RADIUS}
-                        fill="#00BCD4"
+                        fill="#abe9ef"
                         stroke="none"
                         filter="url(#glow)"
                         initial={{ scale: 0.5, opacity: 0 }}
