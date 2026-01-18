@@ -72,7 +72,6 @@ const imageVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-  
     transition: {
       type: 'spring',
       damping: 14,
@@ -82,8 +81,7 @@ const imageVariants = {
   }),
 };
 
-/* ---------------- Images Layout (REFERENCE MATCHED) ---------------- */
-
+/* ---------------- Images Layout (Desktop) ---------------- */
 const images = [
   {
     ...careersImages.years,
@@ -123,6 +121,14 @@ const images = [
   },
 ];
 
+// Mobile images selection
+const mobileImages = [
+    { ...images[0], rotation: -10, size: 150 },
+    { ...images[2], rotation: 5, size: 150 },
+    { ...images[4], rotation: -5, size: 150 }
+];
+
+
 /* ---------------- Component ---------------- */
 
 export default function Hero() {
@@ -131,17 +137,16 @@ export default function Hero() {
 
   return (
     <section
-  ref={ref}
-  className="relative overflow-hidden min-h-screen px-4 bg-transparent"
->
-{/* Background Split */}
-<div className="absolute inset-0 z-0">
-  {/* Top background */}
-  <div className="absolute top-0 left-0 w-full h-[51%] bg-[#FCFBF8]" />
-
-  {/* Bottom background */}
-  <div className="absolute top-[51%] left-0 w-full h-[49%] bg-[#fff9e6]" />
-</div>
+      ref={ref}
+      className="relative overflow-hidden md:min-h-screen px-4 bg-transparent"
+    >
+      {/* Background Split */}
+      <div className="absolute inset-0 z-0">
+        {/* Top background */}
+        <div className="absolute top-0 left-0 w-full h-[51%] bg-[#FCFBF8]" />
+        {/* Bottom background */}
+        <div className="absolute top-[51%] left-0 w-full h-[49%] bg-[#fff9e6]" />
+      </div>
 
       {/* Yellow Wave */}
       <motion.div
@@ -167,7 +172,7 @@ export default function Hero() {
 
       {/* Center Content */}
       <motion.div
-        className="relative z-10 max-w-4xl mx-auto pt-28 text-center"
+        className="relative z-10 max-w-4xl mx-auto pt-28 md:pt-28 pb-12 md:pb-0 text-center"
         variants={textContentVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -188,7 +193,7 @@ export default function Hero() {
           Join our global community as we shape the future of work.
         </motion.p>
 
-        <div className="mt-12 flex justify-center gap-4">
+        <div className="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4">
           <motion.div variants={buttonVariants}>
             <MagneticButton>
               <span className="text-[15px] font-medium px-5">
@@ -205,9 +210,43 @@ export default function Hero() {
           </motion.div>
         </div>
       </motion.div>
+      
+      {/* Mobile Images - Visible only on mobile */}
+      <div className="relative z-10 block md:hidden mt-12 pb-20">
+          <div className="flex justify-center items-center gap-4">
+              {mobileImages.map((image, i) => (
+                   <motion.div
+                        key={`mobile-${i}`}
+                        className="bg-white p-2 pb-1 rounded-xl border-2 border-black shadow-lg"
+                        style={{
+                            rotate: image.rotation,
+                            width: image.size,
+                        }}
+                        custom={i}
+                        variants={imageVariants}
+                        initial="hidden"
+                        animate={isInView ? "visible" : "hidden"}
+                    >
+                        <Image
+                            src={image.src}
+                            alt={image.alt}
+                            width={image.size - 16}
+                            height={image.size - 16}
+                            className="rounded-md object-cover"
+                        />
+                         <p
+                            className="mt-2 text-center text-lg"
+                            style={{ fontFamily: "'Gochi Hand', cursive" }}
+                        >
+                            {image.label}
+                        </p>
+                    </motion.div>
+              ))}
+          </div>
+      </div>
 
-      {/* Floating Images */}
-      <div className="absolute inset-0 z-0">
+      {/* Floating Images (Desktop) - Hidden on mobile */}
+      <div className="absolute inset-0 z-0 hidden md:block">
         {images.map((image, i) => (
           <motion.div
             key={i}
