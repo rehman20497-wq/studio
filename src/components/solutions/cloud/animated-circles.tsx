@@ -17,55 +17,36 @@ const TOTAL_HEIGHT = (ROWS_TOP + ROWS_BOTTOM) * SMALL_BOX_SIZE + BIG_CIRCLE_RADI
 
 const SMALL_CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
 
-const generateCircles = (rows: number, cols: number, yOffset: number, idPrefix: string) => {
-    return Array.from({ length: rows * cols }).map((_, i) => {
-        const row = Math.floor(i / cols);
-        const col = i % cols;
-        return {
-            id: `${idPrefix}-${row}-${col}`,
-            row,
-            col,
-            cx: col * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
-            cy: yOffset + row * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
-        };
-    });
+const generateCircles = (startRow: number, numRows: number, cols: number, yOffset: number, idPrefix: string) => {
+    let circles = [];
+    for (let r = 0; r < numRows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const globalRow = startRow + r;
+            circles.push({
+                id: `${idPrefix}-${globalRow}-${c}`,
+                row: globalRow,
+                col: c,
+                cx: c * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
+                cy: yOffset + r * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
+            });
+        }
+    }
+    return circles;
 };
 
-const topCircles = generateCircles(ROWS_TOP, COLS, 0, 'top');
+const topCircles = generateCircles(0, ROWS_TOP, COLS, 0, 'top');
 const bigCircle = {
     id: 'big-center',
     cx: TOTAL_WIDTH / 2,
     cy: ROWS_TOP * SMALL_BOX_SIZE + SPACING + BIG_CIRCLE_RADIUS,
 };
 const bottomCirclesYOffset = ROWS_TOP * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 + SPACING * 2;
-const bottomCircles = generateCircles(ROWS_BOTTOM, COLS, bottomCirclesYOffset, 'bottom');
+const bottomCircles = generateCircles(ROWS_TOP, ROWS_BOTTOM, COLS, bottomCirclesYOffset, 'bottom');
 
 const allSmallCircles = [...topCircles, ...bottomCircles];
 
-const findNeighborPairs = () => {
-    const pairs: [any, any][] = [];
-    for (let i = 0; i < allSmallCircles.length; i++) {
-        for (let j = i + 1; j < allSmallCircles.length; j++) {
-            const c1 = allSmallCircles[i];
-            const c2 = allSmallCircles[j];
-            const dx = Math.abs(c1.cx - c2.cx);
-            const dy = Math.abs(c1.cy - c2.cy);
-
-            if ((dx < 1 && dy.toFixed(0) === SMALL_BOX_SIZE.toFixed(0)) || (dy < 1 && dx.toFixed(0) === SMALL_BOX_SIZE.toFixed(0))) {
-                pairs.push([c1, c2]);
-            }
-        }
-    }
-    return pairs;
-}
-
 export default function AnimatedCircles() {
     const [scope, animate] = useAnimate();
-    const neighborPairs = useRef<[any, any][]>([]);
-
-    useEffect(() => {
-        neighborPairs.current = findNeighborPairs();
-    }, []);
     
     const shuffle = useCallback((array: any[]) => {
         return [...array].sort(() => 0.5 - Math.random());
@@ -74,6 +55,20 @@ export default function AnimatedCircles() {
     useEffect(() => {
         let isCancelled = false;
         if (!scope.current) return;
+
+        const pairsByRow = new Map<number, [any,any][]>();
+        allSmallCircles.forEach(c1 => {
+            const row = c1.row;
+            if (!pairsByRow.has(row)) {
+                pairsByRow.set(row, []);
+            }
+            // Find horizontal neighbor to the right
+            const c2 = allSmallCircles.find(c => c.row === row && c.col === c1.col + 1);
+            if (c2) {
+                pairsByRow.get(row)?.push([c1, c2]);
+            }
+        });
+
 
         const sleep = (ms: number) => new Promise(res => {
             if (isCancelled) return;
@@ -97,63 +92,66 @@ export default function AnimatedCircles() {
             );
         }
 
+        const animateOn = async (circle: any) => {
+            const randomRotation = Math.random() * 360;
+            const randomStrokePercent = Math.random() * 0.25 + 0.7; // 70% to 95%
+            const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE}`;
+
+            animate(
+                `#${circle.id}-stroke`,
+                {
+                    strokeDasharray: dashArray,
+                    rotate: randomRotation,
+                    strokeDashoffset: SMALL_CIRCUMFERENCE,
+                    stroke: '#0badbf',
+                },
+                { duration: 0 }
+            );
+
+            await animate(
+                `#${circle.id}-stroke`,
+                { strokeDashoffset: 0 },
+                { duration: 1.5, ease: 'circOut' }
+            );
+        };
+
+        const animateOff = async (circle: any) => {
+            await animate(
+                `#${circle.id}-stroke`,
+                { strokeDashoffset: -SMALL_CIRCUMFERENCE },
+                { duration: 1.5, ease: 'circIn' }
+            );
+        };
+
         const runSmallCircleAnimation = async () => {
             await sleep(1000); // Initial delay
             while (!isCancelled) {
-                const shuffledPairs = shuffle(neighborPairs.current);
-                const pair = shuffledPairs[0];
-
-                if (!pair) {
-                    await sleep(1000);
-                    continue;
+                const pairsToAnimate: [any, any][] = [];
+                for (const pairs of pairsByRow.values()) {
+                    if (pairs.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * pairs.length);
+                        pairsToAnimate.push(pairs[randomIndex]);
+                    }
                 }
 
-                const [circle1, circle2] = pair;
-                
-                const animateOn = async (circle: any) => {
-                    const randomRotation = Math.random() * 360;
-                    const randomStrokePercent = Math.random() * 0.25 + 0.7; // 70% to 95%
-                    const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE}`;
+                const animateOnPromises = pairsToAnimate.map(async ([c1, c2]) => {
+                    await animateOn(c1);
+                    if (isCancelled) return;
+                    await animateOn(c2);
+                });
+                await Promise.all(animateOnPromises);
 
-                    animate(
-                        `#${circle.id}-stroke`,
-                        {
-                            strokeDasharray: dashArray,
-                            rotate: randomRotation,
-                            strokeDashoffset: SMALL_CIRCUMFERENCE,
-                        },
-                        { duration: 0 }
-                    );
-
-                    await animate(
-                        `#${circle.id}-stroke`,
-                        { strokeDashoffset: 0 },
-                        { duration: 1.5, ease: 'circOut' }
-                    );
-                }
-
-                const animateOff = async (circle: any) => {
-                    await animate(
-                        `#${circle.id}-stroke`,
-                        { strokeDashoffset: -SMALL_CIRCUMFERENCE },
-                        { duration: 1.5, ease: 'circIn' }
-                    );
-                }
-                
-                // Sequential animation for the pair
-                await animateOn(circle1);
+                await sleep(2500);
                 if (isCancelled) return;
-                await animateOn(circle2);
 
-                await sleep(2500); 
-                if (isCancelled) return;
-                
-                // Sequential off-animation
-                await animateOff(circle1);
-                if (isCancelled) return;
-                await animateOff(circle2);
+                const animateOffPromises = pairsToAnimate.map(async ([c1, c2]) => {
+                    await animateOff(c1);
+                    if (isCancelled) return;
+                    await animateOff(c2);
+                });
+                await Promise.all(animateOffPromises);
 
-                await sleep(500); // Wait before next pair
+                await sleep(500);
             }
         };
 
@@ -192,7 +190,7 @@ export default function AnimatedCircles() {
                             cy={circle.cy}
                             r={SMALL_CIRCLE_RADIUS}
                             fill="none"
-                            stroke="#abe9ef"
+                            stroke="transparent"
                             strokeWidth={STROKE_WIDTH}
                             initial={{ strokeDashoffset: SMALL_CIRCUMFERENCE }}
                             strokeLinecap="round"
@@ -206,7 +204,7 @@ export default function AnimatedCircles() {
                         cx={bigCircle.cx}
                         cy={bigCircle.cy}
                         r={BIG_CIRCLE_RADIUS}
-                        fill="#abe9ef"
+                        fill="#0badbf"
                         stroke="none"
                         filter="url(#glow)"
                         initial={{ scale: 0.5, opacity: 0 }}
