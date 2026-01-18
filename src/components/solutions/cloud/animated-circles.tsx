@@ -2,8 +2,6 @@
 
 import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useCallback, useRef } from 'react';
-import Image from 'next/image';
-import { Cloud, Cpu, Wifi, Zap } from 'lucide-react';
 
 const SMALL_CIRCLE_RADIUS = 50;
 const BIG_CIRCLE_RADIUS = 92.5;
@@ -14,26 +12,19 @@ const ROWS_TOP = 3;
 const ROWS_BOTTOM = 2;
 
 const SMALL_BOX_SIZE = SMALL_CIRCLE_RADIUS * 2 + SPACING;
-
 const TOTAL_WIDTH = COLS * SMALL_BOX_SIZE;
 const TOTAL_HEIGHT = (ROWS_TOP + ROWS_BOTTOM) * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 + SPACING * 2;
 
-const ICONS = [Cloud, Cpu, Wifi, Zap];
-
-const profileImages = Array.from({ length: 15 }, (_, i) => ({
-    type: 'image',
-    src: `https://picsum.photos/seed/cloud-${i + 1}/100/100`
-}));
-
-const icons = ICONS.map(Icon => ({ type: 'icon', Component: Icon }));
-const contentItems = [...profileImages, ...icons];
+const SMALL_CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
 
 const generateCircles = (rows: number, cols: number, yOffset: number, idPrefix: string) => {
     return Array.from({ length: rows * cols }).map((_, i) => {
         const row = Math.floor(i / cols);
         const col = i % cols;
         return {
-            id: `${idPrefix}-${i}`,
+            id: `${idPrefix}-${row}-${col}`,
+            row,
+            col,
             cx: col * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
             cy: yOffset + row * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
         };
@@ -50,13 +41,31 @@ const bottomCirclesYOffset = ROWS_TOP * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 +
 const bottomCircles = generateCircles(ROWS_BOTTOM, COLS, bottomCirclesYOffset, 'bottom');
 
 const allSmallCircles = [...topCircles, ...bottomCircles];
-const SMALL_CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
 
+const findNeighborPairs = () => {
+    const pairs: [any, any][] = [];
+    for (let i = 0; i < allSmallCircles.length; i++) {
+        for (let j = i + 1; j < allSmallCircles.length; j++) {
+            const c1 = allSmallCircles[i];
+            const c2 = allSmallCircles[j];
+            const dx = Math.abs(c1.cx - c2.cx);
+            const dy = Math.abs(c1.cy - c2.cy);
+
+            if ((dx < 1 && dy.toFixed(0) === SMALL_BOX_SIZE.toFixed(0)) || (dy < 1 && dx.toFixed(0) === SMALL_BOX_SIZE.toFixed(0))) {
+                pairs.push([c1, c2]);
+            }
+        }
+    }
+    return pairs;
+}
 
 export default function AnimatedCircles() {
     const [scope, animate] = useAnimate();
-    const inViewRef = useRef(null);
-    const isInView = useAnimate(inViewRef, { once: true, amount: 0.5 });
+    const neighborPairs = useRef<[any, any][]>([]);
+
+    useEffect(() => {
+        neighborPairs.current = findNeighborPairs();
+    }, []);
     
     const shuffle = useCallback((array: any[]) => {
         return [...array].sort(() => 0.5 - Math.random());
@@ -64,97 +73,93 @@ export default function AnimatedCircles() {
 
     useEffect(() => {
         let isCancelled = false;
+        if (!scope.current) return;
 
-        const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
+        const sleep = (ms: number) => new Promise(res => {
+            if (isCancelled) return;
+            setTimeout(res, ms);
+        });
 
-        const runAnimation = async () => {
-            if (!scope.current) return;
-
-            const colors = ['#00BCD4', '#00E5FF', '#7C4DFF', '#00FF9C'];
-            let contentIndex = 0;
-
-            const animateCircleOn = async (circle: any) => {
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const content = contentItems[contentIndex % contentItems.length];
-                contentIndex++;
-
-                // Animate stroke
-                animate(
-                    `#${circle.id}-stroke`,
-                    { strokeDashoffset: 0, stroke: color },
-                    { duration: 1, ease: 'circOut' }
-                );
-
-                // Animate content
-                const clipPathSelector = `#clip-${circle.id} > circle`;
-                const imageSelector = `image[data-circle-id='${circle.id}']`;
-                const iconSelector = `g[data-circle-id='${circle.id}']`;
-
-                if (content.type === 'image') {
-                    const imageElement = scope.current.querySelector(imageSelector);
-                    if (imageElement) {
-                        imageElement.setAttributeNS('http://www.w3.org/1999/xlink', 'href', content.src);
-                    }
-                    animate(iconSelector, { opacity: 0 }, { duration: 0 });
-                    animate(imageSelector, { opacity: 1 }, { duration: 0 });
-                } else {
-                    const iconContainer = scope.current.querySelector(iconSelector);
-                    // This part is tricky without dynamic component rendering in the animation loop.
-                    // We will just show/hide a pre-rendered icon for simplicity.
-                    // For a real app, you'd want a more robust way to render the correct icon.
-                    animate(imageSelector, { opacity: 0 }, { duration: 0 });
-                    animate(iconSelector, { opacity: 1 }, { duration: 0 });
-                }
-                
-                animate(clipPathSelector, { scale: 1 }, { duration: 0.8, ease: 'easeOut', delay: 0.2 });
-            };
-
-            const animateCircleOff = async (circle: any) => {
-                animate(
-                    `#${circle.id}-stroke`,
-                    { strokeDashoffset: SMALL_CIRCUMFERENCE },
-                    { duration: 1, ease: 'circIn', delay: 0.3 }
-                );
-                
-                const clipPathSelector = `#clip-${circle.id} > circle`;
-                animate(clipPathSelector, { scale: 0 }, { duration: 0.5, ease: 'easeIn' });
-            };
-            
-            // Initial animation for the big circle
+        // Big circle 'T' animation
+        const tPath = scope.current.querySelector('#t-path');
+        if (tPath) {
+            const tPathLength = tPath.getTotalLength();
             animate(
-                '#big-circle-icon',
-                { opacity: [0, 1, 1, 0, 0], scale: [0.5, 1, 1, 0.5, 0.5] },
-                { duration: 5, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }
+                tPath, 
+                { strokeDashoffset: [tPathLength, 0, 0, tPathLength, tPathLength] }, 
+                { 
+                    duration: 5, 
+                    repeat: Infinity, 
+                    repeatDelay: 1, 
+                    ease: "easeInOut",
+                    times: [0, 0.4, 0.6, 1, 1]
+                }
             );
+        }
 
-            await sleep(500); // Initial delay
-
+        const runSmallCircleAnimation = async () => {
+            await sleep(1000); // Initial delay
             while (!isCancelled) {
-                const shuffled = shuffle(allSmallCircles);
-                const activeCount = Math.floor(Math.random() * 3) + 3; // 3 to 5 active circles
-                const activeCircles = shuffled.slice(0, activeCount);
-                
-                await Promise.all(activeCircles.map(c => animateCircleOn(c)));
-                
-                await sleep(3000 + Math.random() * 2000);
-                
-                if (isCancelled) break;
+                const shuffledPairs = shuffle(neighborPairs.current);
+                const pair = shuffledPairs[0];
 
-                await Promise.all(activeCircles.map(c => animateCircleOff(c)));
+                if (!pair) {
+                    await sleep(1000);
+                    continue;
+                }
 
-                await sleep(1000);
+                const [circle1, circle2] = pair;
+                
+                const animateOn = async (circle: any, delay: number) => {
+                    const randomRotation = Math.random() * 360;
+                    const randomStrokePercent = Math.random() * 0.25 + 0.7; // 70% to 95%
+                    const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE}`;
+
+                    animate(
+                        `#${circle.id}-stroke`,
+                        {
+                            strokeDasharray: dashArray,
+                            rotate: randomRotation,
+                            strokeDashoffset: SMALL_CIRCUMFERENCE,
+                        },
+                        { duration: 0 }
+                    );
+
+                    await animate(
+                        `#${circle.id}-stroke`,
+                        { strokeDashoffset: 0 },
+                        { duration: 1.5, ease: 'circOut', delay }
+                    );
+                }
+
+                const animateOff = async (circle: any, delay: number) => {
+                    await animate(
+                        `#${circle.id}-stroke`,
+                        { strokeDashoffset: -SMALL_CIRCUMFERENCE },
+                        { duration: 1.5, ease: 'circIn', delay }
+                    );
+                }
+
+                animateOn(circle1, 0);
+                await animateOn(circle2, 0.2);
+
+                await sleep(2500); 
+                if (isCancelled) return;
+
+                animateOff(circle1, 0);
+                await animateOff(circle2, 0.2);
+
+                await sleep(500);
             }
         };
 
-        runAnimation();
+        runSmallCircleAnimation();
 
-        return () => {
-            isCancelled = true;
-        };
+        return () => { isCancelled = true; };
     }, [scope, animate, shuffle]);
 
     return (
-        <div ref={inViewRef} className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
             <svg ref={scope} viewBox={`-10 -10 ${TOTAL_WIDTH + 20} ${TOTAL_HEIGHT + 20}`} className="w-full h-auto max-w-lg">
                 <defs>
                     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -164,19 +169,8 @@ export default function AnimatedCircles() {
                             <feMergeNode in="SourceGraphic"/>
                         </feMerge>
                     </filter>
-                    {allSmallCircles.map(circle => (
-                        <clipPath key={`clip-def-${circle.id}`} id={`clip-${circle.id}`}>
-                            <motion.circle
-                                cx={circle.cx}
-                                cy={circle.cy}
-                                r={SMALL_CIRCLE_RADIUS - STROKE_WIDTH}
-                                initial={{ scale: 0 }}
-                            />
-                        </clipPath>
-                    ))}
                 </defs>
 
-                {/* Small Circles */}
                 {allSmallCircles.map(circle => (
                     <g key={circle.id}>
                         <circle
@@ -194,33 +188,14 @@ export default function AnimatedCircles() {
                             cy={circle.cy}
                             r={SMALL_CIRCLE_RADIUS}
                             fill="none"
-                            stroke="#abe9ef"
+                            stroke="#00BCD4"
                             strokeWidth={STROKE_WIDTH}
-                            strokeDasharray={SMALL_CIRCUMFERENCE}
                             initial={{ strokeDashoffset: SMALL_CIRCUMFERENCE }}
-                            transform={`rotate(-90 ${circle.cx} ${circle.cy})`}
+                            strokeLinecap="round"
                         />
-                         <g clipPath={`url(#clip-${circle.id})`}>
-                            <motion.image
-                                data-circle-id={circle.id}
-                                x={circle.cx - SMALL_CIRCLE_RADIUS}
-                                y={circle.cy - SMALL_CIRCLE_RADIUS}
-                                width={SMALL_CIRCLE_RADIUS * 2}
-                                height={SMALL_CIRCLE_RADIUS * 2}
-                                initial={{ opacity: 0 }}
-                            />
-                             <motion.g
-                                data-circle-id={circle.id}
-                                initial={{ opacity: 0 }}
-                                transform={`translate(${circle.cx - 20}, ${circle.cy - 20})`}
-                            >
-                                <Cloud className="w-10 h-10 text-white" />
-                             </motion.g>
-                        </g>
                     </g>
                 ))}
 
-                {/* Big Circle */}
                 <g>
                     <motion.circle
                         id="big-circle-bg"
@@ -234,19 +209,17 @@ export default function AnimatedCircles() {
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     />
-                    <motion.g
-                        id="big-circle-icon"
-                        initial={{ opacity: 0 }}
-                    >
-                        <Cloud
-                            x={bigCircle.cx - 50}
-                            y={bigCircle.cy - 50}
-                            width={100}
-                            height={100}
-                            className="text-white"
-                            strokeWidth={1}
-                        />
-                    </motion.g>
+                    <motion.path
+                        id="t-path"
+                        d={`M ${bigCircle.cx - 35},${bigCircle.cy - 35} H ${bigCircle.cx + 35} M ${bigCircle.cx},${bigCircle.cy - 35} V ${bigCircle.cy + 40}`}
+                        stroke="white"
+                        strokeWidth="10"
+                        strokeLinecap="round"
+                        style={{
+                            strokeDasharray: 220,
+                            strokeDashoffset: 220
+                        }}
+                    />
                 </g>
             </svg>
         </div>
