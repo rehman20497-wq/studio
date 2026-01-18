@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -46,16 +45,16 @@ export default function TeamSection() {
   return (
     <section ref={ref} className="bg-[#fff9e6] pt-24 pb-24 px-4">
       <motion.div
-        className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center"
+        className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16 items-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div variants={itemVariants}>
-          <h2 className="text-5xl text-zinc-900 font-headline font-normal">
+        <motion.div variants={itemVariants} className="md:pr-8">
+          <h2 className="text-[49px] leading-[52px] text-black font-headline font-normal">
             A Team Built for The Future of Work
           </h2>
-          <p className="mt-6 text-lg text-zinc-600">
+          <p className="mt-6 text-base text-black">
             Our teams are designed to be agile, adaptable, and forward-thinking. We embrace new technologies and methodologies to ensure that we are always at the forefront of innovation, ready to tackle the challenges of tomorrow.
           </p>
         </motion.div>
@@ -64,7 +63,7 @@ export default function TeamSection() {
           className="relative flex items-center justify-center"
           variants={itemVariants}
         >
-          <div className="relative w-[500px] h-[500px]">
+          <div className="relative mx-auto h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] lg:h-[500px] lg:w-[500px]">
             <motion.div 
                 className="relative w-full h-full rounded-full overflow-hidden"
                 initial={{ scale: 0.8, opacity: 0 }}
