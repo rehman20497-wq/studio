@@ -119,21 +119,34 @@ export default function AnimatedCircles() {
             setTimeout(res, ms);
         });
 
-        const tPath = scope.current.querySelector('#t-path');
-        if (tPath) {
-            const tPathLength = (tPath as SVGPathElement).getTotalLength();
-            animate(
-                tPath, 
-                { strokeDashoffset: [tPathLength, 0, 0, tPathLength, tPathLength] }, 
-                { 
-                    duration: 5, 
-                    repeat: Infinity, 
-                    repeatDelay: 1, 
-                    ease: "easeInOut",
-                    times: [0, 0.4, 0.6, 1, 1]
+        const runTAnimation = async () => {
+            const tPathH = scope.current.querySelector('#t-path-h') as SVGPathElement;
+            const tPathV = scope.current.querySelector('#t-path-v') as SVGPathElement;
+            if (tPathH && tPathV) {
+                const tPathHLength = tPathH.getTotalLength();
+                const tPathVLength = tPathV.getTotalLength();
+    
+                while (!isCancelled) {
+                    // Set initial state (hidden)
+                    await animate(tPathH, { strokeDasharray: tPathHLength, strokeDashoffset: tPathHLength }, { duration: 0 });
+                    await animate(tPathV, { strokeDasharray: tPathVLength, strokeDashoffset: tPathVLength }, { duration: 0 });
+    
+                    await sleep(500);
+    
+                    // Draw animation
+                    await animate(tPathH, { strokeDashoffset: 0 }, { duration: 0.5, ease: "easeInOut" });
+                    await animate(tPathV, { strokeDashoffset: 0 }, { duration: 0.5, ease: "easeInOut" });
+    
+                    await sleep(2000); // Hold
+    
+                    // Undraw animation
+                    await animate(tPathV, { strokeDashoffset: tPathVLength }, { duration: 0.5, ease: "easeInOut" });
+                    await animate(tPathH, { strokeDashoffset: tPathHLength }, { duration: 0.5, ease: "easeInOut" });
+    
+                    await sleep(1000); // Wait before repeating
                 }
-            );
-        }
+            }
+        };
 
         const runSmallCircleAnimation = async () => {
             await sleep(1000); 
@@ -252,6 +265,7 @@ export default function AnimatedCircles() {
             }
         };
 
+        runTAnimation();
         runSmallCircleAnimation();
 
         return () => { isCancelled = true; };
@@ -293,17 +307,22 @@ export default function AnimatedCircles() {
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     />
-                    <motion.path
-                        id="t-path"
-                        d={`M ${bigCircle.cx - 35},${bigCircle.cy - 35} H ${bigCircle.cx + 35} M ${bigCircle.cx},${bigCircle.cy - 35} V ${bigCircle.cy + 40}`}
-                        stroke="white"
-                        strokeWidth="10"
-                        strokeLinecap="round"
-                        style={{
-                            strokeDasharray: 220,
-                            strokeDashoffset: 220
-                        }}
-                    />
+                    <g id="t-group">
+                        <motion.path
+                            id="t-path-h"
+                            d={`M ${bigCircle.cx - 35},${bigCircle.cy - 35} H ${bigCircle.cx + 35}`}
+                            stroke="white"
+                            strokeWidth="10"
+                            strokeLinecap="round"
+                        />
+                        <motion.path
+                            id="t-path-v"
+                            d={`M ${bigCircle.cx},${bigCircle.cy - 35} V ${bigCircle.cy + 40}`}
+                            stroke="white"
+                            strokeWidth="10"
+                            strokeLinecap="round"
+                        />
+                    </g>
                 </g>
             </svg>
         </div>
