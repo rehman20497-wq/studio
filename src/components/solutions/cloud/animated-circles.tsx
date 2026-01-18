@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -6,6 +5,7 @@ import React, { useMemo, useRef } from 'react';
 
 const SMALL_CIRCLE_RADIUS = 50;
 const BIG_CIRCLE_RADIUS = 92.5;
+const STROKE_WIDTH = 8;
 const SPACING = 0; // Circles will touch
 const COLS = 7;
 const ROWS_TOP = 3;
@@ -14,8 +14,8 @@ const ROWS_BOTTOM = 2;
 const SMALL_BOX_SIZE = SMALL_CIRCLE_RADIUS * 2 + SPACING;
 
 // Calculate total width and height for the viewBox
-const TOTAL_WIDTH = COLS * SMALL_BOX_SIZE - SPACING;
-const TOTAL_HEIGHT = (ROWS_TOP + ROWS_BOTTOM) * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 + SPACING * 2 - SPACING;
+const TOTAL_WIDTH = COLS * SMALL_BOX_SIZE;
+const TOTAL_HEIGHT = (ROWS_TOP + ROWS_BOTTOM) * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 + SPACING * 2;
 
 const generateCircles = (rows: number, cols: number, yOffset: number, idPrefix: string) => {
     return Array.from({ length: rows * cols }).map((_, i) => {
@@ -85,7 +85,7 @@ export default function AnimatedCircles() {
     return (
         <div ref={inViewRef} className="w-full h-full flex items-center justify-center">
             <motion.svg 
-                viewBox={`0 0 ${TOTAL_WIDTH} ${TOTAL_HEIGHT}`} 
+                viewBox={`-10 -10 ${TOTAL_WIDTH + 20} ${TOTAL_HEIGHT + 20}`} 
                 className="w-full h-auto max-w-lg"
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
@@ -110,7 +110,7 @@ export default function AnimatedCircles() {
                         r={SMALL_CIRCLE_RADIUS}
                         fill="none"
                         stroke="#abe9ef"
-                        strokeWidth="4"
+                        strokeWidth={STROKE_WIDTH}
                         custom={i}
                         variants={circleVariants}
                     />
@@ -131,4 +131,3 @@ export default function AnimatedCircles() {
         </div>
     );
 }
-
