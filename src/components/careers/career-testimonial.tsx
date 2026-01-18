@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -109,13 +108,13 @@ export default function CareerTestimonial() {
   return (
     <div ref={ref} className="bg-[#FEF9F2] py-24 px-[9%] overflow-hidden">
       <motion.div
-        className="max-w-6xl mx-auto flex items-center gap-16"
+        className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
         {/* Left Side: Image */}
-        <div className="relative w-1/3 flex items-center justify-center">
+        <div className="relative w-full md:w-1/3 flex items-center justify-center">
           <div className="relative w-[340px] h-[340px] flex items-center justify-center">
 
             <div className="absolute -inset-8">
@@ -158,7 +157,7 @@ export default function CareerTestimonial() {
         </div>
 
         {/* Right Side: Testimonial Content */}
-        <div className="w-[60%] mr-[5%] h-64 flex flex-col justify-center">
+        <div className="w-full md:w-[60%] md:mr-[5%] flex flex-col justify-center text-center md:text-left">
             <AnimatePresence mode="wait">
                  <motion.div
                     key={index}
@@ -169,27 +168,27 @@ export default function CareerTestimonial() {
                         visible: { transition: { staggerChildren: 0.2 } }
                     }}
                  >
-                    <motion.div variants={itemVariants}>
+                    <motion.div variants={itemVariants} className="flex justify-center md:justify-start">
                         {currentTestimonial.logo}
                     </motion.div>
 
                     <motion.div className="relative mt-8" variants={itemVariants}>
-                        <div className="absolute -left-8 -top-4">
+                        <div className="absolute -left-8 -top-4 hidden md:block">
                         <QuoteIcon />
                         </div>
-                        <p className="text-xl text-zinc-800 leading-relaxed h-24">
+                        <p className="text-base text-black leading-relaxed min-h-[96px]">
                         {currentTestimonial.text}
                         </p>
-                        <div className="absolute -right-8 -bottom-4 transform scale-y-[-1] scale-x-[-1]">
+                        <div className="absolute -right-8 -bottom-4 transform scale-y-[-1] scale-x-[-1] hidden md:block">
                         <QuoteIcon />
                         </div>
                     </motion.div>
 
                     <motion.div className="mt-8" variants={itemVariants}>
-                        <p className="font-bold text-lg text-zinc-900">
+                        <p className="font-bold text-[13px] text-black">
                         {currentTestimonial.author}
                         </p>
-                        <p className="text-zinc-600">{currentTestimonial.title}</p>
+                        <p className="text-[13px] text-zinc-600">{currentTestimonial.title}</p>
                     </motion.div>
                 </motion.div>
             </AnimatePresence>
