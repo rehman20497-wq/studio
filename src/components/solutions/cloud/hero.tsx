@@ -54,12 +54,12 @@ export default function Hero() {
   return (
     <motion.section
       ref={ref}
-      className="relative min-h-screen flex items-center bg-[#E0F7FA] rounded-3xl m-4 overflow-hidden"
+      className="relative min-h-screen flex items-center bg-[#E0F7FA] rounded-3xl mx-[2%] my-4 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="container mx-auto px-[4%] py-12 grid md:grid-cols-2 gap-8 items-center">
+      <div className="container mx-auto px-[6%] py-12 grid md:grid-cols-2 gap-8 items-center">
         <motion.div
             variants={contentContainerVariants}
         >
