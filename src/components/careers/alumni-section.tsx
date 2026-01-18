@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -32,7 +31,7 @@ const itemVariants = {
 const mapVariants = {
     hidden: { opacity: 0, scale: 1.1 },
     visible: {
-        opacity: 0.15,
+        opacity: 1,
         scale: 1,
         transition: {
             duration: 1.5,
@@ -57,7 +56,7 @@ export default function AlumniSection() {
                 src="/map.png"
                 alt="World map background"
                 fill
-                className="object-cover"
+                className="object-cover opacity-20"
             />
         </motion.div>
 
@@ -67,10 +66,10 @@ export default function AlumniSection() {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
         >
-            <motion.h2 className="text-5xl font-headline font-medium text-zinc-900" variants={itemVariants}>
+            <motion.h2 className="text-[46px] font-headline font-normal text-black" variants={itemVariants}>
                 Start here. Qualify anywhere!
             </motion.h2>
-            <motion.p className="mt-4 text-lg text-zinc-700 max-w-3xl mx-auto" variants={itemVariants}>
+            <motion.p className="mt-4 text-[20px] text-black max-w-3xl mx-auto" variants={itemVariants}>
                 Hugo alumni are thriving across the globe. Our talented community is pursuing higher education at top universities and making an impact at leading companies including Bloomberg, Barclays, and KPMG.
             </motion.p>
         </motion.div>
