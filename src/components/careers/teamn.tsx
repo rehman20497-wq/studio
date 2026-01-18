@@ -44,15 +44,15 @@ export default function TeamnSection() {
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-16 md:py-24 px-4">
+    <section ref={ref} className="bg-[#fff9e6] pt-[1%] pb-16 md:py-24 px-4">
       <motion.div
         className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16 items-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div variants={itemVariants}>
-          <h2 className="text-[30px] md:text-[46px] text-black font-headline font-normal">
+        <motion.div variants={itemVariants} className="md:pr-8">
+          <h2 className="text-[46px] text-black font-headline font-normal">
             Find Your Place at Hugo
           </h2>
           <p className="mt-6 text-sm md:text-base text-black">
