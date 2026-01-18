@@ -2,6 +2,7 @@
 
 import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 
 const SMALL_CIRCLE_RADIUS = 50;
 const BIG_CIRCLE_RADIUS = 92.5;
@@ -16,6 +17,11 @@ const TOTAL_WIDTH = COLS * SMALL_BOX_SIZE;
 const TOTAL_HEIGHT = (ROWS_TOP + ROWS_BOTTOM) * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 + SPACING * 2;
 
 const SMALL_CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
+const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
+
+const profileImages = Array.from({ length: 35 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
+
+let circleCounter = 0;
 
 const generateCircles = (startRow: number, numRows: number, cols: number, yOffset: number, idPrefix: string) => {
     let circles = [];
@@ -28,6 +34,8 @@ const generateCircles = (startRow: number, numRows: number, cols: number, yOffse
                 col: c,
                 cx: c * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
                 cy: yOffset + r * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
+                image: profileImages[circleCounter % profileImages.length],
+                key: circleCounter++,
             });
         }
     }
@@ -45,6 +53,56 @@ const bottomCircles = generateCircles(ROWS_TOP, ROWS_BOTTOM, COLS, bottomCircles
 
 const allSmallCircles = [...topCircles, ...bottomCircles];
 
+const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: string; image: string; }) => {
+    return (
+        <g id={id}>
+            <circle
+                cx={cx}
+                cy={cy}
+                r={SMALL_CIRCLE_RADIUS}
+                fill="none"
+                stroke="#abe9ef"
+                strokeOpacity={0.3}
+                strokeWidth={STROKE_WIDTH}
+            />
+            <motion.circle
+                id={`${id}-stroke`}
+                className="stroke-circle"
+                cx={cx}
+                cy={cy}
+                r={SMALL_CIRCLE_RADIUS}
+                fill="none"
+                stroke="transparent"
+                strokeWidth={STROKE_WIDTH}
+                initial={{ strokeDashoffset: SMALL_CIRCUMFERENCE }}
+                strokeLinecap="round"
+            />
+            <clipPath id={`clip-${id}`}>
+                <motion.circle
+                    className="profile-clip"
+                    cx={cx}
+                    cy={cy}
+                    r={PROFILE_RADIUS}
+                    initial={{ scale: 0 }}
+                />
+            </clipPath>
+            <g clipPath={`url(#clip-${id})`}>
+                <motion.foreignObject
+                    className="profile-image-container"
+                    x={cx - PROFILE_RADIUS}
+                    y={cy - PROFILE_RADIUS}
+                    width={PROFILE_RADIUS * 2}
+                    height={PROFILE_RADIUS * 2}
+                    initial={{ opacity: 0 }}
+                >
+                    <Image src={image} alt="Profile" width={PROFILE_RADIUS * 2} height={PROFILE_RADIUS * 2} />
+                </motion.foreignObject>
+            </g>
+        </g>
+    );
+};
+
+
 export default function AnimatedCircles() {
     const [scope, animate] = useAnimate();
     
@@ -61,7 +119,6 @@ export default function AnimatedCircles() {
             setTimeout(res, ms);
         });
 
-        // Big circle 'T' animation
         const tPath = scope.current.querySelector('#t-path');
         if (tPath) {
             const tPathLength = (tPath as SVGPathElement).getTotalLength();
@@ -78,13 +135,11 @@ export default function AnimatedCircles() {
             );
         }
 
-        const animateOn = async (circle: any) => {
+        const animateOn = async (circle: any, showProfile: boolean) => {
             const randomRotation = Math.random() * 360;
-            const randomStrokePercent = Math.random() * 0.25 + 0.65; // 65% to 90%
-            // The large gap in the dash array is key to preventing the "leftover stroke" artifact
+            const randomStrokePercent = Math.random() * 0.25 + 0.65;
             const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE * 2}`; 
 
-            // Set initial properties for the animation
             animate(
                 `#${circle.id}-stroke`,
                 {
@@ -96,39 +151,46 @@ export default function AnimatedCircles() {
                 { duration: 0 }
             );
 
-            // Animate the stroke into view
             await animate(
                 `#${circle.id}-stroke`,
                 { strokeDashoffset: 0 },
                 { duration: 1.5, ease: 'circOut' }
             );
+            
+            if (showProfile) {
+                animate(`#${circle.id} .profile-clip`, { scale: 1 }, { duration: 1.5, ease: 'circOut' });
+                animate(`#${circle.id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 1.5 });
+            }
         };
 
         const animateOff = async (circle: any) => {
-            // Animate the stroke out of view
             await animate(
                 `#${circle.id}-stroke`,
                 { strokeDashoffset: -SMALL_CIRCUMFERENCE },
                 { duration: 1.5, ease: 'circIn' }
             );
+
+            if (circle.hasProfile) {
+                animate(`#${circle.id} .profile-image-container`, { opacity: 0 }, { duration: 1.5, ease: 'circIn' });
+                animate(`#${circle.id} .profile-clip`, { scale: 0 }, { at: '<', duration: 1.5 });
+            }
         };
 
         const runSmallCircleAnimation = async () => {
             await sleep(1000); 
 
             const activeCircleQueue: any[] = [];
-            const DISPLAY_WINDOW = 7; // How many circles are "on" at once
+            const DISPLAY_WINDOW = 7;
             let animationIndex = 0;
             let shuffledCircles = shuffle(allSmallCircles);
 
             while (!isCancelled) {
                 const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
-                activeCircleQueue.push(circleOn);
+                const showProfile = Math.random() > 0.65;
+                activeCircleQueue.push({ ...circleOn, hasProfile: showProfile });
 
-                // Animate the new circle ON
-                animateOn(circleOn);
+                animateOn(circleOn, showProfile);
                 
-                // If the queue is full, animate the oldest circle OFF
                 if (activeCircleQueue.length > DISPLAY_WINDOW) {
                     const circleOff = activeCircleQueue.shift();
                     if (circleOff) {
@@ -142,7 +204,7 @@ export default function AnimatedCircles() {
                     shuffledCircles = shuffle(allSmallCircles);
                 }
 
-                await sleep(400); // Time between each new circle appearing
+                await sleep(400);
             }
         };
 
@@ -165,28 +227,13 @@ export default function AnimatedCircles() {
                 </defs>
 
                 {allSmallCircles.map(circle => (
-                    <g key={circle.id}>
-                        <circle
-                            cx={circle.cx}
-                            cy={circle.cy}
-                            r={SMALL_CIRCLE_RADIUS}
-                            fill="none"
-                            stroke="#abe9ef"
-                            strokeOpacity={0.3}
-                            strokeWidth={STROKE_WIDTH}
-                        />
-                        <motion.circle
-                            id={`${circle.id}-stroke`}
-                            cx={circle.cx}
-                            cy={circle.cy}
-                            r={SMALL_CIRCLE_RADIUS}
-                            fill="none"
-                            stroke="transparent"
-                            strokeWidth={STROKE_WIDTH}
-                            initial={{ strokeDashoffset: SMALL_CIRCUMFERENCE }}
-                            strokeLinecap="round"
-                        />
-                    </g>
+                   <AnimatedCircle
+                        key={circle.key}
+                        id={circle.id}
+                        cx={circle.cx}
+                        cy={circle.cy}
+                        image={circle.image}
+                   />
                 ))}
 
                 <g>
