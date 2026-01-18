@@ -87,7 +87,7 @@ export default function Header() {
   }, []);
 
   return (
-<header className="relative z-50 w-full bg-[#FCFBF8] text-black font-body">
+<header className="relative z-50 w-full bg-[#ffffff] text-black font-body">
 <div className="bg-[#F5D34A]/80 w-full text-center p-2 text-sm">
         TelSys is hiring! Explore our positions and{" "}
         <a href="/careers" className="underline hover:opacity-80">
