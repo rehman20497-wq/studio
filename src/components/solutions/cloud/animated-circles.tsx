@@ -56,20 +56,6 @@ export default function AnimatedCircles() {
         let isCancelled = false;
         if (!scope.current) return;
 
-        const pairsByRow = new Map<number, [any,any][]>();
-        allSmallCircles.forEach(c1 => {
-            const row = c1.row;
-            if (!pairsByRow.has(row)) {
-                pairsByRow.set(row, []);
-            }
-            // Find horizontal neighbor to the right
-            const c2 = allSmallCircles.find(c => c.row === row && c.col === c1.col + 1);
-            if (c2) {
-                pairsByRow.get(row)?.push([c1, c2]);
-            }
-        });
-
-
         const sleep = (ms: number) => new Promise(res => {
             if (isCancelled) return;
             setTimeout(res, ms);
@@ -94,9 +80,11 @@ export default function AnimatedCircles() {
 
         const animateOn = async (circle: any) => {
             const randomRotation = Math.random() * 360;
-            const randomStrokePercent = Math.random() * 0.25 + 0.7; // 70% to 95%
-            const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE}`;
+            const randomStrokePercent = Math.random() * 0.25 + 0.65; // 65% to 90%
+            // The large gap in the dash array is key to preventing the "leftover stroke" artifact
+            const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE * 2}`; 
 
+            // Set initial properties for the animation
             animate(
                 `#${circle.id}-stroke`,
                 {
@@ -108,6 +96,7 @@ export default function AnimatedCircles() {
                 { duration: 0 }
             );
 
+            // Animate the stroke into view
             await animate(
                 `#${circle.id}-stroke`,
                 { strokeDashoffset: 0 },
@@ -116,6 +105,7 @@ export default function AnimatedCircles() {
         };
 
         const animateOff = async (circle: any) => {
+            // Animate the stroke out of view
             await animate(
                 `#${circle.id}-stroke`,
                 { strokeDashoffset: -SMALL_CIRCUMFERENCE },
@@ -124,34 +114,35 @@ export default function AnimatedCircles() {
         };
 
         const runSmallCircleAnimation = async () => {
-            await sleep(1000); // Initial delay
+            await sleep(1000); 
+
+            const activeCircleQueue: any[] = [];
+            const DISPLAY_WINDOW = 7; // How many circles are "on" at once
+            let animationIndex = 0;
+            let shuffledCircles = shuffle(allSmallCircles);
+
             while (!isCancelled) {
-                const pairsToAnimate: [any, any][] = [];
-                for (const pairs of pairsByRow.values()) {
-                    if (pairs.length > 0) {
-                        const randomIndex = Math.floor(Math.random() * pairs.length);
-                        pairsToAnimate.push(pairs[randomIndex]);
+                const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
+                activeCircleQueue.push(circleOn);
+
+                // Animate the new circle ON
+                animateOn(circleOn);
+                
+                // If the queue is full, animate the oldest circle OFF
+                if (activeCircleQueue.length > DISPLAY_WINDOW) {
+                    const circleOff = activeCircleQueue.shift();
+                    if (circleOff) {
+                       animateOff(circleOff);
                     }
                 }
 
-                const animateOnPromises = pairsToAnimate.map(async ([c1, c2]) => {
-                    await animateOn(c1);
-                    if (isCancelled) return;
-                    await animateOn(c2);
-                });
-                await Promise.all(animateOnPromises);
+                animationIndex++;
+                if (animationIndex >= shuffledCircles.length) {
+                    animationIndex = 0;
+                    shuffledCircles = shuffle(allSmallCircles);
+                }
 
-                await sleep(2500);
-                if (isCancelled) return;
-
-                const animateOffPromises = pairsToAnimate.map(async ([c1, c2]) => {
-                    await animateOff(c1);
-                    if (isCancelled) return;
-                    await animateOff(c2);
-                });
-                await Promise.all(animateOffPromises);
-
-                await sleep(500);
+                await sleep(400); // Time between each new circle appearing
             }
         };
 
