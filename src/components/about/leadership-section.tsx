@@ -104,7 +104,7 @@ const TeamMemberCard = ({
 }) => (
   <motion.div 
     variants={cardVariants} 
-    className="flex flex-col w-[268px] h-[310px]"
+    className="flex flex-col w-full max-w-[268px] h-[310px]"
     whileHover={{ scale: 1.05, y: -10 }}
     transition={{ type: 'spring', stiffness: 300 }}
   >
@@ -156,13 +156,13 @@ export default function LeadershipSection() {
             width={40}
             height={40}
           />
-          <h2 className="text-4xl font-headline font-medium text-zinc-900">
+          <h2 className="text-[46px] font-headline font-medium text-zinc-900">
             Our leadership
           </h2>
         </motion.div>
 
         <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center"
             variants={containerVariants}
         >
           {leadershipTeam.map((member, index) => (
