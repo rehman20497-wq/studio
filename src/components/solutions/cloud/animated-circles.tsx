@@ -135,73 +135,117 @@ export default function AnimatedCircles() {
             );
         }
 
-        const animateOn = async (circle: any, showProfile: boolean) => {
-            const randomRotation = Math.random() * 360;
-            const randomStrokePercent = Math.random() * 0.25 + 0.65;
-            const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE * 2}`; 
-
-            animate(
-                `#${circle.id}-stroke`,
-                {
-                    strokeDasharray: dashArray,
-                    rotate: randomRotation,
-                    strokeDashoffset: SMALL_CIRCUMFERENCE,
-                    stroke: '#0badbf',
-                },
-                { duration: 0 }
-            );
-
-            await animate(
-                `#${circle.id}-stroke`,
-                { strokeDashoffset: 0 },
-                { duration: 1.5, ease: 'circOut' }
-            );
-            
-            if (showProfile) {
-                animate(`#${circle.id} .profile-clip`, { scale: 1 }, { duration: 1.5, ease: 'circOut' });
-                animate(`#${circle.id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 1.5 });
-            }
-        };
-
-        const animateOff = async (circle: any) => {
-            await animate(
-                `#${circle.id}-stroke`,
-                { strokeDashoffset: -SMALL_CIRCUMFERENCE },
-                { duration: 1.5, ease: 'circIn' }
-            );
-
-            if (circle.hasProfile) {
-                animate(`#${circle.id} .profile-image-container`, { opacity: 0 }, { duration: 1.5, ease: 'circIn' });
-                animate(`#${circle.id} .profile-clip`, { scale: 0 }, { at: '<', duration: 1.5 });
-            }
-        };
-
         const runSmallCircleAnimation = async () => {
             await sleep(1000); 
 
             const activeCircleQueue: any[] = [];
+            let profilesByRow: Record<number, number[]> = {};
             const DISPLAY_WINDOW = 7;
             let animationIndex = 0;
             let shuffledCircles = shuffle(allSmallCircles);
 
-            while (!isCancelled) {
-                const circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
-                const showProfile = Math.random() > 0.65;
-                activeCircleQueue.push({ ...circleOn, hasProfile: showProfile });
+            const canShowProfile = (circle: any) => {
+                const rowProfiles = profilesByRow[circle.row] || [];
+                if (rowProfiles.length >= 2) return false;
+                if (Math.random() > 0.3) return false;
+                
+                if (rowProfiles.length === 1) {
+                    const existingCol = rowProfiles[0];
+                    if (Math.abs(existingCol - circle.col) <= 1) return false;
+                }
+                return true;
+            };
 
-                animateOn(circleOn, showProfile);
+            const addProfile = (circle: any) => {
+                if (!profilesByRow[circle.row]) profilesByRow[circle.row] = [];
+                profilesByRow[circle.row].push(circle.col);
+            };
+
+            const removeProfile = (circle: any) => {
+                if (profilesByRow[circle.row]) {
+                    profilesByRow[circle.row] = profilesByRow[circle.row].filter(c => c !== circle.col);
+                }
+            };
+            
+            const animateOn = async (circle: any, showProfile: boolean) => {
+                const randomRotation = Math.random() * 360;
+                const randomStrokePercent = Math.random() * 0.25 + 0.65;
+                const dashArray = `${SMALL_CIRCUMFERENCE * randomStrokePercent} ${SMALL_CIRCUMFERENCE * 2}`; 
+
+                animate(
+                    `#${circle.id}-stroke`,
+                    {
+                        strokeDasharray: dashArray,
+                        rotate: randomRotation,
+                        strokeDashoffset: SMALL_CIRCUMFERENCE,
+                        stroke: '#0badbf',
+                    },
+                    { duration: 0 }
+                );
+
+                await animate(
+                    `#${circle.id}-stroke`,
+                    { strokeDashoffset: 0 },
+                    { duration: 1.5, ease: 'circOut' }
+                );
+                
+                if (showProfile) {
+                    animate(`#${circle.id} .profile-clip`, { scale: 1 }, { duration: 1.5, ease: 'circOut' });
+                    animate(`#${circle.id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 1.5 });
+                }
+            };
+
+            const animateOff = async (circle: any) => {
+                if (circle.hasProfile) {
+                    removeProfile(circle);
+                    animate(`#${circle.id} .profile-clip`, { scale: 0 }, { duration: 1, ease: 'easeOut' });
+                    animate(`#${circle.id} .profile-image-container`, { opacity: 0 }, { at: '<', duration: 1 });
+                }
+
+                await animate(
+                    `#${circle.id}-stroke`,
+                    { strokeDashoffset: -SMALL_CIRCUMFERENCE },
+                    { duration: 1.5, ease: 'circIn' }
+                );
+                
+                animate(`#${circle.id}-stroke`, { stroke: "transparent" }, { duration: 0 });
+            };
+
+
+            while (!isCancelled) {
+                let circleOn;
+                let isAlreadyActive;
+                
+                do {
+                    circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
+                    isAlreadyActive = activeCircleQueue.some(c => c.id === circleOn.id);
+                    animationIndex++;
+                    if (animationIndex >= shuffledCircles.length) {
+                        animationIndex = 0;
+                        shuffledCircles = shuffle(allSmallCircles);
+                    }
+                } while (isAlreadyActive && activeCircleQueue.length < shuffledCircles.length);
+                
+                if (isAlreadyActive) {
+                    await sleep(400);
+                    continue;
+                }
+                
+                const showProfile = canShowProfile(circleOn);
+                if (showProfile) {
+                    addProfile(circleOn);
+                }
+
+                const activeCircle = { ...circleOn, hasProfile: showProfile };
+                activeCircleQueue.push(activeCircle);
+
+                animateOn(activeCircle, showProfile);
                 
                 if (activeCircleQueue.length > DISPLAY_WINDOW) {
                     const circleOff = activeCircleQueue.shift();
                     if (circleOff) {
                        animateOff(circleOff);
                     }
-                }
-
-                animationIndex++;
-                if (animationIndex >= shuffledCircles.length) {
-                    animationIndex = 0;
-                    shuffledCircles = shuffle(allSmallCircles);
                 }
 
                 await sleep(400);
