@@ -122,6 +122,10 @@ export default {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-100%)' },
         },
+        'marquee-right': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
         'marching-ants': {
           'from': { 'stroke-dashoffset': '20' },
           'to': { 'stroke-dashoffset': '0' },
@@ -167,6 +171,7 @@ export default {
         'draw-underline': 'draw-underline 0.5s ease-out 0.3s forwards',
         'marquee': 'marquee 60s linear infinite',
         'marquee-partner': 'marquee 40s linear infinite',
+        'marquee-right': 'marquee-right 60s linear infinite',
         'marching-ants': 'marching-ants 1s linear infinite',
         'spin-slow': 'spin-slow 20s linear infinite',
         'gradient-flow': 'gradient-flow 15s ease infinite',

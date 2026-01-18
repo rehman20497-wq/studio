@@ -55,7 +55,7 @@ export default function Hero() {
   return (
     <motion.section
       ref={ref}
-      className="relative min-h-screen flex items-center bg-[#E0F7FA] rounded-3xl mx-[4%] my-4 overflow-hidden"
+      className="relative min-h-screen flex items-center bg-[#E0F7FA] rounded-t-3xl mx-[4%] mt-4 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
