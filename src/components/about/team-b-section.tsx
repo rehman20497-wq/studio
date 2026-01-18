@@ -91,7 +91,7 @@ export default function TeamBSection() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="text-center md:text-left">
           <h2 className="text-[49px] leading-[52px] text-black font-headline font-normal">
             Our Commitment to Quality
           </h2>

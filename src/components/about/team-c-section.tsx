@@ -51,7 +51,7 @@ export default function TeamCSection() {
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div variants={itemVariants} className="md:pr-8">
+        <motion.div variants={itemVariants} className="md:pr-8 text-center md:text-left">
           <h2 className="text-[49px] leading-[52px] text-black font-headline font-normal">
             Driving Innovation Together
           </h2>
