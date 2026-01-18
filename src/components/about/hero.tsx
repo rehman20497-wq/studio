@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -80,13 +79,13 @@ export default function Hero() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h1
-          className="text-7xl font-bold text-zinc-900 font-headline"
+          className="text-[72px] font-normal text-black font-headline"
           variants={textVariants}
         >
           We've Decoded the <br /> Science of Excellence.
         </motion.h1>
         <motion.p
-          className="mt-6 text-lg text-zinc-600 max-w-2xl mx-auto"
+          className="mt-6 text-[16px] text-zinc-600 max-w-2xl mx-auto"
           variants={textVariants}
         >
           Qp x Qs → MPO. It's an equation we've consistently harnessed to deliver
@@ -96,19 +95,19 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
+        className="mt-12 flex flex-row items-center justify-center gap-4"
         variants={buttonContainerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div variants={slideInLeft}>
             <MagneticButton>
-                <span className="text-[15px] font-medium px-4">See Open Roles</span>
+                <span className="text-[15px] font-bold px-4">See Open Roles</span>
             </MagneticButton>
         </motion.div>
         <motion.div variants={slideInRight}>
             <MagneticButton>
-                <span className="text-[15px] font-medium px-4">Build Your Team</span>
+                <span className="text-[15px] font-bold px-4">Build Your Team</span>
             </MagneticButton>
         </motion.div>
       </motion.div>

@@ -106,7 +106,7 @@ export default function CareerTestimonial() {
   const currentTestimonial = testimonials[index];
 
   return (
-    <div ref={ref} className="bg-[#FEF9F2] py-[2%] px-[9%] overflow-hidden">
+    <div ref={ref} className="bg-[#ffffff] py-[2%] px-[9%] overflow-hidden">
       <motion.div
         className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16"
         variants={containerVariants}

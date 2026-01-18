@@ -131,7 +131,7 @@ export default function WhyChooseSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] py-24 px-4">
+    <section ref={ref} className="bg-[#fffef9] py-24 px-4">
       <motion.div
         className="max-w-6xl mx-auto text-center relative"
         variants={containerVariants}
@@ -141,7 +141,8 @@ export default function WhyChooseSection() {
         {/* ONLY CHANGE: arrow removed from layout flow */}
         <motion.div
           variants={imageVariants}
-          className="absolute w-16 h-16 left-52 top-0"
+          className="absolute w-16 h-16 left-52 -top-10 sm:-top-6 md:top-0"
+
         >
           <Image src="/why.gif" alt="arrow down" fill unoptimized />
         </motion.div>

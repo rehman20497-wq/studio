@@ -109,7 +109,7 @@ export default function BaselineSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] py-4 md:py-24 px-4">
+    <section ref={ref} className="bg-[#ffffff] py-4 md:py-24 px-4">
       <motion.div
         className="max-w-5xl mx-auto text-center"
         variants={containerVariants}
