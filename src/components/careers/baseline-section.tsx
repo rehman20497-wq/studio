@@ -109,7 +109,7 @@ export default function BaselineSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] py-24 px-4">
+    <section ref={ref} className="bg-[#FCFBF8] py-4 md:py-24 px-4">
       <motion.div
         className="max-w-5xl mx-auto text-center"
         variants={containerVariants}
@@ -164,7 +164,7 @@ export default function BaselineSection() {
         </div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-4 md:gap-y-20"
           variants={cardContainerVariants}
         >
           {cards.map((card, index) => (
