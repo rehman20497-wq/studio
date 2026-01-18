@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -60,7 +59,7 @@ export default function Hero() {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="container mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
+      <div className="container mx-auto px-[4%] py-12 grid md:grid-cols-2 gap-8 items-center">
         <motion.div
             variants={contentContainerVariants}
         >

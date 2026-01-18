@@ -29,7 +29,7 @@ const getCircleId = (row: number, col: number) => `cloud-circle-${row}-${col}`;
 const specialContentMap: { [key: string]: React.ReactNode | string } = {
     'cloud-circle-1-0': <MessageSquare className="w-6 h-6 text-black" />,
     'cloud-circle-1-2': <Mail className="w-6 h-6 text-black" />,
-    'cloud-circle-1-4': <div className="text-black font-bold">3</div>,
+    'cloud-circle-1-4': <div className="text-black font-bold text-2xl">3</div>,
     'cloud-circle-2-0': profileImages[0],
     'cloud-circle-2-2': profileImages[1],
     'cloud-circle-2-4': profileImages[2],
@@ -50,22 +50,58 @@ const generateInitialLayout = () => {
     );
 };
 
-const AnimatedCircle = ({ cx, cy, id, content }: { cx: number; cy: number; id: string; content?: React.ReactNode | string }) => {
+const AnimatedCircle = ({ cx, cy, id, content, delay }: { cx: number; cy: number; id: string; content?: React.ReactNode | string, delay: number }) => {
     const isImage = typeof content === 'string' && content.startsWith('https://');
+
+    const circleVariants = {
+        hidden: { 
+            scale: 0, 
+            opacity: 0 
+        },
+        visible: {
+            scale: 1,
+            opacity: 1,
+            transition: {
+                type: 'spring',
+                stiffness: 100,
+                damping: 15,
+                delay: delay * 0.05
+            }
+        }
+    };
+    
+    const pulseVariants = {
+      animate: {
+        scale: [1, 1.05, 1],
+        transition: {
+          duration: 3,
+          ease: "easeInOut",
+          repeat: Infinity,
+          delay: delay * 0.2
+        },
+      },
+    };
+
     return (
-        <g id={id}>
-            <circle cx={cx} cy={cy} r={CIRCLE_RADIUS} fill="white" fillOpacity="0.3" />
-            <motion.circle
+        <motion.g id={id} variants={circleVariants}>
+            <motion.circle 
+              cx={cx} 
+              cy={cy} 
+              r={CIRCLE_RADIUS} 
+              fill="white" 
+              fillOpacity="0.5" 
+              variants={pulseVariants}
+              animate="animate"
+            />
+            <circle
                 className="stroke-circle"
                 cx={cx}
                 cy={cy}
                 r={CIRCLE_RADIUS}
                 fill="none"
                 stroke="#00BCD4"
-                strokeWidth={STROKE_WIDTH}
-                strokeDasharray={`${CIRCUMFERENCE}`}
-                strokeDashoffset={CIRCUMFERENCE}
-                strokeLinecap="round"
+                strokeOpacity="0.4"
+                strokeWidth={STROKE_WIDTH / 2}
             />
             {content && (
                 <foreignObject
@@ -76,7 +112,7 @@ const AnimatedCircle = ({ cx, cy, id, content }: { cx: number; cy: number; id: s
                 >
                     <div className="w-full h-full flex items-center justify-center">
                         {isImage ? (
-                             <div className="relative w-14 h-14 rounded-full overflow-hidden">
+                             <div className="relative w-14 h-14 rounded-full overflow-hidden shadow-inner">
                                 <Image src={content as string} alt="profile" fill className="object-cover" />
                              </div>
                         ) : (
@@ -87,83 +123,16 @@ const AnimatedCircle = ({ cx, cy, id, content }: { cx: number; cy: number; id: s
                     </div>
                 </foreignObject>
             )}
-        </g>
+        </motion.g>
     );
 };
 
 export default function AnimatedCircles() {
-    const [scope, animate] = useAnimate();
     const [layout] = useState(generateInitialLayout);
     const allCirclesFlat = useMemo(() => layout.flat(), [layout]);
     const inViewRef = useRef(null);
-    const isInView = useInView(inViewRef, { once: false, amount: 0.5 });
+    const isInView = useInView(inViewRef, { once: true, amount: 0.5 });
 
-
-    const shuffle = useCallback((array: any[]) => {
-        return [...array].sort(() => 0.5 - Math.random());
-    }, []);
-
-    useEffect(() => {
-        if (!isInView) return;
-
-        const sequence = [
-            // C shape
-            [getCircleId(0, 2), getCircleId(0, 1), getCircleId(1, 1), getCircleId(2, 1), getCircleId(2, 2)],
-            // S shape
-            [getCircleId(1, 3), getCircleId(0, 3), getCircleId(0, 4), getCircleId(1, 4), getCircleId(2, 4), getCircleId(2, 3)],
-            // Large C
-            [getCircleId(0, 0), getCircleId(1, 0), getCircleId(2, 0), getCircleId(3, 0), getCircleId(3, 1), getCircleId(3, 2), getCircleId(3, 3), getCircleId(3, 4)],
-        ];
-
-        let isCancelled = false;
-
-        const animateSnake = async (path: string[], duration: number) => {
-            const pathLength = path.length;
-            const segmentDuration = duration / pathLength;
-            
-            for (let i = 0; i < pathLength; i++) {
-                if (isCancelled) return;
-                const circleId = path[i];
-                animate(
-                    `#${'\'\'\''}${circleId}{\'\'\'\'' .stroke-circle`,
-                    { strokeDashoffset: [CIRCUMFERENCE, 0] },
-                    { duration: segmentDuration, at: `+${(i * segmentDuration) * 0.5}` }
-                );
-            }
-             await new Promise(res => setTimeout(res, duration * 1000 * 1.2));
-             if (isCancelled) return;
-            for (let i = 0; i < pathLength; i++) {
-                 if (isCancelled) return;
-                const circleId = path[i];
-                animate(
-                    `#${'\'\'\''}${circleId}{\'\'\'\'' .stroke-circle`,
-                    { strokeDashoffset: CIRCUMFERENCE },
-                    { duration: segmentDuration, at: `+${(i * segmentDuration) * 0.5}` }
-                );
-            }
-        };
-
-        const runAnimation = async () => {
-            while(!isCancelled) {
-                const shuffledSequence = shuffle(sequence);
-                await animateSnake(shuffledSequence[0], 4);
-                if (isCancelled) return;
-                await new Promise(res => setTimeout(res, 500));
-                 if (isCancelled) return;
-                await animateSnake(shuffledSequence[1], 5);
-                 if (isCancelled) return;
-                await new Promise(res => setTimeout(res, 500));
-                 if (isCancelled) return;
-                await animateSnake(shuffledSequence[2], 7);
-                 if (isCancelled) return;
-                await new Promise(res => setTimeout(res, 1000));
-            }
-        }
-        
-        runAnimation();
-        return () => { isCancelled = true; };
-
-    }, [isInView, animate, shuffle]);
 
     const viewBoxWidth = BOX_SIZE * 5;
     const viewBoxHeight = BOX_SIZE * 4;
@@ -171,24 +140,23 @@ export default function AnimatedCircles() {
     return (
         <div ref={inViewRef} className="w-full h-full flex items-center justify-center">
             <motion.svg 
-                ref={scope}
                 viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} 
-                className="w-full h-auto max-w-md aspect-square"
+                className="w-full h-auto max-w-md"
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 variants={{
                     visible: { transition: { staggerChildren: 0.05 } }
                 }}
             >
-                {allCirclesFlat.map(({ id, cx, cy, content }) => 
-                    <motion.g key={id} variants={{hidden: {opacity: 0, scale: 0.8}, visible: {opacity: 1, scale: 1}}}>
-                        <AnimatedCircle 
-                            id={id} 
-                            cx={cx} 
-                            cy={cy}
-                            content={content}
-                        />
-                    </motion.g>
+                {allCirclesFlat.map(({ id, cx, cy, content }, index) => 
+                    <AnimatedCircle 
+                        key={id} 
+                        id={id} 
+                        cx={cx} 
+                        cy={cy}
+                        content={content}
+                        delay={index}
+                    />
                 )}
             </motion.svg>
         </div>
