@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -172,7 +173,7 @@ export default function Hero() {
 
       {/* Center Content */}
       <motion.div
-        className="relative z-10 max-w-4xl mx-auto pt-28 md:pt-28 pb-12 md:pb-0 text-center"
+        className="relative z-10 max-w-4xl mx-auto pt-[2%] md:pt-28 pb-12 md:pb-0 text-center"
         variants={textContentVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
