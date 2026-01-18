@@ -44,9 +44,9 @@ export default function TeamBSection() {
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section ref={ref} className="bg-[#fff9e6] py-24 px-4">
+    <section ref={ref} className="bg-[#fff9e6] py-2 md:py-4 px-4">
       <motion.div
-        className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16 items-center"
+        className="max-w-6xl mx-auto flex flex-col-reverse md:grid md:grid-cols-2 gap-8 md:gap-16 items-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
