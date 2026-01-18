@@ -5,7 +5,7 @@ import React, { useMemo, useRef } from 'react';
 
 const SMALL_CIRCLE_RADIUS = 12;
 const BIG_CIRCLE_RADIUS = 45;
-const SPACING = 8;
+const SPACING = 0; // Circles will touch
 const COLS = 7;
 const ROWS_TOP = 3;
 const ROWS_BOTTOM = 2;
@@ -77,11 +77,6 @@ const bigCircleVariants = {
     },
 };
 
-const pulseVariant = {
-  scale: [1, 1.15, 1],
-  opacity: [0.5, 1, 0.5]
-};
-
 export default function AnimatedCircles() {
     const inViewRef = useRef(null);
     const isInView = useInView(inViewRef, { once: true, amount: 0.5 });
@@ -105,37 +100,6 @@ export default function AnimatedCircles() {
                     </filter>
                 </defs>
 
-                {/* Connecting lines */}
-                {allSmallCircles.map((circle, i) => {
-                    const nextCircleHorizontalIndex = i + 1;
-                    const nextCircleHorizontal = (i % COLS < COLS - 1) ? allSmallCircles[nextCircleHorizontalIndex] : null;
-                    
-                    const nextCircleVerticalIndex = i + COLS;
-                    const nextCircleVertical = allSmallCircles[nextCircleVerticalIndex];
-
-                    return (
-                        <g key={`lines-${circle.id}`}>
-                            {nextCircleHorizontal && (
-                                <motion.line
-                                    x1={circle.cx} y1={circle.cy}
-                                    x2={nextCircleHorizontal.cx} y2={nextCircleHorizontal.cy}
-                                    stroke="#00BCD4" strokeOpacity="0.2" strokeWidth="1"
-                                    variants={circleVariants} custom={i}
-                                />
-                            )}
-                            {nextCircleVertical && (
-                                 <motion.line
-                                    x1={circle.cx} y1={circle.cy}
-                                    x2={nextCircleVertical.cx} y2={nextCircleVertical.cy}
-                                    stroke="#00BCD4" strokeOpacity="0.2" strokeWidth="1"
-                                    variants={circleVariants} custom={i}
-                                />
-                            )}
-                        </g>
-                    )
-                })}
-
-
                 {/* Small circles */}
                 {allSmallCircles.map((circle, i) => (
                     <motion.circle
@@ -143,8 +107,7 @@ export default function AnimatedCircles() {
                         cx={circle.cx}
                         cy={circle.cy}
                         r={SMALL_CIRCLE_RADIUS}
-                        fill="white"
-                        fillOpacity="0.7"
+                        fill="none"
                         stroke="#00BCD4"
                         strokeWidth="2"
                         custom={i}
@@ -159,33 +122,10 @@ export default function AnimatedCircles() {
                     cy={bigCircle.cy}
                     r={BIG_CIRCLE_RADIUS}
                     fill="#00BCD4"
-                    stroke="white"
-                    strokeWidth="4"
+                    stroke="none"
                     variants={bigCircleVariants}
                     filter="url(#glow-filter)"
                 />
-
-                {/* Pulsing highlights */}
-                 {allSmallCircles.map((circle, i) => (
-                    <motion.circle
-                        key={`pulse-${circle.id}`}
-                        cx={circle.cx}
-                        cy={circle.cy}
-                        r={SMALL_CIRCLE_RADIUS / 2.5}
-                        fill="white"
-                        custom={i}
-                        animate={{
-                            scale: [1, 1.3, 1],
-                            opacity: [0.6, 1, 0.6]
-                        }}
-                        transition={{
-                            duration: 2 + Math.random() * 3,
-                            ease: "easeInOut",
-                            repeat: Infinity,
-                            delay: i * 0.05
-                        }}
-                    />
-                ))}
             </motion.svg>
         </div>
     );
