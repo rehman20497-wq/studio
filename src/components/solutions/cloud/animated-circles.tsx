@@ -151,9 +151,13 @@ export default function AnimatedCircles() {
         const runSmallCircleAnimation = async () => {
             await sleep(1000); 
 
-            const activeCircleQueue: any[] = [];
+            let activeCircleQueue: any[] = [];
             let profilesByRow: Record<number, number[]> = {};
-            const DISPLAY_WINDOW = 7;
+            
+            const NORMAL_LIFESPAN = 3200; // Lifespan for a circle without an image
+            const PROFILE_LIFESPAN = 6000; // Lifespan for a circle with an image
+            const ADD_INTERVAL = 400; // Interval to add a new circle
+
             let animationIndex = 0;
             let shuffledCircles = shuffle(allSmallCircles);
 
@@ -196,7 +200,7 @@ export default function AnimatedCircles() {
                     { duration: 0 }
                 );
 
-                await animate(
+                animate(
                     `#${circle.id}-stroke`,
                     { strokeDashoffset: 0 },
                     { duration: 1.5, ease: 'circOut' }
@@ -211,8 +215,10 @@ export default function AnimatedCircles() {
             const animateOff = async (circle: any) => {
                 if (circle.hasProfile) {
                     removeProfile(circle);
-                    animate(`#${circle.id} .profile-clip`, { scale: 0 }, { duration: 1, ease: 'easeOut' });
-                    animate(`#${circle.id} .profile-image-container`, { opacity: 0 }, { at: '<', duration: 1 });
+                    await Promise.all([
+                        animate(`#${circle.id} .profile-clip`, { scale: 0 }, { duration: 1, ease: 'easeOut' }),
+                        animate(`#${circle.id} .profile-image-container`, { opacity: 0 }, { duration: 1 })
+                    ]);
                 }
 
                 await animate(
@@ -226,8 +232,20 @@ export default function AnimatedCircles() {
 
 
             while (!isCancelled) {
+                // --- Part 1: Remove old circles ---
+                const now = Date.now();
+                const circlesToRemove = activeCircleQueue.filter(c => now >= c.removeAt);
+                if(circlesToRemove.length > 0) {
+                    activeCircleQueue = activeCircleQueue.filter(c => now < c.removeAt);
+                    for (const circle of circlesToRemove) {
+                        animateOff(circle);
+                    }
+                }
+
+                // --- Part 2: Add a new circle ---
                 let circleOn;
                 let isAlreadyActive;
+                let attempts = 0;
                 
                 do {
                     circleOn = shuffledCircles[animationIndex % shuffledCircles.length];
@@ -237,31 +255,27 @@ export default function AnimatedCircles() {
                         animationIndex = 0;
                         shuffledCircles = shuffle(allSmallCircles);
                     }
-                } while (isAlreadyActive && activeCircleQueue.length < shuffledCircles.length);
+                    attempts++;
+                } while (isAlreadyActive && attempts < shuffledCircles.length * 2);
                 
-                if (isAlreadyActive) {
-                    await sleep(400);
-                    continue;
-                }
-                
-                const showProfile = canShowProfile(circleOn);
-                if (showProfile) {
-                    addProfile(circleOn);
-                }
-
-                const activeCircle = { ...circleOn, hasProfile: showProfile };
-                activeCircleQueue.push(activeCircle);
-
-                animateOn(activeCircle, showProfile);
-                
-                if (activeCircleQueue.length > DISPLAY_WINDOW) {
-                    const circleOff = activeCircleQueue.shift();
-                    if (circleOff) {
-                       animateOff(circleOff);
+                if (!isAlreadyActive) {
+                    const showProfile = canShowProfile(circleOn);
+                    if (showProfile) {
+                        addProfile(circleOn);
                     }
-                }
 
-                await sleep(400);
+                    const lifespan = showProfile ? PROFILE_LIFESPAN : NORMAL_LIFESPAN;
+                    const activeCircle = { 
+                        ...circleOn, 
+                        hasProfile: showProfile,
+                        removeAt: Date.now() + lifespan
+                    };
+                    activeCircleQueue.push(activeCircle);
+
+                    animateOn(activeCircle, showProfile);
+                }
+                
+                await sleep(ADD_INTERVAL);
             }
         };
 
