@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useAnimate, useInView } from 'framer-motion';
@@ -72,8 +71,8 @@ const AnimatedCircle = ({ cx, cy, id, content }: { cx: number; cy: number; id: s
                 <foreignObject
                     x={cx - CIRCLE_RADIUS}
                     y={cy - CIRCLE_RADIUS}
-                    width={CIRCLE_RADIUS*2}
-                    height={CIRCLE_RADIUS*2}
+                    width={CIRCLE_RADIUS * 2}
+                    height={CIRCLE_RADIUS * 2}
                 >
                     <div className="w-full h-full flex items-center justify-center">
                         {isImage ? (
@@ -113,7 +112,7 @@ export default function AnimatedCircles() {
             // S shape
             [getCircleId(1, 3), getCircleId(0, 3), getCircleId(0, 4), getCircleId(1, 4), getCircleId(2, 4), getCircleId(2, 3)],
             // Large C
-            [getCircleId(0, 0), getCircleId(1, 0), getCircleId(2, 0), getCircleId(3,0), getCircleId(3,1), getCircleId(3,2), getCircleId(3,3), getCircleId(3,4)],
+            [getCircleId(0, 0), getCircleId(1, 0), getCircleId(2, 0), getCircleId(3, 0), getCircleId(3, 1), getCircleId(3, 2), getCircleId(3, 3), getCircleId(3, 4)],
         ];
 
         let isCancelled = false;
@@ -126,7 +125,7 @@ export default function AnimatedCircles() {
                 if (isCancelled) return;
                 const circleId = path[i];
                 animate(
-                    `#${circleId} .stroke-circle`,
+                    `#${'\'\'\''}${circleId}{\'\'\'\'' .stroke-circle`,
                     { strokeDashoffset: [CIRCUMFERENCE, 0] },
                     { duration: segmentDuration, at: `+${(i * segmentDuration) * 0.5}` }
                 );
@@ -137,7 +136,7 @@ export default function AnimatedCircles() {
                  if (isCancelled) return;
                 const circleId = path[i];
                 animate(
-                    `#${circleId} .stroke-circle`,
+                    `#${'\'\'\''}${circleId}{\'\'\'\'' .stroke-circle`,
                     { strokeDashoffset: CIRCUMFERENCE },
                     { duration: segmentDuration, at: `+${(i * segmentDuration) * 0.5}` }
                 );
@@ -191,16 +190,7 @@ export default function AnimatedCircles() {
                         />
                     </motion.g>
                 )}
-                 <motion.g
-                    initial={{opacity: 0, scale: 0.5}}
-                    animate={isInView ? {opacity: 1, scale: 1, transition: {delay: 1.5, type: 'spring'}} : {}}
-                 >
-                    <circle cx={BOX_SIZE * 2.5} cy={BOX_SIZE * 2.5} r={CIRCLE_RADIUS * 1.5} fill="#00BCD4" />
-                    <text x={BOX_SIZE * 2.5} y={BOX_SIZE * 2.5} textAnchor="middle" dy=".3em" fill="white" fontSize="40" className="font-bold">
-                       3
-                    </text>
-                </motion.g>
-            </svg>
+            </motion.svg>
         </div>
     );
 }
