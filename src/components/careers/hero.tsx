@@ -178,14 +178,14 @@ export default function Hero() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h1
-          className="text-[64px] leading-tight font-bold text-zinc-900 font-headline"
+          className="text-[72px] leading-tight font-normal text-black font-headline"
           variants={headingVariants}
         >
           Where Better Begins.
         </motion.h1>
 
         <motion.p
-          className="mt-6 text-lg text-zinc-600 max-w-2xl mx-auto"
+          className="mt-6 text-base text-black max-w-2xl mx-auto"
           variants={paragraphVariants}
         >
           At Hugo, we're built to drive better outcomes, create better opportunities
@@ -193,17 +193,17 @@ export default function Hero() {
           Join our global community as we shape the future of work.
         </motion.p>
 
-        <div className="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4">
+        <div className="mt-12 flex flex-row justify-center items-center gap-4">
           <motion.div variants={buttonVariants}>
             <MagneticButton>
-              <span className="text-[15px] font-medium px-5">
+              <span className="whitespace-nowrap text-[15px] font-bold px-5">
                 Corporate roles
               </span>
             </MagneticButton>
           </motion.div>
           <motion.div variants={buttonVariants}>
             <MagneticButton>
-              <span className="text-[15px] font-medium px-5">
+              <span className="whitespace-nowrap text-[15px] font-bold px-5">
                 Agent roles
               </span>
             </MagneticButton>
