@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -79,7 +80,7 @@ export default function Hero() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h1
-          className="text-[72px] font-normal text-black font-headline"
+          className="text-[72px] font-normal text-black font-headline leading-[72.5px]"
           variants={textVariants}
         >
           We've Decoded the <br /> Science of Excellence.
