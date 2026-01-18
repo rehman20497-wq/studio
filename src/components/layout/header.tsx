@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -47,7 +48,7 @@ const CloseIcon = ({ className }: { className?: string }) => (
 const solutions = [
     {
       title: "Cloud Solutions",
-      href: "/providers?solution=cloud-solutions",
+      href: "/solutions/cloud",
       icon: Cloud,
       description: "Scalable and secure cloud infrastructure."
     },
