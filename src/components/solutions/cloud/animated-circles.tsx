@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -109,7 +110,7 @@ export default function AnimatedCircles() {
                         r={SMALL_CIRCLE_RADIUS}
                         fill="none"
                         stroke="#abe9ef"
-                        strokeWidth="2"
+                        strokeWidth="4"
                         custom={i}
                         variants={circleVariants}
                     />
@@ -130,3 +131,4 @@ export default function AnimatedCircles() {
         </div>
     );
 }
+
