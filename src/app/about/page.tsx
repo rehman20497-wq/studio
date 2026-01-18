@@ -16,9 +16,7 @@ export default function AboutPage() {
       <main>
         <Hero />
         <StatsSection />
-        <div className="bg-[#fff9e6]">
-          <YellowBrushStroke />
-        </div>
+        <YellowBrushStroke />
         <TeamSection />
         <TeamBSection />
         <TeamCSection />
