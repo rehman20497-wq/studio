@@ -3,8 +3,8 @@
 import { motion, useInView } from 'framer-motion';
 import React, { useMemo, useRef } from 'react';
 
-const SMALL_CIRCLE_RADIUS = 12;
-const BIG_CIRCLE_RADIUS = 45;
+const SMALL_CIRCLE_RADIUS = 50;
+const BIG_CIRCLE_RADIUS = 92.5;
 const SPACING = 0; // Circles will touch
 const COLS = 7;
 const ROWS_TOP = 3;
@@ -108,7 +108,7 @@ export default function AnimatedCircles() {
                         cy={circle.cy}
                         r={SMALL_CIRCLE_RADIUS}
                         fill="none"
-                        stroke="#00BCD4"
+                        stroke="#abe9ef"
                         strokeWidth="2"
                         custom={i}
                         variants={circleVariants}
