@@ -1,163 +1,191 @@
 'use client';
 
-import { motion, useAnimate, useInView } from 'framer-motion';
-import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
-import Image from 'next/image';
-import { MessageSquare, Mail, Clock, CheckSquare, Heart } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import React, { useMemo, useRef } from 'react';
 
-const CIRCLE_RADIUS = 40;
-const STROKE_WIDTH = 10;
-const SPACING = 15;
-const BOX_SIZE = CIRCLE_RADIUS * 2 + SPACING;
-const CIRCUMFERENCE = 2 * Math.PI * (CIRCLE_RADIUS - STROKE_WIDTH / 2);
+const SMALL_CIRCLE_RADIUS = 12;
+const BIG_CIRCLE_RADIUS = 45;
+const SPACING = 8;
+const COLS = 7;
+const ROWS_TOP = 3;
+const ROWS_BOTTOM = 2;
 
-const GRID_LAYOUT_CONFIG = [
-    { row: 0, count: 5, offset: 0 },
-    { row: 1, count: 5, offset: 0 },
-    { row: 2, count: 5, offset: 0 },
-    { row: 3, count: 5, offset: 0 },
-];
+const SMALL_BOX_SIZE = SMALL_CIRCLE_RADIUS * 2 + SPACING;
 
-const profileImages = [
-    'https://picsum.photos/seed/prof1/80/80',
-    'https://picsum.photos/seed/prof2/80/80',
-    'https://picsum.photos/seed/prof3/80/80',
-];
+// Calculate total width and height for the viewBox
+const TOTAL_WIDTH = COLS * SMALL_BOX_SIZE - SPACING;
+const TOTAL_HEIGHT = (ROWS_TOP + ROWS_BOTTOM) * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 + SPACING * 2 - SPACING;
 
-const getCircleId = (row: number, col: number) => `cloud-circle-${row}-${col}`;
-
-const specialContentMap: { [key: string]: React.ReactNode | string } = {
-    'cloud-circle-1-0': <MessageSquare className="w-6 h-6 text-black" />,
-    'cloud-circle-1-2': <Mail className="w-6 h-6 text-black" />,
-    'cloud-circle-1-4': <div className="text-black font-bold text-2xl">3</div>,
-    'cloud-circle-2-0': profileImages[0],
-    'cloud-circle-2-2': profileImages[1],
-    'cloud-circle-2-4': profileImages[2],
-    'cloud-circle-3-1': <Clock className="w-6 h-6 text-black" />,
-    'cloud-circle-3-3': <CheckSquare className="w-6 h-6 text-black" />,
-    'cloud-circle-3-4': <Heart className="w-6 h-6 text-black" />,
+const generateCircles = (rows: number, cols: number, yOffset: number, idPrefix: string) => {
+    return Array.from({ length: rows * cols }).map((_, i) => {
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        return {
+            id: `${idPrefix}-${i}`,
+            cx: col * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
+            cy: yOffset + row * SMALL_BOX_SIZE + SMALL_CIRCLE_RADIUS,
+        };
+    });
 };
 
+const topCircles = generateCircles(ROWS_TOP, COLS, 0, 'top');
 
-const generateInitialLayout = () => {
-    return GRID_LAYOUT_CONFIG.map(({ row, count, offset }) =>
-        Array.from({ length: count }).map((_, colIndex) => ({
-            id: getCircleId(row, colIndex),
-            cx: (colIndex + offset) * BOX_SIZE + CIRCLE_RADIUS,
-            cy: row * BOX_SIZE + CIRCLE_RADIUS,
-            content: specialContentMap[getCircleId(row, colIndex)],
-        }))
-    );
+const bigCircle = {
+    id: 'big-center',
+    cx: TOTAL_WIDTH / 2,
+    cy: ROWS_TOP * SMALL_BOX_SIZE + SPACING + BIG_CIRCLE_RADIUS,
 };
 
-const AnimatedCircle = ({ cx, cy, id, content, delay }: { cx: number; cy: number; id: string; content?: React.ReactNode | string, delay: number }) => {
-    const isImage = typeof content === 'string' && content.startsWith('https://');
+const bottomCirclesYOffset = ROWS_TOP * SMALL_BOX_SIZE + BIG_CIRCLE_RADIUS * 2 + SPACING * 2;
+const bottomCircles = generateCircles(ROWS_BOTTOM, COLS, bottomCirclesYOffset, 'bottom');
 
-    const circleVariants = {
-        hidden: { 
-            scale: 0, 
-            opacity: 0 
-        },
-        visible: {
-            scale: 1,
-            opacity: 1,
-            transition: {
-                type: 'spring',
-                stiffness: 100,
-                damping: 15,
-                delay: delay * 0.05
-            }
-        }
-    };
-    
-    const pulseVariants = {
-      animate: {
-        scale: [1, 1.05, 1],
+const allSmallCircles = [...topCircles, ...bottomCircles];
+
+const containerVariants = {
+    hidden: {},
+    visible: {
         transition: {
-          duration: 3,
-          ease: "easeInOut",
-          repeat: Infinity,
-          delay: delay * 0.2
+            staggerChildren: 0.1,
         },
-      },
-    };
+    },
+};
 
-    return (
-        <motion.g id={id} variants={circleVariants}>
-            <motion.circle 
-              cx={cx} 
-              cy={cy} 
-              r={CIRCLE_RADIUS} 
-              fill="white" 
-              fillOpacity="0.5" 
-              variants={pulseVariants}
-              animate="animate"
-            />
-            <circle
-                className="stroke-circle"
-                cx={cx}
-                cy={cy}
-                r={CIRCLE_RADIUS}
-                fill="none"
-                stroke="#00BCD4"
-                strokeOpacity="0.4"
-                strokeWidth={STROKE_WIDTH / 2}
-            />
-            {content && (
-                <foreignObject
-                    x={cx - CIRCLE_RADIUS}
-                    y={cy - CIRCLE_RADIUS}
-                    width={CIRCLE_RADIUS * 2}
-                    height={CIRCLE_RADIUS * 2}
-                >
-                    <div className="w-full h-full flex items-center justify-center">
-                        {isImage ? (
-                             <div className="relative w-14 h-14 rounded-full overflow-hidden shadow-inner">
-                                <Image src={content as string} alt="profile" fill className="object-cover" />
-                             </div>
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                {content}
-                            </div>
-                        )}
-                    </div>
-                </foreignObject>
-            )}
-        </motion.g>
-    );
+const circleVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: (i: number) => ({
+        scale: 1,
+        opacity: 1,
+        transition: {
+            type: 'spring',
+            stiffness: 120,
+            damping: 18,
+            delay: i * 0.03,
+        },
+    }),
+};
+
+const bigCircleVariants = {
+    hidden: { scale: 0.5, opacity: 0 },
+    visible: {
+        scale: 1,
+        opacity: 1,
+        transition: {
+            delay: topCircles.length * 0.03,
+            duration: 1,
+            ease: [0.16, 1, 0.3, 1]
+        },
+    },
+};
+
+const pulseVariant = {
+  scale: [1, 1.15, 1],
+  opacity: [0.5, 1, 0.5]
 };
 
 export default function AnimatedCircles() {
-    const [layout] = useState(generateInitialLayout);
-    const allCirclesFlat = useMemo(() => layout.flat(), [layout]);
     const inViewRef = useRef(null);
     const isInView = useInView(inViewRef, { once: true, amount: 0.5 });
-
-
-    const viewBoxWidth = BOX_SIZE * 5;
-    const viewBoxHeight = BOX_SIZE * 4;
 
     return (
         <div ref={inViewRef} className="w-full h-full flex items-center justify-center">
             <motion.svg 
-                viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} 
-                className="w-full h-auto max-w-md"
+                viewBox={`0 0 ${TOTAL_WIDTH} ${TOTAL_HEIGHT}`} 
+                className="w-full h-auto max-w-lg"
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
-                variants={{
-                    visible: { transition: { staggerChildren: 0.05 } }
-                }}
+                variants={containerVariants}
             >
-                {allCirclesFlat.map(({ id, cx, cy, content }, index) => 
-                    <AnimatedCircle 
-                        key={id} 
-                        id={id} 
-                        cx={cx} 
-                        cy={cy}
-                        content={content}
-                        delay={index}
+                <defs>
+                    <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                {/* Connecting lines */}
+                {allSmallCircles.map((circle, i) => {
+                    const nextCircleHorizontalIndex = i + 1;
+                    const nextCircleHorizontal = (i % COLS < COLS - 1) ? allSmallCircles[nextCircleHorizontalIndex] : null;
+                    
+                    const nextCircleVerticalIndex = i + COLS;
+                    const nextCircleVertical = allSmallCircles[nextCircleVerticalIndex];
+
+                    return (
+                        <g key={`lines-${circle.id}`}>
+                            {nextCircleHorizontal && (
+                                <motion.line
+                                    x1={circle.cx} y1={circle.cy}
+                                    x2={nextCircleHorizontal.cx} y2={nextCircleHorizontal.cy}
+                                    stroke="#00BCD4" strokeOpacity="0.2" strokeWidth="1"
+                                    variants={circleVariants} custom={i}
+                                />
+                            )}
+                            {nextCircleVertical && (
+                                 <motion.line
+                                    x1={circle.cx} y1={circle.cy}
+                                    x2={nextCircleVertical.cx} y2={nextCircleVertical.cy}
+                                    stroke="#00BCD4" strokeOpacity="0.2" strokeWidth="1"
+                                    variants={circleVariants} custom={i}
+                                />
+                            )}
+                        </g>
+                    )
+                })}
+
+
+                {/* Small circles */}
+                {allSmallCircles.map((circle, i) => (
+                    <motion.circle
+                        key={circle.id}
+                        cx={circle.cx}
+                        cy={circle.cy}
+                        r={SMALL_CIRCLE_RADIUS}
+                        fill="white"
+                        fillOpacity="0.7"
+                        stroke="#00BCD4"
+                        strokeWidth="2"
+                        custom={i}
+                        variants={circleVariants}
                     />
-                )}
+                ))}
+
+                {/* Big central circle */}
+                <motion.circle
+                    key={bigCircle.id}
+                    cx={bigCircle.cx}
+                    cy={bigCircle.cy}
+                    r={BIG_CIRCLE_RADIUS}
+                    fill="#00BCD4"
+                    stroke="white"
+                    strokeWidth="4"
+                    variants={bigCircleVariants}
+                    filter="url(#glow-filter)"
+                />
+
+                {/* Pulsing highlights */}
+                 {allSmallCircles.map((circle, i) => (
+                    <motion.circle
+                        key={`pulse-${circle.id}`}
+                        cx={circle.cx}
+                        cy={circle.cy}
+                        r={SMALL_CIRCLE_RADIUS / 2.5}
+                        fill="white"
+                        custom={i}
+                        animate={{
+                            scale: [1, 1.3, 1],
+                            opacity: [0.6, 1, 0.6]
+                        }}
+                        transition={{
+                            duration: 2 + Math.random() * 3,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            delay: i * 0.05
+                        }}
+                    />
+                ))}
             </motion.svg>
         </div>
     );
