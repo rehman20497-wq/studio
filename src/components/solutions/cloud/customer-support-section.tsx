@@ -53,7 +53,7 @@ export default function CustomerSupportSection() {
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-[23px] font-semibold mb-4"
+          className="text-[23px] font-normal mb-4"
         >
           What You Get
           <motion.svg
@@ -61,14 +61,14 @@ export default function CustomerSupportSection() {
             viewBox="0 0 160 8"
           >
             <motion.path
-                d="M 2,4 C 40,1 120,1 158,4"
+                d="M 2,4 C 30,0 80,6 158,3"
                 fill="none"
                 stroke="black"
                 strokeWidth="2"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
                 animate={inView ? { pathLength: 1 } : {}}
-                transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
+                transition={{ duration: 2.5, ease: 'easeInOut', delay: 0.3 }}
             />
           </motion.svg>
         </motion.h3>
