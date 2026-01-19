@@ -22,8 +22,8 @@ export default function CustomerSupportSection() {
       <div className="absolute top-0 left-0 w-full h-[120px]">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="w-full h-full">
           <path
-            d="M0,120 C240,40 480,0 720,0 960,0 1200,40 1440,120 V0 H0 Z"
-            fill="#ffffff"
+            d="M0,0 H1440 V120 C1200,50 960,20 720,20 C480,20 240,50 0,120 Z"
+            fill="#FCFBF8"
           />
         </svg>
       </div>
