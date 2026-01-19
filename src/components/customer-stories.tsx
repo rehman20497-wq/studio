@@ -51,6 +51,7 @@ const OPTIONS: EmblaOptionsType = { loop: true, align: 'center' };
 const CustomerStoriesCarousel = () => {
     const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const slideCount = slideData.length;
   
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
@@ -68,22 +69,42 @@ const CustomerStoriesCarousel = () => {
     }, [emblaApi, onSelect]);
   
     return (
-      <div className="relative w-full max-w-7xl mx-auto py-12">
+      <div className="relative w-full max-w-4xl mx-auto py-12">
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex -ml-4" style={{ backfaceVisibility: 'hidden' }}>
-            {slideData.map((slide, index) => (
-              <div className="flex-shrink-0 flex-grow-0 basis-[90%] sm:basis-[60%] md:basis-[40%] lg:basis-[33.33%] pl-4" key={index}>
+            {slideData.map((slide, index) => {
+               const isActive = index === selectedIndex;
+               const isNext = index === (selectedIndex + 1) % slideCount;
+               const isPrev = index === (selectedIndex - 1 + slideCount) % slideCount;
+               const isNextNext = index === (selectedIndex + 2) % slideCount;
+               const isPrevPrev = index === (selectedIndex - 2 + slideCount) % slideCount;
+ 
+               let style = {};
+               if (isActive) {
+                 style = { transform: 'scale(1)', zIndex: 30, opacity: 1 };
+               } else if (isNext) {
+                 style = { transform: 'translateX(-50%) scale(0.85)', zIndex: 20, opacity: 1 };
+               } else if (isPrev) {
+                 style = { transform: 'translateX(50%) scale(0.85)', zIndex: 20, opacity: 1 };
+               } else if (isNextNext) {
+                 style = { transform: 'translateX(-85%) scale(0.7)', zIndex: 10, opacity: 1 };
+               } else if (isPrevPrev) {
+                 style = { transform: 'translateX(85%) scale(0.7)', zIndex: 10, opacity: 1 };
+               } else {
+                 style = { transform: 'scale(0.6)', zIndex: 0, opacity: 0 };
+               }
+
+              return (
+              <div className="flex-shrink-0 flex-grow-0 basis-[85%] sm:basis-1/2 md:basis-[45%] lg:basis-1/3 pl-4" key={index}>
                   <div 
-                      className={cn(
-                          "relative transition-all duration-500 ease-in-out",
-                          index === selectedIndex ? "scale-100 z-10" : "scale-90 z-0"
-                      )}
+                      className="relative transition-all duration-500 ease-in-out"
+                      style={style}
                   >
                       <div className={cn(
                           "bg-white rounded-3xl p-4 transition-all duration-500",
-                          index === selectedIndex ? "border-2 border-black" : "border-4 border-yellow-400 shadow-lg"
+                          !isActive ? "border-4 border-yellow-400" : "border-2 border-black"
                       )}>
-                          <div className="relative w-full h-80 rounded-2xl overflow-hidden">
+                          <div className="relative w-full h-96 rounded-2xl overflow-hidden">
                               <Image src={slide.image.src} alt={slide.image.hint} fill className="object-cover" data-ai-hint={slide.image.hint} sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"/>
                               <div className={cn("absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] p-4 rounded-xl text-center font-semibold text-zinc-800", slide.banner.color)}>
                                   {slide.banner.text}
@@ -91,9 +112,7 @@ const CustomerStoriesCarousel = () => {
                           </div>
                           <div className="pt-12 pb-4 text-center min-h-[280px] flex flex-col">
                               <p className="text-zinc-700 relative text-base flex-grow text-justify">
-                                  <span className="absolute -left-2 top-1 text-4xl font-serif text-zinc-300">(</span>
                                   {slide.quote}
-                                  <span className="absolute -right-2 top-1 text-4xl font-serif text-zinc-300">)</span>
                               </p>
                               <div className="mt-6">
                                 <p className="font-bold text-zinc-900">{slide.author}</p>
@@ -110,7 +129,7 @@ const CustomerStoriesCarousel = () => {
                       </div>
                   </div>
               </div>
-            ))}
+            )})}
           </div>
         </div>
         <div className="flex items-center justify-center gap-6 mt-8">
