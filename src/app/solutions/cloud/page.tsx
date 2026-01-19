@@ -7,6 +7,7 @@ import ServicesFrameworkSection from "@/components/solutions/cloud/services-fram
 import ArrowHaSection from "@/components/solutions/cloud/arrow-ha-section";
 import SupportCtaSection from "@/components/solutions/cloud/support-cta-section";
 import WhyChooseTelesys from "@/components/solutions/cloud/why-choose-telesys";
+import CareerBrushStrokeWhite from "@/components/careers/career-brush-stroke-w";
 
 export default function CloudSolutionsPage() {
   return (
@@ -19,6 +20,7 @@ export default function CloudSolutionsPage() {
         <ServicesFrameworkSection />
         <ArrowHaSection />
         <SupportCtaSection />
+        <CareerBrushStrokeWhite/>
         <WhyChooseTelesys />
       </main>
     </div>
