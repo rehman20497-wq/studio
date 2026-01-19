@@ -82,34 +82,20 @@ const decorativeBgVariants = {
     },
 }
 
-const DecorativeBackground = () => (
-    <motion.div 
-        className="absolute inset-0 w-full h-full bg-cyan-400 rounded-2xl"
-        variants={decorativeBgVariants}
-    >
-        <svg width="100%" height="100%" className="opacity-20">
-            <defs>
-                <pattern id="circlePattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <circle cx="5" cy="5" r="5" stroke="white" strokeWidth="1" fill="none" />
-                    <circle cx="15" cy="15" r="4" fill="white" />
-                </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#circlePattern)" />
-        </svg>
-    </motion.div>
-);
-
-
 const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
     <motion.div className="relative" variants={cardItemVariants}>
-        <DecorativeBackground />
-        <div className="relative bg-white rounded-2xl p-8 border-[3px] border-cyan-200/60 shadow-lg shadow-cyan-200/40 h-full">
-            <div className="flex items-center mb-4">
+        <motion.div 
+            className="absolute inset-0 w-full h-full bg-cyan-400 rounded-2xl"
+            style={{ transform: 'rotate(12deg)'}}
+            variants={decorativeBgVariants}
+        />
+        <div className="relative bg-white rounded-2xl p-8 border-[3px] border-transparent shadow-lg h-full" style={{'--tw-shadow-color': 'hsl(180 100% 80% / 0.3)', boxShadow: '0 0 15px 5px var(--tw-shadow-color)', '--tw-shadow': '0 0 #0000'}}>
+             <div className="flex items-center mb-2">
                 <div className="w-12 h-12 bg-cyan-100 rounded-full flex-shrink-0" />
                 <Image src={card.icon} alt={card.title} width={80} height={80} className="-ml-10" />
             </div>
             <h3 className="text-[20px] font-bold text-zinc-900 mb-2">{card.title}</h3>
-            <ul className="space-y-1 text-zinc-700 text-[13px]">
+            <ul className="space-y-[10px] text-zinc-700 text-[13px]">
                 {card.items.map((item, index) => (
                     <li key={index} className="flex items-start">
                         <span className="text-black mr-3 mt-1.5">&#8226;</span>
@@ -126,7 +112,7 @@ export default function ServicesFrameworkSection() {
     const isInView = useInView(ref, { once: true, amount: 0.2 });
 
     return (
-        <section ref={ref} className="py-24 bg-[#FFF8E6] px-[3%]">
+        <section ref={ref} className="pt-[1%] pb-24 bg-[#FFF8E6] px-[3%]">
             <motion.div 
                 className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16"
                 variants={containerVariants}
