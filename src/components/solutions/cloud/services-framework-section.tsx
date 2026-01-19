@@ -70,11 +70,12 @@ const cardItemVariants = {
 };
 
 const decorativeBgVariants = {
-    hidden: { x: 0, y: 0, opacity: 0 },
+    hidden: { x: 0, y: 0, opacity: 0, rotate: 0 },
     visible: { 
         x: '1rem',
         y: '1rem',
         opacity: 1,
+        rotate: 45,
         transition: {
             delay: 0.5,
             duration: 0.8,
@@ -108,8 +109,8 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
                 <div className="absolute -top-2 -left-2 w-12 h-12 bg-cyan-100 rounded-full" />
                 <Image src={card.icon} alt={card.title} width={40} height={40} className="relative z-10" />
             </div>
-            <h3 className="text-xl font-bold text-zinc-900 mb-4">{card.title}</h3>
-            <ul className="space-y-2 text-zinc-700">
+            <h3 className="text-[20px] font-bold text-zinc-900 mb-4">{card.title}</h3>
+            <ul className="space-y-1.5 text-zinc-700 text-[13px]">
                 {card.items.map((item, index) => (
                     <li key={index} className="flex items-start">
                         <span className="text-black mr-3 mt-1.5">&#8226;</span>
