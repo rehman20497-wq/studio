@@ -66,7 +66,7 @@ export default function CustomerSupportSection() {
         />
       </motion.div>
 
-      <div className="relative pt-16 md:pt-36 pb-32 text-center px-4">
+      <div className="relative pt-16 md:pt-36 pb-20 text-center px-4">
         {/* ================= DESKTOP LEFT IMAGE ================= */}
         <motion.div
           style={{ y: leftParallaxY }}

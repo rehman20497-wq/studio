@@ -4,6 +4,7 @@ import Hero from "@/components/solutions/cloud/hero";
 import CloudLogoMarquee from "@/components/solutions/cloud/cloud-logo-marquee";
 import CustomerSupportSection from "@/components/solutions/cloud/customer-support-section";
 import ServicesFrameworkSection from "@/components/solutions/cloud/services-framework-section";
+import ArrowHaSection from "@/components/solutions/cloud/arrow-ha-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -14,6 +15,7 @@ export default function CloudSolutionsPage() {
         <CloudLogoMarquee />
         <CustomerSupportSection />
         <ServicesFrameworkSection />
+        <ArrowHaSection />
       </main>
     </div>
   );
