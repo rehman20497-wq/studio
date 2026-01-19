@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -87,7 +86,7 @@ export default function WhyChooseTelesys() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div
-            className="absolute -top-12 left-1/2 -ml-40 w-16 h-16"
+            className="absolute -top-4 left-1/4 w-16 h-16"
             variants={arrowVariants}
         >
             <Image src="/arrow.gif" alt="arrow" width={64} height={64} unoptimized/>
@@ -111,24 +110,39 @@ export default function WhyChooseTelesys() {
             </svg>
         </motion.div>
 
-        <motion.h2 className="text-[49px] text-black font-normal" variants={mainHeadingVariants}>
-          Why Choose <span className="relative inline-block">Telsys
-                <svg
-                    className="absolute -bottom-2 left-0 w-full h-3 overflow-visible"
-                    viewBox="0 0 100 8"
-                    preserveAspectRatio="none"
-                    >
-                    <motion.path
-                        d="M 2,5 C 20,8 80,8 98,5"
-                        fill="none"
-                        stroke="black"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        variants={underlineVariants(1.4)}
+        <motion.div className="relative h-28" variants={mainHeadingVariants}>
+            <svg
+                className="w-full h-full"
+                viewBox="0 0 1000 120"
+                preserveAspectRatio="xMidYMid meet"
+                style={{ overflow: 'visible' }}
+            >
+                <defs>
+                    <path
+                        id="headingCurve"
+                        d="M 150 100 C 350 0, 650 0, 850 100"
                     />
-                </svg>
-            </span>
-        </motion.h2>
+                </defs>
+
+                <text
+                    fill="black"
+                    className="text-[60px] font-normal font-headline"
+                >
+                    <textPath href="#headingCurve" startOffset="50%" textAnchor="middle">
+                        Why Choose Telsys
+                    </textPath>
+                </text>
+
+                <motion.path
+                    d="M 300 105 C 450 65, 550 65, 700 105"
+                    fill="none"
+                    stroke="black"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    variants={underlineVariants(1.4)}
+                />
+            </svg>
+        </motion.div>
         
         <motion.p className="mt-6 text-[20px] text-black max-w-3xl mx-auto" variants={paragraphVariants}>
             A fully managed, global support model built for scale, quality, and long-term partnership.
@@ -137,4 +151,3 @@ export default function WhyChooseTelesys() {
     </section>
   );
 }
-
