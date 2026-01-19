@@ -83,9 +83,9 @@ export default function FeaturesSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="py-24 px-4 bg-[#a2edf4]">
+    <section ref={ref} className="relative pt-24 px-4 bg-[#a2edf4]">
       <motion.div
-        className="max-w-7xl mx-auto"
+        className="max-w-7xl mx-auto pb-40"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -105,6 +105,19 @@ export default function FeaturesSection() {
           </MagneticButton>
         </motion.div>
       </motion.div>
+
+      <div className="absolute bottom-0 left-0 w-full h-[150px] pointer-events-none">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1440 150"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,150 C240,60 480,20 720,20 C960,20 1200,60 1440,150 L1440,150 L0,150 Z"
+            fill="#f7edcf"
+          />
+        </svg>
+      </div>
     </section>
   );
 }
