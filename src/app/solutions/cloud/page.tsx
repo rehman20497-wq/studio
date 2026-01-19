@@ -3,6 +3,7 @@ import Header from "@/components/layout/header";
 import Hero from "@/components/solutions/cloud/hero";
 import CloudLogoMarquee from "@/components/solutions/cloud/cloud-logo-marquee";
 import CustomerSupportSection from "@/components/solutions/cloud/customer-support-section";
+import ServicesFrameworkSection from "@/components/solutions/cloud/services-framework-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -12,6 +13,7 @@ export default function CloudSolutionsPage() {
         <Hero />
         <CloudLogoMarquee />
         <CustomerSupportSection />
+        <ServicesFrameworkSection />
       </main>
     </div>
   );
