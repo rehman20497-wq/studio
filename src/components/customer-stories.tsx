@@ -69,7 +69,7 @@ const CustomerStoriesCarousel = () => {
     }, [emblaApi, onSelect]);
   
     return (
-      <div className="relative w-full max-w-4xl mx-auto py-12">
+      <div className="relative w-full max-w-6xl mx-auto py-12">
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex -ml-4" style={{ backfaceVisibility: 'hidden' }}>
             {slideData.map((slide, index) => {
@@ -81,28 +81,28 @@ const CustomerStoriesCarousel = () => {
  
                let style = {};
                if (isActive) {
-                 style = { transform: 'scale(1)', zIndex: 30, opacity: 1 };
+                 style = { transform: 'scale(1)', zIndex: 50, opacity: 1 };
                } else if (isNext) {
-                 style = { transform: 'translateX(-50%) scale(0.85)', zIndex: 20, opacity: 1 };
+                 style = { transform: 'translateX(-50%) scale(0.85)', zIndex: 40, opacity: 1 };
                } else if (isPrev) {
-                 style = { transform: 'translateX(50%) scale(0.85)', zIndex: 20, opacity: 1 };
+                 style = { transform: 'translateX(50%) scale(0.85)', zIndex: 40, opacity: 1 };
                } else if (isNextNext) {
-                 style = { transform: 'translateX(-85%) scale(0.7)', zIndex: 10, opacity: 1 };
+                 style = { transform: 'translateX(-85%) scale(0.7)', zIndex: 30, opacity: 1 };
                } else if (isPrevPrev) {
-                 style = { transform: 'translateX(85%) scale(0.7)', zIndex: 10, opacity: 1 };
+                 style = { transform: 'translateX(85%) scale(0.7)', zIndex: 30, opacity: 1 };
                } else {
-                 style = { transform: 'scale(0.6)', zIndex: 0, opacity: 0 };
+                 style = { transform: 'scale(0.6)', zIndex: 20, opacity: 0 };
                }
 
               return (
-              <div className="flex-shrink-0 flex-grow-0 basis-[85%] sm:basis-1/2 md:basis-[45%] lg:basis-1/3 pl-4" key={index}>
+              <div className="flex-shrink-0 flex-grow-0 basis-[85%] sm:basis-1/2 md:basis-[45%] lg:basis-[40%] pl-4" key={index}>
                   <div 
                       className="relative transition-all duration-500 ease-in-out"
                       style={style}
                   >
                       <div className={cn(
                           "bg-white rounded-3xl p-4 transition-all duration-500",
-                          !isActive ? "border-4 border-yellow-400" : "border-2 border-black"
+                          isActive ? "border-2 border-black" : "border-4 border-yellow-400"
                       )}>
                           <div className="relative w-full h-96 rounded-2xl overflow-hidden">
                               <Image src={slide.image.src} alt={slide.image.hint} fill className="object-cover" data-ai-hint={slide.image.hint} sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"/>
