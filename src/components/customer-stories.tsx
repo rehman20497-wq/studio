@@ -1,200 +1,156 @@
 'use client';
 
-import { useRef, useCallback, useEffect, useMemo } from 'react';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import useEmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel-react';
+import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { Button } from '@/components/ui/button';
 
-const testimonials = [
+const slideData = [
   {
-    title: "Best BPO We've worked with",
-    content:
-      "With TelSys's assistance, we've been able to 3X our content output with almost 100% audio and video accuracy. TelSys ensures the content is up to standards, and we've been impressed with the ease of collaborating with the team.",
-    companySize: '10,000+',
-    designation: 'Head of Video Production',
-    industry: 'Media',
+    image: { src: 'https://picsum.photos/seed/carousel1/800/600', hint: 'office meeting' },
+    banner: { text: 'Driving Retention & Growth Subscription', color: 'bg-purple-200' },
+    quote: "Hugo understood our business and helped us translate feedback into meaningful improvements across the entire subscription experience.",
+    author: 'Jeremy D.',
+    title: 'Customer Experience',
   },
   {
-    title: 'TelSys: Consistently Delivering Excellent Outcomes',
-    content:
-      "Thanks to TelSys, we've scaled our affiliate program to more than 800 global ambassadors. The team's work also helped reduce customer support tickets by 50% per month and response times to less than an hour. Overall, they stand out for their proactive approach, flexibility, and professionalism.",
-    companySize: '11-50',
-    designation: 'VP of Growth',
-    industry: 'Gaming',
+    image: { src: 'https://picsum.photos/seed/carousel2/800/600', hint: 'woman beauty app' },
+    banner: { text: 'Supporting 10,000+ Inquiries for a Beauty Brand', color: 'bg-yellow-300' },
+    quote: "Hugo's team brought deep expertise and flexibility to our operation. They helped us improve response times and satisfaction.",
+    author: 'Anna G.',
+    title: 'Customer Experience Lead',
   },
   {
-    title: 'A Partner with Exceptional Understanding of Our Culture',
-    content:
-      "TelSys has provided strategies and solutions to significantly reduce ticket response times. The team's ability to cater to customers from diverse linguistic backgrounds makes the workflow seamless. Above all, we appreciate their flexibility, adaptability, and punctuality in meetings.",
-    companySize: '51-200',
-    designation: 'Customer Support Manager',
-    industry: 'Food & Beverage',
+    image: { src: 'https://picsum.photos/seed/carousel3/800/600', hint: 'man gaming neon' },
+    banner: { text: 'Eliminated a 5,000-Ticket Backlog in 14 Days', color: 'bg-cyan-200' },
+    quote: "Hugo didn't just add agents. They rebuilt our workflows, improved quality, and delivered measurable results when our support operation was at a breaking point.",
+    author: 'Robert M.',
+    title: 'Head of Player Experience',
   },
   {
-    title: 'Unmatched Quality and Professionalism',
-    content:
-      'The quality of work and the professionalism of the TelSys team are unmatched. They have become an indispensable part of our operations, delivering excellence at every turn. Highly recommended for any company looking to scale effectively.',
-    companySize: '1-10',
-    designation: 'Founder & CEO',
-    industry: 'eCommerce',
+    image: { src: 'https://picsum.photos/seed/carousel4/800/600', hint: 'person using phone app' },
+    banner: { text: '100K+ Personalized Messages at Scale', color: 'bg-green-200' },
+    quote: "We're built on real-time, 1:1 conversations, and Hugo got that immediately. They delivered what we needed, while keeping interactions thoughtful and empathetic at high volumes.",
+    author: 'Michael B.',
+    title: 'Product Manager',
   },
   {
-    title: 'Seamless Integration and Proactive Support',
-    content:
-      'Integrating with TelSys was seamless. Their team is not just reactive but proactive, always suggesting improvements and anticipating our needs. This has freed up our core team to focus on innovation.',
-    companySize: '201-500',
-    designation: 'COO',
-    industry: 'SaaS',
-  },
-  {
-    title: 'A True Extension of Our Team',
-    content:
-      'TelSys feels less like a vendor and more like a true extension of our team. Their dedication to our success is evident in their work, and the results speak for themselves. Our customer satisfaction has never been higher.',
-    companySize: '1,001-5,000',
-    designation: 'Director of Operations',
-    industry: 'Fintech',
+    image: { src: 'https://picsum.photos/seed/carousel5/800/600', hint: 'customer support office' },
+    banner: { text: 'Support Through a New Parents Support Model', color: 'bg-pink-200' },
+    quote: "They understood our users' unique needs and trust we built. They're not only a measure of satisfaction, but a measure of connection with our community.",
+    author: 'Linda S.',
+    title: 'Community Manager',
   },
 ];
 
-const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0] }) => (
-  <div className="h-full rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200">
-    <div className="flex justify-between items-start">
-      <div className="flex gap-1 text-black">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} fill="black" strokeWidth={0} className="w-5 h-5" />
-        ))}
+const OPTIONS: EmblaOptionsType = { loop: true };
+
+const CustomerStoriesCarousel = () => {
+    const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+  
+    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+    const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
+  
+    const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    }, []);
+  
+    useEffect(() => {
+      if (!emblaApi) return;
+      onSelect(emblaApi);
+      emblaApi.on('select', onSelect);
+      emblaApi.on('reInit', onSelect);
+    }, [emblaApi, onSelect]);
+  
+    return (
+      <div className="relative w-full max-w-7xl mx-auto py-12">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex -ml-4" style={{ backfaceVisibility: 'hidden' }}>
+            {slideData.map((slide, index) => (
+              <div className="flex-shrink-0 flex-grow-0 basis-[90%] sm:basis-[60%] md:basis-[40%] lg:basis-[33.33%] pl-4" key={index}>
+                  <div 
+                      className={cn(
+                          "relative transition-all duration-500 ease-in-out",
+                          index === selectedIndex ? "scale-100 opacity-100" : "scale-90 opacity-60"
+                      )}
+                  >
+                      <div className={cn(
+                          "bg-white rounded-3xl p-4 transition-all duration-500 border-2",
+                          index === selectedIndex ? "border-black shadow-2xl" : "border-gray-200 shadow-lg"
+                      )}>
+                          <div className="relative w-full h-56 rounded-2xl overflow-hidden">
+                              <Image src={slide.image.src} alt={slide.image.hint} fill className="object-cover" data-ai-hint={slide.image.hint} sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"/>
+                              <div className={cn("absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] p-4 rounded-xl text-center font-semibold text-zinc-800", slide.banner.color)}>
+                                  {slide.banner.text}
+                              </div>
+                          </div>
+                          <div className="pt-12 pb-4 px-4 text-center min-h-[280px] flex flex-col">
+                              <p className="text-zinc-700 relative text-base flex-grow">
+                                  <span className="absolute -left-2 top-1 text-4xl font-serif text-zinc-300">(</span>
+                                  {slide.quote}
+                                  <span className="absolute -right-2 top-1 text-4xl font-serif text-zinc-300">)</span>
+                              </p>
+                              <div className="mt-6">
+                                <p className="font-bold text-zinc-900">{slide.author}</p>
+                                <p className="text-sm text-zinc-600">{slide.title}</p>
+                              </div>
+                              <button className="mt-6 bg-black text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-zinc-800 transition-colors w-fit mx-auto">
+                                  Read the Full Story
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center justify-center gap-6 mt-8">
+          <button onClick={scrollPrev} className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center hover:bg-yellow-500 transition-colors">
+            <ArrowLeft className="w-5 h-5 text-black" />
+          </button>
+          <div className="flex items-center justify-center gap-2">
+              {slideData.map((_, index) => (
+                  <button
+                      key={index}
+                      onClick={() => scrollTo(index)}
+                      className={cn(
+                          "w-3 h-3 rounded-full transition-all",
+                          index === selectedIndex ? "bg-black scale-125" : "bg-gray-300 hover:bg-gray-400"
+                      )}
+                  />
+              ))}
+          </div>
+          <button onClick={scrollNext} className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center hover:bg-yellow-500 transition-colors">
+            <ArrowRight className="w-5 h-5 text-black" />
+          </button>
+        </div>
       </div>
-      <Image src="/sound.png" alt="Sound wave icon" width={24} height={24} />
-    </div>
-
-    <div className="flex-grow mt-5">
-      <h3 className="text-xl font-normal font-headline text-black">{testimonial.title}</h3>
-      <p className="mt-4 text-[13px] text-zinc-700 leading-6">{testimonial.content}</p>
-    </div>
-
-    <div>
-      <p className="text-sm text-zinc-600 mt-4">
-        Company Size: {testimonial.companySize}
-      </p>
-      <div className="border-t border-zinc-300 my-4" />
-      <p className="font-bold text-sm text-black">{testimonial.designation}</p>
-      <p className="text-sm text-zinc-600">Industry: {testimonial.industry}</p>
-    </div>
-  </div>
-);
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { delay: 0.3 },
-  },
+    );
 };
 
-const arrowsVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.5,
-      duration: 0.8,
-      ease: "easeOut"
-    }
-  }
-};
 
-const marqueeVariants = {
-  animate: {
-    x: ['0%', '-50%'],
-    transition: {
-      repeat: Infinity,
-      repeatType: 'loop',
-      duration: 35,
-      ease: 'linear',
-    },
-  },
+const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } }
 };
 
 export default function CustomerStories() {
-  const sectionRef = useRef(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.2 });
 
-  const infiniteTestimonials = useMemo(
-    () => [...testimonials, ...testimonials],
-    []
-  );
-
-  useEffect(() => {
-    controls.start('animate');
-  }, [controls]);
-
-  const scrollPrev = useCallback(() => {
-    marqueeRef.current?.scrollBy({ left: -420, behavior: 'smooth' });
-  }, []);
-
-  const scrollNext = useCallback(() => {
-    marqueeRef.current?.scrollBy({ left: 420, behavior: 'smooth' });
-  }, []);
-
-  return (
-    <section ref={sectionRef} className="bg-white pb-12 md:pb-[4%] overflow-hidden relative">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-      >
-        <div
-          ref={marqueeRef}
-          className="overflow-x-hidden"
-          onMouseEnter={() => controls.stop()}
-          onMouseLeave={() => controls.start('animate')}
+    return (
+        <motion.section 
+            ref={ref}
+            className="bg-white py-20"
+            variants={sectionVariants}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
         >
-          <motion.div
-            className="flex -ml-8"
-            variants={marqueeVariants}
-            animate={controls}
-          >
-            {infiniteTestimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="flex-[0_0_90%] sm:flex-[0_0_420px] pl-8"
-              >
-                <TestimonialCard testimonial={testimonial} />
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.div>
-
-      {/* Controls */}
-      <motion.div 
-        className="absolute bottom-[16px] right-4 md:bottom-[28px] md:right-8 flex gap-2 z-10"
-        variants={arrowsVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-      >
-        <Button
-          size="icon"
-          onClick={scrollPrev}
-          className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12"
-        >
-          <ArrowLeft className="w-6 h-6" />
-        </Button>
-
-        <Button
-          size="icon"
-          onClick={scrollNext}
-          className="bg-cyan-300/80 hover:bg-cyan-400 text-black rounded-full shadow-lg h-12 w-12"
-        >
-          <ArrowRight className="w-6 h-6" />
-        </Button>
-      </motion.div>
-    </section>
-  );
+            <CustomerStoriesCarousel />
+        </motion.section>
+    )
 }

@@ -24,7 +24,7 @@ export default function CustomerShowcaseSection() {
   return (
     <motion.section
       ref={ref}
-      className="bg-white py-24 px-4"
+      className="bg-white pb-6 px-4"
       variants={sectionVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
@@ -33,8 +33,8 @@ export default function CustomerShowcaseSection() {
         <Image
           src="/customers.png"
           alt="Customer logos"
-          width={1200}
-          height={400}
+          width={600}
+          height={300}
           className="mx-auto"
           data-ai-hint="customer logos"
         />

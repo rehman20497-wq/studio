@@ -106,18 +106,15 @@ export default function FeaturesSection() {
         </motion.div>
       </motion.div>
 
-      <div className="absolute bottom-0 left-0 w-full h-[150px] pointer-events-none">
-        <svg
-          className="w-full h-full"
-          viewBox="0 0 1440 150"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,150 C240,60 480,20 720,20 C960,20 1200,60 1440,150 L1440,150 L0,150 Z"
-            fill="#f7edcf"
-          />
-        </svg>
-      </div>
+      <div className="absolute bottom-0 left-0 w-full h-[160px] pointer-events-none">
+  <svg className="w-full h-full" viewBox="0 0 1440 160" preserveAspectRatio="none">
+    <path
+      d="M0,150 C240,60 480,20 720,20 C960,20 1200,60 1440,150 L1440,160 L0,160 Z"
+      fill="white"
+    />
+  </svg>
+</div>
+
     </section>
   );
 }
