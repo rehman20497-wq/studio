@@ -6,6 +6,7 @@ import CustomerSupportSection from "@/components/solutions/cloud/customer-suppor
 import ServicesFrameworkSection from "@/components/solutions/cloud/services-framework-section";
 import ArrowHaSection from "@/components/solutions/cloud/arrow-ha-section";
 import SupportCtaSection from "@/components/solutions/cloud/support-cta-section";
+import WhyChooseTelesys from "@/components/solutions/cloud/why-choose-telesys";
 
 export default function CloudSolutionsPage() {
   return (
@@ -18,6 +19,7 @@ export default function CloudSolutionsPage() {
         <ServicesFrameworkSection />
         <ArrowHaSection />
         <SupportCtaSection />
+        <WhyChooseTelesys />
       </main>
     </div>
   );

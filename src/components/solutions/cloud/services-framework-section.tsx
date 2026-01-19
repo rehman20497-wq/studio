@@ -106,13 +106,13 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
     </motion.div>
 
     <div
-      className="relative bg-white rounded-2xl p-8 border-[3px] border-transparent shadow-lg h-full"
-      style={{
-        '--tw-shadow-color': 'hsl(180 100% 80% / 0.3)',
-        boxShadow: '0 0 15px 5px var(--tw-shadow-color)',
-        '--tw-shadow': '0 0 #0000',
-      }}
-    >
+  className="relative bg-white rounded-2xl p-8 h-full border-[6px]"
+  style={{
+    borderColor: '#f7edcf',
+    boxShadow: 'none',
+  }}
+>
+
       <div className="flex items-center mb-2">
         <div className="w-12 h-12 bg-cyan-100 rounded-full flex-shrink-0" />
         <Image
