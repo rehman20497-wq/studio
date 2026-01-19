@@ -27,22 +27,22 @@ const CloudLogoMarquee: React.FC = () => {
   return (
     <motion.div
       ref={ref}
-      className="relative mx-[4%] overflow-hidden"
+      className="relative mx-[4%] overflow-hidden rounded-b-[40px]"
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 0.8, ease: "easeOut" }}
       style={{
-        background: "#DDF9FF",
+        background: "linear-gradient(to bottom, #DDF9FF 0%, #9FD4FF 100%)",
       }}
     >
       {/* Logo Marquee */}
-      <div className="relative w-full overflow-hidden py-10 z-10">
+      <div className="relative w-full overflow-hidden pt-10 pb-48 z-10">
         <motion.div
           className="flex items-center whitespace-nowrap h-24"
-          animate={{ x: ["-50%", "0%"] }}
+          animate={{ x: ["0%", "-50%"] }}
           transition={{
             repeat: Infinity,
-            duration: 40,
+            duration: 25,
             ease: "linear",
           }}
         >
@@ -63,6 +63,32 @@ const CloudLogoMarquee: React.FC = () => {
           ))}
         </motion.div>
       </div>
+
+      {/* Bottom Cream Curve */}
+      <motion.div
+        className="absolute bottom-0 left-0 w-full h-[250px] z-20 pointer-events-none"
+        initial={{ y: 80, opacity: 0 }}
+        animate={isInView ? { y: 0, opacity: 1 } : {}}
+        transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+      >
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1440 250"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="
+              M0,250
+              C240,95 480,40 720,40
+              C960,40 1200,95 1440,250
+              L1440,250
+              L0,250
+              Z
+            "
+            fill="#FCFBF8"
+          />
+        </svg>
+      </motion.div>
     </motion.div>
   );
 };
