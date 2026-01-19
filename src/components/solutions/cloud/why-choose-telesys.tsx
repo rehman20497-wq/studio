@@ -2,124 +2,50 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import Image from 'next/image';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
+    transition: { staggerChildren: 0.2 },
+  },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
     transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
+      duration: 0.8,
+      ease: [0.25, 1, 0.5, 1],
     },
   },
 };
 
-const subHeadingVariants = {
-    hidden: { opacity: 0, x: 100 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 1, 0.5, 1],
-      },
+const brushDraw = {
+  hidden: { pathLength: 0 },
+  visible: {
+    pathLength: 1,
+    transition: {
+      duration: 1.6, // slow hand-drawn
+      ease: 'easeInOut',
+      delay: 0.4,
     },
-  };
-  
-  const mainHeadingVariants = {
-    hidden: { opacity: 0, x: -100 },
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: {
-            duration: 0.8,
-            ease: [0.25, 1, 0.5, 1],
-            delay: 0.2
-        },
-    },
+  },
 };
 
-const paragraphVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.8,
-            ease: [0.25, 1, 0.5, 1],
-            delay: 0.4
-        },
+const jitter = {
+  animate: {
+    x: [0, -0.6, 0.6, -0.4, 0],
+    y: [0, 0.5, -0.5, 0.3, 0],
+    transition: {
+      duration: 1.8,
+      repeat: Infinity,
+      ease: 'easeInOut',
     },
+  },
 };
-
-const underlineVariants = (delay: number) => ({
-    hidden: { pathLength: 0 },
-    visible: {
-        pathLength: 1,
-        transition: {
-            duration: 0.8,
-            ease: "easeInOut",
-            delay: delay
-        }
-    }
-});
-
-const arrowVariants = {
-    hidden: { opacity: 0, y: -20, rotate: -45 },
-    visible: { 
-        opacity: 1, y: 0, rotate: 0,
-        transition: { type: 'spring', stiffness: 120, damping: 10, delay: 0.8 }
-    }
-};
-
-const WhyChooseHeading = ({ isInView }: { isInView: boolean }) => {
-    return (
-      <motion.div
-        className="relative flex justify-center py-8"
-        initial={{ opacity: 0, y: 16 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
-      >
-        <svg
-          className="w-full max-w-4xl"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="xMidYMid meet"
-          style={{ overflow: 'visible' }}
-        >
-          <defs>
-            <path
-              id="headingCurve"
-              d="M 200 100 C 450 0, 750 0, 1000 100"
-            />
-          </defs>
-  
-          <text
-            fill="currentColor"
-            className="font-headline font-normal tracking-tight text-zinc-900"
-            style={{ fontSize: '60px' }}
-          >
-            <textPath
-              href="#headingCurve"
-              startOffset="50%"
-              textAnchor="middle"
-            >
-              Why Choose Telsys
-            </textPath>
-          </text>
-  
-          <motion.path
-              d="M 650 108 C 700 93, 750 93, 800 108"
-              fill="none"
-              stroke="black"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              variants={underlineVariants(1.4)}
-          />
-        </svg>
-      </motion.div>
-    );
-  };
 
 export default function WhyChooseTelesys() {
   const ref = useRef(null);
@@ -128,40 +54,82 @@ export default function WhyChooseTelesys() {
   return (
     <section ref={ref} className="py-24 px-4 bg-[#a2edf4]">
       <motion.div
-        className="max-w-4xl mx-auto text-center relative"
+        className="max-w-4xl mx-auto text-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <motion.div
-            className="absolute -top-4 left-[30%] w-16 h-16"
-            variants={arrowVariants}
-        >
-            <Image src="/arrow.gif" alt="arrow" width={64} height={64} unoptimized/>
-        </motion.div>
-        
-        <motion.div className="relative inline-block mb-6" variants={subHeadingVariants}>
-            <h3 className="text-[23px] text-black">The Telsys Difference</h3>
-            <svg
-                className="absolute -bottom-1 left-0 w-full h-2 overflow-visible"
-                viewBox="0 0 100 8"
-                preserveAspectRatio="none"
-            >
-                <motion.path
-                    d="M 1,5 C 20,2 80,2 99,5"
-                    fill="none"
-                    stroke="black"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    variants={underlineVariants(1.0)}
-                />
-            </svg>
+        {/* Sub Heading */}
+        <motion.div className="inline-block mb-6" variants={fadeUp}>
+          <h3 className="text-[23px] text-black font-normal">
+            The Telsys Difference
+          </h3>
+
+          {/* Messy full underline */}
+          <motion.svg
+            className="w-full h-3 mt-[2px]"
+            viewBox="0 0 300 20"
+            preserveAspectRatio="none"
+            {...jitter}
+          >
+            <motion.path
+              d="M4 13
+                 Q25 9 45 14
+                 T85 12
+                 T120 15
+                 T160 11
+                 T200 14
+                 T240 10
+                 T295 13"
+              fill="none"
+              stroke="black"
+              strokeWidth="3"
+              strokeLinecap="round"
+              variants={brushDraw}
+            />
+          </motion.svg>
         </motion.div>
 
-        <WhyChooseHeading isInView={isInView} />
-        
-        <motion.p className="mt-6 text-[20px] text-black max-w-3xl mx-auto" variants={paragraphVariants}>
-            A fully managed, global support model built for scale, quality, and long-term partnership.
+        {/* Main Heading */}
+        <motion.h2
+          className="text-[72px] text-black font-normal leading-tight"
+          variants={fadeUp}
+        >
+          Why Choose{' '}
+          <span className="relative inline-block">
+            Telsys
+
+            {/* Messy underline ONLY under Telsys */}
+            <motion.svg
+              className="absolute left-0 -bottom-[2px] w-full h-4"
+              viewBox="0 0 200 22"
+              preserveAspectRatio="none"
+              {...jitter}
+            >
+              <motion.path
+                d="M3 15
+                   Q20 10 38 14
+                   T70 16
+                   T105 12
+                   T135 17
+                   T165 13
+                   T196 15"
+                fill="none"
+                stroke="black"
+                strokeWidth="3"
+                strokeLinecap="round"
+                variants={brushDraw}
+              />
+            </motion.svg>
+          </span>
+        </motion.h2>
+
+        {/* Paragraph */}
+        <motion.p
+          className="mt-10 text-[20px] text-black max-w-3xl mx-auto font-normal"
+          variants={fadeUp}
+        >
+          A fully managed, global support model built for scale, quality, and long-term partnership.
         </motion.p>
       </motion.div>
     </section>
