@@ -9,6 +9,7 @@ import SupportCtaSection from "@/components/solutions/cloud/support-cta-section"
 import WhyChooseTelesys from "@/components/solutions/cloud/why-choose-telesys";
 import CareerBrushStrokeWhite from "@/components/careers/career-brush-stroke-w";
 import FeaturesSection from "@/components/solutions/cloud/features-section";
+import CustomerShowcaseSection from "@/components/solutions/cloud/customer-showcase-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -24,6 +25,7 @@ export default function CloudSolutionsPage() {
         <CareerBrushStrokeWhite/>
         <WhyChooseTelesys />
         <FeaturesSection />
+        <CustomerShowcaseSection />
       </main>
     </div>
   );
