@@ -73,7 +73,7 @@ const decorativeBgVariants = {
   visible: {
     opacity: 1,
     scale: 1,
-    rotate: 12,
+    rotate: 4,
     transition: {
       delay: 0.5,
       duration: 0.8,
@@ -84,21 +84,21 @@ const decorativeBgVariants = {
 
 const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
   <motion.div className="relative" variants={cardItemVariants}>
-    {/* Decorative circle background */}
+    {/* Decorative circle background, hidden on small devices */}
     <motion.div
-      className="absolute bg-[#0badbf] rounded-2xl overflow-hidden"
+      className="hidden md:block absolute bg-[#0badbf] rounded-2xl overflow-hidden"
       style={{
-        width: '100%',
-        height: '100%',
-        top: '0',
-        left: '0',
+        width: '280px',
+        height: '330px',
+        top: '4%',
+        left: '31%',
       }}
       variants={decorativeBgVariants}
     >
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
         <defs>
           <pattern id="circle-pattern" patternUnits="userSpaceOnUse" width="100" height="100">
-            <circle cx="50" cy="50" r="47" stroke="#abe9ef" strokeWidth="6" fill="none" />
+            <circle cx="50" cy="50" r="47" stroke="#abe9ef" strokeWidth="12" fill="none" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#circle-pattern)" />
@@ -114,18 +114,18 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
       }}
     >
       <div className="flex items-center mb-2">
-        <div className="w-16 h-16 bg-cyan-100 rounded-full flex-shrink-0" />
+        <div className="w-12 h-12 bg-cyan-100 rounded-full flex-shrink-0" />
         <Image
           src={card.icon}
           alt={card.title}
-          width={60}
-          height={60}
-          className="-ml-12"
+          width={50}
+          height={50}
+          className="-ml-8"
           style={{ height: 'auto' }}
         />
       </div>
       <h3 className="text-[20px] font-bold text-zinc-900 mb-2">{card.title}</h3>
-      <ul className="space-y-[10px] text-zinc-700 text-[13px]">
+      <ul className="space-y-[0px] text-zinc-700 text-[13px]">
         {card.items.map((item, index) => (
           <li key={index} className="flex items-start">
             <span className="text-black mr-3 mt-1.5">&#8226;</span>
@@ -142,7 +142,7 @@ export default function ServicesFrameworkSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="pt-[1%] bg-[#FFF8E6] px-[3%]">
+    <section ref={ref} className="pt-[1%] pb-24 bg-[#FFF8E6] px-[3%]">
       <motion.div
         className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-[1%] md:gap-16"
         variants={containerVariants}

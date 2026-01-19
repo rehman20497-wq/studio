@@ -32,8 +32,8 @@ export default function ArrowHaSection() {
         <Image
           src="/arrowha.png"
           alt="Arrow decorative graphic"
-          width={1440}
-          height={150}
+          width={1907}
+          height={486}
           className="w-full h-auto object-contain"
         />
       </div>

@@ -5,6 +5,7 @@ import CloudLogoMarquee from "@/components/solutions/cloud/cloud-logo-marquee";
 import CustomerSupportSection from "@/components/solutions/cloud/customer-support-section";
 import ServicesFrameworkSection from "@/components/solutions/cloud/services-framework-section";
 import ArrowHaSection from "@/components/solutions/cloud/arrow-ha-section";
+import SupportCtaSection from "@/components/solutions/cloud/support-cta-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -16,6 +17,7 @@ export default function CloudSolutionsPage() {
         <CustomerSupportSection />
         <ServicesFrameworkSection />
         <ArrowHaSection />
+        <SupportCtaSection />
       </main>
     </div>
   );
