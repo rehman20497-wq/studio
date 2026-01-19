@@ -85,10 +85,19 @@ const decorativeBgVariants = {
 const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
     <motion.div className="relative" variants={cardItemVariants}>
         <motion.div 
-            className="absolute inset-0 w-full h-full bg-cyan-400 rounded-2xl"
+            className="absolute inset-0 w-full h-full bg-cyan-400 rounded-2xl overflow-hidden"
             style={{ transform: 'rotate(12deg)'}}
             variants={decorativeBgVariants}
-        />
+        >
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
+                <defs>
+                    <pattern id="circle-pattern" patternUnits="userSpaceOnUse" width="100" height="100">
+                        <circle cx="50" cy="50" r="47" stroke="#abe9ef" strokeWidth="6" fill="none"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#circle-pattern)" />
+            </svg>
+        </motion.div>
         <div className="relative bg-white rounded-2xl p-8 border-[3px] border-transparent shadow-lg h-full" style={{'--tw-shadow-color': 'hsl(180 100% 80% / 0.3)', boxShadow: '0 0 15px 5px var(--tw-shadow-color)', '--tw-shadow': '0 0 #0000'}}>
              <div className="flex items-center mb-2">
                 <div className="w-12 h-12 bg-cyan-100 rounded-full flex-shrink-0" />
