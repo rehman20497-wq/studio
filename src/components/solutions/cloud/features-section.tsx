@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -69,7 +68,7 @@ const itemVariants = {
 const FeatureCard = ({ card }: { card: (typeof cardData)[0] }) => (
   <motion.div 
     variants={itemVariants}
-    className="bg-white p-8 rounded-2xl border border-black flex flex-col h-full"
+    className="bg-white p-8 rounded-2xl border-[5px] border-black flex flex-col h-full"
   >
     <div className={`w-16 h-16 rounded-full flex items-center justify-center ${card.bgColor} mb-6`}>
       <Image src={card.icon} alt="" width={32} height={32} />
