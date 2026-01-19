@@ -104,9 +104,9 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
     <motion.div className="relative" variants={cardItemVariants}>
         <DecorativeBackground />
         <div className="relative bg-white rounded-2xl p-8 border-[3px] border-cyan-200/60 shadow-lg shadow-cyan-200/40 h-full">
-            <div className="relative w-16 h-16 mb-2">
-                <div className="absolute -top-2 -left-2 w-12 h-12 bg-cyan-100 rounded-full" />
-                <Image src={card.icon} alt={card.title} width={40} height={40} className="relative z-10" />
+            <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-cyan-100 rounded-full flex-shrink-0" />
+                <Image src={card.icon} alt={card.title} width={80} height={80} className="-ml-10" />
             </div>
             <h3 className="text-[20px] font-bold text-zinc-900 mb-2">{card.title}</h3>
             <ul className="space-y-1 text-zinc-700 text-[13px]">
