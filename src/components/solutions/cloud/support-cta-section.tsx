@@ -41,7 +41,7 @@ export default function SupportCtaSection() {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="text-center space-y-8">
+      <div className="text-center space-y-4">
         <motion.h2
           className="text-[46px] font-normal font-headline text-black"
           variants={itemVariants}
