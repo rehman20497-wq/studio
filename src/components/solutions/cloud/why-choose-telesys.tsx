@@ -27,7 +27,7 @@ const subHeadingVariants = {
     },
   };
   
-const mainHeadingVariants = {
+  const mainHeadingVariants = {
     hidden: { opacity: 0, x: -100 },
     visible: {
         opacity: 1,
@@ -73,6 +73,54 @@ const arrowVariants = {
     }
 };
 
+const WhyChooseHeading = ({ isInView }: { isInView: boolean }) => {
+    return (
+      <motion.div
+        className="relative flex justify-center py-8"
+        initial={{ opacity: 0, y: 16 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+      >
+        <svg
+          className="w-full max-w-4xl"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="xMidYMid meet"
+          style={{ overflow: 'visible' }}
+        >
+          <defs>
+            <path
+              id="headingCurve"
+              d="M 200 100 C 450 0, 750 0, 1000 100"
+            />
+          </defs>
+  
+          <text
+            fill="currentColor"
+            className="font-headline font-normal tracking-tight text-zinc-900"
+            style={{ fontSize: '60px' }}
+          >
+            <textPath
+              href="#headingCurve"
+              startOffset="50%"
+              textAnchor="middle"
+            >
+              Why Choose Telsys
+            </textPath>
+          </text>
+  
+          <motion.path
+              d="M 650 108 C 700 93, 750 93, 800 108"
+              fill="none"
+              stroke="black"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              variants={underlineVariants(1.4)}
+          />
+        </svg>
+      </motion.div>
+    );
+  };
+
 export default function WhyChooseTelesys() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -86,7 +134,7 @@ export default function WhyChooseTelesys() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div
-            className="absolute -top-4 left-1/4 w-16 h-16"
+            className="absolute -top-4 left-[30%] w-16 h-16"
             variants={arrowVariants}
         >
             <Image src="/arrow.gif" alt="arrow" width={64} height={64} unoptimized/>
@@ -110,39 +158,7 @@ export default function WhyChooseTelesys() {
             </svg>
         </motion.div>
 
-        <motion.div className="relative h-28" variants={mainHeadingVariants}>
-            <svg
-                className="w-full h-full"
-                viewBox="0 0 1000 120"
-                preserveAspectRatio="xMidYMid meet"
-                style={{ overflow: 'visible' }}
-            >
-                <defs>
-                    <path
-                        id="headingCurve"
-                        d="M 150 100 C 350 0, 650 0, 850 100"
-                    />
-                </defs>
-
-                <text
-                    fill="black"
-                    className="text-[60px] font-normal font-headline"
-                >
-                    <textPath href="#headingCurve" startOffset="50%" textAnchor="middle">
-                        Why Choose Telsys
-                    </textPath>
-                </text>
-
-                <motion.path
-                    d="M 300 105 C 450 65, 550 65, 700 105"
-                    fill="none"
-                    stroke="black"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    variants={underlineVariants(1.4)}
-                />
-            </svg>
-        </motion.div>
+        <WhyChooseHeading isInView={isInView} />
         
         <motion.p className="mt-6 text-[20px] text-black max-w-3xl mx-auto" variants={paragraphVariants}>
             A fully managed, global support model built for scale, quality, and long-term partnership.
