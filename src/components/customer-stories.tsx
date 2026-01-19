@@ -80,8 +80,8 @@ const CustomerStoriesCarousel = () => {
                       )}
                   >
                       <div className={cn(
-                          "bg-white rounded-3xl p-4 transition-all duration-500 border-2",
-                          index === selectedIndex ? "border-black shadow-2xl" : "border-gray-200 shadow-lg"
+                          "bg-white rounded-3xl p-4 transition-all duration-500",
+                          index === selectedIndex ? "border-2 border-black shadow-2xl" : "border-4 border-yellow-400 shadow-lg"
                       )}>
                           <div className="relative w-full h-80 rounded-2xl overflow-hidden">
                               <Image src={slide.image.src} alt={slide.image.hint} fill className="object-cover" data-ai-hint={slide.image.hint} sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"/>
@@ -89,7 +89,7 @@ const CustomerStoriesCarousel = () => {
                                   {slide.banner.text}
                               </div>
                           </div>
-                          <div className="pt-12 pb-4 px-4 text-center min-h-[280px] flex flex-col">
+                          <div className="pt-12 pb-4 text-center min-h-[280px] flex flex-col">
                               <p className="text-zinc-700 relative text-base flex-grow">
                                   <span className="absolute -left-2 top-1 text-4xl font-serif text-zinc-300">(</span>
                                   {slide.quote}
