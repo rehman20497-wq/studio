@@ -34,7 +34,7 @@ export default function WhyChooseHeading({ isInView }: { isInView: boolean }) {
                 animate={isInView ? "visible" : "hidden"}
             >
                 <motion.path
-                    d="M 5 10 C 50 2, 100 15, 150 10 S 245 5, 245 15"
+                    d="M 5 15 C 50 13, 100 17, 150 15 C 200 13, 220 17, 245 15"
                     fill="none"
                     stroke="black"
                     strokeWidth="4"
