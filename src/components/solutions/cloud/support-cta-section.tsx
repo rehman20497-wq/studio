@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -37,7 +36,7 @@ export default function SupportCtaSection() {
   return (
     <motion.section
       ref={ref}
-      className="bg-[#fff9e6] py-24 px-4 w-full"
+      className="bg-[#fff9e6] pt-[2%] pb-[3%] w-full"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
