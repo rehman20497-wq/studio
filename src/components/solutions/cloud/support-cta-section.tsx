@@ -41,7 +41,7 @@ export default function SupportCtaSection() {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="text-center">
+      <div className="text-center space-y-8">
         <motion.h2
           className="text-[46px] font-normal font-headline text-black"
           variants={itemVariants}
@@ -49,12 +49,12 @@ export default function SupportCtaSection() {
           Support You're Looking For
         </motion.h2>
         <motion.p
-          className="mt-4 text-[16px] text-zinc-700 max-w-lg mx-auto"
+          className="text-[16px] text-zinc-700 max-w-2xl mx-auto"
           variants={itemVariants}
         >
           Check out our tailored plans and pick the one that works best for you.
         </motion.p>
-        <motion.div className="mt-8" variants={itemVariants}>
+        <motion.div variants={itemVariants}>
           <MagneticButton>
             <span className="text-[15px] font-bold px-4">Connect with us</span>
           </MagneticButton>
