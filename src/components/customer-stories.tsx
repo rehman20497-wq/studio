@@ -6,6 +6,7 @@ import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import MagneticButton from './magnetic-button';
 
 const slideData = [
   {
@@ -45,7 +46,7 @@ const slideData = [
   },
 ];
 
-const OPTIONS: EmblaOptionsType = { loop: true };
+const OPTIONS: EmblaOptionsType = { loop: true, align: 'center' };
 
 const CustomerStoriesCarousel = () => {
     const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
@@ -75,14 +76,14 @@ const CustomerStoriesCarousel = () => {
                   <div 
                       className={cn(
                           "relative transition-all duration-500 ease-in-out",
-                          index === selectedIndex ? "scale-100 opacity-100" : "scale-90 opacity-60"
+                          index === selectedIndex ? "scale-100 z-10" : "scale-90 z-0"
                       )}
                   >
                       <div className={cn(
                           "bg-white rounded-3xl p-4 transition-all duration-500 border-2",
                           index === selectedIndex ? "border-black shadow-2xl" : "border-gray-200 shadow-lg"
                       )}>
-                          <div className="relative w-full h-56 rounded-2xl overflow-hidden">
+                          <div className="relative w-full h-80 rounded-2xl overflow-hidden">
                               <Image src={slide.image.src} alt={slide.image.hint} fill className="object-cover" data-ai-hint={slide.image.hint} sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"/>
                               <div className={cn("absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] p-4 rounded-xl text-center font-semibold text-zinc-800", slide.banner.color)}>
                                   {slide.banner.text}
@@ -98,9 +99,13 @@ const CustomerStoriesCarousel = () => {
                                 <p className="font-bold text-zinc-900">{slide.author}</p>
                                 <p className="text-sm text-zinc-600">{slide.title}</p>
                               </div>
-                              <button className="mt-6 bg-black text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-zinc-800 transition-colors w-fit mx-auto">
-                                  Read the Full Story
-                              </button>
+                                <div className="mt-6 flex justify-center">
+                                    <MagneticButton>
+                                        <span className="text-sm font-semibold">
+                                            Read the Full Story
+                                        </span>
+                                    </MagneticButton>
+                                </div>
                           </div>
                       </div>
                   </div>
