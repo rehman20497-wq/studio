@@ -11,6 +11,7 @@ import CareerBrushStrokeWhite from "@/components/careers/career-brush-stroke-w";
 import FeaturesSection from "@/components/solutions/cloud/features-section";
 import CustomerShowcaseSection from "@/components/solutions/cloud/customer-showcase-section";
 import CustomerStories from "@/components/customer-stories";
+import ComplianceSection from "@/components/solutions/cloud/compliance-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -28,6 +29,7 @@ export default function CloudSolutionsPage() {
         <FeaturesSection />
         <CustomerShowcaseSection />
         <CustomerStories />
+        <ComplianceSection />
       </main>
     </div>
   );
