@@ -80,7 +80,7 @@ export default function SuccessMissionSection() {
   return (
     <motion.section 
         ref={ref}
-        className="bg-white py-[8%] px-4"
+        className="bg-white py-[3%] px-4"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -119,8 +119,8 @@ export default function SuccessMissionSection() {
 
         {/* Right Column */}
         <motion.div className="md:col-span-2 space-y-8" variants={itemVariants}>
-            <div className="relative rounded-2xl overflow-hidden shadow-lg">
-                <Image src="/girl.jpg" alt="Happy professional" width={400} height={350} className="w-full h-auto" data-ai-hint="woman laptop desk" />
+            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg">
+                <Image src="/girl.jpg" alt="Happy professional" fill className="object-cover" data-ai-hint="woman laptop desk" />
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
                     <MagneticButton>
                         <span className="text-sm font-bold px-4">Get a quote</span>
@@ -128,7 +128,7 @@ export default function SuccessMissionSection() {
                 </div>
             </div>
 
-            <div className="bg-gradient-to-br from-cyan-200 to-blue-300 rounded-2xl py-6 text-center space-y-6">
+            <div className="bg-gradient-to-br from-cyan-200 to-blue-300 rounded-2xl py-[8%] text-center space-y-6">
                 <h3 className="text-black font-bold text-[20px] px-6">Top Companies Outsourcing Today</h3>
                 <div className="space-y-4">
                     <LogoMarquee logos={logos1} direction="left" />
