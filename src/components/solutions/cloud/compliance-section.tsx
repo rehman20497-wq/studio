@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -39,30 +38,40 @@ const complianceData = [
 ];
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.5,
+    },
+  },
+};
+
+const gridContainerVariants = {
+  hidden: { opacity: 0, scale: 0.5 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 1.2,
       ease: [0.25, 1, 0.5, 1],
+      when: "beforeChildren",
       staggerChildren: 0.1,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      damping: 15,
-      stiffness: 100,
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: 'easeOut'
+      },
     },
-  },
-};
+  };
 
 const ComplianceItem = ({ item }: { item: (typeof complianceData)[0] }) => (
   <motion.div className="flex items-center gap-4" variants={itemVariants}>
@@ -88,11 +97,14 @@ export default function ComplianceSection() {
       animate={isInView ? 'visible' : 'hidden'}
     >
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-8 justify-items-center">
+        <motion.div 
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-8 justify-items-center"
+            variants={gridContainerVariants}
+        >
           {complianceData.map((item, index) => (
             <ComplianceItem key={index} item={item} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </motion.section>
   );
