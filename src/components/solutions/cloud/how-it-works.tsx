@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -63,25 +64,25 @@ const timelineLineVariants = {
 }
 
 const timelineItemVariants = {
-  hidden: (i: number) => ({
-    opacity: 0,
-    y: 100,
-    scale: 0.5,
-    rotate: (i % 2 === 0 ? 1 : -1) * (10 + i * 2),
-  }),
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    rotate: 0,
-    transition: {
-      type: 'spring',
-      damping: 15,
-      stiffness: 80,
-      delay: 1 + i * 0.3,
-    },
-  }),
-};
+    hidden: (i: number) => ({
+      opacity: 0,
+      y: 100,
+      scale: 0.5,
+      rotate: (i % 2 === 0 ? 1 : -1) * (10 + i * 2),
+    }),
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotate: 0,
+      transition: {
+        type: 'spring',
+        damping: 15,
+        stiffness: 80,
+        delay: 1 + i * 0.3,
+      },
+    }),
+  };
 
 
 export default function HowItWorks() {
@@ -128,7 +129,7 @@ export default function HowItWorks() {
         </motion.p>
       </motion.div>
 
-      <div className="max-w-7xl mx-auto mt-28 relative">
+      <div className="max-w-7xl mx-auto mt-36 relative">
         {/* Timeline Line */}
         <div className="absolute top-10 left-0 w-full h-0.5 bg-yellow-300">
              <motion.div 
@@ -152,8 +153,10 @@ export default function HowItWorks() {
                       animate={isInView ? {opacity: 1, scale: 1} : {}}
                       transition={{delay: 1.5 + index * 0.2}}
                     >
-                        <div className="bg-yellow-500 px-3 py-1 rounded-full text-sm font-semibold text-black shadow-md">
-                            {item.time}
+                        <div className="bg-[#fff9e6] px-2">
+                            <div className="bg-yellow-500 px-3 py-1 rounded-full text-[13px] font-normal text-black shadow-md">
+                                {item.time}
+                            </div>
                         </div>
                     </motion.div>
                 ))}
@@ -174,12 +177,12 @@ export default function HowItWorks() {
             >
               {/* Icon */}
               <div className="relative mb-6">
-                <div className="w-20 h-20 flex items-center justify-center relative z-10 bg-[#fff9e6] p-2 rounded-full">
+                <div className="w-20 h-20 flex items-center justify-center relative z-10 bg-transparent p-2">
                   <Image src={item.icon} alt="" width={50} height={50} />
                 </div>
               </div>
               
-              <div className="md:hidden bg-yellow-500 px-3 py-1 rounded-full text-sm font-semibold text-black shadow-md mb-4">
+              <div className="md:hidden bg-yellow-500 px-3 py-1 rounded-full text-[13px] font-normal text-black shadow-md mb-4">
                   {item.time}
               </div>
 
