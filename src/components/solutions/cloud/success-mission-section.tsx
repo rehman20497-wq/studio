@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -81,14 +80,14 @@ export default function SuccessMissionSection() {
   return (
     <motion.section 
         ref={ref}
-        className="bg-[#fff9e6] py-24 px-4"
+        className="bg-white py-24 px-4"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="max-w-7xl mx-auto grid md:grid-cols-10 gap-16 items-start">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-16 items-start">
         {/* Left Column */}
-        <motion.div className="md:col-span-7" variants={itemVariants}>
+        <motion.div className="md:col-span-3" variants={itemVariants}>
           <h2 className="text-[46px] font-headline text-black" style={{ lineHeight: '1.1' }}>
             Your Success is Our Mission
           </h2>
@@ -119,9 +118,9 @@ export default function SuccessMissionSection() {
         </motion.div>
 
         {/* Right Column */}
-        <motion.div className="md:col-span-3 space-y-8" variants={itemVariants}>
+        <motion.div className="md:col-span-2 space-y-8" variants={itemVariants}>
             <div className="relative rounded-2xl overflow-hidden shadow-lg">
-                <Image src="https://picsum.photos/seed/girl-laptop-desk/400/450" alt="Happy professional" width={400} height={450} className="w-full h-auto" data-ai-hint="woman laptop desk" />
+                <Image src="/girl.jpg" alt="Happy professional" width={400} height={450} className="w-full h-auto" data-ai-hint="woman laptop desk" />
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
                     <MagneticButton>
                         <span className="text-sm font-bold px-4">Get a quote</span>
@@ -129,8 +128,8 @@ export default function SuccessMissionSection() {
                 </div>
             </div>
 
-            <div className="bg-gradient-to-br from-cyan-200 to-blue-300 rounded-2xl p-6 text-center space-y-6">
-                <h3 className="text-black font-bold text-[20px]">Top Companies Outsourcing Today</h3>
+            <div className="bg-gradient-to-br from-cyan-200 to-blue-300 rounded-2xl py-6 text-center space-y-6">
+                <h3 className="text-black font-bold text-[20px] px-6">Top Companies Outsourcing Today</h3>
                 <div className="space-y-4">
                     <LogoMarquee logos={logos1} direction="left" />
                     <LogoMarquee logos={logos2} direction="right" />
