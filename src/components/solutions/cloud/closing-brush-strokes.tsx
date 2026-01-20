@@ -15,9 +15,9 @@ export default function ClosingBrushStrokes() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
   
   // Path for right-to-left animation (top stroke)
-  const topStrokeD = "M1440 50 C 960 20, 480 80, 0 50";
+  const topStrokeD = "M1440 40 C 960 10, 480 70, 0 40";
   // Path for left-to-right animation (bottom stroke)
-  const bottomStrokeD = "M0 150 C 480 180, 960 120, 1440 150";
+  const bottomStrokeD = "M0 170 C 480 200, 960 140, 1440 170";
 
   return (
     <motion.div 
@@ -26,11 +26,11 @@ export default function ClosingBrushStrokes() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
     >
-       <svg viewBox="0 0 1440 200" preserveAspectRatio="none" className="w-full h-auto" fill="none">
+       <svg viewBox="0 0 1440 210" preserveAspectRatio="none" className="w-full h-auto" fill="none">
             <motion.path
                 d={topStrokeD}
                 stroke="#B9E2E8" // Light Blue
-                strokeWidth="100"
+                strokeWidth="80"
                 strokeLinecap="round"
                 variants={pathVariants}
                 transition={{ duration: 2.5, ease: [0.42, 0, 0.58, 1], delay: 0 }}
@@ -38,7 +38,7 @@ export default function ClosingBrushStrokes() {
             <motion.path
                 d={bottomStrokeD}
                 stroke="#38A7B3" // Dark Teal
-                strokeWidth="100"
+                strokeWidth="80"
                 strokeLinecap="round"
                 variants={pathVariants}
                 transition={{ duration: 2.5, ease: [0.42, 0, 0.58, 1], delay: 0.3 }}
