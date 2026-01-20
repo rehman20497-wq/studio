@@ -42,7 +42,7 @@ const sectionVariants = {
 
 const AwardCard = ({ src, alt }: { src: string, alt: string }) => (
     <div className="flex-shrink-0 mx-4">
-        <div className="bg-white p-4 rounded-xl border-[3px] border-yellow-400 w-[200px] h-[390px] flex items-center justify-center">
+        <div className="bg-white p-4 rounded-xl border-[3px] border-yellow-400 w-[130px] h-[150px] flex items-center justify-center">
              <Image src={src} alt={alt} width={120} height={120} className="object-contain max-h-full" />
         </div>
     </div>

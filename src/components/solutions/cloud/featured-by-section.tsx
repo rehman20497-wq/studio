@@ -42,7 +42,7 @@ export default function FeaturedBySection() {
   return (
     <motion.section
       ref={ref}
-      className="bg-[#fff9e6] py-[2%] px-4"
+      className="bg-[#fff9e6] pt-[2%] pb-[5%] px-4"
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
       variants={containerVariants}
