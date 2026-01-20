@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -6,13 +5,13 @@ import Image from 'next/image';
 import { useRef } from 'react';
 
 const awards = [
-  { src: 'https://picsum.photos/seed/award1/150/100', alt: 'Clutch Top Company Award' },
-  { src: 'https://picsum.photos/seed/award2/150/100', alt: 'Global Customer Service Training Company Award' },
-  { src: 'https://picsum.photos/seed/award3/150/100', alt: 'Top BPO Company Award' },
-  { src: 'https://picsum.photos/seed/award4/150/100', alt: 'Clutch Top Chat Support Services Company Award' },
-  { src: 'https://picsum.photos/seed/award5/150/100', alt: 'Best in Industry Top Firm Award' },
-  { src: 'https://picsum.photos/seed/award6/150/100', alt: 'Top BPO Company GoodFirms Award' },
-  { src: 'https://picsum.photos/seed/award7/150/100', alt: 'Forrester Wave Leader Award' },
+  { src: '/global.webp', alt: 'Global Award' },
+  { src: '/clutch.png', alt: 'Clutch Award' },
+  { src: '/logos/Google.svg', alt: 'Google logo' },
+  { src: '/logos/Meta.svg', alt: 'Meta logo' },
+  { src: '/logos/Upwork.svg', alt: 'Upwork logo' },
+  { src: '/logos/Attentive.svg', alt: 'Attentive logo' },
+  { src: '/logos/Faire.svg', alt: 'Faire logo' },
 ];
 
 const marqueeVariants = {
@@ -43,8 +42,8 @@ const sectionVariants = {
 
 const AwardCard = ({ src, alt }: { src: string, alt: string }) => (
     <div className="flex-shrink-0 mx-4">
-        <div className="bg-white p-4 rounded-xl border-[3px] border-yellow-400 w-48 h-36 flex items-center justify-center">
-             <Image src={src} alt={alt} width={150} height={100} className="object-contain max-h-full" />
+        <div className="bg-white p-4 rounded-xl border-[3px] border-yellow-400 w-40 h-52 flex items-center justify-center">
+             <Image src={src} alt={alt} width={120} height={120} className="object-contain max-h-full" />
         </div>
     </div>
 );
@@ -59,7 +58,7 @@ export default function AwardsSection() {
   return (
     <motion.section 
         ref={ref}
-        className="bg-white py-16 overflow-hidden"
+        className="bg-[#fff9e6] py-16 overflow-hidden"
         variants={sectionVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
