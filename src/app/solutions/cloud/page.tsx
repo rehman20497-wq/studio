@@ -15,6 +15,7 @@ import ComplianceSection from "@/components/solutions/cloud/compliance-section";
 import HowItWorks from "@/components/solutions/cloud/how-it-works";
 import AnalystsAgreeSection from "@/components/solutions/cloud/analysts-agree-section";
 import AwardsSection from "@/components/solutions/cloud/awards-section";
+import FeaturedBySection from "@/components/solutions/cloud/featured-by-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -37,6 +38,7 @@ export default function CloudSolutionsPage() {
         <HowItWorks />
         <AnalystsAgreeSection />
         <AwardsSection />
+        <FeaturedBySection />
       </main>
     </div>
   );
