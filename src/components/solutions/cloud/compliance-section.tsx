@@ -12,13 +12,13 @@ const complianceData = [
     line3: 'Security Management',
   },
   {
-    icon: '/ic.png',
+    icon: '/io.png',
     line1: 'HIPAA Compliant',
     line2: 'Patient Rights Under',
     line3: 'HIPAA are Protected',
   },
   {
-    icon: '/aip.png',
+    icon: '/AIp.png',
     line1: 'AICPA',
     line2: 'SOC2 Fully Compliant',
     line3: '',

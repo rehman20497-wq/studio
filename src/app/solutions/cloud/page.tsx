@@ -20,6 +20,7 @@ import ClosingBrushStrokes from "@/components/solutions/cloud/closing-brush-stro
 import IntegrationCtaSection from "@/components/solutions/cloud/integration-cta-section";
 import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrial from "@/components/solutions/cloud/risk-free-trial";
+import SuccessMissionSection from "@/components/solutions/cloud/success-mission-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -47,6 +48,7 @@ export default function CloudSolutionsPage() {
         <IntegrationCtaSection />
         <PartnerMarquee />
         <RiskFreeTrial />
+        <SuccessMissionSection />
       </main>
     </div>
   );
