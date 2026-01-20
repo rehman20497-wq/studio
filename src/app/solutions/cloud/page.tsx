@@ -17,6 +17,7 @@ import AnalystsAgreeSection from "@/components/solutions/cloud/analysts-agree-se
 import AwardsSection from "@/components/solutions/cloud/awards-section";
 import FeaturedBySection from "@/components/solutions/cloud/featured-by-section";
 import ClosingBrushStrokes from "@/components/solutions/cloud/closing-brush-strokes";
+import IntegrationCtaSection from "@/components/solutions/cloud/integration-cta-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -41,6 +42,7 @@ export default function CloudSolutionsPage() {
         <AwardsSection />
         <FeaturedBySection />
         <ClosingBrushStrokes />
+        <IntegrationCtaSection />
       </main>
     </div>
   );
