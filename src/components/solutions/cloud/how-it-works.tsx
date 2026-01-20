@@ -63,7 +63,12 @@ const timelineLineVariants = {
 }
 
 const timelineItemVariants = {
-  hidden: { opacity: 0, y: 100, scale: 0.5, rotate: () => Math.random() * 60 - 30 },
+  hidden: (i: number) => ({
+    opacity: 0,
+    y: 100,
+    scale: 0.5,
+    rotate: (i % 2 === 0 ? 1 : -1) * (10 + i * 2), // Deterministic "random" rotation
+  }),
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
