@@ -1,0 +1,170 @@
+'use client';
+
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import Image from 'next/image';
+
+const timelineData = [
+  {
+    icon: '/is.png',
+    time: 'Now',
+    title: '1. Define',
+    description: "Share your goals and challenges, and we'll design a custom solution tailored to your business needs.",
+  },
+  {
+    icon: '/is1.png',
+    time: '1 Week',
+    title: '2. Test',
+    description: 'Start with a pilot program to validate the workflow, refine processes, and integrate your feedback before scaling.',
+  },
+  {
+    icon: '/is2.png',
+    time: '1 Month',
+    title: '3. Launch',
+    description: 'Go live with a fully trained Telsys team, supported by a dedicated project manager, ongoing coaching, QA, and our knowledge & insights team to ensure seamless execution.',
+  },
+  {
+    icon: '/is3.png',
+    time: 'Weekly After 1 Month',
+    title: '4. Manage & Scale',
+    description: "We monitor performance, track growth metrics, and continuously optimize your team's output. As your needs evolve, we'll scale resources while maintaining quality and productivity.",
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.5,
+    },
+  },
+};
+
+const headingVariants = {
+  hidden: { opacity: 0, y: -50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
+};
+
+const paragraphVariants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut', delay: 0.2 } },
+};
+
+const arrowVariants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut', delay: 0.4 } },
+};
+
+const timelineLineVariants = {
+    hidden: { scaleX: 0 },
+    visible: { scaleX: 1, transition: { duration: 1, ease: 'easeOut', delay: 0.8 } }
+}
+
+const timelineItemVariants = {
+  hidden: { opacity: 0, y: 100, scale: 0.5, rotate: () => Math.random() * 60 - 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      type: 'spring',
+      damping: 15,
+      stiffness: 80,
+      delay: 1 + i * 0.3,
+    },
+  }),
+};
+
+
+export default function HowItWorks() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  return (
+    <section ref={ref} className="relative bg-[#fff9e6] py-24 px-4 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-[150px] pointer-events-none z-0">
+            <svg className="w-full h-full" viewBox="0 0 1440 150" preserveAspectRatio="none">
+                <motion.path
+                    d="M0,150 C240,60 480,0 720,0 C960,0 1200,60 1440,150 L1440,0 L0,0 Z"
+                    fill="#ffffff"
+                    initial={{ y: -150, opacity: 0 }}
+                    animate={isInView ? { y: 0, opacity: 1 } : {}}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                />
+            </svg>
+        </div>
+
+      <motion.div
+        className="relative max-w-7xl mx-auto text-center z-10"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+      >
+        <div className="flex justify-center items-center gap-4 mb-6">
+            <motion.h2
+            className="text-[46px] font-headline font-normal text-black"
+            variants={headingVariants}
+            >
+            How to Work With Telsys
+            </motion.h2>
+            <motion.div variants={arrowVariants}>
+                <Image src="/arr.png" alt="arrow" width={40} height={40} />
+            </motion.div>
+        </div>
+
+        <motion.p
+          className="text-[20px] text-black leading-[28.7px] max-w-4xl mx-auto"
+          variants={paragraphVariants}
+        >
+          Our fully managed teams integrate seamlessly with your workflows and platforms, delivering fast, reliable support and smooth collaboration at every step.
+        </motion.p>
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto mt-20 relative">
+        {/* Timeline Line */}
+        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-yellow-300 -translate-y-[calc(50%+100px)]">
+             <motion.div 
+                className="h-full bg-yellow-500"
+                style={{ originX: 0 }}
+                variants={timelineLineVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+             />
+        </div>
+
+        <motion.div
+          className="relative grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-16"
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        >
+          {timelineData.map((item, index) => (
+            <motion.div
+              key={index}
+              className="flex flex-col items-center text-center"
+              custom={index}
+              variants={timelineItemVariants}
+            >
+              {/* Icon and Time */}
+              <div className="relative mb-6">
+                <div className="absolute -top-16 left-1/2 -translate-x-1/2 bg-[#fff9e6] px-4 py-1 rounded-full text-sm font-semibold text-zinc-700">
+                    {item.time}
+                </div>
+                <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center border-4 border-black">
+                  <Image src={item.icon} alt="" width={40} height={40} />
+                </div>
+              </div>
+              
+              <h3 className="text-[20px] font-bold text-black mb-3">{item.title}</h3>
+              <p className="text-[13px] text-black leading-snug">
+                {item.description}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
