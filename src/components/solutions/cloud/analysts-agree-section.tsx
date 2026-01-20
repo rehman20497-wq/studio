@@ -48,7 +48,7 @@ export default function AnalystsAgreeSection() {
   return (
     <motion.section
       ref={ref}
-      className="bg-[#fff9e6] py-24 px-4"
+      className="bg-[#fff9e6] pb-6 px-4"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
@@ -75,7 +75,7 @@ export default function AnalystsAgreeSection() {
         </motion.div>
 
         <motion.div
-          className="flex justify-center items-center gap-4 mt-8"
+          className="flex justify-center items-center gap-4 mt-2"
           variants={headingVariants}
         >
           <h2 className="text-[46px] font-headline font-normal text-black">
