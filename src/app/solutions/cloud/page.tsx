@@ -13,6 +13,7 @@ import CustomerShowcaseSection from "@/components/solutions/cloud/customer-showc
 import CustomerStories from "@/components/customer-stories";
 import ComplianceSection from "@/components/solutions/cloud/compliance-section";
 import HowItWorks from "@/components/solutions/cloud/how-it-works";
+import AnalystsAgreeSection from "@/components/solutions/cloud/analysts-agree-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -30,6 +31,7 @@ export default function CloudSolutionsPage() {
         <FeaturesSection />
         <CustomerShowcaseSection />
         <CustomerStories />
+        <AnalystsAgreeSection />
         <ComplianceSection />
         <HowItWorks />
       </main>
