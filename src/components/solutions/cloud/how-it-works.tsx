@@ -67,7 +67,7 @@ const timelineItemVariants = {
     opacity: 0,
     y: 100,
     scale: 0.5,
-    rotate: (i % 2 === 0 ? 1 : -1) * (10 + i * 2), // Deterministic "random" rotation
+    rotate: (i % 2 === 0 ? 1 : -1) * (10 + i * 2),
   }),
   visible: (i: number) => ({
     opacity: 1,
@@ -128,9 +128,9 @@ export default function HowItWorks() {
         </motion.p>
       </motion.div>
 
-      <div className="max-w-7xl mx-auto mt-20 relative">
+      <div className="max-w-7xl mx-auto mt-28 relative">
         {/* Timeline Line */}
-        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-yellow-300 -translate-y-[calc(50%+100px)]">
+        <div className="absolute top-10 left-0 w-full h-0.5 bg-yellow-300">
              <motion.div 
                 className="h-full bg-yellow-500"
                 style={{ originX: 0 }}
@@ -138,6 +138,26 @@ export default function HowItWorks() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
              />
+        </div>
+        
+        {/* Timeline Time Labels */}
+        <div className="absolute top-10 left-0 w-full -translate-y-1/2 z-20 hidden md:block">
+            <div className="relative h-full w-full">
+                {timelineData.map((item, index) => (
+                    <motion.div
+                      key={index} 
+                      className="absolute -translate-x-1/2" 
+                      style={{ left: `${(index + 0.5) * 25}%` }}
+                      initial={{opacity: 0, scale: 0}}
+                      animate={isInView ? {opacity: 1, scale: 1} : {}}
+                      transition={{delay: 1.5 + index * 0.2}}
+                    >
+                        <div className="bg-yellow-500 px-3 py-1 rounded-full text-sm font-semibold text-black shadow-md">
+                            {item.time}
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
         </div>
 
         <motion.div
@@ -152,16 +172,17 @@ export default function HowItWorks() {
               custom={index}
               variants={timelineItemVariants}
             >
-              {/* Icon and Time */}
+              {/* Icon */}
               <div className="relative mb-6">
-                <div className="absolute -top-16 left-1/2 -translate-x-1/2 bg-[#fff9e6] px-4 py-1 rounded-full text-sm font-semibold text-zinc-700">
-                    {item.time}
-                </div>
-                <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center border-4 border-black">
-                  <Image src={item.icon} alt="" width={40} height={40} />
+                <div className="w-20 h-20 flex items-center justify-center relative z-10 bg-[#fff9e6] p-2 rounded-full">
+                  <Image src={item.icon} alt="" width={50} height={50} />
                 </div>
               </div>
               
+              <div className="md:hidden bg-yellow-500 px-3 py-1 rounded-full text-sm font-semibold text-black shadow-md mb-4">
+                  {item.time}
+              </div>
+
               <h3 className="text-[20px] font-bold text-black mb-3">{item.title}</h3>
               <p className="text-[13px] text-black leading-snug">
                 {item.description}
