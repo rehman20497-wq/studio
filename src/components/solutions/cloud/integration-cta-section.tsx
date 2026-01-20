@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -46,7 +47,7 @@ const paragraphVariants = {
     y: 0,
     transition: {
       duration: 1.2, // Slower duration
-      delay: 1.5, // Delay to start after heading animation is underway
+      delay: 2.6, // Delay to start after heading animation is underway
       ease: [0.22, 1, 0.36, 1], // Smoother ease
     },
   },
