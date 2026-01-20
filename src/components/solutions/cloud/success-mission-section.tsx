@@ -91,7 +91,7 @@ export default function SuccessMissionSection() {
           <h2 className="text-[46px] font-headline text-black" style={{ lineHeight: '1.1' }}>
             Your Success is Our Mission
           </h2>
-          <div className="mt-6 space-y-6 text-black text-[20px] leading-relaxed">
+          <div className="mt-6 space-y-6 text-black text-[20px] leading-[30.7px]">
             <p>
               You deserve better outcomes, insights, and conversations. You deserve to work with the best proactive teams that embrace complexity, adapt to ambiguity, and flex to your needs with just 24 hours notice. You should be obsessed over, not struggling to scale or sacrificing quality for speed.
             </p>
@@ -103,7 +103,7 @@ export default function SuccessMissionSection() {
             <h3 className="text-black font-bold text-[20px] mb-4">Why Choose Hugo?</h3>
             <ul className="space-y-3">
                 {listItems.map((item, index) => (
-                    <li key={index} className="flex items-start text-black text-[17px]">
+                    <li key={index} className="flex items-start text-black text-[17px] leading-[20.5px]">
                         <span className="mr-3 mt-1">&#8226;</span>
                         <span>{item}</span>
                     </li>
@@ -111,7 +111,7 @@ export default function SuccessMissionSection() {
             </ul>
           </div>
            <div className="mt-8">
-                <p className="text-black text-[20px] leading-relaxed">
+                <p className="text-black text-[20px] leading-[30.7px]">
                     As your dedicated partner, Hugo manages the full spectrum of customer care so you can scale with confidence. Let’s connect and design the support model that fits your business today.
                 </p>
           </div>
@@ -128,7 +128,7 @@ export default function SuccessMissionSection() {
                 </div>
             </div>
 
-            <div className="bg-gradient-to-br from-cyan-200 to-blue-300 rounded-2xl py-[8%] text-center space-y-6">
+            <div className="bg-gradient-to-br from-cyan-200 to-blue-300 rounded-2xl py-5 text-center space-y-6">
                 <h3 className="text-black font-bold text-[20px] px-6">Top Companies Outsourcing Today</h3>
                 <div className="space-y-4">
                     <LogoMarquee logos={logos1} direction="left" />
