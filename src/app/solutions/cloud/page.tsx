@@ -18,6 +18,7 @@ import AwardsSection from "@/components/solutions/cloud/awards-section";
 import FeaturedBySection from "@/components/solutions/cloud/featured-by-section";
 import ClosingBrushStrokes from "@/components/solutions/cloud/closing-brush-strokes";
 import IntegrationCtaSection from "@/components/solutions/cloud/integration-cta-section";
+import PartnerMarquee from "@/components/partner-marquee";
 
 export default function CloudSolutionsPage() {
   return (
@@ -43,6 +44,7 @@ export default function CloudSolutionsPage() {
         <FeaturedBySection />
         <ClosingBrushStrokes />
         <IntegrationCtaSection />
+        <PartnerMarquee />
       </main>
     </div>
   );
