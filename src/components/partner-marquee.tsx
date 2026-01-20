@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef } from 'react';
@@ -6,23 +5,23 @@ import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 
 const logos = [
-  { src: '/logos/Asset-43.svg', alt: 'Monday.com' },
-  { src: '/logos/Asset-44.svg', alt: 'Intercom' },
-  { src: '/logos/Asset-47.svg', alt: 'Zendesk' },
+  { src: '/logos/Google.svg', alt: 'Google' },
   { src: '/logos/Asset-48.svg', alt: 'Shopify' },
+  { src: '/logos/Asset-44.svg', alt: 'Intercom' },
   { src: '/logos/Asset-49.svg', alt: 'PayPal' },
   { src: '/logos/Asset-50.svg', alt: 'Slack' },
+  { src: '/logos/Asset-43.svg', alt: 'Monday.com' },
+  { src: '/logos/Asset-47.svg', alt: 'Zendesk' },
   { src: '/logos/Asset-56.svg', alt: 'Trello' },
-  { src: '/logos/Asset-62.svg', alt: 'Trello' },
 ];
 
 const containerVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, scale: 0.5 },
   visible: {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.8,
+      duration: 2,
       ease: [0.25, 1, 0.5, 1],
     },
   },
