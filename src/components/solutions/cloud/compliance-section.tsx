@@ -77,7 +77,7 @@ const ComplianceItem = ({ item }: { item: (typeof complianceData)[0] }) => (
 
 export default function ComplianceSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
     <motion.section
@@ -88,7 +88,7 @@ export default function ComplianceSection() {
       animate={isInView ? 'visible' : 'hidden'}
     >
       <div className="container mx-auto">
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 lg:gap-x-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-8 justify-items-center">
           {complianceData.map((item, index) => (
             <ComplianceItem key={index} item={item} />
           ))}
