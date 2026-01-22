@@ -1,7 +1,6 @@
 
 import Header from "@/components/layout/header";
 import Hero from "@/components/solutions/communications/hero";
-import CloudLogoMarquee from "@/components/solutions/cloud/cloud-logo-marquee";
 import CustomerSupportSection from "@/components/solutions/cloud/customer-support-section";
 import ServicesFrameworkSection from "@/components/solutions/cloud/services-framework-section";
 import ArrowHaSection from "@/components/solutions/cloud/arrow-ha-section";
@@ -29,7 +28,6 @@ export default function CommunicationsSolutionsPage() {
       <Header />
       <main>
         <Hero />
-        <CloudLogoMarquee />
         <CustomerSupportSection />
         <ServicesFrameworkSection />
         <ArrowHaSection />
