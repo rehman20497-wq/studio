@@ -57,7 +57,7 @@ const CirclePattern = () => {
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <pattern id="circlePatternComms" patternUnits="userSpaceOnUse" width="80" height="80" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="35" fill="none" stroke="#4ab01b" strokeWidth="8"/>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#8ee167" strokeWidth="8"/>
                     </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#circlePatternComms)" />
@@ -73,7 +73,7 @@ export default function FeaturedGuideSection() {
     return (
         <motion.section 
             ref={ref}
-            className="relative bg-[#a4e687] py-32 px-[4%]"
+            className="relative bg-[#a4e687] py-[7%] px-[4%]"
             variants={sectionVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
@@ -95,7 +95,7 @@ export default function FeaturedGuideSection() {
              <div className="absolute bottom-0 left-0 w-full h-[150px] text-white pointer-events-none z-10">
                 <svg viewBox="0 0 1440 150" preserveAspectRatio="none" className="w-full h-full">
                     <motion.path 
-                        d="M0,100 C360,0 1080,0 1440,100 L1440,150 L0,150 Z"
+                        d="M0,100 C480,150 960,150 1440,100 L1440,150 L0,150 Z"
                         fill="currentColor"
                         initial={{ y: 150 }}
                         animate={isInView ? { y: 0 } : {}}
@@ -129,8 +129,8 @@ export default function FeaturedGuideSection() {
                 </div>
 
                 {/* Right Content */}
-                <motion.div className="relative h-[450px]" variants={imageContainerVariants}>
-                    <div className="absolute -top-4 -right-4 w-full h-full rounded-2xl overflow-hidden">
+                <motion.div className="relative h-[350px]" variants={imageContainerVariants}>
+                    <div className="absolute -top-4 -right-4 w-full h-full rounded-2xl overflow-hidden bg-[#4ab01b]">
                          <CirclePattern />
                     </div>
                     <div className="relative w-full h-full rounded-2xl border-4 border-[#ff8f82] p-4 bg-white/10 backdrop-blur-sm shadow-2xl">
