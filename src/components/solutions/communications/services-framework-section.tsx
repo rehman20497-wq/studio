@@ -6,41 +6,40 @@ import Image from 'next/image';
 
 const cardData = [
   {
-    icon: '/ic.svg',
-    title: 'Client Services',
-    items: [
-      'Live Chat Support Outsourcing',
-      'Call Center Outsourcing',
-      'Ecommerce Support',
-      'Technical Support',
-      'App User & Platform Support',
-      'Social Media Customer Service',
-      'Onshore & Offshore Customer Service',
-    ],
-  },
-  {
-    icon: '/ic1.svg',
-    title: 'Omnichannel Support',
-    items: [
-      'Email',
-      'Chatbot',
-      'Live Chat',
-      'Phone',
-      'SMS',
-      'Social Media',
-      'In-App Messaging',
-    ],
-  },
-  {
     icon: '/ic2.svg',
-    title: 'Services Framework',
+    title: 'Platform Growth',
     items: [
-      'Month-to-Month Pricing',
-      '365/24/7 coverage in 60+ languages',
-      'AI-enabled helpdesk solutions',
-      'Onboarding, Management, QA, Training, WFM included',
-      'Team lead(s) included',
-      'Seasonal & Holiday Support Included',
+      'Inbound lead review and response',
+      'User account management',
+      'Digital merchandising',
+      'Content updates & optimization',
+      'Brand support',
+      'Order fulfillment',
+      'Language translation',
+    ],
+  },
+  {
+    icon: '/saf.svg',
+    title: 'Safety',
+    items: [
+      'Fraud detection',
+      'Inbound fraud review and response',
+      'Continuous due diligence',
+      'Chargebacks & disputes',
+      'Claims management',
+      
+    ],
+  },
+  {
+    icon: '/sal.svg',
+    title: 'Sales Support',
+    items: [
+      'Top-of-the-funnel lead generation',
+      'Lead research, qualification, and enrichment',
+      'Outbound campaign management (email, social, SMS)',
+      'Scheduling appointments & demos',
+      'Data & CRM Management',
+      'Market Intelligence',
     ],
   },
 ];
@@ -86,7 +85,7 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
   <motion.div className="relative" variants={cardItemVariants}>
     {/* Decorative circle background, hidden on small devices */}
     <motion.div
-      className="hidden md:block absolute bg-[#0badbf] rounded-2xl overflow-hidden"
+      className="hidden md:block absolute bg-[#4ab01b] rounded-2xl overflow-hidden"
       style={{
         width: '280px',
         height: '330px',

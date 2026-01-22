@@ -82,7 +82,7 @@ export default function OurApproachSection() {
     >
       <div className="max-w-6xl mx-auto text-center">
         <motion.div className="inline-block relative mb-4" variants={textVariants}>
-            <h3 className="text-lg font-normal text-zinc-800">
+            <h3 className="text-[23px] font-normal text-zinc-800">
                 Our Approach
             </h3>
             <motion.svg
