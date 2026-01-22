@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView, animate } from 'framer-motion';
@@ -61,7 +60,7 @@ export default function StatsSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="bg-[#FFF9E6] py-24 px-4">
+    <section ref={ref} className="bg-[#FFF9E6] px-4">
       <motion.div
         className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
         variants={containerVariants}
