@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -80,7 +79,7 @@ export default function CloudFaqSection() {
     return (
         <motion.section
             ref={ref}
-            className="bg-white py-24 px-4 sm:px-6 lg:px-8"
+            className="bg-white pt-8 pb-24 px-4 sm:px-6 lg:px-8"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={containerVariants}
@@ -100,7 +99,7 @@ export default function CloudFaqSection() {
 
                 {/* Right Scrollable Column */}
                 <motion.div
-                    className="lg:col-span-2 space-y-8"
+                    className="lg:col-span-2 space-y-4"
                     variants={{
                         visible: { transition: { staggerChildren: 0.2 } }
                     }}
