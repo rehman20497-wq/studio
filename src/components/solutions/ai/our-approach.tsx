@@ -115,7 +115,7 @@ export default function OurApproachSection() {
           {cardData.map((card, index) => (
             <motion.div
               key={index}
-              className="bg-white p-8 rounded-2xl border-4 border-purple-200 text-center"
+              className="bg-white p-8 rounded-2xl border-4 border-[#c597fe]  text-center"
               variants={cardVariants}
             >
               <div className="flex justify-center mb-6">
