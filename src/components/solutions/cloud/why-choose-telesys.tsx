@@ -52,7 +52,7 @@ export default function WhyChooseTelesys() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="py-24 px-4 bg-[#a2edf4]">
+    <section ref={ref} className="pt-24 pb-12 px-4 bg-[#a2edf4]">
       <motion.div
         className="max-w-4xl mx-auto text-center"
         variants={containerVariants}

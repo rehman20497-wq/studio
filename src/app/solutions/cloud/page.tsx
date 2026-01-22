@@ -21,6 +21,7 @@ import IntegrationCtaSection from "@/components/solutions/cloud/integration-cta-
 import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrial from "@/components/solutions/cloud/risk-free-trial";
 import SuccessMissionSection from "@/components/solutions/cloud/success-mission-section";
+import CloudFaqSection from "@/components/solutions/cloud/faq-section";
 
 export default function CloudSolutionsPage() {
   return (
@@ -37,8 +38,7 @@ export default function CloudSolutionsPage() {
         <WhyChooseTelesys />
         <FeaturesSection />
         <CustomerShowcaseSection />
-        <CustomerStories />
-        
+        <CustomerStories />        
         <ComplianceSection />
         <HowItWorks />
         <AnalystsAgreeSection />
@@ -49,6 +49,7 @@ export default function CloudSolutionsPage() {
         <PartnerMarquee />
         <RiskFreeTrial />
         <SuccessMissionSection />
+        <CloudFaqSection />
       </main>
     </div>
   );
