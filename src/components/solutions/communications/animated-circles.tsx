@@ -11,10 +11,10 @@ const SPACING = 0;
 // Animation timings in ms
 const DRAW_DURATION = 1200;
 const UNDRAW_DURATION = 1200;
-const PROFILE_UNDRAW_DURATION = 2000;
-const PROFILE_HOLD_DURATION = 5000;
-const NORMAL_HOLD_DURATION = 2500;
-const CYCLE_DELAY = 600; // Delay between one cycle (draw/undraw) finishing and the next starting
+const PROFILE_UNDRAW_DURATION = 1500;
+const PROFILE_HOLD_DURATION = 3500; // Time profile stays visible
+const NORMAL_HOLD_DURATION = 1000;  // Time a non-profile circle stays visible
+const CYCLE_DELAY = 200; // Delay between cycles
 
 const SMALL_BOX_SIZE = SMALL_CIRCLE_RADIUS * 2 + SPACING;
 const CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
@@ -137,91 +137,90 @@ export default function AnimatedCircles() {
             ];
             return potentialNeighbors
                 .map(p => circleMap.get(`${p.r},${p.c}`))
-                .filter(Boolean); // Filter out undefined (out of bounds)
+                .filter(Boolean);
         };
         
-        const runAnimation = async () => {
-            const activeCircles = new Map<string, { removeAt: number, hasProfile: boolean }>();
-            const profilesByRow = new Map<number, string>(); // row -> circleId with profile
+        const animateOn = (circle: any, { duration, rotation, fill }: { duration: number, rotation: number, fill: number}) => {
+            animate(`#${circle.id} .stroke-circle`, 
+                { strokeDasharray: `${CIRCUMFERENCE * fill} ${CIRCUMFERENCE * (1 - fill)}`, rotate, strokeDashoffset: 0 }, 
+                { duration: duration / 1000, ease: "easeOut" }
+            );
+        }
+        
+        const animateOff = (circle: any, { duration }: { duration: number }) => {
+             animate(`#${circle.id} .stroke-circle`, { strokeDashoffset: CIRCUMFERENCE }, { duration: duration / 1000, ease: "easeIn" });
+        }
+        
+        const animateProfile = (circle: any, { direction }: { direction: 'on' | 'off' }) => {
+            const duration = direction === 'on' ? 1000 : PROFILE_UNDRAW_DURATION;
+            const ease = direction === 'on' ? 'easeOut' : 'easeIn';
+            animate(`#${circle.id} .profile-clip`, { scale: direction === 'on' ? 1 : 0 }, { duration: duration / 1000, ease });
+            animate(`#${circle.id} .profile-image-container`, { opacity: direction === 'on' ? 1 : 0 }, { at: '<', duration: duration / 1000, ease });
+        }
 
-            let lastCircle: any = shuffle(allCirclesFlat)[0];
+        const runAnimation = async () => {
+            let activeCircles = new Set<string>();
+            let profilesInRows = new Set<number>();
+            let circleA = shuffle(allCirclesFlat)[0];
 
             while (!isCancelled) {
-                // 1. Prune expired circles
-                const now = Date.now();
-                for (const [id, { removeAt, hasProfile }] of activeCircles.entries()) {
-                    if (now >= removeAt) {
-                        activeCircles.delete(id);
-                        if (hasProfile) {
-                            profilesByRow.forEach((profileId, row) => {
-                                if (profileId === id) {
-                                    profilesByRow.delete(row);
-                                }
-                            });
-                            animate(`#${id} .profile-image-container`, { opacity: 0 }, { duration: PROFILE_UNDRAW_DURATION / 1000, ease: 'easeIn' });
-                            animate(`#${id} .profile-clip`, { scale: 0 }, { at: '<', duration: PROFILE_UNDRAW_DURATION / 1000, ease: 'easeIn' });
-                        }
-                        animate(`#${id} .stroke-circle`, { strokeDashoffset: CIRCUMFERENCE }, { duration: UNDRAW_DURATION / 1000, ease: "easeIn" });
-                    }
+                // Find neighbor B
+                const neighbors = getNeighbors(circleA);
+                const available = neighbors.filter(n => !activeCircles.has(n.id));
+                let circleB = available.length > 0 ? shuffle(available)[0] : null;
+
+                // Animate A on if it's not already on
+                if (!activeCircles.has(circleA.id)) {
+                    animateOn(circleA, { rotation: Math.random() * 360, fill: 0.75, duration: DRAW_DURATION });
+                    activeCircles.add(circleA.id);
+                    await sleep(NORMAL_HOLD_DURATION);
                 }
                 
-                // 2. Find next pair to animate
-                const neighbors = getNeighbors(lastCircle);
-                const availableNeighbors = neighbors.filter(n => !activeCircles.has(n.id));
-                
-                let firstCircle = lastCircle;
-                let secondCircle: any;
+                if (isCancelled) return;
 
-                if (availableNeighbors.length > 0) {
-                    secondCircle = shuffle(availableNeighbors)[0];
-                } else {
-                    // No neighbors, jump to a random non-active circle
-                    const inactiveCircles = allCirclesFlat.filter(c => !activeCircles.has(c.id));
-                    if (inactiveCircles.length > 1) {
-                         firstCircle = shuffle(inactiveCircles)[0];
-                         const newNeighbors = getNeighbors(firstCircle).filter(n => !activeCircles.has(n.id));
-                         secondCircle = newNeighbors.length > 0 ? shuffle(newNeighbors)[0] : inactiveCircles[1];
-                    } else {
-                        // All circles active, just wait
-                        await sleep(CYCLE_DELAY);
-                        continue;
-                    }
+                if (!circleB) {
+                    // Dead end. Undraw A and find a new A to start over.
+                    animateOff(circleA, { duration: UNDRAW_DURATION });
+                    await sleep(UNDRAW_DURATION);
+                    if (isCancelled) return;
+                    activeCircles.delete(circleA.id);
+
+                    const inactive = allCirclesFlat.filter(c => !activeCircles.has(c.id));
+                    circleA = shuffle(inactive.length > 0 ? inactive : allCirclesFlat)[0];
+                    await sleep(CYCLE_DELAY);
+                    continue;
+                }
+                
+                // We have a pair: A and B
+                activeCircles.add(circleB.id);
+                const willShowProfileB = !profilesInRows.has(circleB.row) && Math.random() < 0.25;
+
+                // Animate B on and A off
+                animateOn(circleB, { rotation: Math.random() * 360, fill: 0.85, duration: DRAW_DURATION });
+                animateOff(circleA, { duration: UNDRAW_DURATION });
+
+                if (willShowProfileB) {
+                    profilesInRows.add(circleB.row);
+                    await sleep(DRAW_DURATION * 0.4);
+                    if (isCancelled) return;
+                    animateProfile(circleB, { direction: 'on' });
                 }
 
-                lastCircle = secondCircle; // The second circle becomes the start of the next pair
+                activeCircles.delete(circleA.id);
 
-                // 3. Animate the pair
-                const showProfile = !profilesByRow.has(secondCircle.row) && Math.random() < 0.25;
-
-                // Animate first circle
-                const firstRotation = Math.random() * 360;
-                const firstFill = 0.75 + Math.random() * 0.05; // 75-80%
-                animate(`#${firstCircle.id} .stroke-circle`, 
-                    { strokeDasharray: `${CIRCUMFERENCE * firstFill} ${CIRCUMFERENCE * (1 - firstFill)}`, rotate: firstRotation, strokeDashoffset: 0 }, 
-                    { duration: DRAW_DURATION / 1000, ease: "easeOut" }
-                );
-                activeCircles.set(firstCircle.id, { removeAt: Date.now() + NORMAL_HOLD_DURATION, hasProfile: false });
-
-                await sleep(DRAW_DURATION / 2); // Stagger the second circle
-
-                // Animate second circle
-                const secondRotation = firstRotation + 180 + (Math.random() * 60 - 30); // roughly opposite
-                const secondFill = 0.85;
-                animate(`#${secondCircle.id} .stroke-circle`, 
-                    { strokeDasharray: `${CIRCUMFERENCE * secondFill} ${CIRCUMFERENCE * (1 - secondFill)}`, rotate: secondRotation, strokeDashoffset: 0 }, 
-                    { duration: DRAW_DURATION / 1000, ease: "easeOut" }
-                );
+                // Hold B
+                await sleep(willShowProfileB ? PROFILE_HOLD_DURATION : NORMAL_HOLD_DURATION);
+                if (isCancelled) return;
                 
-                if (showProfile) {
-                    profilesByRow.set(secondCircle.row, secondCircle.id);
-                    activeCircles.set(secondCircle.id, { removeAt: Date.now() + PROFILE_HOLD_DURATION, hasProfile: true });
-                    await sleep(DRAW_DURATION / 2); // Wait for stroke to mostly finish
-                    animate(`#${secondCircle.id} .profile-clip`, { scale: 1 }, { duration: 1, ease: 'easeOut' });
-                    animate(`#${secondCircle.id} .profile-image-container`, { opacity: 1 }, { at: '<', duration: 1 });
-                } else {
-                     activeCircles.set(secondCircle.id, { removeAt: Date.now() + NORMAL_HOLD_DURATION, hasProfile: false });
+                // If B had a profile, undraw it before next cycle
+                if (willShowProfileB) {
+                    animateProfile(circleB, { direction: 'off' });
+                    await sleep(PROFILE_UNDRAW_DURATION);
+                    if (isCancelled) return;
+                    profilesInRows.delete(circleB.row);
                 }
-
+                
+                circleA = circleB; // B becomes the new A for the next loop
                 await sleep(CYCLE_DELAY);
             }
         };
