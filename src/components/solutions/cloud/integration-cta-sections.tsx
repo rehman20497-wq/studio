@@ -53,7 +53,7 @@ const paragraphVariants = {
   },
 };
 
-export default function IntegrationCtaSection() {
+export default function IntegrationCtaSections() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
@@ -79,14 +79,7 @@ export default function IntegrationCtaSection() {
             customer excellence.
           </motion.span>
         </motion.h2>
-        <motion.p
-          className="mt-8 text-[16px] leading-[24.5px] text-black max-w-3xl mx-auto"
-          variants={paragraphVariants}
-        >
-          From day 1 we integrate into your existing CRMs, operational tools
-          and customer systems so our teams deliver results without disrupting
-          how you work.
-        </motion.p>
+        
       </motion.div>
     </section>
   );
