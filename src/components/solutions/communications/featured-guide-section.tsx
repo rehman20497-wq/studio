@@ -3,7 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+import MagneticButton from '@/components/magnetic-button';
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -95,7 +95,7 @@ export default function FeaturedGuideSection() {
              <div className="absolute bottom-0 left-0 w-full h-[150px] text-white pointer-events-none z-10">
                 <svg viewBox="0 0 1440 150" preserveAspectRatio="none" className="w-full h-full">
                     <motion.path 
-                        d="M0,0 C240,90 480,150 720,150 C960,150 1200,90 1440,0 L1440,150 L0,150 Z" 
+                        d="M0,100 C360,0 1080,0 1440,100 L1440,150 L0,150 Z"
                         fill="currentColor"
                         initial={{ y: 150 }}
                         animate={isInView ? { y: 0 } : {}}
@@ -122,9 +122,9 @@ export default function FeaturedGuideSection() {
                         Uncover how to elevate business performance through digital transformation, integrating technology with strategy, enhancing collaboration, and driving innovation for a competitive advantage.
                     </motion.p>
                     <motion.div className="mt-8" variants={textItemVariants}>
-                        <Button className="bg-black text-white rounded-full px-8 py-6 text-base hover:bg-zinc-800">
-                            Read Guide Here
-                        </Button>
+                        <MagneticButton>
+                            <span className="text-base font-bold">Read Guide Here</span>
+                        </MagneticButton>
                     </motion.div>
                 </div>
 
