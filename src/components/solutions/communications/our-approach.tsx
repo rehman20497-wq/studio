@@ -104,7 +104,7 @@ export default function OurApproachSection() {
         <motion.h2 className="text-5xl font-normal text-black mb-6 font-headline" variants={textVariants}>
           Meticulous & Process-Driven
         </motion.h2>
-        <motion.p className="text-lg text-zinc-700 max-w-3xl mx-auto mb-16" variants={textVariants}>
+        <motion.p className="text-lg text-zinc-700 max-w-3xl mx-auto mb-8" variants={textVariants}>
           Hugo's outsourcing solutions cover everything from Shopify back-end management and supply chain support to identity verification, claims processing, and sales support. We bring precision and consistency to the processes that keep your business moving.
         </motion.p>
 
