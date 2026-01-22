@@ -60,7 +60,7 @@ const solutions = [
     },
     {
       title: "AI Solutions",
-      href: "/providers?solution=ai-solutions",
+      href: "/solutions/ai-solutions",
       icon: Cpu,
       description: "Harnessing the power of Artificial Intelligence."
     },
