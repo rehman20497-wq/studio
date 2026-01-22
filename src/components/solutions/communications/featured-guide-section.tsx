@@ -95,7 +95,7 @@ export default function FeaturedGuideSection() {
              <div className="absolute bottom-0 left-0 w-full h-[150px] text-white pointer-events-none z-10">
                 <svg viewBox="0 0 1440 150" preserveAspectRatio="none" className="w-full h-full">
                     <motion.path 
-                        d="M0,100 C480,150 960,150 1440,100 L1440,150 L0,150 Z"
+                        d="M0,100 C480,50 960,50 1440,100 L1440,150 L0,150 Z"
                         fill="currentColor"
                         initial={{ y: 150 }}
                         animate={isInView ? { y: 0 } : {}}
