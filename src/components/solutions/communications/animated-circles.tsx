@@ -142,7 +142,7 @@ export default function AnimatedCircles() {
         
         const animateOn = (circle: any, { duration, rotation, fill }: { duration: number, rotation: number, fill: number}) => {
             animate(`#${circle.id} .stroke-circle`, 
-                { strokeDasharray: `${CIRCUMFERENCE * fill} ${CIRCUMFERENCE * (1 - fill)}`, rotate, strokeDashoffset: 0 }, 
+                { strokeDasharray: `${CIRCUMFERENCE * fill} ${CIRCUMFERENCE * (1 - fill)}`, rotate: rotation, strokeDashoffset: 0 }, 
                 { duration: duration / 1000, ease: "easeOut" }
             );
         }
