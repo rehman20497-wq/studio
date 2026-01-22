@@ -6,6 +6,7 @@ import GetStartedCta from "@/components/solutions/communications/get-started-cta
 import CustomerSupportSection from "@/components/solutions/communications/customer-support-section";
 import ServicesFrameworkSection from "@/components/solutions/communications/services-framework-section";
 import StatsSection from "@/components/solutions/communications/stats-section";
+import OptimizePerformanceSection from "@/components/solutions/communications/optimize-performance-section";
 
 export default function CommunicationsSolutionsPage() {
   return (
@@ -18,6 +19,7 @@ export default function CommunicationsSolutionsPage() {
         <CustomerSupportSection />
         <ServicesFrameworkSection />
         <StatsSection />
+        <OptimizePerformanceSection />
       </main>
     </div>
   );
