@@ -2,6 +2,7 @@
 import Header from "@/components/layout/header";
 import Hero from "@/components/solutions/communications/hero";
 import OurApproachSection from "@/components/solutions/communications/our-approach";
+import GetStartedCta from "@/components/solutions/communications/get-started-cta";
 
 
 export default function CommunicationsSolutionsPage() {
@@ -11,6 +12,7 @@ export default function CommunicationsSolutionsPage() {
       <main>
         <Hero />
         <OurApproachSection />
+        <GetStartedCta />
       </main>
     </div>
   );

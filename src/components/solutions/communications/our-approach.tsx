@@ -75,7 +75,7 @@ export default function OurApproachSection() {
   return (
     <motion.section
       ref={ref}
-      className="py-24 px-[4%] bg-[#cdf0bd]"
+      className="py-6 px-[4%] mx-[4%] bg-[#cdf0bd]"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
