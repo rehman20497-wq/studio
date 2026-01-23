@@ -23,7 +23,8 @@ import {
   Wifi,
   Cpu,
   Zap,
-  Sparkles
+  Sparkles,
+  ChevronDown
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -244,12 +245,13 @@ export default function Header() {
                                     Alpha
                                 </Link>
                             </AccordionItem>
-                            <AccordionItem value="Solutions" className="border-b border-yellow-200">
+                            <AccordionItem value="Solutions" className="border-b border-yellow-200 group">
                                 <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
                                     <div className="flex items-center gap-4">
                                         <Zap className="w-8 h-8" />
                                         Solutions
                                     </div>
+                                    <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                                 </AccordionTrigger>
                                 <AccordionContent className="pl-16">
                                     <ul className="space-y-4">
@@ -267,12 +269,13 @@ export default function Header() {
                                     Providers
                                 </Link>
                             </AccordionItem>
-                            <AccordionItem value="Company" className="border-b border-yellow-200">
+                            <AccordionItem value="Company" className="border-b border-yellow-200 group">
                                 <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
                                     <div className="flex items-center gap-4">
                                         <Building className="w-8 h-8" />
                                         Company
                                     </div>
+                                    <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                                 </AccordionTrigger>
                                 <AccordionContent className="pl-16">
                                     <ul className="space-y-4">
@@ -284,12 +287,13 @@ export default function Header() {
                                     </ul>
                                 </AccordionContent>
                             </AccordionItem>
-                            <AccordionItem value="Resources" className="border-b-0">
+                            <AccordionItem value="Resources" className="border-b-0 group">
                                 <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
                                     <div className="flex items-center gap-4">
                                         <BookOpen className="w-8 h-8" />
                                         Resources
                                     </div>
+                                     <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                                 </AccordionTrigger>
                                 <AccordionContent className="pl-16">
                                     <ul className="space-y-4">
