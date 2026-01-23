@@ -2,6 +2,7 @@
 
 import Header from "@/components/layout/header";
 import Hero from "@/components/solutions/connectivity/hero";
+import OurApproachSection from "@/components/solutions/connectivity/our-approach";
 
 export default function ConnectivitySolutionsPage() {
   return (
@@ -9,6 +10,7 @@ export default function ConnectivitySolutionsPage() {
       <Header />
       <main>
         <Hero />
+        <OurApproachSection />
       </main>
     </div>
   );
