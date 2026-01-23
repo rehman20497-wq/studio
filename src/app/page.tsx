@@ -15,7 +15,7 @@ import LaunchStepsSection from "@/components/launch-steps-section";
 import FaqSection from "@/components/faq-section";
 import SurgeProtectSection from "@/components/surge-protect-section";
 import ValidationSection from "@/components/validation-section";
-import CustomerStories from "@/components/customer-stories";
+import CustomerStory from "@/components/customer-story";
 import ActionButtonsSection from "@/components/action-buttons-section";
 import ClientOnly from '@/components/client-only';
 import AbstractCircles from '@/components/alpha/abstract-circles';
@@ -56,7 +56,7 @@ export default function Home() {
       </main>
       <SurgeProtectSection />
       <ValidationSection />
-      <CustomerStories />
+      <CustomerStory />
       <ActionButtonsSection />
     </div>
   );
