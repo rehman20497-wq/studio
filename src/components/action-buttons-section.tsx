@@ -60,7 +60,7 @@ export default function ActionButtonsSection() {
 
         <motion.div variants={slideInLeft}>
           <MagneticButton>
-            <span className="text-xs md:text-[15px] font-bold px-4">Clutch Reviews</span>
+            <span className="text-xs md:text-[15px] font-bold px-4">Our Reviews</span>
           </MagneticButton>
         </motion.div>
 
