@@ -7,17 +7,17 @@ import MagneticButton from '@/components/magnetic-button';
 
 const cardData = [
   {
-    icon: '/cs.svg',
+    icon: '/e.svg',
     title: 'Top 1% of Talent',
     description: "At Hugo, every annotator holds at least one STEM degree, ensuring deep technical expertise. This foundation enables us to handle high-complexity, high-nuance AI and machine learning projects with confidence.",
   },
   {
-    icon: '/cs1.svg',
+    icon: '/d.svg',
     title: 'Domain Expertise',
     description: "From architects who deliver geospatial labeling projects to biologists who conquer specialized Generative AI prompts, Hugo prioritizes context + intelligence on every mandate.",
   },
   {
-    icon: '/cs2.svg',
+    icon: '/q.svg',
     title: 'A Quality Fixation',
     description: "Every workflow—whether data annotation or customer support outsourcing—is mapped, custom-engineered, and measured against rigorous SLAs and performance KPIs using real-time analytics dashboards.",
   },
@@ -137,11 +137,7 @@ export default function OurApproachSection() {
           ))}
         </motion.div>
         
-        <motion.div className="mt-12" variants={buttonVariants}>
-            <MagneticButton>
-                <span className="text-[15px] font-bold px-4">Launch POC</span>
-            </MagneticButton>
-        </motion.div>
+       
       </div>
     </motion.section>
   );

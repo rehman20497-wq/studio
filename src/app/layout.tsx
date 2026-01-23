@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -24,7 +25,7 @@ export default function RootLayout({
         <meta name="description" content="TelSys helps you make confident technology decisions with expert insights, innovative solutions, and reliable digital guidance." />
         <link rel="icon" href="/fav.ico" />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased overflow-x-clip">
         <FirebaseClientProvider>
           {children}
 
