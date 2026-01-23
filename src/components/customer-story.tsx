@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView, useAnimationControls } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const testimonials = [
@@ -67,9 +68,9 @@ const cardVariants = {
     scale: 1,
     transition: {
       duration: 0.8,
-      ease: [0.25, 1, 0.5, 1],
-    },
-  },
+      ease: [0.25, 1, 0.5, 1]
+    }
+  }
 };
 
 const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (typeof testimonials)[0], featured?: boolean }) => (
@@ -105,81 +106,54 @@ const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (type
 );
 
 const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-    },
-  },
-};
+    hidden: { opacity: 0 },
+    visible: { 
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2,
+            delayChildren: 0.3,
+        }
+    }
+}
 
-const SLIDE_AMOUNT = 452; // card width + gap
+const marqueeVariants = {
+    animate: {
+      x: ['0%', '-50%'],
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: 'loop',
+          duration: 70, 
+          ease: 'linear',
+        },
+      },
+    },
+};
 
 export default function CustomerStory() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const controls = useAnimationControls();
-
-  const slideLeft = async () => {
-    await controls.start({
-      x: `+=${SLIDE_AMOUNT}`,
-      transition: { duration: 0.8, ease: 'easeInOut' },
-    });
-  };
-
-  const slideRight = async () => {
-    await controls.start({
-      x: `-=${SLIDE_AMOUNT}`,
-      transition: { duration: 0.8, ease: 'easeInOut' },
-    });
-  };
 
   return (
-    <section ref={ref} className="bg-white pb-[6%] overflow-hidden relative">
+    <section ref={ref} className="bg-white pb-[4%] overflow-hidden">
       <motion.div
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        animate={isInView ? "visible" : "hidden"}
       >
-        <motion.div
-          className="flex gap-8"
-          animate={controls}
-          initial={{ x: 0 }}
+        <motion.div 
+            className="flex gap-8"
+            variants={marqueeVariants}
+            animate={isInView ? "animate" : {}}
         >
-          {duplicatedTestimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={`first-${index}`}
-              testimonial={testimonial}
-              featured={testimonial.featured}
-            />
-          ))}
-          {duplicatedTestimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={`second-${index}`}
-              testimonial={testimonial}
-              featured={testimonial.featured}
-            />
-          ))}
+            {duplicatedTestimonials.map((testimonial, index) => (
+                <TestimonialCard key={`first-${index}`} testimonial={testimonial} featured={testimonial.featured} />
+            ))}
+            {duplicatedTestimonials.map((testimonial, index) => (
+                <TestimonialCard key={`second-${index}`} testimonial={testimonial} featured={testimonial.featured} />
+            ))}
         </motion.div>
       </motion.div>
-
-      {/* Navigation Arrows */}
-      <div className="absolute bottom-6 right-6 flex gap-3 z-10">
-        <button
-          onClick={slideLeft}
-          className="w-12 h-12 rounded-full bg-cyan-200 hover:bg-cyan-300 flex items-center justify-center transition"
-        >
-          <ChevronLeft className="w-6 h-6 text-black" />
-        </button>
-        <button
-          onClick={slideRight}
-          className="w-12 h-12 rounded-full bg-cyan-200 hover:bg-cyan-300 flex items-center justify-center transition"
-        >
-          <ChevronRight className="w-6 h-6 text-black" />
-        </button>
-      </div>
     </section>
   );
 }
