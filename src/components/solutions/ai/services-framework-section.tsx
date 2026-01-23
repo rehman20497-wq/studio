@@ -6,40 +6,34 @@ import Image from 'next/image';
 
 const cardData = [
   {
-    icon: '/ic2.svg',
-    title: 'Platform Growth',
+    icon: '/play.svg',
+    title: 'Content',
     items: [
-      'Inbound lead review and response',
-      'User account management',
-      'Digital merchandising',
-      'Content updates & optimization',
-      'Brand support',
-      'Order fulfillment',
-      'Language translation',
-    ],
-  },
-  {
-    icon: '/saf.svg',
-    title: 'Safety',
-    items: [
-      'Fraud detection',
-      'Inbound fraud review and response',
-      'Continuous due diligence',
-      'Chargebacks & disputes',
-      'Claims management',
+      'Content Publishing & Review',
+      'User Generated Content Moderation',
+      'Monitor User Reviews',
       
     ],
   },
   {
-    icon: '/sal.svg',
-    title: 'Sales Support',
+    icon: '/saft.svg',
+    title: 'Safety',
     items: [
-      'Top-of-the-funnel lead generation',
-      'Lead research, qualification, and enrichment',
-      'Outbound campaign management (email, social, SMS)',
-      'Scheduling appointments & demos',
-      'Data & CRM Management',
-      'Market Intelligence',
+      'Fraud Detection & Financial Crime Prevention',
+      'Social Listening & Crisis Management',
+      'GenAI moderation',
+      'Live Chat, Audio, Video and Broadcast moderation',
+      'Audience, Messaging & Sentiment Tagging',
+      
+    ],
+  },
+  {
+    icon: '/bulb.svg',
+    title: 'Creators & Affiliates',
+    items: [
+      'Sourcing and Vetting',
+      'Audience Demographics & Psychographic Analysis',
+      'Campaign management & reporting',
     ],
   },
 ];
@@ -85,10 +79,10 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
   <motion.div className="relative" variants={cardItemVariants}>
     {/* Decorative circle background, hidden on small devices */}
     <motion.div
-      className="hidden md:block absolute bg-[#4ab01b] rounded-2xl overflow-hidden"
+      className="hidden md:block absolute bg-[#9a4afc] rounded-2xl overflow-hidden"
       style={{
         width: '280px',
-        height: '330px',
+        height: '290px',
         top: '4%',
         left: '31%',
       }}
@@ -113,7 +107,7 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
 >
 
       <div className="flex items-center mb-2">
-        <div className="w-12 h-12 bg-[#8ee167] rounded-full flex-shrink-0" />
+        <div className="w-12 h-12 bg-[#c597fe] rounded-full flex-shrink-0" />
         <Image
           src={card.icon}
           alt={card.title}

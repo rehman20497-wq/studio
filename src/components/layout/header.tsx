@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -54,7 +53,7 @@ const solutions = [
     },
     {
       title: "Communications",
-      href: "/providers?solution=communications",
+      href: "/solutions/communications",
       icon: Wifi,
       description: "Seamless, high-quality communication platforms."
     },
@@ -66,7 +65,7 @@ const solutions = [
     },
     {
       title: "Connectivity",
-      href: "/providers?solution=connectivity",
+      href: "/solutions/connectivity",
       icon: Zap,
       description: "Fast, stable, and secure connectivity."
     },

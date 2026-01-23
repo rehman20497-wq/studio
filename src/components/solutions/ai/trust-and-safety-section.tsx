@@ -26,8 +26,22 @@ export default function TrustAndSafetySection() {
   return (
     <section
       ref={ref}
-      className="relative w-full overflow-hidden bg-[#FCFBF8]"
+      className="relative w-full overflow-hidden bg-[#FFF8E6]"
     >
+      {/* Curved Top */}
+      <div className="absolute top-0 left-0 w-full h-[120px]">
+        <svg
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          className="w-full h-full"
+        >
+          <path
+            d="M0,0 H1440 V120 C1200,50 960,20 720,20 C480,20 240,50 0,120 Z"
+            fill="#FCFBF8"
+          />
+        </svg>
+      </div>
+
       {/* ================= MOBILE TOP IMAGE ================= */}
       <motion.div
         style={{ y: leftParallaxY }}
@@ -109,7 +123,7 @@ export default function TrustAndSafetySection() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           className="text-[23px] font-normal mb-4"
         >
-          What You Get
+          What We Do
           <motion.svg
             className="w-40 h-2 mx-auto"
             viewBox="0 0 160 8"
@@ -138,7 +152,7 @@ export default function TrustAndSafetySection() {
         >
           <Image
             src="/trust.svg"
-            alt="Trust and Safety"
+            alt="Digital Ops"
             fill
             className="object-contain"
           />
@@ -149,8 +163,9 @@ export default function TrustAndSafetySection() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           className="max-w-xl mx-auto text-[20px] text-zinc-700"
         >
-          At Hugo, we go beyond basic moderation to deliver end-to-end trust and safety call center services that strengthen your platform and protect your community. Our scalable solutions combine technology, expertise, and empathy to ensure safe, positive, and compliant user experiences across every channel.
-        </motion.p>
+At Hugo, we go beyond basic moderation to deliver end-to-end trust and safety call center services that strengthen your platform and protect your community. Our scalable solutions combine technology, expertise, and empathy to ensure safe, positive, and compliant user experiences across every channel.
+
+</motion.p>
 
         {/* ================= MOBILE BOTTOM IMAGE ================= */}
         <motion.div
