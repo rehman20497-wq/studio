@@ -1,10 +1,10 @@
-
 'use client';
 
-import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { Star } from 'lucide-react';
+import { useRef, useCallback } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const testimonials = [
@@ -59,8 +59,6 @@ const testimonials = [
   },
 ];
 
-const duplicatedTestimonials = [...testimonials, ...testimonials];
-
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.5 },
   visible: {
@@ -77,7 +75,7 @@ const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (type
   <motion.div
     variants={cardVariants}
     className={cn(
-      'flex-shrink-0 w-[420px] rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200'
+      'w-full h-full rounded-2xl p-8 flex flex-col font-poppins transition-colors duration-300 bg-[#abe9ef]/50 hover:bg-cyan-200'
     )}
   >
     <div className="flex justify-between items-start">
@@ -114,45 +112,48 @@ const containerVariants = {
             delayChildren: 0.3,
         }
     }
-}
-
-const marqueeVariants = {
-    animate: {
-      x: ['0%', '-50%'],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: 'loop',
-          duration: 70, 
-          ease: 'linear',
-        },
-      },
-    },
 };
 
 export default function CustomerStory() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+
+  const scrollPrev = useCallback(() => {
+    emblaApi?.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    emblaApi?.scrollNext();
+  }, [emblaApi]);
+
   return (
-    <section ref={ref} className="bg-white pb-[4%] overflow-hidden">
+    <section ref={ref} className="bg-white pb-16 px-4 overflow-hidden">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
+        className="relative"
       >
-        <motion.div 
-            className="flex gap-8"
-            variants={marqueeVariants}
-            animate={isInView ? "animate" : {}}
-        >
-            {duplicatedTestimonials.map((testimonial, index) => (
-                <TestimonialCard key={`first-${index}`} testimonial={testimonial} featured={testimonial.featured} />
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex -ml-4">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="pl-4 flex-[0_0_90%] sm:flex-[0_0_50%] md:flex-[0_0_40%] lg:flex-[0_0_33.33%]">
+                <TestimonialCard testimonial={testimonial} featured={testimonial.featured} />
+              </div>
             ))}
-            {duplicatedTestimonials.map((testimonial, index) => (
-                <TestimonialCard key={`second-${index}`} testimonial={testimonial} featured={testimonial.featured} />
-            ))}
-        </motion.div>
+          </div>
+        </div>
+
+        <div className="flex justify-end items-center gap-4 mt-8 pr-4">
+            <button onClick={scrollPrev} className="bg-black text-white rounded-full p-3 hover:bg-zinc-800 transition-colors">
+                <ArrowLeft className="w-5 h-5" />
+            </button>
+            <button onClick={scrollNext} className="bg-black text-white rounded-full p-3 hover:bg-zinc-800 transition-colors">
+                <ArrowRight className="w-5 h-5" />
+            </button>
+        </div>
       </motion.div>
     </section>
   );
