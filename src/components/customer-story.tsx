@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { useRef, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -118,7 +119,9 @@ export default function CustomerStory() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+      Autoplay({ playOnInit: true, delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })
+  ]);
 
   const scrollPrev = useCallback(() => {
     emblaApi?.scrollPrev();
