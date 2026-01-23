@@ -114,11 +114,7 @@ export default function Header() {
                   </Link>
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
-                  <Link href="/alpha" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "group-hover:blur-sm transition-all duration-300 hover:!blur-none")}>
-                      Alpha
-                    </NavigationMenuLink>
-                  </Link>
+                 
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className="transition-all duration-300">Solutions</NavigationMenuTrigger>
@@ -239,12 +235,8 @@ export default function Header() {
                                     Home
                                 </Link>
                             </AccordionItem>
-                             <AccordionItem value="Alpha" className="border-b border-yellow-200">
-                                <Link href="/alpha" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
-                                    <Sparkles className="w-8 h-8" />
-                                    Alpha
-                                </Link>
-                            </AccordionItem>
+                             
+                            
                             <AccordionItem value="Solutions" className="border-b border-yellow-200 group">
                                 <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
                                     <div className="flex items-center gap-4">
