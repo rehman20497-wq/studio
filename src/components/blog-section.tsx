@@ -174,7 +174,7 @@ export default function BlogSection() {
 ">
           <button
             onClick={() => scroll(-420)}
-            className="w-10 h-10 rounded-full bg--[#3b82f6] flex items-center justify-center shadow-lg"
+            className="w-10 h-10 rounded-full bg-[#fdd200] flex items-center justify-center shadow-lg"
           >
             <motion.div custom="left" variants={arrowBounce} animate="animate">
               <ChevronLeft className="w-6 h-6 text-white" />
@@ -183,7 +183,7 @@ export default function BlogSection() {
 
           <button
             onClick={() => scroll(420)}
-            className="w-10 h-10 rounded-full bg--[#3b82f6]  flex items-center justify-center shadow-lg"
+            className="w-10 h-10 rounded-full bg-[#fdd200]  flex items-center justify-center shadow-lg"
           >
             <motion.div custom="right" variants={arrowBounce} animate="animate">
               <ChevronRight className="w-6 h-6 text-white" />
