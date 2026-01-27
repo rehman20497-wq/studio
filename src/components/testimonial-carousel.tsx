@@ -160,20 +160,20 @@ export default function TestimonialCarousel() {
               }}
             >
               <motion.p 
-                className="font-bold text-zinc-900 text-[13px]"
+                className="font-bold text-zinc-900 text-sm"
                 variants={itemVariants.details}
               >
                 {currentTestimonial.name}
               </motion.p>
               <motion.p 
-                className="text-[13px] font-medium text-zinc-700"
+                className="text-sm font-medium text-zinc-700"
                 variants={itemVariants.details}
               >
                 {currentTestimonial.title}
               </motion.p>
               <div className="h-[72px] mt-2">
                  <motion.p 
-                  className="text-[13px] font-light text-zinc-600"
+                  className="text-sm font-light text-zinc-600"
                   variants={itemVariants.review}
                 >
                   {currentTestimonial.review}

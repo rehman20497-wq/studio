@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRef } from 'react';
@@ -17,7 +16,7 @@ export default function RightColumn() {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
       >
-        <h2 className="text-[23px] font-medium relative inline-block pb-2 text-black">
+        <h2 className="text-xl md:text-2xl font-medium relative inline-block pb-2 text-black">
           Outsourcing+
           <motion.svg
             className="absolute bottom-0 left-0 w-full h-auto overflow-visible"
@@ -38,7 +37,7 @@ export default function RightColumn() {
           </motion.svg>
         </h2>
         <motion.h1 
-          className="text-[72px] font-normal mt-4 leading-[72.5px] text-black"
+          className="text-6xl md:text-7xl font-normal mt-4 leading-tight text-black"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.4 }}
@@ -48,7 +47,7 @@ export default function RightColumn() {
           you better.
         </motion.h1>
         <motion.p 
-          className="mt-6 text-[20px] max-w-md text-black leading-[28.7px]"
+          className="mt-6 text-lg lg:text-xl max-w-md text-black leading-relaxed"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.6 }}
@@ -66,7 +65,7 @@ export default function RightColumn() {
         transition={{ duration: 0.7, ease: 'easeOut', delay: 0.8 }}
       >
         <MagneticButton>
-          <span className="text-[15px] font-medium">Talk to an Expert</span>
+          <span className="text-base font-medium">Talk to an Expert</span>
         </MagneticButton>
       </motion.div>
 
