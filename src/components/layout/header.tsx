@@ -97,7 +97,8 @@ export default function Header() {
         </a>
         .
       </div>
-      <div className="w-full px-[4%] flex items-center justify-between py-4">
+      <div className="w-full flex justify-center">
+  <div className="w-full max-w-[1440px] px-6 xl:px-8 flex items-center justify-between py-4">
         <Link href="/">
           <HugoLogo />
         </Link>
@@ -313,6 +314,7 @@ export default function Header() {
             </SheetContent>
           </Sheet>
         </div>
+      </div>
       </div>
     </header>
   );

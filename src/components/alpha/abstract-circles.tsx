@@ -4,9 +4,11 @@ import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 
-const CIRCLE_RADIUS = 50; // 100x100 circle
-const STROKE_WIDTH = 12;
+const CIRCLE_RADIUS = 27.5; // 55x55 circle
+const STROKE_WIDTH = 6;    // same as requested
 const SPACING = 0;
+
+
 
 const DRAW_DURATION = 2;
 const DRAW_HOLD_DELAY = 800;
@@ -213,11 +215,14 @@ export default function AbstractCircles() {
 
     return (
         <div className="w-full h-full flex items-center justify-center">
-            <svg 
-                ref={scope}
-                viewBox={`-40 0 ${viewBoxWidth + 80} ${viewBoxHeight}`} 
-                className="w-full max-w-2xl aspect-square"
-            >
+           <svg 
+  ref={scope}
+  viewBox={`-40 0 ${viewBoxWidth + 80} ${viewBoxHeight}`}
+  preserveAspectRatio="xMidYMid meet"
+  className="w-full h-full max-w-none"
+>
+
+
                 {allCirclesFlat.map(({ id, cx, cy, image, key }) => 
                     <AnimatedCircle 
                         key={key} 

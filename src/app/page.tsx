@@ -32,9 +32,10 @@ export default function Home() {
       <main className="bg-background font-body">
         <div className="flex flex-col-reverse md:flex-row w-full">
           <div className="relative w-full md:w-1/2 h-[60vh] md:h-screen flex items-center justify-center bg-white">
-            <div className="relative w-full h-full">
-              <AbstractCircles />
-            </div>
+          <div className="relative w-full h-full flex items-center justify-center">
+  <AbstractCircles />
+</div>
+
           </div>
           <div className="w-full md:w-1/2 h-auto md:h-screen bg-white flex items-center justify-center py-12 md:py-0">
             <RightColumn />
