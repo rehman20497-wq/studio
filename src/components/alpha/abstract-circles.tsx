@@ -106,7 +106,7 @@ export default function AbstractCircles() {
     }, []);
 
     useEffect(() => {
-        const colors = ["#00E5FF", "#7C4DFF", "#00FF9C", "#FF9100", "#F5D34A"];
+        const colors = ["#ff9172", "#f6c841", "#61d7e2", "#b787e7", "#F5D34A"];
         let animationIndex = 0;
         let colorIndex = 0;
 

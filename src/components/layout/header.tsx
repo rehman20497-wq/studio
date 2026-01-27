@@ -32,6 +32,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Image from "next/image";
 import Link from "next/link";
 import MagneticButton from "../magnetic-button";
+import DesktopWrapper from "./DesktopWrapper";
 
 
 const HugoLogo = ({ className } : {className?: string}) => (
@@ -97,8 +98,8 @@ export default function Header() {
         </a>
         .
       </div>
-      <div className="w-full flex justify-center">
-  <div className="w-full max-w-[1440px] px-6 xl:px-8 flex items-center justify-between py-4">
+      <DesktopWrapper>
+      <div className="flex items-center justify-between py-4">
         <Link href="/">
           <HugoLogo />
         </Link>
@@ -315,7 +316,7 @@ export default function Header() {
           </Sheet>
         </div>
       </div>
-      </div>
+      </DesktopWrapper>
     </header>
   );
 }

@@ -9,6 +9,7 @@ import FooterCta from '@/components/footer-cta';
 import FinalFooter from '@/components/layout/final-footer';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import BlogSection from '@/components/blog-section';
+import DisableZoom from "@/components/disable-zoom";
 
 export default function RootLayout({
   children,
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <title>TelSys – Enabling Confident Technology Decisions</title>
         <meta name="description" content="TelSys helps you make confident technology decisions with expert insights, innovative solutions, and reliable digital guidance." />
         <link rel="icon" href="/fav.ico" />
@@ -39,6 +41,7 @@ export default function RootLayout({
           )}
           <Toaster />
         </FirebaseClientProvider>
+        <DisableZoom />
       </body>
     </html>
   );
