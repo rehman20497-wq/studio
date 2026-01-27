@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -32,11 +31,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Image from "next/image";
 import Link from "next/link";
 import MagneticButton from "../magnetic-button";
-import DesktopWrapper from "./DesktopWrapper";
-
 
 const HugoLogo = ({ className } : {className?: string}) => (
-  <Image src="/tele.png" alt="Telesys Logo" width={160} height={40} className={cn("h-auto", className)} />
+  <Image src="/tele.png" alt="Telesys Logo" width={160} height={40} className={cn("h-auto w-32 lg:w-40", className)} />
 );
 
 const CloseIcon = ({ className }: { className?: string }) => (
@@ -98,8 +95,7 @@ export default function Header() {
         </a>
         .
       </div>
-      <DesktopWrapper>
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center justify-between py-4 px-6 lg:px-12 xl:px-16">
         <Link href="/">
           <HugoLogo />
         </Link>
@@ -111,7 +107,7 @@ export default function Header() {
               <NavigationMenuList className="group">
                 <NavigationMenuItem className="group">
                   <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-sm lg:text-base xl:text-lg")}>
                       Home
                     </NavigationMenuLink>
                   </Link>
@@ -120,7 +116,7 @@ export default function Header() {
                  
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
-                  <NavigationMenuTrigger className="transition-all duration-300">Solutions</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className={cn("transition-all duration-300 text-sm lg:text-base xl:text-lg")}>Solutions</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-4 border-glow">
                       <ul className="grid grid-cols-2 gap-4">
@@ -148,13 +144,13 @@ export default function Header() {
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
                   <Link href="/providers" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-sm lg:text-base xl:text-lg")}>
                      Providers
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
-                  <NavigationMenuTrigger className="transition-all duration-300">Company</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className={cn("transition-all duration-300 text-sm lg:text-base xl:text-lg")}>Company</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
@@ -173,7 +169,7 @@ export default function Header() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
-                  <NavigationMenuTrigger className="transition-all duration-300">Resources</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className={cn("transition-all duration-300 text-sm lg:text-base xl:text-lg")}>Resources</NavigationMenuTrigger>
                   <NavigationMenuContent>
                      <div className="relative w-[650px] rounded-lg border-2 border-yellow-300 bg-[#FEF9F2] p-2 border-glow">
                       <ul className="space-y-1">
@@ -202,7 +198,7 @@ export default function Header() {
         <div className="hidden md:block">
             <Link href="/contact">
               <MagneticButton>
-                <span className="text-[15px] font-bold">Talk to an Expert</span>
+                <span className="text-sm md:text-base font-bold">Talk to an Expert</span>
               </MagneticButton>
             </Link>
         </div>
@@ -316,7 +312,6 @@ export default function Header() {
           </Sheet>
         </div>
       </div>
-      </DesktopWrapper>
     </header>
   );
 }
