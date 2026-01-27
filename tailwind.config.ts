@@ -9,6 +9,13 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1440px',
+      },
+    },
     extend: {
       fontFamily: {
         body: ['PP Mori', 'sans-serif'],
@@ -108,6 +115,10 @@ export default {
           '50%': { transform: 'translateY(-10px)' },
         },
         'border-shimmer': {
+          'from': { '--shimmer-angle': '0deg' },
+          'to': { '--shimmer-angle': '360deg' },
+        },
+        'border-glow': {
           'from': { '--shimmer-angle': '0deg' },
           'to': { '--shimmer-angle': '360deg' },
         },
