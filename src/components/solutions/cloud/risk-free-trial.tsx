@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -142,7 +143,7 @@ export default function RiskFreeTrial() {
         {/* Button + Icons */}
         <motion.div className="mt-12 relative w-48 h-16 mx-auto" variants={itemVariants}>
           <MagneticButton>
-            <span className="text-base font-bold px-4">Start trial</span>
+            <span className="text-base font-bold px-4">Talk to an Expert</span>
           </MagneticButton>
 
           {/* x.png */}
@@ -179,6 +180,6 @@ export default function RiskFreeTrial() {
       <motion.div variants={floatOnly} animate="animate" className="absolute top-[30%] right-[12%] hidden md:block">
         <Image src="/s1.gif" alt="Smiley" width={80} height={80} />
       </motion.div>
-    </motion.section>
+    </section>
   );
 }

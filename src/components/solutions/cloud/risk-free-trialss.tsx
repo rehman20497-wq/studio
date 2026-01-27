@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -87,6 +88,7 @@ export default function RiskFreeTrialss() {
 </div>
 
 
+
       {/* Top Organic Wave */}
       <div className="absolute top-0 left-0 w-full h-32 pointer-events-none z-10">
         <svg viewBox="0 0 1440 140" preserveAspectRatio="none" className="w-full h-full">
@@ -142,7 +144,7 @@ export default function RiskFreeTrialss() {
         {/* Button + Icons */}
         <motion.div className="mt-12 relative w-48 h-16 mx-auto" variants={itemVariants}>
           <MagneticButton>
-            <span className="text-base font-bold px-4">Start trial</span>
+            <span className="text-base font-bold px-4">Talk to an Expert</span>
           </MagneticButton>
 
           {/* Floating Icons */}

@@ -60,7 +60,7 @@ export default function SurgeProtectContent() {
         </p>
         <div className="mt-8">
           <MagneticButton>
-            <span className="text-[15px] font-bold">Speak to an expert</span>
+            <span className="text-[15px] font-bold">Talk to an Expert</span>
           </MagneticButton>
         </div>
       </motion.div>

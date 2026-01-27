@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -53,7 +54,7 @@ export default function IntegrationSection() {
 
         <motion.div className="mt-8" variants={itemVariants}>
           <MagneticButton>
-            <span className="text-[15px] font-bold">Build your Team</span>
+            <span className="text-[15px] font-bold">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
       </motion.div>

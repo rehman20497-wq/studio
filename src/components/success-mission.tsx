@@ -174,7 +174,7 @@ const SuccessMission = () => {
             <div className="mt-6">
               <MagneticButton>
               <span className="text-[15px] font-bold">
-              Take Hugo for a spin
+              Talk to an Expert
                 </span>
               </MagneticButton>
             </div>
@@ -304,5 +304,3 @@ const SuccessMission = () => {
 };
 
 export default SuccessMission;
-
-    

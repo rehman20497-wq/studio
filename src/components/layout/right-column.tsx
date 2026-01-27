@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef } from 'react';
@@ -65,7 +66,7 @@ export default function RightColumn() {
         transition={{ duration: 0.7, ease: 'easeOut', delay: 0.8 }}
       >
         <MagneticButton>
-          <span className="text-[15px] font-medium">Build your Dream Team</span>
+          <span className="text-[15px] font-medium">Talk to an Expert</span>
         </MagneticButton>
       </motion.div>
 

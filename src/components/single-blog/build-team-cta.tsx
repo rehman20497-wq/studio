@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -56,7 +57,7 @@ export default function BuildTeamCta() {
                 variants={buttonVariants}
             >
                 <MagneticButton>
-                    <span className="text-base font-medium px-4">Get Started</span>
+                    <span className="text-base font-medium px-4">Talk to an Expert</span>
                 </MagneticButton>
             </motion.div>
         </motion.div>

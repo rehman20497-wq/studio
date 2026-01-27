@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -96,7 +97,7 @@ export default function FeaturesSection() {
           animate={isInView ? { opacity: 1, y: 0, transition: { delay: 1 } } : {}}
         >
           <MagneticButton>
-            <span className="text-base font-bold px-5">Connect with us</span>
+            <span className="text-base font-bold px-5">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
       </motion.div>

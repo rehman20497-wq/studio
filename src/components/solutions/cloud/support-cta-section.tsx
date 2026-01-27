@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -78,7 +79,7 @@ export default function SupportCtaSection() {
         </motion.p>
         <motion.div variants={buttonVariants}>
           <MagneticButton>
-            <span className="text-[15px] font-bold px-4">Connect with us</span>
+            <span className="text-[15px] font-bold px-4">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
       </div>

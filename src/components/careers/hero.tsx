@@ -198,14 +198,14 @@ export default function Hero() {
           <motion.div variants={buttonVariants}>
             <MagneticButton>
               <span className="whitespace-nowrap text-[15px] font-bold px-5">
-                Corporate roles
+                Talk to an Expert
               </span>
             </MagneticButton>
           </motion.div>
           <motion.div variants={buttonVariants}>
             <MagneticButton>
               <span className="whitespace-nowrap text-[15px] font-bold px-5">
-                Agent roles
+                Talk to an Expert
               </span>
             </MagneticButton>
           </motion.div>

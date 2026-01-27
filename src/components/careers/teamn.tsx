@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -60,7 +61,7 @@ export default function TeamnSection() {
           </p>
           <div className="mt-8">
             <MagneticButton>
-                <span className="text-[15px] font-bold px-4">Corporate roles</span>
+                <span className="text-[15px] font-bold px-4">Talk to an Expert</span>
             </MagneticButton>
           </div>
         </motion.div>

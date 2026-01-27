@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -65,7 +66,7 @@ export default function GetStartedCta() {
         <motion.div variants={buttonContainerVariants}>
           <MagneticButton>
             <span className="text-[14px] font-semibold px-6 py-2">
-            Launch POC
+            Talk to an Expert
             </span>
           </MagneticButton>
         </motion.div>

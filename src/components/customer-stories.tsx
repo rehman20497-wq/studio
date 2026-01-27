@@ -1,8 +1,9 @@
+
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import type { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel';
+import useEmblaCarousel, { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -57,7 +58,9 @@ const getDistance = (index: number, active: number, total: number) => {
 };
 
 const CustomerStoriesCarousel = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
+  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS, [
+    Autoplay({ playOnInit: true, delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })
+  ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const slideCount = slideData.length;
 
@@ -78,81 +81,14 @@ const CustomerStoriesCarousel = () => {
 
   return (
     <div className="relative w-full py-16">
-      {/* Hidden Embla track (logic only) */}
-      <div className="overflow-hidden w-0 h-0" ref={emblaRef}>
+      <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {slideData.map((_, i) => (
-            <div className="flex-[0_0_100%]" key={i} />
-          ))}
-        </div>
-      </div>
-
-      {/* STACKED UI */}
-      <div className="relative h-[720px] flex items-center justify-center pt-[1%]">
-        {slideData.map((slide, index) => {
-          const distance = getDistance(index, selectedIndex, slideCount);
-
-          let style: React.CSSProperties = {
-            position: 'absolute',
-            left: '50%',
-            top: 0,
-            transform: 'translate3d(-50%, 0, 0) scale(0.7)',
-            opacity: 1,
-            zIndex: 0,
-            transition: 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)',
-            willChange: 'transform',
-            transformOrigin: 'center center',
-            width: '480px',
-            maxWidth: '95vw',
-          };
-          
-
-          if (distance === 0) {
-            style = {
-              ...style,
-              transform: 'translateX(-50%) scale(1)',
-              zIndex: 50,
-            };
-          } else if (distance === 1) {
-            style = {
-              ...style,
-              transform: 'translateX(calc(-50% + 40%)) scale(0.88)',
-              zIndex: 40,
-            };
-          } else if (distance === -1) {
-            style = {
-              ...style,
-              transform: 'translateX(calc(-50% - 40%)) scale(0.88)',
-              zIndex: 40,
-            };
-          } else if (distance === 2) {
-            style = {
-              ...style,
-              transform: 'translateX(calc(-50% + 70%)) scale(0.76)',
-              zIndex: 30,
-            };
-          } else if (distance === -2) {
-            style = {
-              ...style,
-              transform: 'translateX(calc(-50% - 70%)) scale(0.76)',
-              zIndex: 30,
-            };
-          } else {
-            style = {
-              ...style,
-              transform: 'translate3d(-50%, 0, 0) scale(0.7)',
-              opacity: 0,
-              zIndex: 0,
-              pointerEvents: 'none',
-            };
-          }
-          
-          return (
-            <div key={index} style={style}>
+          {slideData.map((slide, index) => (
+            <div className="flex-[0_0_90%] sm:flex-[0_0_60%] md:flex-[0_0_50%] lg:flex-[0_0_40%] min-w-0 px-4" key={index}>
               <div
                 className={cn(
-                  "bg-white rounded-3xl p-6 transition-all duration-500",
-                  distance === 0 ? "border-4 border-black" : "border-4 border-yellow-400"
+                  "bg-white rounded-3xl p-6 transition-all duration-500 w-full h-full",
+                  index === selectedIndex ? "border-4 border-black" : "border-4 border-yellow-400"
                 )}
               >
                 <div className="relative w-full h-[370px] rounded-2xl overflow-hidden">
@@ -163,78 +99,54 @@ const CustomerStoriesCarousel = () => {
                     className="object-cover"
                     sizes="(max-width: 768px) 80vw, 420px"
                   />
-                 <div
-  className={cn(
-    "absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] p-4 rounded-xl text-center font-semibold text-black",
-    slide.banner.color
-  )}
-  style={{ fontSize: '20px' }} // <-- Banner text size 20px
->
-  {slide.banner.text}
-</div>
+                  <div
+                    className={cn(
+                      "absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] p-4 rounded-xl text-center font-semibold text-black",
+                      slide.banner.color
+                    )}
+                    style={{ fontSize: '20px' }}
+                  >
+                    {slide.banner.text}
+                  </div>
                 </div>
 
                 <div className="pt-12 pb-4 text-center min-h-[280px] flex flex-col">
-               {/* Quote */}
-<div className="relative flex-grow px-6">
-  {/* Top-left quote icon */}
-  <div className="absolute -top-6 -left-4 w-8 h-8">
-    <Image src="/icol.png" alt="Opening quote" width={32} height={32} />
-  </div>
+                  <div className="relative flex-grow px-6">
+                    <div className="absolute -top-6 -left-4 w-8 h-8">
+                      <Image src="/icol.png" alt="Opening quote" width={32} height={32} />
+                    </div>
+                    <p className="text-black text-[17px] text-justify pl-2 pr-2">
+                      {slide.quote}
+                    </p>
+                    <div className="absolute -bottom-6 -right-4 w-8 h-8">
+                      <Image src="/icol.png" alt="Closing quote" width={32} height={32} style={{ transform: "scaleX(-1)" }} />
+                    </div>
+                  </div>
 
-  {/* Quote text */}
-  <p className="text-black text-[17px] text-justify pl-2 pr-2">
-    {slide.quote}
-  </p>
-
-  {/* Bottom-right quote icon */}
-  <div className="absolute -bottom-6 -right-4 w-8 h-8">
-    <Image src="/icol.png" alt="Closing quote" width={32} height={32} style={{ transform: "scaleX(-1)" }} />
-  </div>
-</div>
-
-
-<div className="mt-6 text-left px-8">
-  <p className="font-bold text-[16px] text-black">{slide.author}</p>
-  <p className="text-[16px] text-black">{slide.title}</p>
-</div>
+                  <div className="mt-6 text-left px-8">
+                    <p className="font-bold text-[16px] text-black">{slide.author}</p>
+                    <p className="text-[16px] text-black">{slide.title}</p>
+                  </div>
 
                   <div className="mt-6 flex justify-center">
                     <MagneticButton>
-                      <span className="text-sm font-semibold">Read the Full Story</span>
+                      <span className="text-sm font-semibold">Talk to an Expert</span>
                     </MagneticButton>
                   </div>
                 </div>
               </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
-      {/* CONTROLS */}
-      <div className="flex items-center justify-center gap-6 mt-10">
+      <div className="absolute bottom-4 right-4 flex items-center justify-center gap-6 mt-10">
         <button
           onClick={scrollPrev}
           className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center hover:bg-yellow-500 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 text-black" />
         </button>
-
-        <div className="flex items-center justify-center gap-2">
-          {slideData.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollTo(index)}
-              className={cn(
-                "w-3 h-3 rounded-full transition-all",
-                index === selectedIndex
-                  ? "bg-black scale-125"
-                  : "bg-gray-300 hover:bg-gray-400"
-              )}
-            />
-          ))}
-        </div>
-
         <button
           onClick={scrollNext}
           className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center hover:bg-yellow-500 transition-colors"

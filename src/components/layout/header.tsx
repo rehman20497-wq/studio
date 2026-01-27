@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -199,7 +200,7 @@ export default function Header() {
         <div className="hidden md:block">
             <Link href="/contact">
               <MagneticButton>
-                <span className="text-[15px] font-bold">Get Started</span>
+                <span className="text-[15px] font-bold">Talk to an Expert</span>
               </MagneticButton>
             </Link>
         </div>
@@ -304,7 +305,7 @@ export default function Header() {
                         <div className="bg-[#F5D34A] rounded-t-[40px] pt-12 pb-8 px-6 text-center">
                             <h3 className="text-4xl font-normal">Book a Demo</h3>
                             <Button asChild className="rounded-full bg-black text-white hover:bg-zinc-800 px-8 py-6 text-lg mt-4 w-full">
-                                <Link href="/contact">Get Started</Link>
+                                <Link href="/contact">Talk to an Expert</Link>
                             </Button>
                         </div>
                     </div>

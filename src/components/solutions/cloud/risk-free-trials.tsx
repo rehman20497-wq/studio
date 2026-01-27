@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -141,7 +142,7 @@ export default function RiskFreeTrials() {
         {/* Button + Icons */}
         <motion.div className="mt-12 relative w-48 h-16 mx-auto" variants={itemVariants}>
           <MagneticButton>
-            <span className="text-base font-bold px-4">Start trial</span>
+            <span className="text-base font-bold px-4">Talk to an Expert</span>
           </MagneticButton>
 
           {/* Floating Icons */}

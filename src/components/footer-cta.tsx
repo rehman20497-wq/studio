@@ -147,7 +147,7 @@ export default function FooterCta() {
         
         <motion.div className="mt-10" variants={buttonVariants}>
           <MagneticButton>
-            <span className="text-[15px] font-medium px-4">Get started</span>
+            <span className="text-[15px] font-medium px-4">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
       </motion.div>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
@@ -199,7 +200,7 @@ export default function Sidebar({
           <div className="my-4">
             <MagneticButton>
               <span className="text-[15px] font-medium px-4">
-                Book a Meeting
+                Talk to an Expert
               </span>
             </MagneticButton>
           </div>
