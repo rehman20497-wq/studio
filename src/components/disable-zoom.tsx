@@ -4,25 +4,24 @@ import { useEffect } from "react";
 
 export default function DisableZoom() {
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (e.ctrlKey || e.metaKey) e.preventDefault(); // Ctrl/Cmd + scroll
+    const applyScale = () => {
+      // Use devicePixelRatio to understand the browser's zoom level.
+      const zoom = window.devicePixelRatio || 1;
+      
+      // We set a CSS variable to the inverse of the zoom level.
+      // If the user zooms in (e.g., to 200%, devicePixelRatio becomes 2),
+      // our scale factor becomes 0.5. An element with 'font-size: calc(16px * var(--scale-factor))'
+      // will compute to 8px, and when the browser renders it at 200%, it visually appears as 16px.
+      document.documentElement.style.setProperty('--scale-factor', `${1 / zoom}`);
     };
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && (e.key === "+" || e.key === "-" || e.key === "=")) {
-        e.preventDefault(); // Ctrl/Cmd + + or -
-      }
-      if ((e.ctrlKey || e.metaKey) && e.key === "0") {
-        e.preventDefault(); // Ctrl/Cmd + 0
-      }
-    };
+    // Apply scale on initial load and whenever the window is resized (which includes zooming).
+    window.addEventListener('resize', applyScale);
+    applyScale(); // Initial call
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("keydown", handleKeyDown);
-
+    // Clean up the event listener when the component unmounts.
     return () => {
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('resize', applyScale);
     };
   }, []);
 

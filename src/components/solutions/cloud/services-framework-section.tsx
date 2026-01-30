@@ -9,13 +9,13 @@ const cardData = [
     icon: '/ic.svg',
     title: 'Client Services',
     items: [
-      'Live Chat Support Outsourcing',
-      'Call Center Outsourcing',
-      'Ecommerce Support',
-      'Technical Support',
-      'App User & Platform Support',
-      'Social Media Customer Service',
-      'Onshore & Offshore Customer Service',
+      'Data Backup',
+      'Disaster Recovery',
+      'Security Monitoring',
+      'Cost Optimization',
+      'Performance Optimization',
+      'Hybrid Cloud',
+      'Multi-Cloud Support',
     ],
   },
   {
@@ -86,15 +86,16 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
   <motion.div className="relative" variants={cardItemVariants}>
     {/* Decorative circle background, hidden on small devices */}
     <motion.div
-      className="hidden md:block absolute bg-[#0badbf] rounded-2xl overflow-hidden"
-      style={{
-        width: '280px',
-        height: '330px',
-        top: '4%',
-        left: '31%',
-      }}
-      variants={decorativeBgVariants}
-    >
+  className="hidden md:block absolute bg-[#0badbf] rounded-2xl overflow-hidden z-0"
+  style={{
+    width: '85%',
+    height: '95%',
+    top: '6%',
+    left: '21%',   // 🔥 bahar nikalne ka real effect
+  }}
+  variants={decorativeBgVariants}
+>
+
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
         <defs>
           <pattern id="circle-pattern" patternUnits="userSpaceOnUse" width="100" height="100">
@@ -124,8 +125,10 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
           style={{ height: 'auto' }}
         />
       </div>
-      <h3 className="text-[20px] font-bold text-zinc-900 mb-2">{card.title}</h3>
-      <ul className="space-y-[0px] text-zinc-700 text-[13px]">
+      <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black font-bold  mb-2">{card.title}</h3>
+      <ul className="space-y-[0px] text-testimonialReview text-black">
         {card.items.map((item, index) => (
           <li key={index} className="flex items-start">
             <span className="text-black mr-3 mt-1.5">&#8226;</span>

@@ -30,7 +30,7 @@ export default function ResourcesButtonSection() {
           animate={isInView ? 'visible' : 'hidden'}
         >
           <MagneticButton>
-            <span className="text-[15px] font-bold px-6">
+            <span className="text-button font-bold px-6">
               Check out All of Our Resources!
             </span>
           </MagneticButton>

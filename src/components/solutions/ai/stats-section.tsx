@@ -4,9 +4,9 @@ import { motion, useInView, animate } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 
 const stats = [
-  { value: 24/7, suffix: '+', label: '365 days of support' },
-  { value: 45, suffix: 'M+', label: 'Conversations' },
-  { value: 97, suffix: '%', label: 'CSAT/eNPS in 2024' },
+  { value: 24, suffix: '/7', label: 'AI Monitoring & Support' },
+  { value: 1000, suffix: '+', label: 'Automated Workflows' },
+  { value: 50, suffix: '+', label: 'Industry Use Cases' },
 ];
 
 const containerVariants = {
@@ -69,11 +69,15 @@ export default function StatsSection() {
       >
         {stats.map((stat, index) => (
           <motion.div key={index} variants={itemVariants}>
-            <h2 className="text-[87px] leading-[87.5px] font-normal text-black">
+            <h2 className="text-eyebrowwSm
+  sm:text-eyebrowwMd
+  lg:text-eyebroww font-normal text-black">
                 <StatValue to={stat.value} suffix={stat.suffix} />
                 {stat.suffix}
             </h2>
-            <p className="mt-2 text-[16px] font-normal text-black">{stat.label}</p>
+            <p className="mt-2 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg font-normal text-black">{stat.label}</p>
           </motion.div>
         ))}
       </motion.div>

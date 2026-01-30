@@ -6,35 +6,37 @@ import Image from 'next/image';
 
 const faqData = [
     {
-      question: 'How does Telsys ensure cloud security?',
-      answer: `Security is our top priority. Telsys follows industry best practices and is ISO 27001 certified, SOC 2 certified, and GDPR compliant. Key measures include:
+      question: 'How does Telsys ensure network security?',
+      answer: `Security and reliability are our top priorities. Telsys follows industry best practices and is ISO 27001 certified, SOC 2 certified, and GDPR compliant. Key measures include:
       <ul>
-        <li class='mt-2'><strong>Encryption:</strong> All data is encrypted at rest and in transit.</li>
-        <li class='mt-2'><strong>Access Control:</strong> Only authorized personnel can access sensitive data.</li>
-        <li class='mt-2'><strong>Auditing:</strong> Regular audits ensure our security protocols are effective and up-to-date.</li>
+        <li class='mt-2'><strong>Encryption:</strong> All network traffic and data are encrypted in transit and at rest.</li>
+        <li class='mt-2'><strong>Access Control:</strong> Only authorized personnel have access to network systems.</li>
+        <li class='mt-2'><strong>Auditing:</strong> Regular audits ensure protocols and security measures remain effective.</li>
       </ul>`,
     },
     {
-      question: 'Are Telsys cloud solutions flexible?',
+      question: 'Are Telsys connectivity solutions flexible?',
       answer:
-        "Yes. Our cloud services are designed to scale with your business. Whether you need additional storage, processing power, or advanced services, you can adjust resources quickly to meet demand—perfect for seasonal spikes, product launches, or rapid growth.",
+        "Yes. Our connectivity services are designed to scale with your business. You can easily expand bandwidth, add new locations, or integrate cloud networks as your needs evolve—all while keeping costs predictable and service reliable.",
     },
     {
-      question: 'Why choose Telsys for cloud solutions?',
+      question: 'Why choose Telsys for connectivity?',
       answer:
-        "Telsys combines cutting-edge technology with expert support to deliver secure, scalable, and high-performance cloud solutions. Our solutions help businesses modernize infrastructure, optimize costs, and stay agile, all while keeping data safe and operations running smoothly.",
+        "Telsys combines advanced technology with expert network engineers to deliver secure, high-performance connectivity. From multi-site networking to cloud integration and managed services, we ensure your business stays connected, resilient, and efficient at all times.",
     },
     {
       question: 'Are there any hidden costs?',
       answer:
-        'No. Telsys cloud solutions are fully transparent. You pay for the resources you use—there are no setup fees or hidden charges.',
+        "No. Telsys connectivity solutions are fully transparent. You only pay for the services you use—there are no setup fees or hidden charges.",
     },
     {
-      question: 'How is quality ensured?',
+      question: 'How is quality and reliability ensured?',
       answer:
-        'Our dedicated cloud experts continuously monitor your systems, optimize performance, and provide ongoing support. With proactive management, regular reporting, and performance benchmarking, we ensure your cloud environment runs reliably and efficiently.',
+        "Our network operations team continuously monitors systems, optimizes performance, and ensures uptime. With proactive management, real-time alerts, and tailored SLAs, we guarantee your connectivity runs smoothly and reliably, keeping your business operational 24/7.",
     },
   ];
+  
+  
   
 
 const containerVariants = {
@@ -84,7 +86,7 @@ const FaqCard = ({ question, answer }: { question: string, answer: string }) => 
 };
 
 
-export default function CloudFaqSection() {
+export default function CloudFaqSectionf() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.2 });
 
@@ -104,7 +106,7 @@ export default function CloudFaqSection() {
                             <h2 className=" text-herooSm
   sm:text-herooMd
   lg:text-heroo font-headline font-normal text-black leading-tight">
-                                FAQs —<br />Cloud
+                                FAQs —<br />Connectivity
                             </h2>
                         </div>
                         <Image src="/arr.png" alt="arrow" width={40} height={40} className="mt-2" />

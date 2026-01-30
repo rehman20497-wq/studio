@@ -4,9 +4,9 @@ import { motion, useInView, animate } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 
 const stats = [
-  { value: 98.90, suffix: '%', label: 'Avg. Accuracy Score' },
-  { value: +240, suffix: 'M', label: 'Large Language Model (LLM) prompts answered' },
-  { value: +200, suffix: 'M', label: 'Images & videos annotated' },
+  { value: 99, suffix: '%', label: 'Network Uptime' },
+  { value: 10, suffix: 'M+', label: 'Managed Devices' },
+  { value: 'Real', suffix: 'Time', label: 'Monitoring & Alerts' },
 ];
 
 const containerVariants = {
@@ -54,7 +54,6 @@ const StatValue = ({ from = 0, to, suffix }: { from?: number; to: number; suffix
     return <span ref={nodeRef} />;
 };
 
-
 export default function StatsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -69,11 +68,15 @@ export default function StatsSection() {
       >
         {stats.map((stat, index) => (
           <motion.div key={index} variants={itemVariants}>
-            <h2 className="text-[87px] leading-[87.5px] font-normal text-black">
+            <h2 className="text-eyebrowwSm
+  sm:text-eyebrowwMd
+  lg:text-eyebroww font-normal text-black">
                 <StatValue to={stat.value} suffix={stat.suffix} />
                 {stat.suffix}
             </h2>
-            <p className="mt-2 text-[16px] font-normal text-black">{stat.label}</p>
+            <p className="mt-2 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg font-normal text-black">{stat.label}</p>
           </motion.div>
         ))}
       </motion.div>

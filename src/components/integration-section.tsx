@@ -35,16 +35,17 @@ export default function IntegrationSection() {
   return (
     <section ref={ref} className="bg-white py-[4%]">
       <motion.div
-        className="container mx-auto px-[1%] text-center"
+        className="container mx-auto px-[10%] text-center max-w-[4300px]"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
   className="
-    font-headline font-medium text-black max-w-[65rem] mx-auto
-    text-[40px] leading-[45px]
-    lg:text-[72.5px] lg:leading-[72.5px]
+    font-headline font-medium text-black w-full mx-auto
+    text-heroSm
+  sm:text-heroMd
+  lg:text-hero
   "
   variants={itemVariants}
 >
@@ -54,7 +55,7 @@ export default function IntegrationSection() {
 
         <motion.div className="mt-8" variants={itemVariants}>
           <MagneticButton>
-            <span className="text-[15px] font-bold">Talk to an Expert</span>
+            <span className="text-button font-bold">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
       </motion.div>

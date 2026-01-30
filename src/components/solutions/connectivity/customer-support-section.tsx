@@ -69,59 +69,53 @@ export default function CustomerSupportSection() {
       <div className="relative pt-16 md:pt-36 pb-20 text-center px-4">
         {/* ================= DESKTOP LEFT IMAGE ================= */}
         <motion.div
-          style={{ y: leftParallaxY }}
-          initial={{ opacity: 0, x: -120 }}
-          animate={
-            inView
-              ? { opacity: 1, x: 0, y: [0, -10, 0] }
-              : {}
-          }
-          transition={{
-            x: { duration: 1.1, ease: 'easeOut', delay: 0.4 },
-            opacity: { duration: 1, delay: 0.4 },
-            y: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
-          }}
-          className="hidden md:block absolute top-36 left-[6%] w-[350px] pointer-events-none"
-        >
-          <Image
-            src="/lon.png"
-            alt="Decorative element"
-            width={350}
-            height={0}
-            className="w-full h-auto"
-          />
-        </motion.div>
+  style={{ y: leftParallaxY }}
+  initial={{ opacity: 0, x: -120 }}
+  animate={inView ? { opacity: 1, x: 0, y: [0, -10, 0] } : {}}
+  transition={{
+    x: { duration: 1.1, ease: 'easeOut', delay: 0.4 },
+    opacity: { duration: 1, delay: 0.4 },
+    y: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
+  }}
+  className="hidden md:block absolute top-36 left-[6%] w-[200px] sm:w-[300px] md:w-[350px] lg:w-[400px] 3xl:w-[500px] 5xl:w-[850px] h-auto pointer-events-none"
+>
+  <Image
+    src="/lon.png"
+    alt="Decorative elements"
+    width={1200}
+    height={1200}
+    className="w-full h-auto"
+  />
+</motion.div>
 
         {/* ================= DESKTOP RIGHT IMAGE ================= */}
         <motion.div
-          style={{ y: rightParallaxY }}
-          initial={{ opacity: 0, x: 120 }}
-          animate={
-            inView
-              ? { opacity: 1, x: 0, y: [0, 12, 0] }
-              : {}
-          }
-          transition={{
-            x: { duration: 1.1, ease: 'easeOut', delay: 0.4 },
-            opacity: { duration: 1, delay: 0.4 },
-            y: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
-          }}
-          className="hidden md:block absolute top-36 right-[2%] w-[350px] pointer-events-none"
-        >
-          <Image
-            src="/ron.png"
-            alt="Decorative element"
-            width={350}
-            height={0}
-            className="w-full h-auto"
-          />
-        </motion.div>
+  style={{ y: rightParallaxY }}
+  initial={{ opacity: 0, x: 120 }}
+  animate={inView ? { opacity: 1, x: 0, y: [0, 12, 0] } : {}}
+  transition={{
+    x: { duration: 1.1, ease: 'easeOut', delay: 0.4 },
+    opacity: { duration: 1, delay: 0.4 },
+    y: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
+  }}
+  className="hidden md:block absolute top-36 right-[2%] w-[200px] sm:w-[300px] md:w-[350px] lg:w-[400px] 3xl:w-[500px] 5xl:w-[850px] h-auto pointer-events-none"
+>
+  <Image
+    src="/rcon.png"
+    alt="Decorative element"
+    width={1200}
+    height={1200}
+    className="w-full h-auto"
+  />
+</motion.div>
 
         {/* ================= CONTENT ================= */}
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-[23px] font-normal mb-4"
+          className="text-eyebrowSm
+  sm:text-eyebrowMd
+  lg:text-eyebrow font-normal mb-4"
         >
           What We Do
           <motion.svg
@@ -146,24 +140,100 @@ export default function CustomerSupportSection() {
         </motion.h3>
 
         <motion.div
-          className="relative h-28 w-full max-w-lg mx-auto mb-0"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+  initial={{ opacity: 0, y: 20 }}
+  animate={inView ? { opacity: 1, y: 0 } : {}}
+  transition={{ duration: 0.9, ease: "easeOut" }}
+  className="relative w-full flex flex-col items-center justify-center mb-8"
+>
+  {/* ===== Floating Parallax Arrow ===== */}
+  <motion.div
+    initial={{ opacity: 0, x: -10, y: 10 }}
+    animate={inView ? { opacity: 1, x: 0, y: [0, -8, 0] } : {}}
+    transition={{
+      duration: 3.5,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+    className="absolute -top-4 left-[19%] sm:left-[25%] lg:left-[29%] pointer-events-none z-10"
+  >
+    <Image
+      src="/aw.png"
+      alt="Arrow"
+      width={90}
+      height={90}
+      className="w-[45px] sm:w-[60px] lg:w-[75px] h-auto"
+    />
+  </motion.div>
+
+  {/* ===== Heading Text ===== */}
+  <div className="relative text-center">
+    <h2 className="relative font-normal text-black text-herooSm sm:text-herooMd lg:text-heroo leading-tight">
+      Connectivity{" "}
+      <span className="relative inline-block">
+        solutions
+
+        {/* ===== Premium Brush Underline ===== */}
+        <svg
+          className="absolute left-0 -bottom-4 w-full h-[20px] skew-x-[-6deg]"
+          viewBox="0 0 240 26"
+          preserveAspectRatio="none"
         >
-          <Image
-            src="/Data1.svg"
-            alt="Digital Ops"
-            fill
-            className="object-contain"
+          {/* Ink texture layer */}
+          <path
+            d="M4 14 
+               C30 22, 55 6, 80 14 
+               C105 22, 130 6, 155 14 
+               C180 22, 205 6, 236 14"
+            stroke="rgba(0,0,0,0.15)"
+            strokeWidth="8"
+            fill="none"
+            strokeLinecap="round"
           />
-        </motion.div>
+
+          {/* Main brush stroke */}
+          <motion.path
+            d="M4 14 
+               C30 22, 55 6, 80 14 
+               C105 22, 130 6, 155 14 
+               C180 22, 205 6, 236 14"
+            stroke="black"
+            strokeWidth="4"
+            fill="none"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={
+              inView
+                ? {
+                    pathLength: 1,
+                    pathOffset: [0, 0.02, -0.02, 0],
+                  }
+                : {}
+            }
+            transition={{
+              pathLength: { duration: 1.4, ease: "easeInOut", delay: 0.4 },
+              pathOffset: {
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+            }}
+          />
+        </svg>
+      </span>
+    </h2>
+  </div>
+</motion.div>
+
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="max-w-xl mx-auto text-[20px] text-zinc-700"
+          className="max-w-xl mx-auto text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black"
         >
-We start with the fundamentals—skilled people, domain context, proven processes, and purpose-built tools—then rigorously test to deliver across data, AI and machine learning projects at the highest standard of quality.
+We combine skilled engineers, proven processes, and advanced tools to deliver reliable,
+high-performance connectivity solutions tailored to your business needs.
 
 </motion.p>
 
@@ -183,7 +253,7 @@ We start with the fundamentals—skilled people, domain context, proven processe
           className="md:hidden mt-10 flex justify-center pointer-events-none"
         >
           <Image
-            src="/ron.png"
+            src="/rcon.png"
             alt="Decorative element"
             width={260}
             height={0}
@@ -197,8 +267,8 @@ We start with the fundamentals—skilled people, domain context, proven processe
           className="mt-10"
         >
           <MagneticButton>
-            <span className="px-6 font-semibold">
-              Take Hugo for a spin
+            <span className="px-6 text-button font-semibold">
+              Take Telsys for a spin
             </span>
           </MagneticButton>
         </motion.div>

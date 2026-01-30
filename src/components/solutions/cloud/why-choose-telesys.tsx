@@ -61,7 +61,9 @@ export default function WhyChooseTelesys() {
       >
         {/* Sub Heading */}
         <motion.div className="inline-block mb-6" variants={fadeUp}>
-          <h3 className="text-[23px] text-black font-normal">
+          <h3 className="text-eyebrowSm
+  sm:text-eyebrowMd
+  lg:text-eyebrow text-black font-normal">
             The Telsys Difference
           </h3>
 
@@ -92,7 +94,9 @@ export default function WhyChooseTelesys() {
 
         {/* Main Heading */}
         <motion.h2
-          className="text-[72px] text-black font-normal leading-tight"
+          className=" text-heroSm
+  sm:text-heroMd
+  lg:text-hero text-black font-normal leading-tight"
           variants={fadeUp}
         >
           Why Choose{' '}
@@ -126,7 +130,9 @@ export default function WhyChooseTelesys() {
 
         {/* Paragraph */}
         <motion.p
-          className="mt-10 text-[20px] text-black max-w-3xl mx-auto font-normal"
+          className="mt-10 text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black max-w-3xl mx-auto font-normal"
           variants={fadeUp}
         >
           A fully managed, global support model built for scale, quality, and long-term partnership.

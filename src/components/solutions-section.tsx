@@ -14,26 +14,26 @@ import BrushStrokes from './brush-strokes';
 const solutions = [
   {
     icon: <CustomerSupportIcon />,
-    title: 'Customer Support',
-    description: "Across time zones, languages, cultures, and channels, we'll leave your customers feeling great about your brand...even if it's a bad day.",
+    title: 'Cloud Solutions',
+    description: "Across platforms, workloads, regions, and teams, our cloud keeps your business running smoothly…even when everything else feels chaotic.",
     color: 'border-cyan-400',
   },
   {
     icon: <DataAiIcon />,
-    title: 'Data & AI',
-    description: 'Process and build with better, less biased, more accurate training data. You know your end product depends on it; we do too.',
+    title: 'Connectivity',
+    description: 'From fiber, wireless, SD-WAN, to remote sites, we keep every line open and every link strong…even when your operations are under pressure.',
     color: 'border-red-400',
   },
   {
     icon: <TrustSafetyIcon />,
-    title: 'Trust & Safety',
-    description: "Better compliance, higher engagement, and safer spaces. We'll keep your users playing by your rules.",
+    title: 'AI Solutions',
+    description: "From everyday tasks to complex decisions, our AI helps your business think smarter…even when the unexpected shows up.",
     color: 'border-purple-400',
   },
   {
     icon: <DigitalOperationsIcon />,
-    title: 'Digital Operations',
-    description: "Crash costs cut friction, and boost efficiency. We'll help you scale your operations faster and more profitably... and put years back on your life.",
+    title: 'Communication',
+    description: "Whether your teams are calling, chatting, or collaborating, we keep communication clear… even when the day gets messy.",
     color: 'border-green-400',
   },
 ];
@@ -114,9 +114,11 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
     >
       <AnimatedBorder radius={16} />
       <div className="mb-6 flex items-center justify-center h-[125px]">{icon}</div>
-      <h3 className="text-xl font-bold text-zinc-900 mb-4">{title}</h3>
-      <p className="text-black text-[13px] mb-8 flex-grow">{description}</p>
-      <button className="bg-black text-white text-[15px] font-bold py-2 px-6 rounded-full w-fit hover:bg-zinc-800 transition-colors">
+      <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-bold text-black mb-4">{title}</h3>
+      <p className="text-testimonialReview text-black mb-8 flex-grow">{description}</p>
+      <button className="bg-black text-white text-button font-bold py-2 px-6 rounded-full w-fit hover:bg-zinc-800 transition-colors">
         Learn More
       </button>
     </motion.div>

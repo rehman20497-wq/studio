@@ -47,7 +47,7 @@ const itemVariants = {
     },
   },
 };
-
+ 
 export default function Hero() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -60,7 +60,8 @@ export default function Hero() {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="container mx-auto px-[6%] py-12 grid md:grid-cols-2 gap-8 items-center">
+      <div className="container mx-auto 2xl:max-w-[90%] px-[6%] py-12 grid md:grid-cols-2 gap-8 items-center">
+
         <motion.div
             variants={contentContainerVariants}
         >
@@ -70,24 +71,27 @@ export default function Hero() {
           <motion.h1
             custom="top"
             variants={itemVariants}
-            className="text-[72px] font-normal text-black leading-[72.5px] mt-4"
+            className="text-heroSm
+  sm:text-heroMd
+  lg:text-hero font-normal text-black mt-4"
           >
             Cloud Solutions
           </motion.h1>
           <motion.p
             custom="left"
             variants={itemVariants}
-            className="mt-6 text-[20px] text-zinc-800 max-w-lg leading-[28.7px]"
+            className="mt-6 text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black  max-w-lg "
           >
-            Seamlessly expand coverage with outsourced omnichannel customer support teams built specifically for you. Whether it's over phone, email, text, chat, in-app, or social, we bring brands to life with conversations that build trust and customer loyalty.
-          </motion.p>
+Power your business with flexible, secure cloud solutions built for performance and growth. From seamless scalability and cost optimization to advanced security and disaster recovery, our cloud services help you modernize infrastructure, support remote teams, and innovate faster—without complexity. Designed to adapt as your business evolves, the cloud keeps you agile, resilient, and always connected.          </motion.p>
           <motion.div
             custom="bottom"
             variants={itemVariants}
             className="mt-8"
           >
             <MagneticButton>
-              <span className="text-[15px] font-bold px-4">Talk to an Expert</span>
+              <span className="text-button font-bold px-4">Talk to an Expert</span>
             </MagneticButton>
           </motion.div>
         </motion.div>

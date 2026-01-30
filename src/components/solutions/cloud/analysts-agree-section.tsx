@@ -55,7 +55,9 @@ export default function AnalystsAgreeSection() {
     >
       <div className="text-center">
         <motion.div className="inline-block relative" variants={subHeadingVariants}>
-          <h3 className="text-[20px] text-black">
+          <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black">
             Analysts and Users Agree
           </h3>
           <motion.svg
@@ -78,7 +80,9 @@ export default function AnalystsAgreeSection() {
           className="flex justify-center items-center gap-4 mt-2"
           variants={headingVariants}
         >
-          <h2 className="text-[46px] font-headline font-normal text-black">
+          <h2 className=" text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline font-normal text-black">
             Telsys is the Leader
           </h2>
           <motion.div variants={arrowVariants}>

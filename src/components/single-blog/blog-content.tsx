@@ -39,7 +39,9 @@ const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
        <div
-  className="prose prose-lg max-w-full text-zinc-700 ql-editor break-words"
+  className="prose text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg max-w-full text-zinc-700 ql-editor break-words"
   dangerouslySetInnerHTML={{ __html: htmlContent }}
 />
 

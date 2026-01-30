@@ -110,11 +110,15 @@ export default function RiskFreeTrials() {
       {/* ================= CONTENT ================= */}
       <div className="relative z-20 max-w-2xl mx-auto text-center">
         <motion.h2 className="text-black leading-[0.95]" variants={itemVariants}>
-          <span className="block text-[72px] font-normal mb-[1%]">
+          <span className="block text-heroSm
+  sm:text-heroMd
+  lg:text-hero font-normal mb-[1%]">
             30 days
           </span>
 
-          <span className="relative inline-block text-[72px] font-bold">
+          <span className="relative inline-block text-heroSm
+  sm:text-heroMd
+  lg:text-hero font-bold">
             Risk - Free
             <motion.svg
               className="absolute -bottom-2 left-0 w-full"
@@ -135,38 +139,68 @@ export default function RiskFreeTrials() {
           </span>
         </motion.h2>
 
-        <motion.p className="mt-8 text-[20px] text-black" variants={itemVariants}>
+        <motion.p className="mt-8 text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg  text-black" variants={itemVariants}>
           We're so confident you'll love working with Telsys, we offer a no commitment 30 day trial.
         </motion.p>
 
-        {/* Button + Icons */}
-        <motion.div className="mt-12 relative w-48 h-16 mx-auto" variants={itemVariants}>
-          <MagneticButton>
-            <span className="text-base font-bold px-4">Talk to an Expert</span>
-          </MagneticButton>
-
-          {/* Floating Icons */}
-          <motion.div variants={rotateContinuous} initial="initial" animate="animate" className="absolute -top-8 -left-8">
-            <Image src="/x.png" alt="x" width={40} height={40} />
-          </motion.div>
-
-          <motion.div
-            initial={{ scaleX: -1, rotateZ: 45 }}
-            animate={smoothDraw.animate}
-            className="absolute -top-10 -right-8"
-          >
-            <Image src="/d.png" alt="d" width={40} height={40} />
-          </motion.div>
-
-          <motion.div animate={smoothDraw.animate} className="absolute -bottom-2 -left-6">
-            <Image src="/g.png" alt="g" width={40} height={40} />
-          </motion.div>
-
-          <motion.div variants={rotateContinuous} initial="initial" animate="animate" className="absolute -bottom-10 -right-6">
-            <Image src="/c.png" alt="c" width={40} height={40} />
-          </motion.div>
-        </motion.div>
-      </div>
+         {/* Button + Icons */}
+                <motion.div
+                  className="mt-12 relative mx-auto flex justify-center items-center"
+                  variants={itemVariants}
+                >
+                  {/* Stable icon anchor wrapper */}
+                  <div className="relative w-[360px] h-[140px] flex justify-center items-center">
+        
+                    {/* Auto-sized button */}
+                    <MagneticButton>
+                      <span className="text-button font-bold px-6 py-3 whitespace-nowrap">
+                        Talk to an Expert
+                      </span>
+                    </MagneticButton>
+        
+                    {/* x.png */}
+                    <motion.div
+                      variants={rotateContinuous}
+                      initial="initial"
+                      animate="animate"
+                      className="absolute -top-0 -left-6"
+                    >
+                      <Image src="/x.png" alt="x" width={40} height={40} />
+                    </motion.div>
+        
+                    {/* d.png */}
+                    <motion.div
+                      initial={{ scaleX: -1, rotateZ: 45 }}
+                      animate={smoothDraw.animate}
+                      className="absolute -top-0 -right-6"
+                    >
+                      <Image src="/d.png" alt="d" width={40} height={40} />
+                    </motion.div>
+        
+                    {/* g.png */}
+                    <motion.div
+                      animate={smoothDraw.animate}
+                      className="absolute -bottom-3 -left-2"
+                    >
+                      <Image src="/g.png" alt="g" width={40} height={40} />
+                    </motion.div>
+        
+                    {/* c.png */}
+                    <motion.div
+                      variants={rotateContinuous}
+                      initial="initial"
+                      animate="animate"
+                      className="absolute -bottom-8 -right-6"
+                    >
+                      <Image src="/c.png" alt="c" width={40} height={40} />
+                    </motion.div>
+        
+                  </div>
+                </motion.div>
+              </div>
+        
 
       {/* Floating Gifs */}
       <motion.div variants={floatOnly} animate="animate" className="absolute top-[28%] left-[8%] hidden md:block z-20">

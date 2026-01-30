@@ -60,7 +60,7 @@ export default function Hero() {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="container mx-auto px-[6%] py-12 grid md:grid-cols-2 gap-8 items-center">
+      <div className="container mx-auto 2xl:max-w-[90%] px-[6%] py-12 grid md:grid-cols-2 gap-8 items-center">
         <motion.div
             variants={contentContainerVariants}
         >
@@ -70,24 +70,27 @@ export default function Hero() {
           <motion.h1
             custom="top"
             variants={itemVariants}
-            className="text-[72px] font-normal text-black leading-[72.5px] mt-4"
+            className="text-heroSm
+  sm:text-heroMd
+  lg:text-hero font-normal text-black mt-4"
           >
             Digital Operations
           </motion.h1>
           <motion.p
             custom="left"
             variants={itemVariants}
-            className="mt-6 text-[16px] text-zinc-800 max-w-lg leading-[24.5px]"
+            className="mt-6 text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black max-w-lg leading-[24.5px]"
           >
-            Hugo's digital operations outsourcing helps e-commerce brands scale by streamlining marketplace workflows and removing friction. From optimized product listings to fast, accurate fulfillment, our teams deliver 96% accuracy and seamless execution built for growth.
-          </motion.p>
+Stay connected, efficient, and ahead of the competition with Telsys Communication Solutions. We provide secure, scalable, and reliable platforms for voice, video, chat, and collaboration—designed to keep your teams, customers, and partners seamlessly connected.          </motion.p>
           <motion.div
             custom="bottom"
             variants={itemVariants}
             className="mt-8"
           >
             <MagneticButton>
-              <span className="text-[15px] font-bold px-4">Talk to an Expert</span>
+              <span className="text-button font-bold px-4">Talk to an Expert</span>
             </MagneticButton>
           </motion.div>
         </motion.div>

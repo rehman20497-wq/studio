@@ -150,7 +150,9 @@ export default function WhyChooseSection() {
         <WhyChooseHeading isInView={isInView} />
 
         <motion.p
-          className="mt-0 text-lg text-zinc-600"
+          className="mt-0 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-zinc-600"
           variants={headingVariants}
         >
           Better starts here.
@@ -172,10 +174,14 @@ export default function WhyChooseSection() {
             <div className="w-16 h-16 bg-yellow-200 rounded-full flex items-center justify-center mb-4">
               {benefit.icon}
             </div>
-            <h3 className="text-xl font-semibold text-zinc-900 mb-2">
+            <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-semibold text-zinc-900 mb-2">
               {benefit.title}
             </h3>
-            <p className="text-zinc-600 leading-relaxed">
+            <p className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-zinc-600 leading-relaxed">
               {benefit.description}
             </p>
           </motion.div>

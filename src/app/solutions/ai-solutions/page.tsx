@@ -17,11 +17,8 @@ import ClosingBrushStrokesss from "@/components/solutions/cloud/closing-brush-st
 import IntegrationCtaSections from "@/components/solutions/cloud/integration-cta-sections";
 import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrialss from "@/components/solutions/cloud/risk-free-trialss";
-import CloudFaqSection from "@/components/solutions/cloud/faq-section";
+import CloudFaqSectionss from "@/components/solutions/cloud/faq-sectionss";
 import FeaturedGuideSections from "@/components/solutions/communications/featured-guide-sections";
-
-
-
 export default function AiSolutionsPage() {
   return (
     <div className="bg-[#FCFBF8]">
@@ -44,9 +41,8 @@ export default function AiSolutionsPage() {
                         <IntegrationCtaSections />
                         <PartnerMarquee />
                         <RiskFreeTrialss />
-                        <CloudFaqSection />
+                        <CloudFaqSectionss />
 <FeaturedGuideSections />
-
       </main>
     </div>
   );

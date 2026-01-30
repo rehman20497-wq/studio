@@ -57,7 +57,7 @@ export default function BuildTeamCta() {
                 variants={buttonVariants}
             >
                 <MagneticButton>
-                    <span className="text-base font-medium px-4">Talk to an Expert</span>
+                    <span className="text-button font-medium px-4">Talk to an Expert</span>
                 </MagneticButton>
             </motion.div>
         </motion.div>

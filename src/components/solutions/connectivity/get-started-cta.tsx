@@ -65,7 +65,7 @@ export default function GetStartedCta() {
       <div className="relative z-10 mt-10">
         <motion.div variants={buttonContainerVariants}>
           <MagneticButton>
-            <span className="text-[14px] font-semibold px-6 py-2">
+            <span className="text-button font-semibold px-6 py-2">
             Talk to an Expert
             </span>
           </MagneticButton>

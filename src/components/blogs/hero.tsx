@@ -99,7 +99,9 @@ export default function Hero() {
         </motion.div>
 
         <motion.p
-          className="mt-6 text-lg text-zinc-600 max-w-2xl mx-auto"
+          className="mt-6 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-zinc-600 max-w-2xl mx-auto"
           variants={paragraphVariants}
         >
           We work with some of the world's most iconic brands. Gain access to

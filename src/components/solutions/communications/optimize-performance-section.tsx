@@ -89,17 +89,12 @@ const FeatureCard = ({
       </div>
     </div>
 
-    <h3
-  className="font-bold mb-1"
-  style={{ fontSize: '20px', lineHeight: '28.7px', color: '#000000' }}
->
+    <h3 className="font-bold mb-1 text-bodySm sm:text-bodyMd lg:text-bodylg text-black">
   {title}
 </h3>
 
-<p
-  className="max-w-xs"
-  style={{ fontSize: '13px', lineHeight: '20.5px', color: '#52525b' }}
->
+
+<p className="max-w-xs text-testimonialReview text-black">
   {description}
 </p>
 
@@ -123,7 +118,9 @@ export default function OptimizePerformanceSection() {
           variants={itemVariants}
           className="flex justify-center items-center gap-4 mb-4"
         >
-          <h2 className="text-5xl font-normal text-black font-headline">
+          <h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline font-normal text-black">
             Optimize Performance, Even At Scale
           </h2>
           <Image
@@ -138,7 +135,9 @@ export default function OptimizePerformanceSection() {
         {/* Description */}
         <motion.p
           variants={itemVariants}
-          className="text-lg text-zinc-700 max-w-3xl mx-auto mb-6"
+          className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg font-normal text-black max-w-3xl mx-auto mb-6"
         >
           Every operations engine needs a pit crew. With Hugo, you can onboard and
           execute faster, and with more precision than the competition.
@@ -159,20 +158,33 @@ export default function OptimizePerformanceSection() {
           variants={awardsVariants}
           className="mt-6 flex justify-center items-center gap-12"
         >
-          <Image
-            src="/global.webp"
-            alt="Global Award"
-            width={90}
-            height={120}
-            className="object-contain h-auto max-h-[150px] max-w-[120px]"
-          />
-          <Image
-            src="/clutch.png"
-            alt="Clutch Award"
-            width={100}
-            height={110}
-            className="object-contain h-auto max-h-[150px] max-w-[120px]"
-          />
+           <Image
+           src="/global.webp"
+           alt="Global Award"
+           width={90}
+           height={120}
+           className="
+             object-contain h-auto
+             max-h-[150px] max-w-[120px]
+             3xl:max-h-[190px] 3xl:max-w-[150px]
+             4xl:max-h-[220px] 4xl:max-w-[180px]
+             5xl:max-h-[260px] 5xl:max-w-[210px]
+           "
+         />
+         
+         <Image
+           src="/clutch.png"
+           alt="Clutch Award"
+           width={100}
+           height={110}
+           className="
+             object-contain h-auto
+             max-h-[150px] max-w-[120px]
+             3xl:max-h-[550px] 3xl:max-w-[400px]
+             4xl:max-h-[650px] 4xl:max-w-[500px]
+             5xl:max-h-[750px] 5xl:max-w-[600px]
+           "
+         />
         </motion.div>
       </motion.div>
     </section>

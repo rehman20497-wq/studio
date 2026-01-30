@@ -52,10 +52,14 @@ export default function TeamCSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div variants={itemVariants} className="md:pr-8 text-center md:text-left">
-          <h2 className="text-[49px] leading-[52px] text-black font-headline font-normal">
+          <h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo text-black font-headline font-normal">
             Driving Innovation Together
           </h2>
-          <p className="mt-6 text-base text-black">
+          <p className="mt-6 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black">
             Innovation is at the heart of everything we do. We collaborate closely with our clients to push boundaries, explore new ideas, and create solutions that drive meaningful change and deliver a competitive edge.
           </p>
         </motion.div>

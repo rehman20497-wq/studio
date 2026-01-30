@@ -66,10 +66,14 @@ export default function AlumniSection() {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
         >
-            <motion.h2 className="text-[46px] font-headline font-normal text-black" variants={itemVariants}>
+            <motion.h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline font-normal text-black" variants={itemVariants}>
                 Start here. Qualify anywhere!
             </motion.h2>
-            <motion.p className="mt-4 text-[20px] text-black max-w-3xl mx-auto" variants={itemVariants}>
+            <motion.p className="mt-4 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black max-w-3xl mx-auto" variants={itemVariants}>
                 Hugo alumni are thriving across the globe. Our talented community is pursuing higher education at top universities and making an impact at leading companies including Bloomberg, Barclays, and KPMG.
             </motion.p>
         </motion.div>

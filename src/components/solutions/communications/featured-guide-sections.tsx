@@ -132,35 +132,51 @@ export default function FeaturedGuideSections() {
       >
         {/* Left Content */}
         <div className="text-black">
-          <motion.h3 className="text-lg font-semibold relative inline-block pb-1" variants={textItemVariants}>
+          <motion.h3 className="text-eyebrowSm
+  sm:text-eyebrowMd
+  lg:text-eyebrow font-normal relative inline-block pb-1" variants={textItemVariants}>
             Featured Guide
             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black" />
           </motion.h3>
 
-          <motion.h2 className="text-5xl font-normal mt-4" variants={textItemVariants}>
+          <motion.h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline font-normal text-black mt-4" variants={textItemVariants}>
             Mastering Digital Transformation for Peak Business Performance
           </motion.h2>
 
-          <motion.p className="mt-6 text-lg" variants={textItemVariants}>
+          <motion.p className="mt-6 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg" variants={textItemVariants}>
             Uncover how to elevate business performance through digital transformation, integrating technology with strategy, enhancing collaboration, and driving innovation for a competitive advantage.
           </motion.p>
 
           <motion.div className="mt-8" variants={textItemVariants}>
             <MagneticButton>
-              <span className="text-base font-bold">Read Guide Here</span>
+              <span className="text-button font-bold">Read Guide Here</span>
             </MagneticButton>
           </motion.div>
         </div>
 
         {/* Right Content */}
-        <motion.div className="relative h-[350px]" variants={imageContainerVariants}>
+        <motion.div
+  className="
+    relative
+    w-full
+    min-h-[260px]
+    aspect-[4/3]
+    md:aspect-[5/4]
+    lg:aspect-[16/10]
+  "
+  variants={imageContainerVariants}
+>
           
           {/* 🔥 ROTATED GREEN BACKGROUND */}
           <div
             className="absolute -top-24 -right-2 rounded-2xl overflow-hidden bg-[#9a4afc]"
             style={{
-              width: '550px',
-              height: '350px',
+              width: '90%',
+              height: '95%',
               transform: 'rotate(10deg)',
               transformOrigin: 'top left'
             }}

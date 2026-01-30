@@ -42,23 +42,27 @@ export default function LaunchStepsSection() {
                 initial="hidden"
                 animate={isInView ? 'visible' : 'hidden'}
             >
-                <motion.div className="flex items-center justify-center gap-4" variants={itemVariants}>
-                    <Image
-                        src="/arrow-right.png"
-                        alt="Arrow Icon"
-                        width={40}
-                        height={40}
-                        className="object-contain"
-                    />
-                    <h2 className="text-[46px] leading-[57px] font-headline font-medium text-zinc-900">
-                        Launch in 5 easy steps
-                    </h2>
-                </motion.div>
+               <motion.div className="flex items-center justify-center gap-4" variants={itemVariants}>
+               <Image
+  src="/arrow-right.png"
+  alt="Arrow Icon"
+  width={40}
+  height={40}
+  className="object-contain w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12 xl:w-12 xl:h-12 2xl:w-12 2xl:h-12"
+/>
+
+    <h2 className="text-herooSm sm:text-herooMd lg:text-heroo font-headline font-medium text-zinc-900">
+        Launch in 5 easy steps
+    </h2>
+</motion.div>
+
                 <motion.p 
-                    className="mt-6 text-xl text-zinc-900 max-w-md mx-auto"
+                    className="mt-6 text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-zinc-900 max-w-md mx-auto"
                     variants={itemVariants}
                 >
-                  We source, train, and assemble your new team in as little as 2 weeks. Once you go live, we continuously work to ensure you hit KPIs.
+                  From strategy to execution, we ensure your business grows smarter and safer, making every step toward launch effortless and reliable.
                 </motion.p>
             </motion.div>
         </section>

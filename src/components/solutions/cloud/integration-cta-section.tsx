@@ -66,7 +66,9 @@ export default function IntegrationCtaSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-[72px] text-black leading-[72.5px] font-headline font-normal"
+          className=" text-heroSm
+  sm:text-heroMd
+  lg:text-hero text-black font-headline font-normal"
           variants={headingContainerVariants} // This will stagger the spans
         >
           <motion.span className="block" variants={textLineVariants}>
@@ -80,7 +82,9 @@ export default function IntegrationCtaSection() {
           </motion.span>
         </motion.h2>
         <motion.p
-          className="mt-8 text-[16px] leading-[24.5px] text-black max-w-3xl mx-auto"
+          className="mt-8 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg leading-[24.5px] text-black max-w-3xl mx-auto"
           variants={paragraphVariants}
         >
           From day 1 we integrate into your existing CRMs, operational tools

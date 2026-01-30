@@ -53,15 +53,19 @@ export default function TeamnSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div variants={itemVariants} className="md:pr-8">
-          <h2 className="text-[46px] text-black font-headline font-normal">
+          <h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo text-black font-headline font-normal">
             Find Your Place at Hugo
           </h2>
-          <p className="mt-6 text-sm md:text-base text-black">
+          <p className="mt-6 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black">
             We’re a diverse team of thinkers, creators, and problem-solvers dedicated to making a difference. Explore our open roles and discover how you can contribute to the future of work.
           </p>
           <div className="mt-8">
             <MagneticButton>
-                <span className="text-[15px] font-bold px-4">Talk to an Expert</span>
+                <span className="text-button font-bold px-4">Talk to an Expert</span>
             </MagneticButton>
           </div>
         </motion.div>

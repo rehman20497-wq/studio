@@ -134,16 +134,30 @@ export default function TestimonialCarousel() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="w-24 h-24 relative flex-shrink-0"
+            className="relative flex-shrink-0
+    w-14 h-14
+    sm:w-16 sm:h-16
+    md:w-[72px] md:h-[72px]
+    lg:w-20 lg:h-20
+    xl:w-24 xl:h-24"
           >
-            <Image
-              src={currentTestimonial.image}
-              alt={currentTestimonial.name}
-              width={86}
-              height={86}
-              className="rounded-full object-cover"
-              data-ai-hint="person portrait"
-            />
+          <Image
+  src={currentTestimonial.image}
+  alt={currentTestimonial.name}
+  fill
+  sizes="
+    (min-width: 1280px) 96px,
+    (min-width: 1024px) 80px,
+    (min-width: 768px) 72px,
+    (min-width: 640px) 64px,
+    56px
+  "
+  className="rounded-full object-cover"
+/>
+
+
+
+
           </motion.div>
         </AnimatePresence>
         <div className="flex-grow overflow-hidden">
@@ -160,20 +174,20 @@ export default function TestimonialCarousel() {
               }}
             >
               <motion.p 
-                className="font-bold text-zinc-900 text-sm"
+                className="font-bold text-black text-testimonialName"
                 variants={itemVariants.details}
               >
                 {currentTestimonial.name}
               </motion.p>
               <motion.p 
-                className="text-sm font-medium text-zinc-700"
+                className="text-testimonialTitle font-medium text-black"
                 variants={itemVariants.details}
               >
                 {currentTestimonial.title}
               </motion.p>
-              <div className="h-[72px] mt-2">
+              <div className="mt-2 min-h-[72px] h-auto">
                  <motion.p 
-                  className="text-sm font-light text-zinc-600"
+                  className="text-testimonialReview font-light text-black"
                   variants={itemVariants.review}
                 >
                   {currentTestimonial.review}

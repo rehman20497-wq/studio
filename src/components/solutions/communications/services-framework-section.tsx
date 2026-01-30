@@ -9,40 +9,40 @@ const cardData = [
     icon: '/ic2.svg',
     title: 'Platform Growth',
     items: [
-      'Inbound lead review and response',
-      'User account management',
-      'Digital merchandising',
-      'Content updates & optimization',
-      'Brand support',
-      'Order fulfillment',
-      'Language translation',
+      'User Expansion',
+      'Channel Adoption',
+      'Feature Enablement',
+      'Usage Analytics',
+      'Solution Scaling',
+      'Market Expansion',
     ],
   },
   {
     icon: '/saf.svg',
     title: 'Safety',
     items: [
-      'Fraud detection',
-      'Inbound fraud review and response',
-      'Continuous due diligence',
-      'Chargebacks & disputes',
-      'Claims management',
-      
+      'Secure Communications',
+      'Compliance Support',
+      'Fraud Prevention',
+      'Data Protection',
+      'Identity Verification',
+      'Risk Monitoring',
     ],
   },
   {
     icon: '/sal.svg',
     title: 'Sales Support',
     items: [
-      'Top-of-the-funnel lead generation',
-      'Lead research, qualification, and enrichment',
-      'Outbound campaign management (email, social, SMS)',
-      'Scheduling appointments & demos',
-      'Data & CRM Management',
-      'Market Intelligence',
+      'Lead Engagement',
+      'Call Tracking',
+      'CRM Integration',
+      'Sales Analytics',
+      'Deal Enablement',
+      'Performance Insights',
     ],
   },
 ];
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -80,17 +80,16 @@ const decorativeBgVariants = {
     },
   },
 };
-
 const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
   <motion.div className="relative" variants={cardItemVariants}>
     {/* Decorative circle background, hidden on small devices */}
     <motion.div
       className="hidden md:block absolute bg-[#4ab01b] rounded-2xl overflow-hidden"
       style={{
-        width: '280px',
-        height: '330px',
-        top: '4%',
-        left: '31%',
+        width: '85%',
+    height: '95%',
+    top: '6%',
+    left: '21%',
       }}
       variants={decorativeBgVariants}
     >
@@ -123,8 +122,10 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
           style={{ height: 'auto' }}
         />
       </div>
-      <h3 className="text-[20px] font-bold text-zinc-900 mb-2">{card.title}</h3>
-      <ul className="space-y-[0px] text-zinc-700 text-[13px]">
+      <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black font-bold mb-2">{card.title}</h3>
+      <ul className="space-y-[0px] text-testimonialReview text-black">
         {card.items.map((item, index) => (
           <li key={index} className="flex items-start">
             <span className="text-black mr-3 mt-1.5">&#8226;</span>

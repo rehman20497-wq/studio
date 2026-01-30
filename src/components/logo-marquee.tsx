@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef } from "react";
@@ -19,14 +18,10 @@ const logos = [
 ];
 
 const containerVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.25, 1, 0.5, 1],
-    },
+    transition: { duration: 0.8 },
   },
 };
 
@@ -34,44 +29,53 @@ const LogoMarquee: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
+  const renderLogoSet = (keyPrefix: string) => (
+    logos.map((logo, index) => (
+      <div
+        key={`${keyPrefix}-${index}`}
+        className="relative flex-shrink-0 flex items-center justify-center 
+          /* Horizontal Spacing */
+          mx-6 md:mx-10 lg:mx-12
+          
+          /* HEIGHT LOGIC */
+          h-8           
+          lg:h-9        
+          xl:h-12       
+          
+          
+          w-28 
+          sm:w-32 
+          lg:w-36       
+          xl:w-48"
+      >
+        <Image
+          src={logo.src}
+          alt={logo.alt}
+          fill
+          sizes="(min-width: 1280px) 192px, (min-width: 1024px) 144px, 112px"
+          className="object-contain"
+          priority={index < 5}
+        />
+      </div>
+    ))
+  );
+
   return (
     <motion.div
       ref={ref}
-      className="py-12"
+      className="py-10 lg:py-14 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      <div className="relative w-full overflow-hidden">
-        <div className="animate-marquee flex items-center whitespace-nowrap h-16">
-          {logos.map((logo, index) => (
-            <div
-              key={index}
-              className="mx-10 flex items-center flex-shrink-0"
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={120}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-          ))}
-           {logos.map((logo, index) => (
-            <div
-              key={`duplicate-${index}`}
-              className="mx-10 flex items-center flex-shrink-0"
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={120}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-          ))}
+      <div className="relative w-full">
+        {/* Edge Fades for smooth transitions */}
+        <div className="absolute inset-y-0 left-0 w-12 md:w-24 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="absolute inset-y-0 right-0 w-12 md:w-24 bg-gradient-to-l from-white to-transparent z-10" />
+
+        <div className="animate-marquee flex items-center whitespace-nowrap">
+          {renderLogoSet("first")}
+          {renderLogoSet("second")}
         </div>
       </div>
     </motion.div>

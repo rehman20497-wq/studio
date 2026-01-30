@@ -126,12 +126,13 @@ export default function FinalFooter() {
   return (
     <motion.footer 
       ref={ref}
-      className="bg-[#fff9e6] py-16 px-[7%]"
+      className="bg-[#fff9e6] py-16 px-[0px]"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
-      <div className="container mx-auto">
+      <div className="max-w-[1920px] 2xl:max-w-[2400px] mx-auto px-6 sm:px-10 xl:px-24 2xl:px-32">
+
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pb-12 border-b border-zinc-200 mx-[4%]">
           <motion.div variants={slideFromLeft} className="flex flex-col items-center md:items-start mb-8 md:mb-0">

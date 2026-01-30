@@ -11,6 +11,18 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    /* 
+      This sets the base font size for the entire document.
+      It uses a CSS variable '--scale-factor' which is updated by JavaScript
+      based on the browser's zoom level (devicePixelRatio).
+      By calculating font-size like this, all 'rem' units in TailwindCSS
+      will scale accordingly, counteracting the browser's zoom to maintain
+      a visually consistent size for text and other rem-based elements.
+    */
+    font-size: calc(18px * var(--scale-factor));
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -41,6 +53,9 @@
     --ring: 222.2 84% 4.9%;
  
     --radius: 0.5rem;
+    
+    --scale-factor: 1; /* Fallback for dynamic scaling */
+
 
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -421,4 +436,7 @@
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+.illustration-no-zoom {
+  will-change: transform;
 }

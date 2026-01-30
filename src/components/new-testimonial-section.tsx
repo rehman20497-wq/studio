@@ -9,7 +9,7 @@ import TestimonialProgressBar from './testimonial-progress-bar';
 const testimonials = [
   {
     logo: <Image src="/meta.png" alt="Meta Logo" width={100} height={30} className="object-contain" />,
-    text: "We're constantly trying to bring the best the market has to offer to support our global business operations by identifying suppliers with the exact solution we need to solve our problem. In this case, we found an incredible partner in TelSys.",
+    text: "We had an excellent experience working with this team. They helped us choose the right cloud & communication solutions and guided us through the entire setup. Everything was smooth, organized, and clearly explained.",
     author: 'Sarah L.',
     title: 'Director, Global Supplier Diversity',
     image: '/logos/Sarah.jpg',
@@ -17,7 +17,7 @@ const testimonials = [
   },
   {
     logo: <Image src="/consensys.png" alt="Consensys Logo" width={100} height={30} className="object-contain" />,
-    text: "TelSys's team is top-notch. Their proactive approach and deep understanding of our needs have been a game changer for our operations. We couldn't be happier with the results.",
+    text: "Very professional and genuinely helpful. They reviewed our existing tools,identified where we were overspending, and recommended more efficient options. The migration process was quick, and their support team responded immediately whenever we had questions.",
     author: 'Chris B.',
     title: 'COO, Consensys',
     image: '/logos/chris.jpg',
@@ -25,7 +25,7 @@ const testimonials = [
   },
     {
     logo: <Image src="/sakara.png" alt="Sakara Logo" width={100} height={30} className="object-contain" />,
-    text: "The level of detail and commitment from TelSys is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
+    text: "We’re extremely happy with the service. Their team implemented cloud, AI, and security solutions that improved both our workflow and customer experience.They made everything easy to understand and ensured our staff was comfortable using the new tools.",
     author: 'Quo T.',
     title: 'Head of Support, Sakara',
     image: '/logos/quo.jpg',
@@ -177,7 +177,9 @@ variants={containerVariants}
                         <div className="absolute -left-8 -top-4 hidden md:block">
                         <QuoteIcon />
                         </div>
-                        <p className="text-base text-black leading-relaxed">
+                        <p className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black leading-relaxed">
                           {currentTestimonial.text}
                         </p>
                         
@@ -187,10 +189,10 @@ variants={containerVariants}
                     </motion.div>
 
                     <motion.div className="mt-8" variants={itemVariants}>
-                        <p className="font-bold text-[13px] text-black">
+                        <p className="font-bold text-testimonialName text-black">
                           {currentTestimonial.author}
                         </p>
-                        <p className="text-[13px] text-zinc-600">{currentTestimonial.title}</p>
+                        <p className="text-testimonialName text-zinc-600">{currentTestimonial.title}</p>
                     </motion.div>
                 </motion.div>
             </AnimatePresence>

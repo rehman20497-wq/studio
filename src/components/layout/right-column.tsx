@@ -16,8 +16,11 @@ export default function RightColumn() {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
       >
-        <h2 className="text-xl md:text-2xl font-medium relative inline-block pb-2 text-black">
-          Outsourcing+
+        <h2 className="text-eyebrowSm
+  sm:text-eyebrowMd
+  lg:text-eyebrow
+  font-medium relative inline-block pb-2 text-black">
+          Technology+
           <motion.svg
             className="absolute bottom-0 left-0 w-full h-auto overflow-visible"
             height="8"
@@ -37,24 +40,32 @@ export default function RightColumn() {
           </motion.svg>
         </h2>
         <motion.h1 
-          className="text-6xl md:text-7xl font-normal mt-4 leading-tight text-black"
+          className="mt-4
+  font-normal
+  text-herSm
+  sm:text-herMd
+  lg:text-her leading-tight text-black"
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.4 }}
         >
-          Built to make
+          Where Vision Meets
           <br />
-          you better.
+          Modern Technology
         </motion.h1>
         <motion.p 
-          className="mt-6 text-lg lg:text-xl max-w-md text-black leading-relaxed"
+          className="mt-6
+  max-w-md
+  text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg  max-w-md text-black leading-relaxed"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.6 }}
         >
-          We're not traditional outsourcers. We build world-class teams—from
-          customer support to AI data solutions—helping you scale faster and
-          smarter.
+          We’re more than technology partners. We connect cloud,
+security, communication, and AI expertise—helping
+businesses innovate faster and grow smarter
         </motion.p>
       </motion.div>
 
@@ -65,7 +76,7 @@ export default function RightColumn() {
         transition={{ duration: 0.7, ease: 'easeOut', delay: 0.8 }}
       >
         <MagneticButton>
-          <span className="text-base font-medium">Talk to an Expert</span>
+          <span className="text-button font-medium ">Connect With Experts</span>
         </MagneticButton>
       </motion.div>
 

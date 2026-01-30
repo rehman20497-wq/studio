@@ -89,7 +89,6 @@ const SidebarContent = ({ onLogout, onLinkClick }: { onLogout: () => void; onLin
           <NavLink href="/admin/manage-blogs" icon={FileText} onClick={onLinkClick} pageId="manage-blogs">Manage Blogs</NavLink>
           <NavLink href="/admin/newsletters" icon={Newspaper} onClick={onLinkClick} pageId="newsletters">Newsletters</NavLink>
           <NavLink href="/admin/manage-users" icon={Users2} onClick={onLinkClick} pageId="manage-users">Manage Users</NavLink>
-          <NavLink href="/admin/debug" icon={Bug} onClick={onLinkClick} pageId="debug">Debug</NavLink>
         </motion.nav>
         <motion.button
           onClick={onLogout}

@@ -82,7 +82,9 @@ export default function OurApproachSection() {
     >
       <div className="max-w-6xl mx-auto text-center">
         <motion.div className="inline-block relative mb-4" variants={textVariants}>
-            <h3 className="text-[23px] font-normal text-zinc-800">
+            <h3 className="text-eyebrowSm
+  sm:text-eyebrowMd
+  lg:text-eyebrow font-normal text-black">
                 Our Approach
             </h3>
             <motion.svg
@@ -101,10 +103,14 @@ export default function OurApproachSection() {
             </motion.svg>
         </motion.div>
 
-        <motion.h2 className="text-5xl font-normal text-black mb-6 font-headline" variants={textVariants}>
+        <motion.h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-normal text-black mb-6 font-headline" variants={textVariants}>
           Proactive & Responsive
         </motion.h2>
-        <motion.p className="text-lg text-zinc-700 max-w-3xl mx-auto mb-8" variants={textVariants}>
+        <motion.p className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg  text-black max-w-3xl mx-auto mb-8" variants={textVariants}>
           From fraud detection, financial crimes prevention, and trust & safety operations to content moderation and community management, Hugo delivers scalable virtual call center expertise designed to safeguard every customer touchpoint. We lead in early detection, risk mitigation, and system-wide remediation for industries including Fintech, EdTech, SaaS, and Gaming.
         </motion.p>
 
@@ -121,8 +127,10 @@ export default function OurApproachSection() {
               <div className="flex justify-center mb-6">
                 <Image src={card.icon} alt={`${card.title} icon`} width={64} height={64} />
               </div>
-              <h3 className="text-2xl font-bold text-black mb-4">{card.title}</h3>
-              <p className="text-zinc-600 leading-relaxed">{card.description}</p>
+              <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-bold text-black mb-4">{card.title}</h3>
+              <p className=" text-testimonialReview text-black leading-relaxed">{card.description}</p>
             </motion.div>
           ))}
         </motion.div>

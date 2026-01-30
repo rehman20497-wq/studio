@@ -220,7 +220,8 @@ export default function OurValuesSection() {
   return (
     <section
       ref={ref}
-      className="bg-[#fffef9] pt-2 pb-32 relative overflow-hidden flex items-center justify-center min-h-[900px]"
+      className="bg-[#fffef9] pt-[clamp(1rem,2vw,2.5rem)]
+ pb-[clamp(1rem,2vw,2.5rem)] relative overflow-hidden flex items-center justify-center min-h-[900px]"
     >
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[640px]">
         {strokes.map((s, i) => (
@@ -229,7 +230,14 @@ export default function OurValuesSection() {
       </div>
 
       <motion.div
-        className="relative z-10 w-[1100px] h-[650px]"
+       className="
+       relative z-10
+       min-w-[900px] min-h-[550px]
+       w-[70vw] h-[80vh]
+       max-w-[70vw] max-h-[80vh]
+       aspect-[9000/550]
+     "
+     
         initial={{ opacity: 0, y: 40, scale: 0.96 }}
         animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
         transition={{

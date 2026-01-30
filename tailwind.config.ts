@@ -17,12 +17,67 @@ export default {
       },
     },
     extend: {
+      screens: {
+        '3xl': '1920px',   // 27 inch
+        '4xl': '2560px', // 32 inch
+        '5xl': '3000px',   // >32 inch
+      },
       fontFamily: {
         body: ['PP Mori', 'sans-serif'],
         headline: ['PP Mori', 'sans-serif'],
         code: ['monospace'],
         poppins: ['Poppins', 'sans-serif'],
       },
+        fontSize: {
+          // Outsourcing / eyebrow
+          eyebrowSm: ['1.375rem', { lineHeight: '2rem' }],        // 22px / ~32px
+          eyebrowMd: ['1.5rem', { lineHeight: '2.2rem' }],        // 24px / ~35px
+          eyebrow: ['1.625rem', { lineHeight: '2.23125rem' }],    // 26px / 35.7px
+          // Outsourcing / eyebrow (responsive scaled)
+eyebrowwSm: ['4.5rem',  { lineHeight: '4.6rem' }],   // 72px / 73.6px  (mobile)
+eyebrowwMd: ['5.375rem',{ lineHeight: '5.45rem' }], // 86px / 87.2px  (tablet)
+eyebroww:   ['6.0625rem',{ lineHeight: '6.10625rem' }], // 97px / 97.7px (desktop)
+
+         // Tiny text
+    tinySm: ['0.8125rem', { lineHeight: '0.9125rem' }],   
+    tinyMd: ['0.875rem', { lineHeight: '1rem' }],         
+    tinyLg: ['0.9375rem', { lineHeight: '1.0625rem' }],  
+          // Heading
+          heroSm: ['3rem', { lineHeight: '3.4rem' }],             // 48px / ~54px
+          heroMd: ['4rem', { lineHeight: '4.2rem' }],             // 64px / ~67px
+          hero: ['5rem', { lineHeight: '5.0375rem' }],            // 80px / 80.6px
+          // BIG HERO (renamed from hero -> bgh)
+bghSm: ['4.5rem', { lineHeight: '4.8rem' }],       // 72px / 76.8px
+bghMd: ['5.5rem', { lineHeight: '5.8rem' }],       // 88px / 92.8px
+bghLg: ['6.1875rem', { lineHeight: '6.225rem' }],  // 99px / 99.6px ✅ FINAL SIZE
+          
+         // Headings
+  herooSm: ['1.9125rem', { lineHeight: '2.15rem' }],       // 30.6px / 34.4px
+  herooMd: ['2.55rem', { lineHeight: '2.66875rem' }],      // 40.8px / 42.7px
+  heroo: ['3.1875rem', { lineHeight: '3.51875rem' }],      // 51px / 56.3px
+  
+  herSm: ['2.325rem', { lineHeight: '2.6125rem' }],   // 37.2px / 41.8px
+  herMd: ['3.09375rem', { lineHeight: '3.24375rem' }], // 49.5px / 51.9px
+  her: ['3.875rem', { lineHeight: '4.28125rem' }],     // 62px / 68.5px
+  
+  
+          // Paragraph
+          bodySm: ['1.125rem', { lineHeight: '1.75rem' }],        // 18px / 28px
+          bodyMd: ['1.25rem', { lineHeight: '1.9rem' }],          // 20px / ~30px
+          bodylg: ['1.375rem', { lineHeight: '1.99375rem' }],     // 22px / 31.9px
+          // Paragraphs
+          bodyySm: ['0.91875rem', { lineHeight: '1.43125rem' }],   // 14.7px / 22.9px
+  bodyyMd: ['1.0225rem', { lineHeight: '1.534375rem' }],  // 16.36px / 24.55px
+  bodyylg: ['1.125rem', { lineHeight: '1.6875rem' }],     // 18px / 27px
+  
+        
+          // Button
+          button: ['1.0625rem', { lineHeight: '1.11875rem' }],    // 17px / 17.9px
+          testimonialName: ['0.9375rem', { lineHeight: '1.325rem' }],  // 15px / 21.2px
+    testimonialTitle: ['0.9375rem', { lineHeight: '1.325rem' }], // 15px / 21.2px
+    testimonialReview: ['0.9375rem', { lineHeight: '1.425rem' }], // 15px / 22.8px
+        },
+      
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

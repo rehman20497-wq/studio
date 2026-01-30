@@ -104,7 +104,13 @@ const TeamMemberCard = ({
 }) => (
   <motion.div 
     variants={cardVariants} 
-    className="flex flex-col w-full max-w-[268px] h-[310px]"
+    className="
+  flex flex-col
+  min-w-[268px] min-h-[310px]
+  w-[clamp(268px,20vw,360px)]
+  h-[clamp(310px,28vw,460px)]
+"
+
     whileHover={{ scale: 1.05, y: -10 }}
     transition={{ type: 'spring', stiffness: 300 }}
   >
@@ -114,13 +120,14 @@ const TeamMemberCard = ({
         member.bgColor
       )}
     >
-      <Image
-        src={member.image}
-        alt={member.name}
-        width={250}
-        height={180}
-        className="w-full h-[180px] object-cover"
-      />
+     <Image
+  src={member.image}
+  alt={member.name}
+  width={250}
+  height={180}
+  className="w-full h-[clamp(180px,25vw,240px)] object-cover rounded-xl"
+/>
+
     </div>
     <div className="bg-white rounded-b-xl p-4 text-center border-b-2 border-x-2 border-yellow-300 flex-grow flex flex-col justify-center">
       <h3 className="font-bold text-zinc-900">{member.name}</h3>
@@ -139,7 +146,8 @@ export default function LeadershipSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="bg-[#FCFBF8] py-24 px-4">
+    <section ref={ref} className="bg-[#FCFBF8] pt-[clamp(0.5rem,1vw,1.5rem)] pb-[clamp(3rem,5vw,5rem)]
+ px-4">
       <motion.div
         className="max-w-7xl mx-auto"
         variants={containerVariants}
@@ -156,7 +164,9 @@ export default function LeadershipSection() {
             width={40}
             height={40}
           />
-          <h2 className="text-[46px] font-headline font-medium text-zinc-900">
+          <h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline font-medium text-zinc-900">
             Our leadership
           </h2>
         </motion.div>

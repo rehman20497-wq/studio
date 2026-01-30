@@ -69,7 +69,7 @@ const waveVariants = {
 };
 
 const imageVariants = {
-  hidden: { opacity: 0, y: 60, rotate: 6 },
+  hidden: { opacity: 0, y: 60},
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -86,20 +86,20 @@ const imageVariants = {
 const images = [
   {
     ...careersImages.years,
-    rotation: -18,
+    rotation: 8,
     position: { top: '34%', left: '-5%' },
     size: 210,
   },
   {
     ...careersImages.academy,
-    rotation: -18,
+    rotation: 334,
     position: { top: '14%', left: '7%' },
     size: 210,
   },
   {
     ...careersImages.day1,
     rotation: 10,
-    position: { top: '60%', left: '15%' },
+    position: { top: '55%', left: '15%' },
     size: 210,
   },
   {
@@ -110,7 +110,7 @@ const images = [
   },
   {
     ...careersImages.iwd,
-    rotation: -14,
+    rotation: 8,
     position: { top: '44%', right: '9.5%' },
     size: 210,
   },
@@ -179,14 +179,18 @@ export default function Hero() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h1
-          className="text-[72px] leading-tight font-normal text-black font-headline"
+          className="text-heroSm
+  sm:text-heroMd
+  lg:text-hero font-normal text-black font-headline"
           variants={headingVariants}
         >
           Where Better Begins.
         </motion.h1>
 
         <motion.p
-          className="mt-6 text-base text-black max-w-2xl mx-auto"
+          className="mt-6 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black max-w-2xl mx-auto"
           variants={paragraphVariants}
         >
           At Hugo, we're built to drive better outcomes, create better opportunities
@@ -197,14 +201,14 @@ export default function Hero() {
         <div className="mt-12 flex flex-row justify-center items-center gap-4">
           <motion.div variants={buttonVariants}>
             <MagneticButton>
-              <span className="whitespace-nowrap text-[15px] font-bold px-5">
+              <span className="whitespace-nowrap text-button font-bold px-5">
                 Talk to an Expert
               </span>
             </MagneticButton>
           </motion.div>
           <motion.div variants={buttonVariants}>
             <MagneticButton>
-              <span className="whitespace-nowrap text-[15px] font-bold px-5">
+              <span className="whitespace-nowrap text-button font-bold px-5">
                 Talk to an Expert
               </span>
             </MagneticButton>

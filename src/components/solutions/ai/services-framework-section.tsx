@@ -5,38 +5,41 @@ import { useRef } from 'react';
 import Image from 'next/image';
 
 const cardData = [
-  {
-    icon: '/play.svg',
-    title: 'Content',
-    items: [
-      'Content Publishing & Review',
-      'User Generated Content Moderation',
-      'Monitor User Reviews',
-      
-    ],
-  },
-  {
-    icon: '/saft.svg',
-    title: 'Safety',
-    items: [
-      'Fraud Detection & Financial Crime Prevention',
-      'Social Listening & Crisis Management',
-      'GenAI moderation',
-      'Live Chat, Audio, Video and Broadcast moderation',
-      'Audience, Messaging & Sentiment Tagging',
-      
-    ],
-  },
-  {
-    icon: '/bulb.svg',
-    title: 'Creators & Affiliates',
-    items: [
-      'Sourcing and Vetting',
-      'Audience Demographics & Psychographic Analysis',
-      'Campaign management & reporting',
-    ],
-  },
-];
+    {
+      icon: '/play.svg',
+      title: 'Data & Analytics',
+      items: [
+        'Predictive Insights',
+        'Real-Time Analytics',
+        'Trend Identification',
+        'Decision Support',
+        'Data Visualization',
+      ],
+    },
+    {
+      icon: '/saft.svg',
+      title: 'Automation & Efficiency',
+      items: [
+        'Workflow Automation',
+        'Process Optimization',
+        'Task Scheduling',
+        'Intelligent Routing',
+        'Resource Management',
+      ],
+    },
+    {
+      icon: '/bulb.svg',
+      title: 'Customer Engagement',
+      items: [
+        'AI Chatbots',
+        'Personalized Recommendations',
+        'Sentiment Analysis',
+        'Automated Support',
+        'Omnichannel Integration',
+      ],
+    },
+  ];
+  
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -79,12 +82,12 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
   <motion.div className="relative" variants={cardItemVariants}>
     {/* Decorative circle background, hidden on small devices */}
     <motion.div
-      className="hidden md:block absolute bg-[#9a4afc] rounded-2xl overflow-hidden"
+      className="hidden md:block absolute bg-[#9a4afc] rounded-2xl overflow-hidden z-0"
       style={{
-        width: '280px',
-        height: '290px',
-        top: '4%',
-        left: '31%',
+        width: '85%',
+        height: '95%',
+        top: '6%',
+        left: '21%',
       }}
       variants={decorativeBgVariants}
     >
@@ -117,8 +120,10 @@ const ServiceCard = ({ card }: { card: (typeof cardData)[0] }) => (
           style={{ height: 'auto' }}
         />
       </div>
-      <h3 className="text-[20px] font-bold text-zinc-900 mb-2">{card.title}</h3>
-      <ul className="space-y-[0px] text-zinc-700 text-[13px]">
+      <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black font-bold  mb-2">{card.title}</h3>
+      <ul className="space-y-[0px] text-testimonialReview text-black">
         {card.items.map((item, index) => (
           <li key={index} className="flex items-start">
             <span className="text-black mr-3 mt-1.5">&#8226;</span>

@@ -14,29 +14,29 @@ import { MinusIcon } from "./icons/minus-icon";
 const faqs = [
   {
     value: "item-1",
-    question: "1. Deep dive into your goals and team structure.",
+    question: "1. Set Your Vision",
     answer:
-      "We take the time to understand your unique needs and goals. Our talent becomes an extension of your team, supporting your customer experience initiatives within your strategic direction, timelines and budgets.",
+      "Define what success looks like for your business. Identify your goals and how our cloud,connectivity, communication, and AI solutions will power growth and reduce risk.",
   },
   {
     value: "item-2",
-    question: "2. We design a customized solution for you.",
-    answer: "Details for designing a customized solution.",
+    question: "2. Prepare the Foundations",
+    answer: "We ensure your infrastructure is secure, scalable, and ready—networks, cloud platforms, and communication tools all optimized for performance.",
   },
   {
     value: "item-3",
-    question: "3. Review and assemble your dream team.",
-    answer: "Details for reviewing and assembling your dream team.",
+    question: "3. Build & Test with Confidence",
+    answer: "From pilot projects to real-world testing, we fine-tune every solution so your technology works flawlessly when it matters most.",
   },
   {
     value: "item-4",
-    question: "4. We'll implement a dedicated training program.",
-    answer: "Details for implementing a dedicated training program.",
+    question: "4. Spread the Word",
+    answer: "Communicate your value with clarity. We help you reach customers, employees, and partners with messaging that highlights reliability, innovation, and growth.",
   },
   {
     value: "item-5",
-    question: "5. Go Live & schedule check-ins!",
-    answer: "Details for going live and scheduling check-ins.",
+    question: "5. Launch & Thrive",
+    answer: "Go live with confidence. We monitor, support, and optimize, making sure your technology keeps pace with your ambitions—every step of the way.",
   },
 ];
 
@@ -65,14 +65,14 @@ export default function CustomAccordion() {
                 : "bg-white border-[rgba(255,234,151,0.75)] shadow-md hover:border-[rgba(255,234,151,1)]"
             )}
           >
-            <AccordionTrigger className="w-full text-left p-6 font-medium text-lg hover:no-underline">
+            <AccordionTrigger className="w-full text-left p-6 font-bold text-testimonialReview hover:no-underline">
               <div className="flex items-center justify-between w-full">
                 <span>{faq.question}</span>
                 {isActive ? <MinusIcon /> : <PlusIcon />}
               </div>
             </AccordionTrigger>
 
-            <AccordionContent className="px-6 pb-6 text-zinc-700">
+            <AccordionContent className="px-6 pb-6 text-zinc-700 text-testimonialReview">
               {faq.answer}
             </AccordionContent>
           </AccordionItem>

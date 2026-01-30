@@ -1,9 +1,8 @@
-
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import useEmblaCarousel, { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
+import useEmblaCarousel from 'embla-carousel-react';
+import type { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -14,28 +13,28 @@ const slideData = [
   {
     image: { src: 'https://picsum.photos/seed/carousel1/800/600', hint: 'office meeting' },
     banner: { text: 'Driving Retention & Growth Subscription', color: 'bg-purple-200' },
-    quote: "Hugo understood our business and helped us translate feedback into meaningful improvements across the entire subscription experience.",
+    quote: "Telsys understood our business and helped us translate feedback into meaningful improvements across the entire subscription experience.",
     author: 'Jeremy D.',
     title: 'Customer Experience',
   },
   {
     image: { src: 'https://picsum.photos/seed/carousel2/800/600', hint: 'woman beauty app' },
     banner: { text: 'Supporting 10,000+ Inquiries for a Beauty Brand', color: 'bg-yellow-300' },
-    quote: "Hugo's team brought deep expertise and flexibility to our operation. They helped us improve response times and satisfaction.",
+    quote: "Telsys's team brought deep expertise and flexibility to our operation. They helped us improve response times and satisfaction.",
     author: 'Anna G.',
     title: 'Customer Experience Lead',
   },
   {
     image: { src: 'https://picsum.photos/seed/carousel3/800/600', hint: 'man gaming neon' },
     banner: { text: 'Eliminated a 5,000-Ticket Backlog in 14 Days', color: 'bg-cyan-200' },
-    quote: "Hugo didn't just add agents. They rebuilt our workflows, improved quality, and delivered measurable results when our support operation was at a breaking point.",
+    quote: "Telsys didn't just add agents. They rebuilt our workflows, improved quality, and delivered measurable results when our support operation was at a breaking point.",
     author: 'Robert M.',
     title: 'Head of Player Experience',
   },
   {
     image: { src: 'https://picsum.photos/seed/carousel4/800/600', hint: 'person using phone app' },
     banner: { text: '100K+ Personalized Messages at Scale', color: 'bg-green-200' },
-    quote: "We're built on real-time, 1:1 conversations, and Hugo got that immediately. They delivered what we needed, while keeping interactions thoughtful and empathetic at high volumes.",
+    quote: "We're built on real-time, 1:1 conversations, and Telsys got that immediately. They delivered what we needed, while keeping interactions thoughtful and empathetic at high volumes.",
     author: 'Michael B.',
     title: 'Product Manager',
   },
@@ -58,9 +57,7 @@ const getDistance = (index: number, active: number, total: number) => {
 };
 
 const CustomerStoriesCarousel = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS, [
-    Autoplay({ playOnInit: true, delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const slideCount = slideData.length;
 
@@ -81,72 +78,181 @@ const CustomerStoriesCarousel = () => {
 
   return (
     <div className="relative w-full py-16">
-      <div className="overflow-hidden" ref={emblaRef}>
+      {/* Hidden Embla track (logic only) */}
+      <div className="overflow-hidden w-0 h-0" ref={emblaRef}>
         <div className="flex">
-          {slideData.map((slide, index) => (
-            <div className="flex-[0_0_90%] sm:flex-[0_0_60%] md:flex-[0_0_50%] lg:flex-[0_0_40%] min-w-0 px-4" key={index}>
+          {slideData.map((_, i) => (
+            <div className="flex-[0_0_100%]" key={i} />
+          ))}
+        </div>
+      </div>
+
+      {/* STACKED UI */}
+      <div className="relative h-[720px] flex items-center justify-center pt-[1%]">
+        {slideData.map((slide, index) => {
+          const distance = getDistance(index, selectedIndex, slideCount);
+
+          let style: React.CSSProperties = {
+            position: 'absolute',
+            left: '50%',
+            top: 0,
+            transform: 'translate3d(-50%, 0, 0) scale(0.7)',
+            opacity: 1,
+            zIndex: 0,
+            transition: 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)',
+            willChange: 'transform',
+            transformOrigin: 'center center',
+            width: 'clamp(420px, 32vw, 820px)',
+maxWidth: '90vw',
+
+          };
+          
+
+          if (distance === 0) {
+            style = {
+              ...style,
+              transform: 'translateX(-50%) scale(1)',
+              zIndex: 50,
+            };
+          } else if (distance === 1) {
+            style = {
+              ...style,
+              transform: 'translateX(calc(-50% + 40%)) scale(0.88)',
+              zIndex: 40,
+            };
+          } else if (distance === -1) {
+            style = {
+              ...style,
+              transform: 'translateX(calc(-50% - 40%)) scale(0.88)',
+              zIndex: 40,
+            };
+          } else if (distance === 2) {
+            style = {
+              ...style,
+              transform: 'translateX(calc(-50% + 70%)) scale(0.76)',
+              zIndex: 30,
+            };
+          } else if (distance === -2) {
+            style = {
+              ...style,
+              transform: 'translateX(calc(-50% - 70%)) scale(0.76)',
+              zIndex: 30,
+            };
+          } else {
+            style = {
+              ...style,
+              transform: 'translate3d(-50%, 0, 0) scale(0.7)',
+              opacity: 0,
+              zIndex: 0,
+              pointerEvents: 'none',
+            };
+          }
+          
+          return (
+            <div key={index} style={style}>
               <div
                 className={cn(
-                  "bg-white rounded-3xl p-6 transition-all duration-500 w-full h-full",
-                  index === selectedIndex ? "border-4 border-black" : "border-4 border-yellow-400"
+                  "bg-white rounded-3xl p-6 transition-all duration-500",
+                  distance === 0 ? "border-4 border-black" : "border-4 border-yellow-400"
                 )}
               >
-                <div className="relative w-full h-[370px] rounded-2xl overflow-hidden">
-                  <Image
+<div className="relative w-full aspect-[4/3] min-h-[320px] max-h-[520px] 3xl:max-h-[650px] 5xl:max-h-[780px] rounded-2xl overflow-hidden">
+<Image
                     src={slide.image.src}
                     alt={slide.image.hint}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 80vw, 420px"
                   />
-                  <div
-                    className={cn(
-                      "absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] p-4 rounded-xl text-center font-semibold text-black",
-                      slide.banner.color
-                    )}
-                    style={{ fontSize: '20px' }}
-                  >
-                    {slide.banner.text}
-                  </div>
+              <div
+  className={cn(
+    "absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] p-4 rounded-xl text-center font-semibold text-black",
+    "text-bodySm sm:text-bodyMd lg:text-bodylg",
+    slide.banner.color
+  )}
+>
+  {slide.banner.text}
+</div>
+
                 </div>
 
                 <div className="pt-12 pb-4 text-center min-h-[280px] flex flex-col">
-                  <div className="relative flex-grow px-6">
-                    <div className="absolute -top-6 -left-4 w-8 h-8">
-                      <Image src="/icol.png" alt="Opening quote" width={32} height={32} />
-                    </div>
-                    <p className="text-black text-[17px] text-justify pl-2 pr-2">
-                      {slide.quote}
-                    </p>
-                    <div className="absolute -bottom-6 -right-4 w-8 h-8">
-                      <Image src="/icol.png" alt="Closing quote" width={32} height={32} style={{ transform: "scaleX(-1)" }} />
-                    </div>
-                  </div>
+               {/* Quote */}
+<div className="relative flex-grow px-6">
+  {/* Top-left quote icon */}
+  <div className="absolute -top-6 -left-4 w-8 h-8">
+    <Image src="/icol.png" alt="Opening quote" width={32} height={32} />
+  </div>
 
-                  <div className="mt-6 text-left px-8">
-                    <p className="font-bold text-[16px] text-black">{slide.author}</p>
-                    <p className="text-[16px] text-black">{slide.title}</p>
-                  </div>
+  {/* Quote text */}
+  <p className="text-black text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-justify pl-2 pr-2">
+    {slide.quote}
+  </p>
+
+  {/* Bottom-right quote icon */}
+  <div className="absolute -bottom-6 -right-4 w-8 h-8">
+    <Image src="/icol.png" alt="Closing quote" width={32} height={32} style={{ transform: "scaleX(-1)" }} />
+  </div>
+</div>
+
+
+<div className="mt-6 text-left px-8">
+  <p className="font-bold text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black">{slide.author}</p>
+  <p className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black">{slide.title}</p>
+</div>
 
                   <div className="mt-6 flex justify-center">
                     <MagneticButton>
-                      <span className="text-sm font-semibold">Talk to an Expert</span>
+                      <span className="text-button font-semibold">Read the Full Story</span>
                     </MagneticButton>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      <div className="absolute bottom-4 right-4 flex items-center justify-center gap-6 mt-10">
+      {/* CONTROLS */}
+      <div
+  className="
+    flex items-center justify-center gap-6
+    pt-0
+2xl:pt-[0rem]
+3xl:pt-[12rem]    // 112px
+4xl:pt-[13rem]   // 208px
+5xl:pt-[14rem] 
+  "
+>
+
         <button
           onClick={scrollPrev}
           className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center hover:bg-yellow-500 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 text-black" />
         </button>
+
+        <div className="flex items-center justify-center gap-2">
+          {slideData.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollTo(index)}
+              className={cn(
+                "w-3 h-3 rounded-full transition-all",
+                index === selectedIndex
+                  ? "bg-black scale-125"
+                  : "bg-gray-300 hover:bg-gray-400"
+              )}
+            />
+          ))}
+        </div>
+
         <button
           onClick={scrollNext}
           className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center hover:bg-yellow-500 transition-colors"

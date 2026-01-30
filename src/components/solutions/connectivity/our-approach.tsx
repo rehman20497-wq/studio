@@ -4,22 +4,22 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from '@/components/magnetic-button';
-
+ 
 const cardData = [
   {
     icon: '/e.svg',
     title: 'Top 1% of Talent',
-    description: "At Hugo, every annotator holds at least one STEM degree, ensuring deep technical expertise. This foundation enables us to handle high-complexity, high-nuance AI and machine learning projects with confidence.",
+    description: "Our connectivity specialists are industry-certified professionals with deep technical knowledge. This ensures that your networks—whether WAN, LAN, or cloud-integrated—are designed, deployed, and managed with precision.",
   },
   {
     icon: '/d.svg',
     title: 'Domain Expertise',
-    description: "From architects who deliver geospatial labeling projects to biologists who conquer specialized Generative AI prompts, Hugo prioritizes context + intelligence on every mandate.",
+    description: "From enterprise-grade broadband to global MPLS networks, Telsys engineers bring specialized knowledge to every project. We prioritize context, reliability, and efficiency in every connection we deliver.",
   },
   {
     icon: '/q.svg',
     title: 'A Quality Fixation',
-    description: "Every workflow—whether data annotation or customer support outsourcing—is mapped, custom-engineered, and measured against rigorous SLAs and performance KPIs using real-time analytics dashboards.",
+    description: "Every network—whether for connectivity, cloud integration, or unified communications—is planned, implemented, and monitored against strict SLAs and KPIs using advanced analytics dashboards to ensure optimal performance and uptime.",
   },
 ];
 
@@ -111,12 +111,15 @@ export default function OurApproachSection() {
             </motion.svg>
         </motion.div>
 
-        <motion.h2 className="text-5xl font-normal text-black mb-6 font-headline" variants={textVariants}>
+        <motion.h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-normal text-black mb-6 font-headline" variants={textVariants}>
           Adaptive Expertise
         </motion.h2>
-        <motion.p className="text-lg text-zinc-700 max-w-3xl mx-auto mb-8" variants={textVariants}>
-          If better data = better AI, then the best humans = the best data. At Hugo, we've unequivocally built the world's most intelligent (and the best) data labeling workforce.
-        </motion.p>
+        <motion.p className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg  text-black  max-w-3xl mx-auto mb-8" variants={textVariants}>
+Reliable connectivity starts with the right expertise. At Telsys, we combine cutting-edge technology with skilled engineers to deliver seamless, high-performance connectivity solutions tailored to your business needs.        </motion.p>
 
         <motion.div 
             className="grid md:grid-cols-3 gap-8"
@@ -131,8 +134,10 @@ export default function OurApproachSection() {
               <div className="flex justify-center mb-6 h-16">
                 <Image src={card.icon} alt={`${card.title} icon`} width={64} height={64} />
               </div>
-              <h3 className="text-2xl font-bold text-black mb-4">{card.title}</h3>
-              <p className="text-zinc-600 leading-relaxed">{card.description}</p>
+              <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-bold text-black mb-4">{card.title}</h3>
+              <p className="text-testimonialReview text-black leading-relaxed">{card.description}</p>
             </motion.div>
           ))}
         </motion.div>

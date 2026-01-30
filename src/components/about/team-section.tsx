@@ -51,10 +51,14 @@ export default function TeamSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div variants={itemVariants} className="md:pr-8 text-center md:text-left">
-          <h2 className="text-[49px] leading-[52px] text-black font-headline font-normal">
+          <h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo text-black font-headline font-normal">
             A Team Built for The Future of Work
           </h2>
-          <p className="mt-6 text-base text-black">
+          <p className="mt-6 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black">
             Our teams are designed to be agile, adaptable, and forward-thinking. We embrace new technologies and methodologies to ensure that we are always at the forefront of innovation, ready to tackle the challenges of tomorrow.
           </p>
         </motion.div>

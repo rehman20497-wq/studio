@@ -117,14 +117,18 @@ export default function BaselineSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-5xl font-headline font-normal text-black"
+          className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline font-normal text-black"
           variants={textVariants}
         >
           Better is our baseline.
         </motion.h2>
 
         <motion.p
-          className="mt-6 text-xl text-black max-w-3xl mx-auto"
+          className="mt-6 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black max-w-3xl mx-auto"
           variants={textVariants}
         >
           We are not just providing a better way to outsource, we're building a
@@ -185,7 +189,9 @@ export default function BaselineSection() {
               </div>
 
               {/* Text */}
-              <p className="text-zinc-700 text-base leading-relaxed">
+              <p className="text-zinc-700 text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg leading-relaxed">
                 {card.text}
               </p>
             </motion.div>

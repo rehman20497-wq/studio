@@ -77,9 +77,15 @@ const ComplianceItem = ({ item }: { item: (typeof complianceData)[0] }) => (
   <motion.div className="flex items-center gap-4" variants={itemVariants}>
     <Image src={item.icon} alt={item.line1} width={80} height={80} className="h-auto object-contain flex-shrink-0" />
     <div>
-      <h3 className="text-base font-bold text-black">{item.line1}</h3>
-      <p className="text-base font-normal text-black">{item.line2}</p>
-      {item.line3 && <p className="text-base font-normal text-black">{item.line3}</p>}
+      <h3 className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg font-bold text-black">{item.line1}</h3>
+      <p className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg font-normal text-black">{item.line2}</p>
+      {item.line3 && <p className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg font-normal text-black">{item.line3}</p>}
     </div>
   </motion.div>
 );
@@ -96,8 +102,8 @@ export default function ComplianceSection() {
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      <div className="container mx-auto">
-        <motion.div 
+<div className="w-full mx-auto px-2">
+<motion.div 
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-8 justify-items-center"
             variants={gridContainerVariants}
         >

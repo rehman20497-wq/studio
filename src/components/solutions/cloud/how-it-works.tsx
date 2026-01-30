@@ -133,7 +133,9 @@ export default function HowItWorks() {
       >
         <div className="flex justify-center items-center gap-4 mb-6">
           <motion.h2
-            className="text-[46px] font-headline font-normal text-black"
+            className=" text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline font-normal text-black"
             variants={headingVariants}
           >
             How to Work With Telsys
@@ -144,7 +146,9 @@ export default function HowItWorks() {
         </div>
 
         <motion.p
-          className="text-[20px] text-black leading-[28.7px] max-w-4xl mx-auto"
+          className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black  max-w-4xl mx-auto"
           variants={paragraphVariants}
         >
           Our fully managed teams integrate seamlessly with your workflows and
@@ -179,13 +183,15 @@ export default function HowItWorks() {
                 </div>
 
                 <div>
-                  <div className="bg-yellow-500 inline-block px-3 py-1 rounded-full text-[13px] text-black shadow-md mb-3">
+                  <div className="bg-yellow-500 inline-block px-3 py-1 rounded-full text-testimonialReview text-black shadow-md mb-3">
                     {item.time}
                   </div>
-                  <h3 className="text-[20px] font-bold text-black mb-2">
+                  <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-bold text-black mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-[13px] text-black leading-snug">
+                  <p className="text-testimonialReview text-black leading-snug">
                     {item.description}
                   </p>
                 </div>
@@ -220,7 +226,7 @@ export default function HowItWorks() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 1.4 + index * 0.2 }}
               >
-                <div className="bg-yellow-500 px-3 py-1 rounded-full text-[13px] text-black shadow-md whitespace-nowrap">
+                <div className="bg-yellow-500 px-3 py-1 rounded-full text-testimonialReview text-black shadow-md whitespace-nowrap">
                   {item.time}
                 </div>
               </motion.div>
@@ -244,10 +250,12 @@ export default function HowItWorks() {
                   <Image src={item.icon} alt="" width={50} height={50} />
                 </div>
 
-                <h3 className="text-[20px] font-bold text-black mb-3">
+                <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-bold text-black mb-3">
                   {item.title}
                 </h3>
-                <p className="text-[13px] text-black leading-snug">
+                <p className="text-testimonialReview text-black leading-snug">
                   {item.description}
                 </p>
               </motion.div>

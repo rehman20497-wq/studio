@@ -113,10 +113,14 @@ export default function StatsSection() {
             className={`bg-white p-4 rounded-2xl shadow-sm border-2 ${stat.borderColor} flex flex-col items-center text-center`}
             variants={cardVariants}
           >
-            <motion.div className="text-[79px] font-bold" variants={contentVariants}>
+            <motion.div className="text-bghSm
+  sm:text-bghMd
+  lg:text-bgh font-bold" variants={contentVariants}>
                 <StatValue from={0} to={stat.value} suffix={stat.suffix} gradient={stat.gradient} />
             </motion.div>
-            <motion.p className="text-zinc-600 text-base" variants={contentVariants}>
+            <motion.p className=" text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg font-normal text-black" variants={contentVariants}>
                 {stat.label}
             </motion.p>
           </motion.div>

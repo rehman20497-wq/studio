@@ -132,60 +132,78 @@ const SuccessMission = () => {
       </div>
 
       <div ref={ref} className="relative pt-24 md:pt-32 pb-24 px-4 md:pl-[10%] md:pr-8">
-        <motion.div 
-            className="relative md:-ml-[10%] md:w-[110%] flex justify-center mb-16 md:mb-24"
-            variants={itemVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-        >
-          <Image
-            src="/success-title.svg"
-            alt="Your success is our mission"
-            width={900}
-            height={200}
-            className="object-contain"
-            priority
-          />
-        </motion.div>
+      <motion.div 
+  className="relative md:-ml-[10%] md:w-[110%] flex justify-center mb-16 md:mb-24"
+  variants={itemVariants}
+  initial="hidden"
+  animate={isInView ? "visible" : "hidden"}
+>
+<div className="relative w-[65vw] max-w-[3800px] aspect-[900/200]">
+  <Image
+    src="/success-title.svg"
+    alt="Your success is our mission"
+    fill
+    sizes="
+      (min-width: 1536px) 1800px,  /* extra-large screens */
+      (min-width: 1024px) 850px,   /* laptop / large desktop */
+      (min-width: 768px) 700px,    /* tablets */
+      90vw                         /* mobile / small screens */
+    "
+    className="object-contain"
+    priority
+  />
+</div>
 
-        <motion.div
+</motion.div>
+      <motion.div
           className="grid md:grid-cols-2 gap-16 items-center"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.div className="max-w-xl" variants={itemVariants}>
-          <h2 className="text-[45px] font-normal mb-3 font-headline text-black">
-          You deserve better.
+          <h2 className="font-normal
+  text-herooSm
+  sm:text-herooMd
+  lg:text-heroo leading-tight text-black mb-3 font-headline text-black">
+          Tech That Wins
             </h2>
-            <div className="space-y-4 text-black text-[16px]">
+            <div className="space-y-4 text-black text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg">
             <p>
-                You deserve better outcomes, insights, and conversations. You
-                deserve to work with the best proactive teams that embrace
-                complexity, adapt to ambiguity, and flex to your needs with
-                just 24 hours notice. You should be obsessed over, not
-                struggling to scale or sacrificing quality for speed.
+            You deserve better outcomes, insights, and solutions. You
+deserve to work with the best teams in Cloud, Security,
+Communication, and AI—teams that embrace complexity, adapt to
+change, and scale with your business on demand. You should be
+empowered, not held back by slow adoption or patchy technology.
               </p>
               <p>
-                Whether you're a disruptive startup or an iconic brand, with
-                Hugo you get more than outsourcing – you get what you deserve.
+              Whether you’re an innovative startup or a global enterprise, with
+us you get more than partnerships – you get what you deserve.
               </p>
             </div>
             <div className="mt-6">
               <MagneticButton>
-              <span className="text-[15px] font-bold">
-              Talk to an Expert
+              <span className="text-button font-bold">
+              Ignite Your Growth
                 </span>
               </MagneticButton>
             </div>
           </motion.div>
           <div className="hidden lg:flex justify-center items-center">
-          <div className="relative w-full max-w-[548px] h-auto aspect-square">
-              <motion.div
-                className="absolute w-[95%] h-[95%] bg-[#F5D34A] rounded-xl overflow-hidden"
-                style={{transformOrigin: 'top right', top: "-20px", right: "-20px"}}
-                variants={yellowBgVariants}
-              >
+          <div className="relative w-full max-w-[548px] h-auto aspect-square 
+                3xl:max-w-[748px] 
+                5xl:max-w-[950px]">
+
+<motion.div
+  className="absolute w-[95%] h-[95%] bg-[#F5D34A] rounded-xl overflow-hidden
+             top-[-20px] right-[-20px]
+             3xl:top-[15px] 5xl:top-[15px]"
+  style={{ transformOrigin: 'top right' }}
+  variants={yellowBgVariants}
+>
+
                   <svg width="100%" height="100%" className='opacity-40'>
                       <defs>
                           <pattern id="circle-pattern" x="10" y="10" width="100" height="100" patternUnits="userSpaceOnUse">

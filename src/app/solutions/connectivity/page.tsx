@@ -17,7 +17,7 @@ import ClosingBrushStrokessss from "@/components/solutions/cloud/closing-brush-s
 import IntegrationCtaSections from "@/components/solutions/cloud/integration-cta-sections";
 import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrialsss from "@/components/solutions/cloud/risk-free-trialsss";
-import CloudFaqSection from "@/components/solutions/cloud/faq-section";
+import CloudFaqSectionf from "@/components/solutions/cloud/faq-sectionf";
 import FeaturedGuideSectionss from "@/components/solutions/communications/featured-guide-sectionss";
 export default function ConnectivitySolutionsPage() {
   return (
@@ -41,7 +41,7 @@ export default function ConnectivitySolutionsPage() {
                          <IntegrationCtaSections />
                                          <PartnerMarquee />
                                          <RiskFreeTrialsss />
-                                         <CloudFaqSection />
+                                         <CloudFaqSectionf />
                                                  <FeaturedGuideSectionss />
       </main>
     </div>

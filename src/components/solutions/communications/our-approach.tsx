@@ -7,18 +7,18 @@ import Image from 'next/image';
 const cardData = [
   {
     icon: '/exp.svg',
-    title: 'Expertise from Experience',
-    description: 'With over 10 million hours in outsourced digital operations, Hugo has helped leading brands scale platforms with confidence. Trust us to get you there. Our clients already do.',
+    title: 'Unified Communication Platforms',
+    description: 'We resell leading unified communication solutions that bring voice, video, messaging, and collaboration into a single platform, enabling seamless teamwork across locations and devices.',
   },
   {
     icon: '/proc.svg',
-    title: 'Process Rigor',
-    description: 'You have systems in place for a reason. From day 1, we obsessively adhere to your processes, refine and streamline them, or help construct new ways of doing things.',
+    title: 'Cloud Voice & Telephony',
+    description: 'Enterprise-grade cloud calling and telephony solutions designed for flexibility, scalability, and reliability, helping businesses reduce costs while improving call quality and control.',
   },
   {
     icon: '/smoo.svg',
-    title: 'Smooth Operations',
-    description: "We integrate with your tech stack, drive efficiency across your workflows, and implement a rigorous, multilevel QA process that doesn't sacrifice speed for accuracy.",
+    title: 'Customer Engagement Solutions',
+    description: "Advanced communication tools that enhance customer interactions through intelligent routing, analytics, and omnichannel support, improving responsiveness and overall customer experience.",
   },
 ];
 
@@ -82,7 +82,9 @@ export default function OurApproachSection() {
     >
       <div className="max-w-6xl mx-auto text-center">
         <motion.div className="inline-block relative mb-4" variants={textVariants}>
-            <h3 className="text-[23px] font-normal text-zinc-800">
+            <h3 className="text-eyebrowSm
+  sm:text-eyebrowMd
+  lg:text-eyebrow font-normal text-black">
                 Our Approach
             </h3>
             <motion.svg
@@ -101,12 +103,15 @@ export default function OurApproachSection() {
             </motion.svg>
         </motion.div>
 
-        <motion.h2 className="text-5xl font-normal text-black mb-6 font-headline" variants={textVariants}>
+        <motion.h2 className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-normal text-black mb-6 font-headline" variants={textVariants}>
           Meticulous & Process-Driven
         </motion.h2>
-        <motion.p className="text-lg text-zinc-700 max-w-3xl mx-auto mb-8" variants={textVariants}>
-          Hugo's outsourcing solutions cover everything from Shopify back-end management and supply chain support to identity verification, claims processing, and sales support. We bring precision and consistency to the processes that keep your business moving.
-        </motion.p>
+        <motion.p className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg  text-black  max-w-3xl mx-auto mb-8" variants={textVariants}>
+Telsys communication solutions offers Clear, reliable communication solutions—from cloud voice to unified platforms—designed to keep your teams connected and your business moving.        </motion.p>
 
         <motion.div 
             className="grid md:grid-cols-3 gap-8"
@@ -121,8 +126,10 @@ export default function OurApproachSection() {
               <div className="flex justify-center mb-6">
                 <Image src={card.icon} alt={`${card.title} icon`} width={64} height={64} />
               </div>
-              <h3 className="text-2xl font-bold text-black mb-4">{card.title}</h3>
-              <p className="text-zinc-600 leading-relaxed">{card.description}</p>
+              <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-bold text-black mb-4">{card.title}</h3>
+              <p className="text-testimonialReview text-black leading-relaxed">{card.description}</p>
             </motion.div>
           ))}
         </motion.div>

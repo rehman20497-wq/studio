@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -25,7 +24,7 @@ const itemVariants = {
   },
 };
 
-// Continuous rotation for x.png and c.png
+// Continuous rotation
 const rotateContinuous = {
   initial: { rotate: 0 },
   animate: {
@@ -52,7 +51,7 @@ const smoothDraw = {
   },
 };
 
-// Float only (NO fade)
+// Float only
 const floatOnly = {
   animate: {
     y: [0, -8, 0, 8, 0],
@@ -111,11 +110,11 @@ export default function RiskFreeTrial() {
       {/* Content */}
       <div className="relative z-10 max-w-2xl mx-auto text-center">
         <motion.h2 className="text-black leading-[0.95]" variants={itemVariants}>
-          <span className="block text-[72px] font-normal mb-[1%]">
+          <span className="block text-heroSm sm:text-heroMd lg:text-hero font-normal mb-[1%]">
             30 days
           </span>
 
-          <span className="relative inline-block text-[72px] font-bold">
+          <span className="relative inline-block text-heroSm sm:text-heroMd lg:text-hero font-bold">
             Risk - Free
             <motion.svg
               className="absolute -bottom-2 left-0 w-full"
@@ -136,43 +135,70 @@ export default function RiskFreeTrial() {
           </span>
         </motion.h2>
 
-        <motion.p className="mt-8 text-[20px] text-black" variants={itemVariants}>
+        <motion.p
+          className="mt-8 text-bodySm sm:text-bodyMd lg:text-bodylg text-black"
+          variants={itemVariants}
+        >
           We're so confident you'll love working with Telsys, we offer a no commitment 30 day trial.
         </motion.p>
 
         {/* Button + Icons */}
-        <motion.div className="mt-12 relative w-48 h-16 mx-auto" variants={itemVariants}>
-          <MagneticButton>
-            <span className="text-base font-bold px-4">Talk to an Expert</span>
-          </MagneticButton>
+        <motion.div
+          className="mt-12 relative mx-auto flex justify-center items-center"
+          variants={itemVariants}
+        >
+          {/* Stable icon anchor wrapper */}
+          <div className="relative w-[360px] h-[140px] flex justify-center items-center">
 
-          {/* x.png */}
-          <motion.div variants={rotateContinuous} initial="initial" animate="animate" className="absolute -top-8 -left-8">
-            <Image src="/x.png" alt="x" width={40} height={40} />
-          </motion.div>
+            {/* Auto-sized button */}
+            <MagneticButton>
+              <span className="text-button font-bold px-6 py-3 whitespace-nowrap">
+                Talk to an Expert
+              </span>
+            </MagneticButton>
 
-          {/* d.png → rotated 45° DOWN */}
-          <motion.div
-            initial={{ scaleX: -1, rotateZ: 45 }}
-            animate={smoothDraw.animate}
-            className="absolute -top-10 -right-8"
-          >
-            <Image src="/d.png" alt="d" width={40} height={40} />
-          </motion.div>
+            {/* x.png */}
+            <motion.div
+              variants={rotateContinuous}
+              initial="initial"
+              animate="animate"
+              className="absolute -top-0 -left-6"
+            >
+              <Image src="/x.png" alt="x" width={40} height={40} />
+            </motion.div>
 
-          {/* g.png */}
-          <motion.div animate={smoothDraw.animate} className="absolute -bottom-2 -left-6">
-            <Image src="/g.png" alt="g" width={40} height={40} />
-          </motion.div>
+            {/* d.png */}
+            <motion.div
+              initial={{ scaleX: -1, rotateZ: 45 }}
+              animate={smoothDraw.animate}
+              className="absolute -top-0 -right-6"
+            >
+              <Image src="/d.png" alt="d" width={40} height={40} />
+            </motion.div>
 
-          {/* c.png */}
-          <motion.div variants={rotateContinuous} initial="initial" animate="animate" className="absolute -bottom-10 -right-6">
-            <Image src="/c.png" alt="c" width={40} height={40} />
-          </motion.div>
+            {/* g.png */}
+            <motion.div
+              animate={smoothDraw.animate}
+              className="absolute -bottom-3 -left-2"
+            >
+              <Image src="/g.png" alt="g" width={40} height={40} />
+            </motion.div>
+
+            {/* c.png */}
+            <motion.div
+              variants={rotateContinuous}
+              initial="initial"
+              animate="animate"
+              className="absolute -bottom-8 -right-6"
+            >
+              <Image src="/c.png" alt="c" width={40} height={40} />
+            </motion.div>
+
+          </div>
         </motion.div>
       </div>
 
-      {/* Floating GIFs — FLOAT ONLY */}
+      {/* Floating GIFs */}
       <motion.div variants={floatOnly} animate="animate" className="absolute top-[25%] left-[10%] hidden md:block">
         <Image src="/sm.gif" alt="Smiley" width={80} height={80} />
       </motion.div>
@@ -180,6 +206,6 @@ export default function RiskFreeTrial() {
       <motion.div variants={floatOnly} animate="animate" className="absolute top-[30%] right-[12%] hidden md:block">
         <Image src="/s1.gif" alt="Smiley" width={80} height={80} />
       </motion.div>
-    </section>
+    </motion.section>
   );
 }

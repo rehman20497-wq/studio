@@ -199,7 +199,7 @@ export default function Sidebar({
           </h3>
           <div className="my-4">
             <MagneticButton>
-              <span className="text-[15px] font-medium px-4">
+              <span className="text-button font-medium px-4">
                 Talk to an Expert
               </span>
             </MagneticButton>
@@ -207,7 +207,7 @@ export default function Sidebar({
         </div>
 
         <div className="flex items-center justify-center gap-4">
-          <span className="text-sm font-semibold">SHARE</span>
+          <span className="text-testimonialName font-semibold">SHARE</span>
 
           <SocialIcon
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(

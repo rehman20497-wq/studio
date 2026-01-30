@@ -5,7 +5,6 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { QuoteIcon } from '../quote-icon';
 import TestimonialProgressBar from '../testimonial-progress-bar';
-
 const testimonials = [
   {
     logo: <Image src="/oliver.png" alt="Oliver Space Logo" width={100} height={30} className="object-contain" />,
@@ -176,7 +175,9 @@ export default function CareerTestimonial() {
                         <div className="absolute -left-8 -top-4 hidden md:block">
                         <QuoteIcon />
                         </div>
-                        <p className="text-base text-black leading-relaxed min-h-[96px]">
+                        <p className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black leading-relaxed min-h-[96px]">
                         {currentTestimonial.text}
                         </p>
                         <div className="absolute -right-8 -bottom-4 transform scale-y-[-1] scale-x-[-1] hidden md:block">
@@ -185,10 +186,10 @@ export default function CareerTestimonial() {
                     </motion.div>
 
                     <motion.div className="mt-8" variants={itemVariants}>
-                        <p className="font-bold text-[13px] text-black">
+                        <p className="font-bold text-testimonialName text-black">
                         {currentTestimonial.author}
                         </p>
-                        <p className="text-[13px] text-zinc-600">{currentTestimonial.title}</p>
+                        <p className="text-testimonialName text-zinc-600">{currentTestimonial.title}</p>
                     </motion.div>
                 </motion.div>
             </AnimatePresence>

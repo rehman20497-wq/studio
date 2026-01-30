@@ -148,14 +148,18 @@ export default function BlogSection() {
         {/* Heading */}
         <div className="text-center">
           <motion.h2
-            className="text-[46px] font-normal font-headline text-black"
+            className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-normal font-headline text-black"
             variants={slideInRight}
           >
             See what's new and what's next.
           </motion.h2>
 
           <motion.p
-            className="mt-3 text-[20px] text-black"
+            className="mt-3 text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black"
             variants={slideInLeft}
           >
             Thought leadership and actionable insights to help you grow faster.

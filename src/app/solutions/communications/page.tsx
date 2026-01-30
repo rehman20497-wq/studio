@@ -19,7 +19,7 @@ import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrials from "@/components/solutions/cloud/risk-free-trials";
 import CloudFaqSection from "@/components/solutions/cloud/faq-section";
 import FeaturedGuideSection from "@/components/solutions/communications/featured-guide-section";
-
+import CloudFaqSections from "@/components/solutions/cloud/faq-sections";
 export default function CommunicationsSolutionsPage() {
   return (
     <div className="bg-[#FCFBF8]">
@@ -44,6 +44,7 @@ export default function CommunicationsSolutionsPage() {
                  <RiskFreeTrials />
         <CloudFaqSection />
         <FeaturedGuideSection />
+        <CloudFaqSections />
       </main>
     </div>
   );

@@ -22,7 +22,6 @@ import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrial from "@/components/solutions/cloud/risk-free-trial";
 import SuccessMissionSection from "@/components/solutions/cloud/success-mission-section";
 import CloudFaqSection from "@/components/solutions/cloud/faq-section";
-
 export default function CloudSolutionsPage() {
   return (
     <div className="bg-[#FCFBF8]">

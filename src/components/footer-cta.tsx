@@ -138,7 +138,9 @@ export default function FooterCta() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-6xl font-normal font-headline text-zinc-900"
+          className="text-heroSm
+  sm:text-heroMd
+  lg:text-hero font-normal font-headline text-black"
           variants={textVariants}
         >
           Outsourcing +<br />
@@ -147,7 +149,7 @@ export default function FooterCta() {
         
         <motion.div className="mt-10" variants={buttonVariants}>
           <MagneticButton>
-            <span className="text-[15px] font-medium px-4">Talk to an Expert</span>
+            <span className="text-button font-medium px-4">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
       </motion.div>

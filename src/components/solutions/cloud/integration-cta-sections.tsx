@@ -66,7 +66,9 @@ export default function IntegrationCtaSections() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-[72px] text-black leading-[72.5px] font-headline font-normal"
+          className=" text-heroSm
+  sm:text-heroMd
+  lg:text-hero text-black font-headline font-normal"
           variants={headingContainerVariants} // This will stagger the spans
         >
           <motion.span className="block" variants={textLineVariants}>

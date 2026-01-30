@@ -79,37 +79,47 @@ export default function ValidationSection() {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <section ref={ref} className="bg-white py-20 px-[6%]">
+    <section
+      ref={ref}
+      className="bg-white py-20 w-full flex justify-center"
+      style={{ maxWidth: '3800px', margin: '0 auto' }}
+    >
       <motion.div
-        className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-8"
+        className="flex flex-col md:flex-row items-center justify-center gap-2 w-full px-[6%]"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        <div className="flex flex-row items-center justify-center gap-8 md:contents">
-          <motion.div variants={imageVariants} className="md:order-1">
+        <div className="flex flex-row items-center justify-center gap-2 md:contents w-full">
+          {/* Global Award */}
+          <motion.div
+            variants={imageVariants}
+            className="md:order-1 relative w-[120px] h-[150px] md:w-[150px] md:h-[180px] flex-shrink-0"
+          >
             <Image
               src="/global.webp"
               alt="Global Award"
-              width={120}
-              height={150}
+              fill
               className="object-contain"
             />
           </motion.div>
 
-          <motion.div variants={imageVariants} className="md:order-3">
+          {/* Clutch Award */}
+          <motion.div
+            variants={imageVariants}
+            className="md:order-3 relative w-[120px] h-[150px] md:w-[150px] md:h-[180px] flex-shrink-0"
+          >
             <Image
               src="/clutch.png"
               alt="Clutch Award"
-              width={120}
-              height={150}
+              fill
               className="object-contain"
             />
           </motion.div>
         </div>
 
         <motion.h2
-          className="text-[32px] md:text-[46px] font-medium text-zinc-800 text-center leading-tight font-headline mx-0 md:mx-[4%] md:order-2"
+          className="text-herooSm sm:text-herooMd lg:text-heroo font-medium text-zinc-800 text-center leading-tight font-headline mx-0 md:mx-[4%] md:order-2"
           variants={textVariants}
         >
           Validated by{' '}

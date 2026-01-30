@@ -12,7 +12,11 @@ export default function SurgeProtectSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section ref={ref} className="relative bg-[#fff9e6] py-16">
+    <section
+  ref={ref}
+  className="relative py-16 bg-[linear-gradient(to_bottom,#fff9e6_50%,#ffffff_50%)]"
+>
+
       <motion.div
         className={cn(
           "relative overflow-hidden"
@@ -71,7 +75,7 @@ export default function SurgeProtectSection() {
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
-          <path d="M0,100 C40,0 60,0 100,100 Z" fill="#fff9e6" />
+          <path d="M0,100 C40,0 60,0 100,100 Z" fill="#ffffff" />
         </svg>
       </motion.div>
     </section>

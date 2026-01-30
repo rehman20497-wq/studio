@@ -63,19 +63,21 @@ export default function GrowthSection() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.h2
-          className="text-[46px] font-normal font-headline text-black"
+          className="text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-normal font-headline text-black"
           variants={itemVariants}
         >
           + More Value, More Offers
         </motion.h2>
         <motion.p
-          className="mt-6 text-[20px] text-black max-w-3xl mx-auto font-body"
+          className="mt-6 text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-black max-w-3xl mx-auto font-body"
           variants={itemVariants}
         >
-          Focus on <Underline delay={0.5}>growth</Underline>, we'll take care of
-          the many small <Underline delay={0.8}>tasks</Underline> that make the
-          difference between <Underline delay={1.1}>awesome</Underline> and{' '}
-          <Underline delay={1.4}>awful</Underline>.
+          Where modern <Underline delay={0.5}>technology</Underline>come together to fuel your <Underline delay={0.8}>growth</Underline> and minimize the <Underline delay={1.1}>risks</Underline> that slow{' '}
+          <Underline delay={1.4}>businesses down</Underline>.
         </motion.p>
       </motion.div>
     </section>

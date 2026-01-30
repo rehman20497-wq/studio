@@ -101,7 +101,7 @@ export default function BlogCard({
             </rect>
         </svg>
         <div className="w-full h-full flex flex-col">
-          <div className="relative h-3/5 overflow-hidden rounded-xl">
+          <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl">
             <Image
               src={backgroundImage.src}
               alt={title}
@@ -123,20 +123,22 @@ export default function BlogCard({
             <Badge category={primaryCategory} />
           </div>
           <div className="p-4 h-2/5 flex flex-col">
-            <div className="text-xs text-zinc-500 font-medium">
+            <div className="text-testimonialReview text-zinc-500 font-medium">
               <span>{date}</span>
             </div>
             <div className="flex gap-2 mt-2">
               {categories.map((cat, i) => (
                 <span
                   key={i}
-                  className="text-sm text-zinc-700 underline underline-offset-2"
+                  className="text-testimonialReview text-black underline underline-offset-2"
                 >
                   {cat}
                 </span>
               ))}
             </div>
-            <h3 className="text-xl font-headline font-medium text-zinc-900 mt-4">
+            <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-headline font-medium text-black mt-4">
               <span className="relative underline-draw">
                 {title}
               </span>

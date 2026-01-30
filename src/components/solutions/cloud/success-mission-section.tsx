@@ -85,14 +85,29 @@ export default function SuccessMissionSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const listItems = [
-    '100% college graduate workforce with 3+ years of professional experience and industry specific training.',
-    'Omnichannel coverage across chat, email, and voice with 24/7 availability.',
-    'Over 60 languages. We speak all major languages to cover the global markets.',
-    'Flexible scaling with surge and buffer staffing to support seasonal peaks.',
-    'Teams are 100% dedicated to your company only, never shared with other clients.',
-    'Proven KPIs: phone pickup in under 4 seconds, first response in chat within 2–5 minutes, and email under 10 minutes.',
-    'Secure operations with clean room options, disaster recovery protocols, and layered redundancies.',
+    <>
+      <strong>Expert Workforce</strong>: Skilled engineers and cloud specialists with industry-specific training and hands-on experience.
+    </>,
+    <>
+      <strong>Omnichannel Solutions</strong>: Seamless integration across cloud, connectivity, and communication platforms.
+    </>,
+    <>
+      <strong>Global Coverage</strong>: Multilingual support across regions to meet international business needs.
+    </>,
+    <>
+      <strong>Flexible Scaling</strong>: Rapid resource adjustment to support seasonal peaks, product launches, or accelerated growth.
+    </>,
+    <>
+      <strong>Dedicated Teams</strong>: Solutions and support teams assigned exclusively to your business—never shared.
+    </>,
+    <>
+      <strong>Proven Performance</strong>: Optimized uptime, fast response times, and reliable system monitoring.
+    </>,
+    <>
+      <strong>Secure & Compliant</strong>: Enterprise-grade security with disaster recovery protocols and layered redundancies.
+    </>,
   ];
+  
 
   return (
     <motion.section
@@ -105,31 +120,38 @@ export default function SuccessMissionSection() {
       <div className="max-w-7xl mx-auto grid gap-10 md:grid-cols-5 md:gap-16">
         {/* Left Column */}
         <motion.div className="md:col-span-3" variants={itemVariants}>
-          <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-headline text-black leading-tight">
+          <h2 className=" text-herooSm
+  sm:text-herooMd
+  lg:text-heroo font-headline text-black leading-tight">
             Your Success is Our Mission
           </h2>
 
-          <div className="mt-6 space-y-6 text-black text-base sm:text-lg lg:text-[20px] leading-relaxed">
+          <div className="mt-6 space-y-6 text-black text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg leading-relaxed">
             <p>
-              You deserve better outcomes, insights, and conversations. You
-              deserve proactive teams that embrace complexity, adapt to
-              ambiguity, and flex to your needs with just 24 hours notice.
+            You deserve solutions that deliver performance, insights, and efficiency. You deserve
+proactive teams that embrace complexity, adapt to change, and scale with your business on
+demand.
             </p>
             <p>
-              Whether you’re a disruptive startup or an iconic brand, with Hugo
-              you get more than outsourcing – you get what you deserve.
+            Whether you’re a fast-growing startup or an established enterprise, with <strong>Telsys</strong>, you get more than technology—you get what your business deserves.
             </p>
           </div>
 
           <div className="mt-8">
-            <h3 className="text-black font-bold text-lg mb-4">
-              Why Choose Hugo?
+            <h3 className="text-black font-bold  text-herooSm
+  sm:text-herooMd
+  lg:text-heroo mb-4">
+              Why Choose Telsys?
             </h3>
             <ul className="space-y-3">
               {listItems.map((item, index) => (
                 <li
                   key={index}
-                  className="flex items-start text-black text-sm sm:text-base"
+                  className="flex items-start text-black text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg"
                 >
                   <span className="mr-3 mt-1 text-lg">•</span>
                   <span>{item}</span>
@@ -138,9 +160,12 @@ export default function SuccessMissionSection() {
             </ul>
           </div>
 
-          <p className="mt-8 text-black text-base sm:text-lg leading-relaxed">
-            As your dedicated partner, Hugo manages the full spectrum of
-            customer care so you can scale with confidence.
+          <p className="mt-8 text-black text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg leading-relaxed">
+            As your dedicated technology partner, Telsys manages the full spectrum of cloud,
+communication, and connectivity services so you can innovate, scale, and operate with
+confidence.
           </p>
         </motion.div>
 

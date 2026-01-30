@@ -6,14 +6,14 @@ import { useRef } from "react";
 import MagneticButton from "./magnetic-button";
 
 const listItems = [
-  "Holiday Seasons",
-  "Seasons of the year",
-  "Tax Season",
-  "Crisis Management",
-  "Sporting Events",
-  "Brand Campaigns",
-  "Back to School",
-  "Weather Events and more!",
+  "Call Quality Issues",
+  "High Telecom Costs",
+  "High Latency",
+  "Performance Bottlenecks",
+  "Tools Lack Integration",
+  "Bandwidth Limits",
+  "Outdated Infrastructure",
+  "No Failover Protection",
 ];
 
 const containerVariants = {
@@ -54,13 +54,15 @@ export default function SurgeProtectContent() {
       animate={isInView ? "visible" : "hidden"}
     >
       <motion.div variants={itemVariants} className="md:col-span-2">
-        <p className="text-[20px] text-zinc-900 leading-[25.5px] max-w-md">
+        <p className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg text-zinc-900 max-w-md">
           From expected surges and urgent projects to unexpected demands, we've
           got your back. Access elite talent instantly, scale down seamlessly.
         </p>
         <div className="mt-8">
           <MagneticButton>
-            <span className="text-[15px] font-bold">Talk to an Expert</span>
+            <span className="text-button font-bold">Talk to an Expert</span>
           </MagneticButton>
         </div>
       </motion.div>
@@ -74,7 +76,9 @@ export default function SurgeProtectContent() {
           {listItems.map((item, index) => (
             <motion.li
               key={index}
-              className="flex items-center text-[20px] leading-[25.5px] group"
+              className="flex items-center text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg group"
               custom={index}
               variants={{
                 hidden: { opacity: 0, x: -20 },

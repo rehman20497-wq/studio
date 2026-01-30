@@ -76,8 +76,9 @@ const ArrowButton = ({
   className={cn(
     "absolute top-1/2 -translate-y-1/2 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-black z-20 hover:bg-yellow-500 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed",
     direction === "left"
-      ? "left-4 md:left-54 lg:left-64"
-      : "right-4 md:right-54 lg:right-64"
+    ? "left-4 md:left-54 lg:left-[18rem]"
+    : "right-4 md:right-54 lg:right-[18rem]"
+    
   )}
 >
 
@@ -121,32 +122,34 @@ export default function AlumniCarousel() {
               className="flex-[0_0_60%] min-w-0 px-4"
               key={index}
             >
-              <div
-                className={cn(
-                  'relative w-full h-[445px] bg-black rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ease-in-out mb-6',
-                   index === selectedIndex ? 'opacity-100 scale-100' : 'opacity-80 scale-90 blur-[2px]'
-                )}
-              >
-                <Image
-                  src={slide.image.src}
-                  alt={slide.image.hint}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={slide.image.hint}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-black/20" />
-                <div className="absolute inset-0 flex items-center justify-center p-8">
-                <Image
-  src={slide.logo.src}
-  alt={slide.logo.alt}
-  width={300}
-  height={120}
-  className="w-[400px] h-auto object-contain drop-shadow-lg"
-/>
+            <div
+  className={cn(
+    'relative w-full min-h-[445px] bg-black rounded-2xl overflow-hidden shadow-none transition-all duration-500 ease-in-out mb-6',
+    index === selectedIndex
+      ? 'opacity-100 scale-100'
+      : 'opacity-80 scale-90 blur-[2px]'
+  )}
+>
+  <Image
+    src={slide.image.src}
+    alt={slide.image.hint}
+    fill
+    className="object-cover"
+    data-ai-hint={slide.image.hint}
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  />
+  <div className="absolute inset-0 bg-black/20" />
+  <div className="absolute inset-0 flex items-center justify-center p-8">
+    <Image
+      src={slide.logo.src}
+      alt={slide.logo.alt}
+      width={300}
+      height={120}
+      className="w-[300px] md:w-[350px] lg:w-[400px] h-auto object-contain"
+    />
+  </div>
+</div>
 
-                </div>
-              </div>
             </div>
           ))}
         </div>

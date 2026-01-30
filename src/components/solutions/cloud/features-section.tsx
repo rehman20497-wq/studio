@@ -9,33 +9,33 @@ import MagneticButton from '@/components/magnetic-button';
 const cardData = [
   {
     icon: '/Real.svg',
-    title: '24/7/365 Coverage',
-    description: 'Always-on global teams ensure your customers are supported around the clock without gaps or handoffs.',
+    title: 'Scalable Infrastructure',
+    description: 'Easily expand or reduce resources as your business grows, ensuring performance never slows down.',
   },
   {
     icon: '/Auto.svg',
-    title: 'End-to-End Customer Journey',
-    description: 'From onboarding to retention, we manage every touchpoint with training, QA, WFM, and performance baked in.',
+    title: 'Secure Environment',
+    description: 'Protect your critical data with enterprise-grade security, advanced encryption, and continuous monitoring.',
   },
   {
     icon: '/Data.svg',
-    title: 'Every Channel, Seamlessly',
-    description: 'Voice, chat, email, social, and in-app support delivered as one unified customer experience.',
+    title: 'Cost-Optimized Cloud',
+    description: 'Reduce IT expenses with efficient resource allocation and pay-asyou-grow models tailored to your needs.',
   },
   {
     icon: '/pport.svg',
-    title: '60+ Languages, Native Fluency',
-    description: 'University-educated, multilingual agents provide culturally fluent support at global scale.',
+    title: '24/7 Monitoring',
+    description: 'Our team continuously monitors systems to prevent downtime and quickly address any issues.',
   },
   {
     icon: '/Medal.svg',
-    title: 'University-Educated Teams',
-    description: 'Every Telesys teammate is a full-time university graduate with 3+ years of CX experience, selected for judgment, empathy, and culture fit.',
+    title: 'Disaster Recovery',
+    description: 'Reliable backup and fast recovery solutions keep your operations running smoothly even during unexpected events.',
   },
   {
     icon: '/Fraud.svg',
-    title: 'Fully Managed Teams',
-    description: 'Dedicated full-time teams plug directly into your tools, KPIs, and workflows with zero friction.',
+    title: 'Flexible Deployment',
+    description: 'Choose public, private, or hybrid cloud architectures that align perfectly with your business strategy.',
   },
 ];
 
@@ -68,8 +68,12 @@ const FeatureCard = ({ card }: { card: (typeof cardData)[0] }) => (
     <div className={`w-16 h-16 rounded-full flex items-center justify-center ${card.bgColor} mb-2`}>
       <Image src={card.icon} alt="" width={55} height={55} />
     </div>
-    <h3 className="text-xl font-bold text-zinc-900 mb-2">{card.title}</h3>
-    <p className="text-base text-zinc-700 leading-relaxed">{card.description}</p>
+    <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-bold text-black mb-2">{card.title}</h3>
+    <p className="text-bodyySm
+  sm:text-bodyyMd
+  lg:text-bodyylg text-black leading-relaxed">{card.description}</p>
   </motion.div>
 );
 
@@ -97,7 +101,7 @@ export default function FeaturesSection() {
           animate={isInView ? { opacity: 1, y: 0, transition: { delay: 1 } } : {}}
         >
           <MagneticButton>
-            <span className="text-base font-bold px-5">Talk to an Expert</span>
+            <span className="text-button font-bold px-5">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
       </motion.div>

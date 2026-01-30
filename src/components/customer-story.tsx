@@ -12,15 +12,15 @@ const testimonials = [
   {
     title: "Best BPO We've worked with",
     content:
-      "With TelSys's assistance, we've been able to 3X our content output with almost 100% audio and video accuracy. TelSys ensures the content is up to standards, and we've been impressed with the ease of collaborating with the team.",
+      "With Telsys's assistance, we've been able to 3X our content output with almost 100% audio and video accuracy. TelSys ensures the content is up to standards, and we've been impressed with the ease of collaborating with the team.",
     companySize: '10,000+',
     designation: 'Head of Video Production',
     industry: 'Media',
   },
   {
-    title: 'TelSys: Consistently Delivering Excellent Outcomes',
+    title: 'Telsys: Consistently Delivering Excellent Outcomes',
     content:
-      "Thanks to TelSys, we've scaled our affiliate program to more than 800 global ambassadors. The team's work also helped reduce customer support tickets by 50% per month and response times to less than an hour. Overall, they stand out for their proactive approach, flexibility, and professionalism.",
+      "Thanks to Telsys, we've scaled our affiliate program to more than 800 global ambassadors. The team's work also helped reduce customer support tickets by 50% per month and response times to less than an hour. Overall, they stand out for their proactive approach, flexibility, and professionalism.",
     companySize: '11-50',
     designation: 'VP of Growth',
     industry: 'Gaming',
@@ -29,7 +29,7 @@ const testimonials = [
   {
     title: 'A Partner with Exceptional Understanding of Our Culture',
     content:
-      "TelSys has provided strategies and solutions to significantly reduce ticket response times. The team's ability to cater to customers from diverse linguistic backgrounds makes the workflow seamless. Above all, we appreciate their flexibility, adaptability, and punctuality in meetings.",
+      "Telsys has provided strategies and solutions to significantly reduce ticket response times. The team's ability to cater to customers from diverse linguistic backgrounds makes the workflow seamless. Above all, we appreciate their flexibility, adaptability, and punctuality in meetings.",
     companySize: '51-200',
     designation: 'Customer Support Manager',
     industry: 'Food & Beverage',
@@ -37,7 +37,7 @@ const testimonials = [
   {
     title: 'Unmatched Quality and Professionalism',
     content:
-      'The quality of work and the professionalism of the TelSys team are unmatched. They have become an indispensable part of our operations, delivering excellence at every turn. Highly recommended for any company looking to scale effectively.',
+      'The quality of work and the professionalism of the Telsys team are unmatched. They have become an indispensable part of our operations, delivering excellence at every turn. Highly recommended for any company looking to scale effectively.',
     companySize: '1-10',
     designation: 'Founder & CEO',
     industry: 'eCommerce',
@@ -45,7 +45,7 @@ const testimonials = [
   {
     title: 'Seamless Integration and Proactive Support',
     content:
-      'Integrating with TelSys was seamless. Their team is not just reactive but proactive, always suggesting improvements and anticipating our needs. This has freed up our core team to focus on innovation.',
+      'Integrating with Telsys was seamless. Their team is not just reactive but proactive, always suggesting improvements and anticipating our needs. This has freed up our core team to focus on innovation.',
     companySize: '201-500',
     designation: 'COO',
     industry: 'SaaS',
@@ -53,7 +53,7 @@ const testimonials = [
   {
     title: 'A True Extension of Our Team',
     content:
-      'TelSys feels less like a vendor and more like a true extension of our team. Their dedication to our success is evident in their work, and the results speak for themselves. Our customer satisfaction has never been higher.',
+      'Telsys feels less like a vendor and more like a true extension of our team. Their dedication to our success is evident in their work, and the results speak for themselves. Our customer satisfaction has never been higher.',
     companySize: '1,001-5,000',
     designation: 'Director of Operations',
     industry: 'Fintech',
@@ -88,18 +88,20 @@ const TestimonialCard = ({ testimonial, featured = false }: { testimonial: (type
       <Image src="/sound.png" alt="Sound wave icon" width={24} height={24} />
     </div>
     <div className="flex-grow mt-5 flex flex-col">
-      <h3 className="text-xl font-normal font-headline text-black">{testimonial.title}</h3>
-      <p className="mt-4 text-sm text-zinc-700 leading-6 flex-grow">
+      <h3 className="text-bodySm
+  sm:text-bodyMd
+  lg:text-bodylg font-normal font-headline text-black">{testimonial.title}</h3>
+      <p className="mt-4 text-testimonialReview text-black leading-6 flex-grow">
         {testimonial.content}
       </p>
     </div>
     <div>
-      <p className="text-sm text-zinc-600 mt-4">
+      <p className="text-testimonialReview text-black mt-4">
         Company Size: {testimonial.companySize}
       </p>
       <div className="border-t border-zinc-300 my-4"></div>
-      <p className="font-bold text-sm text-black">{testimonial.designation}</p>
-      <p className="text-sm text-zinc-600">Industry: {testimonial.industry}</p>
+      <p className="font-bold text-testimonialReview text-black">{testimonial.designation}</p>
+      <p className="text-testimonialReview text-black">Industry: {testimonial.industry}</p>
     </div>
   </motion.div>
 );
