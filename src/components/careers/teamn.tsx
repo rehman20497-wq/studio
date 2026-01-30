@@ -56,7 +56,7 @@ export default function TeamnSection() {
           <h2 className="text-herooSm
   sm:text-herooMd
   lg:text-heroo text-black font-headline font-normal">
-            Find Your Place at Hugo
+            Find Your Place at Telsys
           </h2>
           <p className="mt-6 text-bodyySm
   sm:text-bodyyMd

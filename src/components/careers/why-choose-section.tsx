@@ -73,7 +73,7 @@ const benefits = [
   {
     icon: <LearningIcon />,
     title: 'Learning & development',
-    description: 'Invest in yourself through unlimited access to world-class coaches, and specialized courses offered through Hugo Academy.',
+    description: 'Invest in yourself through unlimited access to world-class coaches, and specialized courses offered through Telsys Academy.',
   },
   {
     icon: <EmployeeCareIcon />,

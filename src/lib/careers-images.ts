@@ -10,13 +10,13 @@ export const careersImages = {
         src: 'https://picsum.photos/seed/career2/240/240',
         hint: 'graduates certificate',
         alt: 'Graduates holding certificates',
-        label: 'Hugo Academy \'23'
+        label: 'Telsys Academy \'23'
     },
     day1: {
         src: 'https://picsum.photos/seed/career3/250/250',
         hint: 'woman smiling',
         alt: 'Woman smiling in front of a colorful wall',
-        label: 'Hugo Day 1'
+        label: 'Telsys Day 1'
     },
     training: {
         src: 'https://picsum.photos/seed/career4/230/230',
@@ -34,6 +34,6 @@ export const careersImages = {
         src: 'https://picsum.photos/seed/career6/240/240',
         hint: 'team meeting',
         alt: 'Team meeting around a table',
-        label: 'Hugo'
+        label: 'Telsys'
     },
 };

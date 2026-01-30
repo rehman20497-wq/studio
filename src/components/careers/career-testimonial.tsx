@@ -8,7 +8,7 @@ import TestimonialProgressBar from '../testimonial-progress-bar';
 const testimonials = [
   {
     logo: <Image src="/oliver.png" alt="Oliver Space Logo" width={100} height={30} className="object-contain" />,
-    text: "Working with Hugo has been a seamless experience. Their team integrated perfectly with ours and helped us scale our customer support efforts effectively. The quality of service is consistently high.",
+    text: "Working with Telsys has been a seamless experience. Their team integrated perfectly with ours and helped us scale our customer support efforts effectively. The quality of service is consistently high.",
     author: 'Olivia Chen',
     title: 'Head of Customer Experience, Oliver Space',
     image: '/2.jpg',
@@ -16,7 +16,7 @@ const testimonials = [
   },
   {
     logo: <Image src="/yardzen.png" alt="Yardzen Logo" width={100} height={30} className="object-contain" />,
-    text: "Hugo's data annotation services have been pivotal for our AI development. Their accuracy and efficiency have significantly accelerated our project timelines. A truly reliable partner.",
+    text: "Telsys's data annotation services have been pivotal for our AI development. Their accuracy and efficiency have significantly accelerated our project timelines. A truly reliable partner.",
     author: 'Yasmin Ahmed',
     title: 'AI Lead, Yardzen',
     image: '/1.jpg',
@@ -24,7 +24,7 @@ const testimonials = [
   },
     {
     logo: <Image src="/sakara.png" alt="Sakara Logo" width={100} height={30} className="object-contain" />,
-    text: "The level of detail and commitment from Hugo is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
+    text: "The level of detail and commitment from Telsys is outstanding. They feel like a true extension of our own team, and their impact on our customer satisfaction is undeniable.",
     author: 'Quo T.',
     title: 'Head of Support, Sakara',
     image: '/logos/quo.jpg',

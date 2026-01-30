@@ -266,7 +266,7 @@ Leverage intelligent AI platforms to automate processes, analyze data, and deliv
         >
           <MagneticButton>
             <span className="px-6 font-semibold">
-              Take Hugo for a spin
+              Take Telsys for a spin
             </span>
           </MagneticButton>
         </motion.div>

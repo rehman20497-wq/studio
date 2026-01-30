@@ -9,10 +9,6 @@ import ServicesFrameworkSection from "@/components/solutions/ai/services-framewo
 import StatsSection from "@/components/solutions/ai/stats-section";
 import OptimizePerformanceSection from "@/components/solutions/ai/optimize-performance-section";
 import NewTestimonialSections from "@/components/new-testimonial-sections";
-import SurgeProtectSection1 from "@/components/surge-protect-section1";
-import YellowBrushStrokesss from "@/components/about/blue-brush-stroke";
-import ClientOnly from '@/components/client-only';
-import FaqSection from "@/components/faq-section";
 import ClosingBrushStrokesss from "@/components/solutions/cloud/closing-brush-strokesss";
 import IntegrationCtaSections from "@/components/solutions/cloud/integration-cta-sections";
 import PartnerMarquee from "@/components/partner-marquee";
@@ -32,11 +28,6 @@ export default function AiSolutionsPage() {
         <StatsSection />
         <OptimizePerformanceSection />
         <NewTestimonialSections />
-        <SurgeProtectSection1 />
-        <YellowBrushStrokesss />
-        <ClientOnly>
-                          <FaqSection />
-                        </ClientOnly>
                         <ClosingBrushStrokesss />
                         <IntegrationCtaSections />
                         <PartnerMarquee />

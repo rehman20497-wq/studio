@@ -9,10 +9,6 @@ import ServicesFrameworkSection from "@/components/solutions/connectivity/servic
 import StatsSection from "@/components/solutions/connectivity/stats-section";
 import OptimizePerformanceSection from "@/components/solutions/connectivity/optimize-performance-section";
 import NewTestimonialSections from "@/components/new-testimonial-sections";
-import SurgeProtectSection1 from "@/components/surge-protect-section1";
-import YellowBrushStrokesss from "@/components/about/pink-brush-stroke";
-import ClientOnly from '@/components/client-only';
-import FaqSection from "@/components/faq-section";
 import ClosingBrushStrokessss from "@/components/solutions/cloud/closing-brush-strokessss";
 import IntegrationCtaSections from "@/components/solutions/cloud/integration-cta-sections";
 import PartnerMarquee from "@/components/partner-marquee";
@@ -32,11 +28,6 @@ export default function ConnectivitySolutionsPage() {
         <StatsSection />
         <OptimizePerformanceSection />
         <NewTestimonialSections />
-        <SurgeProtectSection1 />
-        <YellowBrushStrokesss />
-        <ClientOnly>
-                          <FaqSection />
-                        </ClientOnly>
                         <ClosingBrushStrokessss />
                          <IntegrationCtaSections />
                                          <PartnerMarquee />

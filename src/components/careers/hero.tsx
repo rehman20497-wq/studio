@@ -193,7 +193,7 @@ export default function Hero() {
   lg:text-bodyylg text-black max-w-2xl mx-auto"
           variants={paragraphVariants}
         >
-          At Hugo, we're built to drive better outcomes, create better opportunities
+          At Telsys, we're built to drive better outcomes, create better opportunities
           that break barriers, and enable better careers where you can thrive.
           Join our global community as we shape the future of work.
         </motion.p>

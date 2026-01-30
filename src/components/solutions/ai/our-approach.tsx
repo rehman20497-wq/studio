@@ -111,7 +111,7 @@ export default function OurApproachSection() {
         <motion.p className="text-bodySm
   sm:text-bodyMd
   lg:text-bodylg  text-black max-w-3xl mx-auto mb-8" variants={textVariants}>
-          From fraud detection, financial crimes prevention, and trust & safety operations to content moderation and community management, Hugo delivers scalable virtual call center expertise designed to safeguard every customer touchpoint. We lead in early detection, risk mitigation, and system-wide remediation for industries including Fintech, EdTech, SaaS, and Gaming.
+          From fraud detection, financial crimes prevention, and trust & safety operations to content moderation and community management, Telsys delivers scalable virtual call center expertise designed to safeguard every customer touchpoint. We lead in early detection, risk mitigation, and system-wide remediation for industries including Fintech, EdTech, SaaS, and Gaming.
         </motion.p>
 
         <motion.div 

@@ -139,7 +139,7 @@ export default function OptimizePerformanceSection() {
   sm:text-bodyyMd
   lg:text-bodyylg font-normal text-black max-w-3xl mx-auto mb-6"
         >
-          Every operations engine needs a pit crew. With Hugo, you can onboard and
+          Every operations engine needs a pit crew. With Telsys, you can onboard and
           execute faster, and with more precision than the competition.
         </motion.p>
 

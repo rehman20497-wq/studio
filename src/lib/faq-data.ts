@@ -9,7 +9,7 @@ export const faqData = [
         },
         {
           question: 'How do you ensure quality?',
-          answer: 'Quality is at the core of everything we do. We have a rigorous vetting process for our talent, provide continuous training through Hugo Academy, and implement robust quality assurance frameworks tailored to each client\'s specific needs and KPIs.',
+          answer: 'Quality is at the core of everything we do. We have a rigorous vetting process for our talent, provide continuous training through Telsys Academy, and implement robust quality assurance frameworks tailored to each client\'s specific needs and KPIs.',
         },
         {
           question: 'What makes your teams different?',
