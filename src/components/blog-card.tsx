@@ -80,8 +80,8 @@ export default function BlogCard({
     
   return (
     <div className="block group w-full h-full">
-      <div className="relative flex-shrink-0 w-full h-full min-h-[520px] bg-white rounded-2xl shadow-lg p-4 mb-0 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
-         <svg
+<div className="relative flex-shrink-0 w-full h-full bg-white rounded-2xl shadow-lg p-4 mb-0 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
+<svg
             className="absolute inset-0 pointer-events-none"
             width="100%"
             height="100%"

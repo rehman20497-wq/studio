@@ -60,13 +60,13 @@ export default function ActionButtonsSection() {
 
         <motion.div variants={slideInLeft}>
           <MagneticButton>
-            <span className="text-button font-bold px-4">Talk to an Expert</span>
+            <span className="font-bold text-[13px] px-0 sm:px-4 sm:text-button w-fit">Talk to an Expert</span>
           </MagneticButton>
         </motion.div>
 
         <motion.div variants={slideInRight}>
           <MagneticButton>
-            <span className="text-button font-bold px-4">Talk to an Expert</span>
+            <span className="font-bold text-[13px] px-0 sm:px-4 sm:text-button w-fit">Get Started</span>
           </MagneticButton>
         </motion.div>
       </motion.div>

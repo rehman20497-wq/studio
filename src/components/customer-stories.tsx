@@ -77,7 +77,7 @@ const CustomerStoriesCarousel = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative w-full py-16">
+    <div className="relative w-full py-16 overflow-x-hidden">
       {/* Hidden Embla track (logic only) */}
       <div className="overflow-hidden w-0 h-0" ref={emblaRef}>
         <div className="flex">
@@ -224,7 +224,7 @@ maxWidth: '90vw',
   className="
     flex items-center justify-center gap-6
     pt-0
-2xl:pt-[0rem]
+2xl:pt-[2rem]
 3xl:pt-[12rem]    // 112px
 4xl:pt-[13rem]   // 208px
 5xl:pt-[14rem] 

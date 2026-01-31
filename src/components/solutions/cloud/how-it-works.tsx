@@ -105,7 +105,7 @@ export default function HowItWorks() {
   return (
     <section
       ref={ref}
-      className="relative bg-[#fff9e6] py-24 px-4 overflow-hidden"
+      className="relative bg-[#fff9e6] pb-24 pt-48 px-4 overflow-hidden"
     >
       {/* Top Wave */}
       <div className="absolute top-0 left-0 w-full h-[150px] pointer-events-none z-0">

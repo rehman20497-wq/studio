@@ -154,7 +154,7 @@ export default function TrustAndSafetySection() {
       repeat: Infinity,
       ease: "easeInOut",
     }}
-    className="absolute -top-4 left-[25%] sm:left-[31%] lg:left-[35%] pointer-events-none z-10"
+    className="hidden md:block absolute -top-4 left-[25%] sm:left-[31%] lg:left-[35%] pointer-events-none z-10"
   >
     <Image
       src="/aw.png"

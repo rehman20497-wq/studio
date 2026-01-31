@@ -22,7 +22,11 @@
     */
     font-size: calc(18px * var(--scale-factor));
   }
-
+/* ✅ MOBILE FIX */
+@media (max-width: 639px) {
+  html {
+    font-size: 16px; /* or 15px / 14px — your call */
+  }}
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;

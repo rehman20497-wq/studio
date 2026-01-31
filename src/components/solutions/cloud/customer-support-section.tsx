@@ -156,7 +156,7 @@ export default function CustomerSupportSection() {
       repeat: Infinity,
       ease: "easeInOut",
     }}
-    className="absolute -top-4 left-[24%] sm:left-[31%] lg:left-[34%] pointer-events-none z-10"
+    className="hidden md:block absolute -top-4 left-[24%] sm:left-[31%] lg:left-[34%] pointer-events-none z-10"
   >
     <Image
       src="/aw.png"
