@@ -49,31 +49,24 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
         <div style="padding: 30px 40px; border-bottom: 1px solid #333; position: relative;">
          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
   <tr>
-    <td align="left">
-      <img
-        src="${appUrl}/tele.png"
-        alt="Telesys Logo"
-        width="220"
-        style="display: block; max-width: 220px; height: auto;"
-      />
-    </td>
-    <td align="right">
-      <img
-        src="${appUrl}/new.gif"
-        alt="New"
-        width="70"
-        height="70"
-        style="display: block;"
-      />
-    </td>
-  </tr>
+  <td align="left" valign="top">
+    <img src="${appUrl}/tele.png" alt="Telesys Logo" width="170" style="display: block; max-width: 220px; height: auto;"/>
+  </td>
+  <td align="right" valign="top">
+    <img src="${appUrl}/new.gif" alt="New" width="60" height="60" style="display: block;"/>
+  </td>
+</tr>
+
 </table>
 
         </div>
 
-        <div style="padding: 40px; line-height: 1.7; font-size: 17px; color:rgb(255, 255, 255); font-family: 'Inter', Arial, sans-serif;">
-  ${payload.body}
+        <div style="padding: 40px; line-height: 1.7; font-size: 17px; font-family: 'Inter', Arial, sans-serif; color: #ffffff;">
+  <div style="color: #ffffff !important;">
+    ${payload.body}
+  </div>
 </div>
+
 
         
         <div style="background-color: #000; padding: 30px 40px; font-size: 12px; color: #666; text-align: center;">
@@ -83,8 +76,20 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
             <a href="${appUrl}/contact" style="color: #00ADBF; text-decoration: none; margin: 0 10px;">Contact</a>
           </p>
           <p>You received this email because you subscribed to the Telesys newsletter.</p>
-          <p style="margin-top: 10px;">Telesys Inc. | 401 N Michigan Ave, Chicago, IL | &copy; 2024 All Rights Reserved</p>
-          <p style="margin-top: 10px;">If you no longer wish to receive these emails, you can <a href="#" style="color: #888; text-decoration: underline;">unsubscribe here</a>.</p>
+          <p style="margin-top: 10px;">Telesys Inc. | 1531 E Bradford Pkwy, Springfield MO 65804| &copy; 2024 All Rights Reserved</p>
+          <div style="text-align: center; margin-top: 20px;">
+  <a href="#" style="
+    background-color: #F5D34A;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 15px;
+    display: inline-block;
+  ">Unsubscribe</a>
+</div>
+
         </div>
       </div>
     </div>
