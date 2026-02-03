@@ -31,7 +31,7 @@ const GRID_LAYOUT_CONFIG = [
 const profileImages = [
     '/profiles/8x8 icon.png',
     '/profiles/at.png',
-    '/profiles/cloud.jpg',
+    '/profiles/googlec.jpg',
     '/profiles/cloudflare icon.png',
     '/profiles/genesys icon.png',
     '/profiles/meeter icon.jpeg',
