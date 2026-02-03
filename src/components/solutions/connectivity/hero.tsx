@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import MagneticButton from '@/components/magnetic-button';
 import { Zap } from 'lucide-react'; // Changed from Infinity
+import Link from "next/link";
 import AnimatedCircles from './animated-circles'; // Changed path
 
 const containerVariants = {
@@ -90,9 +91,11 @@ export default function Hero() {
             variants={itemVariants}
             className="mt-8"
           >
+            <Link href="/contact">
             <MagneticButton>
               <span className="text-button font-bold px-4">Talk to an Expert</span>
             </MagneticButton>
+            </Link>
           </motion.div>
         </motion.div>
         <div className="relative h-[500px] w-full">

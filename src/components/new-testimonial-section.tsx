@@ -12,7 +12,7 @@ const testimonials = [
     text: "We had an excellent experience working with this team. They helped us choose the right cloud & communication solutions and guided us through the entire setup. Everything was smooth, organized, and clearly explained.",
     author: 'Sarah L.',
     title: 'Director, Global Supplier Diversity',
-    image: '/logos/Sarah.jpg',
+    image: '/women.jpeg',
     imageHint: 'woman smiling',
   },
   {
@@ -20,7 +20,7 @@ const testimonials = [
     text: "Very professional and genuinely helpful. They reviewed our existing tools,identified where we were overspending, and recommended more efficient options. The migration process was quick, and their support team responded immediately whenever we had questions.",
     author: 'Chris B.',
     title: 'COO, Consensys',
-    image: '/logos/chris.jpg',
+    image: '/man.jpeg',
     imageHint: 'man portrait',
   },
     {
@@ -28,7 +28,7 @@ const testimonials = [
     text: "We’re extremely happy with the service. Their team implemented cloud, AI, and security solutions that improved both our workflow and customer experience.They made everything easy to understand and ensured our staff was comfortable using the new tools.",
     author: 'Quo T.',
     title: 'Head of Support, Sakara',
-    image: '/logos/quo.jpg',
+    image: '/man1.jpeg',
     imageHint: 'woman portrait',
   },
 ];

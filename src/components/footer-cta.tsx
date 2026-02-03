@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from './magnetic-button';
+import Link from "next/link";
 
 const sectionVariants = {
   hidden: { scale: 0, borderRadius: '100%' },
@@ -143,14 +144,18 @@ export default function FooterCta() {
   lg:text-hero font-normal font-headline text-black"
           variants={textVariants}
         >
-          Outsourcing +<br />
+          Technology +<br />
           built to make you better.
         </motion.h2>
         
         <motion.div className="mt-10" variants={buttonVariants}>
+        <Link href="/contact">
           <MagneticButton>
-            <span className="text-button font-medium px-4">Talk to an Expert</span>
+            <span className="text-button font-medium">
+              Talk With Experts
+            </span>
           </MagneticButton>
+        </Link>
         </motion.div>
       </motion.div>
 

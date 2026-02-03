@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import MagneticButton from "@/components/magnetic-button";
 import TestimonialCarousel from "@/components/testimonial-carousel";
+import Link from "next/link";
 
 export default function RightColumn() {
   const ref = useRef(null);
@@ -75,9 +76,13 @@ businesses innovate faster and grow smarter
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: 'easeOut', delay: 0.8 }}
       >
-        <MagneticButton>
-          <span className="text-button font-medium ">Connect With Experts</span>
-        </MagneticButton>
+        <Link href="/contact">
+          <MagneticButton>
+            <span className="text-button font-medium">
+              Connect With Experts
+            </span>
+          </MagneticButton>
+        </Link>
       </motion.div>
 
       <motion.div 

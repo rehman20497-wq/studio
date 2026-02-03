@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import MagneticButton from '@/components/magnetic-button';
 import { Cpu } from 'lucide-react';
 import AnimatedCircles from './animated-circles';
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -90,9 +91,13 @@ export default function Hero() {
             variants={itemVariants}
             className="mt-8"
           >
-            <MagneticButton>
-              <span className="text-button font-bold px-4">Talk to an Expert</span>
-            </MagneticButton>
+             <Link href="/contact">
+          <MagneticButton>
+            <span className="text-button font-medium">
+              Talk With Experts
+            </span>
+          </MagneticButton>
+        </Link>
           </motion.div>
         </motion.div>
         <div className="relative h-[500px] w-full">

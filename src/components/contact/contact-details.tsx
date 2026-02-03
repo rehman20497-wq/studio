@@ -83,7 +83,7 @@ export default function ContactDetails() {
       <div className="space-y-12">
         <InfoCard icon={Mail} title="Email Us" value="hello@telesys.com" href="mailto:hello@telesys.com" />
         <InfoCard icon={Phone} title="Call Us" value="(555) 123-4567" href="tel:5551234567" />
-        <InfoCard icon={MapPin} title="Visit Us" value="401 N Michigan Ave, Chicago, IL" href="#" />
+        <InfoCard icon={MapPin} title="Visit Us" value="1531 E Bradford Pkwy, Springfield MO 65804" href="https://maps.app.goo.gl/ap66WSKYBUC6tZpU8" />
       </div>
 
       <motion.div 
@@ -112,7 +112,7 @@ export default function ContactDetails() {
             <div className="relative bg-white/90 backdrop-blur-md rounded-xl p-4 border-2 border-yellow-300 shadow-2xl">
                 <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 bg-inherit border-b-2 border-r-2 border-yellow-300 rotate-45" />
                 <p className="font-bold text-zinc-800 text-center">Telesys Headquarters</p>
-                <p className="text-sm text-zinc-600 text-center mt-1">401 N Michigan Ave, Chicago, IL</p>
+                <p className="text-sm text-zinc-600 text-center mt-1">1531 E Bradford Pkwy, Springfield MO 65804</p>
                 <p className="text-sm text-zinc-600 text-center">(555) 123-4567</p>
             </div>
         </motion.div>

@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import MagneticButton from './magnetic-button';
+import Link from "next/link";
 
 const buttonVariants = {
   hidden: { opacity: 0, y: 50, scale: 0.8 },
@@ -29,11 +30,13 @@ export default function ResourcesButtonSection() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
+           <Link href="/contact">
           <MagneticButton>
-            <span className="text-button font-bold px-6">
-              Check out All of Our Resources!
+            <span className="text-button font-medium">
+            Check out All of Our Resources!
             </span>
           </MagneticButton>
+        </Link>
         </motion.div>
       </div>
     </section>

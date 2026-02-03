@@ -9,6 +9,7 @@ import {
 import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from '@/components/magnetic-button';
+import Link from "next/link";
 
 export default function CustomerSupportSection() {
   const ref = useRef(null);
@@ -263,11 +264,13 @@ We provide enterprise-grade communication solutions that simplify collaboration,
           animate={inView ? { opacity: 1, y: 0 } : {}}
           className="mt-10"
         >
+          <Link href="/contact">
           <MagneticButton>
             <span className="px-6 text-button font-semibold">
               Take Telsys for a spin
             </span>
           </MagneticButton>
+          </Link>
         </motion.div>
       </div>
     </section>

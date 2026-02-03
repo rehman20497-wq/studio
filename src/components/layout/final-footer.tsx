@@ -29,10 +29,10 @@ const SocialIcon = ({ href, icon: Icon }: { href: string, icon: React.ElementTyp
 )
 
 const solutions = [
-    { name: "Cloud Solutions", href: "/providers?solution=cloud-solutions" },
-    { name: "Communications", href: "/providers?solution=communications" },
-    { name: "AI Solutions", href: "/providers?solution=ai-solutions" },
-    { name: "Connectivity", href: "/providers?solution=connectivity" },
+    { name: "Cloud Solutions", href: "/solutions/cloud" },
+    { name: "Communications", href: "/solutions/communications" },
+    { name: "AI Solutions", href: "/solutions/ai-solutions" },
+    { name: "Connectivity", href: "/solutions/connectivity" },
   ];
 
 const containerVariants = {
@@ -196,7 +196,7 @@ export default function FinalFooter() {
             </motion.div>
             <motion.div variants={slideFromBottom}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Headquarters</h3>
-                <p className="text-zinc-700 text-base">401 N Michigan Ave<br/>Chicago, IL 60611</p>
+                <p className="text-zinc-700 text-base">1531 E Bradford Pkwy,<br/>Springfield MO 65804</p>
             </motion.div>
         </motion.div>
 

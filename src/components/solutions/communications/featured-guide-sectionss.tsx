@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from '@/components/magnetic-button';
+import Link from "next/link";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -152,9 +153,11 @@ export default function FeaturedGuideSectionss() {
           </motion.p>
 
           <motion.div className="mt-8" variants={textItemVariants}>
+          <Link href="/contact">
             <MagneticButton>
               <span className="text-button font-bold">Read Guide Here</span>
             </MagneticButton>
+            </Link>
           </motion.div>
         </div>
 

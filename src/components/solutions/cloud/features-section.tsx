@@ -4,6 +4,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
+import Link from "next/link";
 import MagneticButton from '@/components/magnetic-button';
 
 const cardData = [
@@ -100,9 +101,13 @@ export default function FeaturesSection() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0, transition: { delay: 1 } } : {}}
         >
+           <Link href="/contact">
           <MagneticButton>
-            <span className="text-button font-bold px-5">Talk to an Expert</span>
+            <span className="text-button font-medium">
+              Talk With Experts
+            </span>
           </MagneticButton>
+        </Link>
         </motion.div>
       </motion.div>
 

@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import MagneticButton from '@/components/magnetic-button';
 import { Infinity } from 'lucide-react';
 import AnimatedCircless from './animated-circless';
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -89,9 +90,11 @@ Scale your operations with expert outsourcing support. We specialize in outsourc
             variants={itemVariants}
             className="mt-8"
           >
+            <Link href="/contact">
             <MagneticButton>
               <span className="text-button font-bold px-4">Book a Meeting</span>
             </MagneticButton>
+            </Link>
           </motion.div>
         </motion.div>
         <div className="relative h-[500px] w-full">

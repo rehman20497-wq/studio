@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 /* =======================
    Arrow animation (approach → pulse → fade)
@@ -153,6 +154,8 @@ export default function AnimatedButton() {
         {/* =======================
             BUTTON
         ======================= */}
+         <Link href="/contact">
+          
         <button
           className="
             bg-black
@@ -170,7 +173,7 @@ export default function AnimatedButton() {
         >
           Book a Meeting
         </button>
-
+        </Link>
       </div>
     </div>
   );

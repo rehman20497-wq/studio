@@ -4,6 +4,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import MagneticButton from "./magnetic-button";
+import Link from "next/link";
 
 const listItems = [
   "Call Quality Issues",
@@ -61,9 +62,13 @@ export default function SurgeProtectContent() {
           got your back. Access elite talent instantly, scale down seamlessly.
         </p>
         <div className="mt-8">
+        <Link href="/contact">
           <MagneticButton>
-            <span className="text-button font-bold">Talk to an Expert</span>
+            <span className="text-button font-medium">
+              Talk With Experts
+            </span>
           </MagneticButton>
+        </Link>
         </div>
       </motion.div>
 

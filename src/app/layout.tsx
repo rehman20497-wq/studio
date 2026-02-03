@@ -23,8 +23,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>TelSys – Enabling Confident Technology Decisions</title>
-        <meta name="description" content="TelSys helps you make confident technology decisions with expert insights, innovative solutions, and reliable digital guidance." />
+        <title>Telsys – Enabling Confident Technology Decisions</title>
+        <meta name="description" content="Telsys helps you make confident technology decisions with expert insights, innovative solutions, and reliable digital guidance." />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="font-body antialiased overflow-x-clip">

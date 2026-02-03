@@ -10,6 +10,7 @@ import { DataAiIcon } from './icons/data-ai-icon';
 import { TrustSafetyIcon } from './icons/trust-safety-icon';
 import { DigitalOperationsIcon } from './icons/digital-operations-icon';
 import BrushStrokes from './brush-strokes';
+import Link from "next/link";
 
 const solutions = [
   {
@@ -17,24 +18,28 @@ const solutions = [
     title: 'Cloud Solutions',
     description: "Across platforms, workloads, regions, and teams, our cloud keeps your business running smoothly…even when everything else feels chaotic.",
     color: 'border-cyan-400',
+    href: '/solutions/cloud',
   },
   {
     icon: <DataAiIcon />,
     title: 'Connectivity',
     description: 'From fiber, wireless, SD-WAN, to remote sites, we keep every line open and every link strong…even when your operations are under pressure.',
     color: 'border-red-400',
+    href: '/solutions/connectivity',
   },
   {
     icon: <TrustSafetyIcon />,
     title: 'AI Solutions',
     description: "From everyday tasks to complex decisions, our AI helps your business think smarter…even when the unexpected shows up.",
     color: 'border-purple-400',
+    href: '/solutions/ai-solutions',
   },
   {
     icon: <DigitalOperationsIcon />,
     title: 'Communication',
     description: "Whether your teams are calling, chatting, or collaborating, we keep communication clear… even when the day gets messy.",
     color: 'border-green-400',
+    href: '/solutions/communications',
   },
 ];
 
@@ -103,8 +108,9 @@ const AnimatedBorder = ({ radius = 24 }: { radius?: number }) => {
 };
 
 
-const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]) => {
+const SolutionCard = ({ icon, title, description, color, href }: (typeof solutions)[0]) => {
   return (
+    <Link href={href} className="group block h-full">
     <motion.div
       variants={cardVariants}
       className={cn(
@@ -122,6 +128,7 @@ const SolutionCard = ({ icon, title, description, color }: (typeof solutions)[0]
         Learn More
       </button>
     </motion.div>
+    </Link>
   );
 };
 

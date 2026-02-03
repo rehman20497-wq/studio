@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from '@/components/magnetic-button';
+import Link from "next/link";
 
 const logos1 = [
   { src: '/logos/Upwork.svg', alt: 'Upwork' },
@@ -184,11 +185,13 @@ confidence.
               priority
             />
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+            <Link href="/contact">
               <MagneticButton>
                 <span className="text-sm sm:text-base font-bold px-6 py-2">
                   Get a quote
                 </span>
               </MagneticButton>
+              </Link>
             </div>
           </div>
 

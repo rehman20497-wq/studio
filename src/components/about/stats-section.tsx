@@ -8,7 +8,7 @@ const stats = [
   {
     value: 4500,
     suffix: '+',
-    label: 'Employees Worldwide & 250K vetted Professionals',
+    label: 'Clients Worldwide & 250K vetted Professionals',
     gradient: 'from-cyan-400 to-cyan-600',
     borderColor: 'border-cyan-200',
   },
@@ -29,7 +29,7 @@ const stats = [
   {
     value: 30,
     suffix: '%',
-    label: 'More cost-effective than outsourcing in India & Philippines',
+    label: 'More cost-effective than Technology Solutions',
     gradient: 'from-red-400 to-red-600',
     borderColor: 'border-red-200',
   },

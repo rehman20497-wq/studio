@@ -9,6 +9,7 @@ import {
 import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from '@/components/magnetic-button';
+import Link from "next/link";
 
 export default function TrustAndSafetySection() {
   const ref = useRef(null);
@@ -264,11 +265,13 @@ Leverage intelligent AI platforms to automate processes, analyze data, and deliv
           animate={inView ? { opacity: 1, y: 0 } : {}}
           className="mt-10"
         >
+          <Link href="/contact">
           <MagneticButton>
             <span className="px-6 font-semibold">
               Take Telsys for a spin
             </span>
           </MagneticButton>
+          </Link>
         </motion.div>
       </div>
     </section>

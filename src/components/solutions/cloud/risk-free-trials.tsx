@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import MagneticButton from '@/components/magnetic-button';
 import Image from 'next/image';
-
+import Link from "next/link";
 /* ------------------ Animations ------------------ */
 
 const containerVariants = {
@@ -154,11 +154,13 @@ export default function RiskFreeTrials() {
                   <div className="relative w-[360px] h-[140px] flex justify-center items-center">
         
                     {/* Auto-sized button */}
-                    <MagneticButton>
-                      <span className="text-button font-bold px-6 py-3 whitespace-nowrap">
-                        Talk to an Expert
-                      </span>
-                    </MagneticButton>
+                    <Link href="/contact">
+          <MagneticButton>
+            <span className="text-button font-medium">
+              Talk With Experts
+            </span>
+          </MagneticButton>
+        </Link>
         
                     {/* x.png */}
                     <motion.div

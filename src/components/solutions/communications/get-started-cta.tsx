@@ -4,7 +4,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import MagneticButton from '@/components/magnetic-button';
-
+import Link from "next/link";
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -64,11 +64,13 @@ export default function GetStartedCta() {
       {/* Button */}
       <div className="relative z-10 mt-10">
         <motion.div variants={buttonContainerVariants}>
+        <Link href="/contact">
           <MagneticButton>
             <span className="text-button font-semibold px-6 py-2">
               Talk to an Expert
             </span>
           </MagneticButton>
+          </Link>
         </motion.div>
       </div>
     </motion.section>

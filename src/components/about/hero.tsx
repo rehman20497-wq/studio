@@ -4,6 +4,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import MagneticButton from '@/components/magnetic-button';
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -106,14 +107,18 @@ export default function Hero() {
         animate={isInView ? 'visible' : 'hidden'}
       >
         <motion.div variants={slideInLeft}>
+        <Link href="/careers">
             <MagneticButton>
                 <span className="text-button font-bold px-4">See Open Roles</span>
             </MagneticButton>
+            </Link>
         </motion.div>
         <motion.div variants={slideInRight}>
+        <Link href="/contact">
             <MagneticButton>
                 <span className="text-button font-bold px-4">Build Your Team</span>
             </MagneticButton>
+            </Link>
         </motion.div>
       </motion.div>
     </section>

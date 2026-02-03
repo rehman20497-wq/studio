@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { careersImages } from '@/lib/careers-images';
 import MagneticButton from '@/components/magnetic-button';
+import Link from "next/link";
 
 /* ---------------- Variants ---------------- */
 
@@ -200,18 +201,22 @@ export default function Hero() {
 
         <div className="mt-12 flex flex-row justify-center items-center gap-4">
           <motion.div variants={buttonVariants}>
+          <Link href="/contact">
             <MagneticButton>
               <span className="whitespace-nowrap text-button font-bold px-5">
                 Talk to an Expert
               </span>
             </MagneticButton>
+            </Link>
           </motion.div>
           <motion.div variants={buttonVariants}>
+          <Link href="/careers">
             <MagneticButton>
               <span className="whitespace-nowrap text-button font-bold px-5">
-                Talk to an Expert
+                Check Open Roles
               </span>
             </MagneticButton>
+            </Link>
           </motion.div>
         </div>
       </motion.div>

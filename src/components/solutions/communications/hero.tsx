@@ -74,7 +74,7 @@ export default function Hero() {
   sm:text-heroMd
   lg:text-hero font-normal text-black mt-4"
           >
-            Digital Operations
+            Communications
           </motion.h1>
           <motion.p
             custom="left"

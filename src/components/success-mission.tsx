@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useInView } from 'framer-motion';
 import AnimatedStats from "@/components/animated-stats";
 import MagneticButton from "@/components/magnetic-button";
+import Link from "next/link";
 
 const SquiggleUnderline = () => (
   <svg
@@ -184,11 +185,13 @@ us you get more than partnerships – you get what you deserve.
               </p>
             </div>
             <div className="mt-6">
-              <MagneticButton>
-              <span className="text-button font-bold">
-              Ignite Your Growth
-                </span>
-              </MagneticButton>
+            <Link href="/contact">
+          <MagneticButton>
+            <span className="text-button font-medium">
+            Ignite Your Growth
+            </span>
+          </MagneticButton>
+        </Link>
             </div>
           </motion.div>
           <div className="hidden lg:flex justify-center items-center">

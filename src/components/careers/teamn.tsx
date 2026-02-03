@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import MagneticButton from '@/components/magnetic-button';
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -64,9 +65,11 @@ export default function TeamnSection() {
             We’re a diverse team of thinkers, creators, and problem-solvers dedicated to making a difference. Explore our open roles and discover how you can contribute to the future of work.
           </p>
           <div className="mt-8">
+          <Link href="/contact">
             <MagneticButton>
                 <span className="text-button font-bold px-4">Talk to an Expert</span>
             </MagneticButton>
+            </Link>
           </div>
         </motion.div>
 

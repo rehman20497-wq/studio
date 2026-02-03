@@ -4,6 +4,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import MagneticButton from './magnetic-button';
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -59,15 +60,23 @@ export default function ActionButtonsSection() {
 >
 
         <motion.div variants={slideInLeft}>
+        <Link href="/contact">
           <MagneticButton>
-            <span className="font-bold text-[13px] px-0 sm:px-4 sm:text-button w-fit">Talk to an Expert</span>
+            <span className="text-button font-medium">
+              Talk With Experts
+            </span>
           </MagneticButton>
+        </Link>
         </motion.div>
 
         <motion.div variants={slideInRight}>
+        <Link href="/contact">
           <MagneticButton>
-            <span className="font-bold text-[13px] px-0 sm:px-4 sm:text-button w-fit">Get Started</span>
+            <span className="text-button font-medium">
+              Get Started
+            </span>
           </MagneticButton>
+        </Link>
         </motion.div>
       </motion.div>
     </section>

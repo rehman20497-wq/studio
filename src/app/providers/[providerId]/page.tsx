@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation';
 import Header from "@/components/layout/header";
 import Hero from "@/components/single-provider/hero";
 import Details from "@/components/single-provider/details";
-import Testimonial from "@/components/single-provider/testimonial";
 import { useDoc, useFirestore, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
 import { doc, increment } from 'firebase/firestore';
 import ProviderFilter from '@/components/providers/provider-filter';
@@ -81,7 +80,7 @@ export default function SingleProviderPage() {
                         : 'cloud'; // Default to cloud
 
   return (
-    <div className="bg-[#FCFBF8]">
+    <div className="bg-[#FCFBF8] pb-[2%]">
       <ClientOnly>
         <Header />
       </ClientOnly>
@@ -100,9 +99,7 @@ export default function SingleProviderPage() {
           bannerImage={providerData.bannerImageUrl || 'https://picsum.photos/seed/default-banner/800/600'}
         />
         
-        <Testimonial 
-          solutionType={primarySolution} 
-        />
+       
       </main>
     </div>
   );
