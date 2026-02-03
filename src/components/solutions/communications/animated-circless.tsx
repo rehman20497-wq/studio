@@ -29,16 +29,16 @@ const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
 const profileImages = [
   '/profiles/8x8 icon.png',
-  '/profiles/AT&T Logo.png',
+  '/profiles/at.png',
   '/profiles/cloud icon.png',
   '/profiles/cloudflare icon.png',
   '/profiles/genesys icon.png',
   '/profiles/meeter icon.jpeg',
-  '/profiles/vonage icon.png',
-  '/profiles/zoom icon.AVIF',
+  '/profiles/vonage.png',
+  '/profiles/zoom.jpg',
   '/cloud/365.png',
     '/cloud/aws.jpeg',
-    '/cloud/cloud icon.png',
+    '/profiles/googlec.jpg',
     '/cloud/micro.png',
     '/cloud/tpx.png',
 ];
