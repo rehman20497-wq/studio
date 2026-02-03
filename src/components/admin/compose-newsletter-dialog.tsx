@@ -62,32 +62,31 @@ export default function ComposeNewsletterDialog({ isOpen, onOpenChange }: Compos
             Create and send an email to all your newsletter subscribers.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full gap-4 pr-2">
-        <div className="flex-grow overflow-y-auto flex flex-col gap-4">
-  <div>
-    <Label htmlFor="subject">Subject</Label>
-    <Input id="subject" {...register('subject')} />
-    {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>}
-  </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col gap-4 overflow-y-hidden pr-2">
+          <div>
+            <Label htmlFor="subject">Subject</Label>
+            <Input id="subject" {...register('subject')} />
+            {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>}
+          </div>
 
-  <div className='flex-grow flex flex-col min-h-0'>
-    <Label>Body</Label>
-    <Controller
-      name="body"
-      control={control}
-      render={({ field }) => (
-        <div className='flex-grow relative'>
-            <RichTextEditor
-              value={field.value || ''}
-              onChange={field.onChange}
-              placeholder="Write your newsletter content here..."
+          <div className='flex-grow flex flex-col min-h-0'>
+            <Label>Body</Label>
+            <Controller
+              name="body"
+              control={control}
+              render={({ field }) => (
+                <div className='flex-grow relative'>
+                    <RichTextEditor
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    placeholder="Write your newsletter content here..."
+                    />
+                </div>
+              )}
             />
-        </div>
-      )}
-    />
-    {errors.body && <p className="text-red-500 text-sm mt-1">{errors.body.message}</p>}
-  </div>
-</div>
+             {errors.body && <p className="text-red-500 text-sm mt-1">{errors.body.message}</p>}
+          </div>
+
           <div className="flex justify-end gap-4 pt-4 border-t">
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
