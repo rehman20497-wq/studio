@@ -30,15 +30,15 @@ const GRID_LAYOUT_CONFIG = [
 
 const profileImages = [
     '/profiles/8x8 icon.png',
-    '/profiles/AT&T Logo.png',
-    '/profiles/cloud icon.png',
+    '/profiles/at.png',
+    '/profiles/cloud.jpg',
     '/profiles/cloudflare icon.png',
     '/profiles/genesys icon.png',
     '/profiles/meeter icon.jpeg',
     '/profiles/ooma. icon.png',
-    '/profiles/Ringcentral Icon.png',
-    '/profiles/vonage icon.png',
-    '/profiles/zoom icon.AVIF',
+    '/profiles/Ringcentral.png',
+    '/profiles/vonage.png',
+    '/profiles/zoom.jpg',
   ];
   
 
@@ -93,17 +93,18 @@ const AnimatedCircle = ({ cx, cy, id, image }: { cx: number; cy: number; id: str
                 />
             </clipPath>
             <g clipPath={`url(#clip-${id})`}>
-                <motion.foreignObject
-                    className="profile-image-container"
-                    x={cx - PROFILE_RADIUS}
-                    y={cy - PROFILE_RADIUS}
-                    width={PROFILE_RADIUS * 2}
-                    height={PROFILE_RADIUS * 2}
-                    initial={{ opacity: 0 }}
-                >
-                    <Image src={image} alt="Profile" width={PROFILE_RADIUS * 2} height={PROFILE_RADIUS * 2} />
-                </motion.foreignObject>
-            </g>
+    <motion.image
+        className="profile-image-container"
+        href={image}
+        x={cx - PROFILE_RADIUS}
+        y={cy - PROFILE_RADIUS}
+        width={PROFILE_RADIUS * 2}
+        height={PROFILE_RADIUS * 2}
+        preserveAspectRatio="xMidYMid slice"
+        initial={{ opacity: 0 }}
+    />
+</g>
+
         </g>
     );
 };

@@ -22,9 +22,9 @@ const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 const profileImages = [
   '/com/8x8.png',
   '/com/ooma.jpeg',
-  '/com/Ring.png',
+  '/profiles/Ringcentral.png',
   '/com/vonoage.png',
-  '/com/zoom.png',
+  '/profiles/zoom.jpg',
 ];
 let circleCounter = 0;
 

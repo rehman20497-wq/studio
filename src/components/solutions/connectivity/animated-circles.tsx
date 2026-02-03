@@ -22,10 +22,10 @@ const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
 const profileImages = [
   '/con/spect.webp',
-  '/con/att.png',
+  '/profiles/at.png',
   '/con/com.png',
   '/con/verizon.png',
-  '/con/x.png',
+  '/com/xx.png',
 ];
 
 let circleCounter = 0;
