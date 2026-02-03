@@ -21,7 +21,7 @@ const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
 const profileImages = [
   '/com/8x8.png',
-  '/com/ooma.jpeg',
+  '/profiles/ooma. icon.png',
   '/profiles/Ringcentral.png',
   '/com/vonoage.png',
   '/profiles/zoom.jpg',
