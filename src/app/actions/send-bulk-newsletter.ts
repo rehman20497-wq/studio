@@ -53,27 +53,28 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
       <img
         src="${appUrl}/tele.png"
         alt="Telesys Logo"
-        width="150"
-        style="display: block;"
+        width="220"
+        style="display: block; max-width: 220px; height: auto;"
       />
     </td>
     <td align="right">
       <img
         src="${appUrl}/new.gif"
         alt="New"
-        width="50"
-        height="50"
+        width="70"
+        height="70"
         style="display: block;"
       />
     </td>
   </tr>
 </table>
- right: 40px; width: 50px; height: 50px;">
+
         </div>
 
-        <div style="padding: 40px; line-height: 1.7;">
-          ${payload.body}
-        </div>
+        <div style="padding: 40px; line-height: 1.7; font-size: 17px; color:rgb(255, 255, 255); font-family: 'Inter', Arial, sans-serif;">
+  ${payload.body}
+</div>
+
         
         <div style="background-color: #000; padding: 30px 40px; font-size: 12px; color: #666; text-align: center;">
           <p style="margin-bottom: 15px;">
