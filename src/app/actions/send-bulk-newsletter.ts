@@ -47,17 +47,32 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
       <div style="max-width: 680px; margin: 0 auto; background-color: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #333;">
         
         <div style="padding: 30px 40px; border-bottom: 1px solid #333; position: relative;">
-         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
-  <tr>
-  <td align="left" valign="top">
-    <img src="${appUrl}/tele.png" alt="Telesys Logo" width="170" style="display: block; max-width: 220px; height: auto;"/>
-  </td>
-  <td align="right" valign="top">
-    <img src="${appUrl}/new.gif" alt="New" width="60" height="60" style="display: block;"/>
-  </td>
-</tr>
+         <!-- Logo + GIF -->
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 0;">
+  <tr style="height: 70px;">
+    <!-- Logo on the left -->
+    <td align="left" valign="top" style="padding: 0;">
+      <img 
+        src="${appUrl}/tele.png" 
+        alt="Telesys Logo" 
+        width="220" 
+        style="display: block; max-width: 220px; height: auto; line-height: 0; font-size: 0;" 
+      />
+    </td>
 
+    <!-- GIF on the right -->
+    <td align="right" valign="top" style="padding: 0;">
+      <img 
+        src="${appUrl}/new.gif" 
+        alt="New" 
+        width="70" 
+        height="70" 
+        style="display: block; line-height: 0; font-size: 0;" 
+      />
+    </td>
+  </tr>
 </table>
+
 
         </div>
 
@@ -80,7 +95,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
           <div style="text-align: center; margin-top: 20px;">
   <a href="#" style="
     background-color: #F5D34A;
-    color: #ffffff;
+    color: #000000;
     text-decoration: none;
     padding: 12px 24px;
     border-radius: 50px;

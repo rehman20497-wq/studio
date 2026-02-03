@@ -32,8 +32,32 @@ export async function sendContactConfirmation(formData: ContactFormData) {
         <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 173, 191, 0.2);">
           
           <div style="padding: 40px; text-align: left; border-bottom: 1px solid #333; position: relative;">
-            <img src="${appUrl}/tele.png" alt="Telesys Logo" style="width: 150px; margin-bottom: 30px;">
-            <img src="${appUrl}/cont.gif" alt="contact us icon" style="position: absolute; top: 30px; right: 40px; width: 50px; height: 50px;">
+           <!-- Logo + GIF -->
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 0;">
+  <tr style="height: 70px;">
+    <!-- Logo on the left -->
+    <td align="left" valign="top" style="padding: 0;">
+      <img 
+        src="${appUrl}/tele.png" 
+        alt="Telesys Logo" 
+        width="220" 
+        style="display: block; max-width: 220px; height: auto; line-height: 0; font-size: 0;" 
+      />
+    </td>
+
+    <!-- GIF on the right -->
+    <td align="right" valign="top" style="padding: 0;">
+      <img 
+        src="${appUrl}/cont.gif" 
+        alt="New" 
+        width="70" 
+        height="70" 
+        style="display: block; line-height: 0; font-size: 0;" 
+      />
+    </td>
+  </tr>
+</table>
+
             
             <h1 style="font-family: 'Raleway', Arial, sans-serif; font-size: 28px; color: #ffffff; margin-bottom: 20px;">
               Your Message is in Good Hands.
