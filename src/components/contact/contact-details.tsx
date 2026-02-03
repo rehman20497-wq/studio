@@ -106,8 +106,8 @@ export default function ContactDetails() {
         </div>
         
         <motion.div 
-            className="absolute top-8 right-8 w-[60%]"
-            variants={addressBoxVariants}
+className="absolute top-20 right-16 w-[60%]"
+variants={addressBoxVariants}
         >
             <div className="relative bg-white/90 backdrop-blur-md rounded-xl p-4 border-2 border-yellow-300 shadow-2xl">
                 <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-5 bg-inherit border-b-2 border-r-2 border-yellow-300 rotate-45" />
