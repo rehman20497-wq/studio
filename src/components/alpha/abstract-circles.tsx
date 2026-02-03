@@ -28,7 +28,19 @@ const GRID_LAYOUT_CONFIG = [
     { row: 4, count: 3, offset: 1 },
 ];
 
-const profileImages = Array.from({ length: 19 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
+const profileImages = [
+    '/profiles/8x8 icon.png',
+    '/profiles/AT&T Logo.png',
+    '/profiles/cloud icon.png',
+    '/profiles/cloudflare icon.png',
+    '/profiles/genesys icon.png',
+    '/profiles/meeter icon.jpeg',
+    '/profiles/ooma. icon.png',
+    '/profiles/Ringcentral Icon.png',
+    '/profiles/vonage icon.png',
+    '/profiles/zoom icon.AVIF',
+  ];
+  
 
 const getCircleId = (row: number, col: number) => `circle-${row}-${col}`;
 

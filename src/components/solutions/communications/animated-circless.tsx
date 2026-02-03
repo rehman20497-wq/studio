@@ -27,8 +27,21 @@ const PADDING = 40; // increase this number to add more space around the SVG
 const SMALL_CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
 const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
-const profileImages = Array.from({ length: 35 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
-
+const profileImages = [
+  '/profiles/8x8 icon.png',
+  '/profiles/AT&T Logo.png',
+  '/profiles/cloud icon.png',
+  '/profiles/cloudflare icon.png',
+  '/profiles/genesys icon.png',
+  '/profiles/meeter icon.jpeg',
+  '/profiles/vonage icon.png',
+  '/profiles/zoom icon.AVIF',
+  '/cloud/365.png',
+    '/cloud/aws.jpeg',
+    '/cloud/cloud icon.png',
+    '/cloud/micro.png',
+    '/cloud/tpx.png',
+];
 let circleCounter = 0;
 
 /* ------------------ T SHAPE GENERATOR ------------------ */

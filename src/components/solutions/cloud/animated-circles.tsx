@@ -19,8 +19,14 @@ const TOTAL_HEIGHT = (ROWS_TOP + ROWS_BOTTOM) * SMALL_BOX_SIZE + BIG_CIRCLE_RADI
 const SMALL_CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
 const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
-const profileImages = Array.from({ length: 35 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
-
+const profileImages = [
+    '/cloud/365.png',
+    '/cloud/aws.jpeg',
+    '/cloud/cloud icon.png',
+    '/cloud/micro.png',
+    '/cloud/tpx.png',
+  ];
+  
 let circleCounter = 0;
 
 const generateCircles = (startRow: number, numRows: number, cols: number, yOffset: number, idPrefix: string) => {

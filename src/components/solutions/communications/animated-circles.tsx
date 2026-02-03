@@ -19,8 +19,13 @@ const TOTAL_HEIGHT = ROW_PATTERN.length * SMALL_BOX_SIZE;
 const SMALL_CIRCUMFERENCE = 2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
 const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
-const profileImages = Array.from({ length: 35 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
-
+const profileImages = [
+  '/com/8x8.png',
+  '/com/ooma.jpeg',
+  '/com/Ring.png',
+  '/com/vonoage.png',
+  '/com/zoom.png',
+];
 let circleCounter = 0;
 
 /* ------------------ RIGHT ALIGNED GENERATOR ------------------ */

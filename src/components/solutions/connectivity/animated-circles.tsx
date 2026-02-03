@@ -20,10 +20,13 @@ const SMALL_CIRCUMFERENCE =
   2 * Math.PI * (SMALL_CIRCLE_RADIUS - STROKE_WIDTH / 2);
 const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
-const profileImages = Array.from(
-  { length: 35 },
-  (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`
-);
+const profileImages = [
+  '/con/spect.webp',
+  '/con/att.png',
+  '/con/com.png',
+  '/con/verizon.png',
+  '/con/x.png',
+];
 
 let circleCounter = 0;
 

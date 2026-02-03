@@ -34,8 +34,13 @@ const PROFILE_RADIUS = SMALL_CIRCLE_RADIUS - STROKE_WIDTH;
 
 /* ------------------ DATA ------------------ */
 
-const profileImages = Array.from({ length: 35 }, (_, i) => `https://picsum.photos/seed/${i + 1}/150/150`);
-
+const profileImages = [
+  '/ai/1.png',
+  '/ai/3.jpeg',
+  '/ai/db.png',
+  '/ai/v3.png',
+  '/ai/zap.png',
+];
 let circleCounter = 0;
 
 /* ------------------ GENERATOR ------------------ */
