@@ -33,8 +33,28 @@ export async function sendNewsletterConfirmation(email: string) {
         <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #333;">
           
           <div style="padding: 30px 40px; text-align: left; position: relative;">
-            <img src="${appUrl}/tele.png" alt="Telesys Logo" style="width: 150px; margin-bottom: 30px;">
-            <img src="${appUrl}/new.gif" alt="new" style="position: absolute; top: 30px; right: 40px; width: 50px; height: 50px;">
+           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
+  <tr>
+    <td align="left">
+      <img
+        src="${appUrl}/tele.png"
+        alt="Telesys Logo"
+        width="150"
+        style="display: block;"
+      />
+    </td>
+    <td align="right">
+      <img
+        src="${appUrl}/new.gif"
+        alt="New"
+        width="50"
+        height="50"
+        style="display: block;"
+      />
+    </td>
+  </tr>
+</table>
+
             
             <h1 style="font-family: 'Raleway', Arial, sans-serif; font-size: 32px; color: #ffffff; margin-bottom: 20px; text-shadow: 0 0 10px hsla(var(--primary), 0.5);">
               Welcome to the Network.
@@ -52,7 +72,7 @@ export async function sendNewsletterConfirmation(email: string) {
           
           <div style="background-color: #000; padding: 20px 40px; font-size: 12px; color: #666; text-align: center;">
             <p>You received this email because you subscribed to the Telesys newsletter.</p>
-            <p style="margin-top: 10px;">Telesys Inc. | 401 N Michigan Ave, Chicago, IL | &copy; 2024 All Rights Reserved</p>
+            <p style="margin-top: 10px;">Telesys Inc. | 1531 E Bradford Pkwy, Springfield MO 65804 | &copy; 2024 All Rights Reserved</p>
           </div>
         </div>
       </div>
