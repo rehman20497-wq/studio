@@ -11,9 +11,9 @@ const logos = [
   { src: "/logo/AtT.png", alt: "Attentive" },
   { src: "/logo/dial.svg", alt: "Aurora" },
   { src: "/logo/Lumen.png", alt: "Faire" },
-  { src: "/logo/meters.png", alt: "Google" },
+  { src: "/logo/meterss.png", alt: "Google" },
   { src: "/logo/ooma.png", alt: "Meta" },
-  { src: "/logo/rings.png", alt: "Topicals" },
+  { src: "/logo/ringss.png", alt: "Topicals" },
   { src: "/logo/vono.png", alt: "Outschool" },
   { src: "/logo/zoom.svg", alt: "Outschool" },
 ];
