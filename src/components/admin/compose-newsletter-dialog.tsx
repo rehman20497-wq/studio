@@ -62,7 +62,7 @@ export default function ComposeNewsletterDialog({ isOpen, onOpenChange }: Compos
             Create and send an email to all your newsletter subscribers.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col gap-4 overflow-y-hidden pr-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col gap-4 overflow-y-auto pr-2">
           <div>
             <Label htmlFor="subject">Subject</Label>
             <Input id="subject" {...register('subject')} />
