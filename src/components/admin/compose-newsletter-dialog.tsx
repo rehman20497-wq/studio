@@ -88,8 +88,6 @@ export default function ComposeNewsletterDialog({ isOpen, onOpenChange }: Compos
     {errors.body && <p className="text-red-500 text-sm mt-1">{errors.body.message}</p>}
   </div>
 </div>
-
-
           <div className="flex justify-end gap-4 pt-4 border-t">
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
