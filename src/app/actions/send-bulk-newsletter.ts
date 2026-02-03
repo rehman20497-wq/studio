@@ -45,7 +45,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
   // Headings
   .replace(/<h1>/g, '<h1 style="color:#F5D34A; font-size:26px; line-height:1.3; margin:12px 0;">')
   .replace(/<h2>/g, '<h2 style="color:#8AE6F5; font-size:22px; line-height:1.35; margin:10px 0;">')
-  .replace(/<h3>/g, '<h3 style="color:#C6B8FF; font-size:18px; line-height:1.4; margin:8px 0;">')
+  .replace(/<h3>/g, '<h3 style="color:#b787e7; font-size:18px; line-height:1.4; margin:8px 0;">')
 
   // Paragraph text
   .replace(/<p>/g, '<p style="color:#A8A8A8; font-size:17px; line-height:1.6; margin:6px 0;">')
@@ -56,8 +56,8 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
   .replace(/<li>/g, '<li style="color:#A8A8A8; margin:4px 0;">')
 
   // Bold text (highlight)
-  .replace(/<strong>/g, '<strong style="color:#F5D34A;">')
-  .replace(/<b>/g, '<b style="color:#F5D34A;">');
+  .replace(/<strong>/g, '<strong style="color:#b787e7;">')
+  .replace(/<b>/g, '<b style="color:#b787e7;">');
 
 
 
@@ -80,7 +80,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
     </div>
 
 <div style="
-  padding: 3px 25px;
+  padding: 5px 35px;
   font-size: 17px;
   line-height: 1.6;
   color: #A8A8A8;
@@ -105,7 +105,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
           text-decoration: none;
           padding: 12px 24px;
           border-radius: 50px;
-          font-weight: bold;
+          font-weight: normal;
           font-size: 15px;
           display: inline-block;
         ">Unsubscribe</a>
