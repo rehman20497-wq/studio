@@ -5,16 +5,17 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 
 const logos = [
-  { src: "/logos/Upwork.svg", alt: "Upwork" },
-  { src: "/logos/Frame-1000003777.png", alt: "GiftHealth" },
-  { src: "/logos/ByteDance_logo_English-2.png", alt: "ByteDance" },
-  { src: "/logos/Attentive.svg", alt: "Attentive" },
-  { src: "/logos/Aurora.svg", alt: "Aurora" },
-  { src: "/logos/Faire.svg", alt: "Faire" },
-  { src: "/logos/Google.svg", alt: "Google" },
-  { src: "/logos/Meta.svg", alt: "Meta" },
-  { src: "/logos/Topicals.svg", alt: "Topicals" },
-  { src: "/logos/Outschool.svg", alt: "Outschool" },
+  { src: "/logo/8x8 black.png", alt: "Upwork" },
+  { src: "/logo/11.png", alt: "GiftHealth" },
+  { src: "/logo/air.png", alt: "ByteDance" },
+  { src: "/logo/AtT.png", alt: "Attentive" },
+  { src: "/logo/dial.svg", alt: "Aurora" },
+  { src: "/logo/Lumen.png", alt: "Faire" },
+  { src: "/logo/meters.png", alt: "Google" },
+  { src: "/logo/ooma.png", alt: "Meta" },
+  { src: "/logo/rings.png", alt: "Topicals" },
+  { src: "/logo/vono.png", alt: "Outschool" },
+  { src: "/logo/zoom.svg", alt: "Outschool" },
 ];
 
 const containerVariants = {
