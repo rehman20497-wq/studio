@@ -75,11 +75,11 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
 
       <div style="padding: 40px; line-height: 1.7; font-size: 17px; font-family: 'Inter', Arial, sans-serif; color: #ffffff;">
         <!-- Global styling for all text inside the newsletter body -->
-        <div style="color: #ffffff !important;">
+        <div style="color: #A8A8A8!important;">
           <style>
             /* Force all text inside body div to be white, including bullets/numbers */
             div, p, span, li, a, ul, ol {
-              color: #ffffff !important;
+              color: #A8A8A8 !important;
             }
             ul, ol {
               padding-left: 20px !important;
