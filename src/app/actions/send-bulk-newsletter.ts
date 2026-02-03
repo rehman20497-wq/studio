@@ -47,8 +47,28 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
       <div style="max-width: 680px; margin: 0 auto; background-color: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #333;">
         
         <div style="padding: 30px 40px; border-bottom: 1px solid #333; position: relative;">
-          <img src="${appUrl}/tele.png" alt="Telesys Logo" style="width: 150px;">
-          <img src="${appUrl}/new.gif" alt="new" style="position: absolute; top: 30px; right: 40px; width: 50px; height: 50px;">
+         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
+  <tr>
+    <td align="left">
+      <img
+        src="${appUrl}/tele.png"
+        alt="Telesys Logo"
+        width="150"
+        style="display: block;"
+      />
+    </td>
+    <td align="right">
+      <img
+        src="${appUrl}/new.gif"
+        alt="New"
+        width="50"
+        height="50"
+        style="display: block;"
+      />
+    </td>
+  </tr>
+</table>
+ right: 40px; width: 50px; height: 50px;">
         </div>
 
         <div style="padding: 40px; line-height: 1.7;">
