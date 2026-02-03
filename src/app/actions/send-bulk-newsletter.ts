@@ -95,7 +95,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
           <div style="text-align: center; margin-top: 20px;">
   <a href="#" style="
     background-color: #F5D34A;
-    color: #000000;
+    color: #ffffff;
     text-decoration: none;
     padding: 12px 24px;
     border-radius: 50px;
