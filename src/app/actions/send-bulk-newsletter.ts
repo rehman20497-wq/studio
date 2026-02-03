@@ -41,6 +41,25 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
   }
 
   const subscriberEmails = snapshot.docs.map(doc => doc.data().email);
+  const styledBody = payload.body
+  // Headings
+  .replace(/<h1>/g, '<h1 style="color:#F5D34A; font-size:26px; line-height:1.3; margin:12px 0;">')
+  .replace(/<h2>/g, '<h2 style="color:#8AE6F5; font-size:22px; line-height:1.35; margin:10px 0;">')
+  .replace(/<h3>/g, '<h3 style="color:#C6B8FF; font-size:18px; line-height:1.4; margin:8px 0;">')
+
+  // Paragraph text
+  .replace(/<p>/g, '<p style="color:#A8A8A8; font-size:17px; line-height:1.6; margin:6px 0;">')
+
+  // Lists & bullets
+  .replace(/<ul>/g, '<ul style="color:#A8A8A8; padding-left:20px; margin:6px 0;">')
+  .replace(/<ol>/g, '<ol style="color:#A8A8A8; padding-left:20px; margin:6px 0;">')
+  .replace(/<li>/g, '<li style="color:#A8A8A8; margin:4px 0;">')
+
+  // Bold text (highlight)
+  .replace(/<strong>/g, '<strong style="color:#F5D34A;">')
+  .replace(/<b>/g, '<b style="color:#F5D34A;">');
+
+
 
   const emailHtml = `
 <div style="background-color: #0a0a0a; font-family: 'Inter', Arial, sans-serif; padding: 40px; color: #ffffff;">
@@ -60,24 +79,16 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
       </table>
     </div>
 
-    <div style="padding: 10px; line-height: 1.1; font-size: 17px; color: #A8A8A8; margin: 0;">
-      <div style="color: #A8A8A8 !important; margin: 0; padding: 0;">
-        <style>
-          p, ul, ol, li, div {
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-          ul, ol {
-            padding-left: 20px !important;
-            list-style-position: inside !important;
-          }
-          b, strong {
-            color: #F5D34A !important; /* Make bold text yellow */
-          }
-        </style>
-        ${payload.body}
-      </div>
-    </div>
+<div style="
+  padding: 3px 25px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #A8A8A8;
+  margin: 0;
+">
+  ${styledBody}
+</div>
+
 
     <div style="background-color: #000; padding: 30px 40px; font-size: 12px; text-align: center;">
       <p style="margin-bottom: 15px;">
