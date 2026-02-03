@@ -35,25 +35,22 @@ export async function sendNewsletterConfirmation(email: string) {
           <div style="padding: 30px 40px; text-align: left; position: relative;">
            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
   <tr>
-    <td align="left">
+    <td align="center">
       <img
-        src="${appUrl}/tele.png"
+        src="${appUrl}/mob.webp"
         alt="Telesys Logo"
-        width="150"
-        style="display: block;"
-      />
-    </td>
-    <td align="right">
-      <img
-        src="${appUrl}/new.gif"
-        alt="New"
-        width="50"
-        height="50"
-        style="display: block;"
+        width="220"
+        style="
+          display: block;
+          max-width: 220px;
+          height: auto;
+          margin: 0 auto;
+        "
       />
     </td>
   </tr>
 </table>
+
 
             
             <h1 style="font-family: 'Raleway', Arial, sans-serif; font-size: 32px; color: #ffffff; margin-bottom: 20px; text-shadow: 0 0 10px hsla(var(--primary), 0.5);">
