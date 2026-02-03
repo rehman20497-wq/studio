@@ -56,8 +56,8 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
   .replace(/<li>/g, '<li style="color:#A8A8A8; margin:4px 0;">')
 
   // Bold text (highlight)
-  .replace(/<strong>/g, '<strong style="color:#b787e7;">')
-  .replace(/<b>/g, '<b style="color:#b787e7;">');
+  .replace(/<strong>/g, '<strong style="color:#F5D34A;">')
+  .replace(/<b>/g, '<b style="color:#F5D34A;">');
 
 
 
