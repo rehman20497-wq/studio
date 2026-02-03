@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -68,7 +67,7 @@ export default function GrowthSection() {
   lg:text-heroo font-normal font-headline text-black"
           variants={itemVariants}
         >
-          + More Value, More Offers
+          + More Values, More Offers
         </motion.h2>
         <motion.p
           className="mt-6 text-bodySm
