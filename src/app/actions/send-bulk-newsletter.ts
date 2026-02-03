@@ -60,7 +60,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
       </table>
     </div>
 
-    <div style="padding: 40px; line-height: 1.7; font-size: 17px; color: #A8A8A8; margin: 0;">
+    <div style="padding: 10px; line-height: 1.1; font-size: 17px; color: #A8A8A8; margin: 0;">
       <div style="color: #A8A8A8 !important; margin: 0; padding: 0;">
         <style>
           p, ul, ol, li, div {
