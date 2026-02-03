@@ -37,7 +37,7 @@ export async function sendNewsletterConfirmation(email: string) {
   <tr>
     <td align="center">
       <img
-        src="${appUrl}/mob.webp"
+        src="${appUrl}/mob.png"
         alt="Telesys Logo"
         width="220"
         style="
