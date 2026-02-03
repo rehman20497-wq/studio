@@ -106,7 +106,7 @@ export default function ContactDetails() {
         </div>
         
         <motion.div 
-className="absolute top-20 right-16 w-[60%]"
+className="absolute top-20 right-28 w-[60%]"
 variants={addressBoxVariants}
         >
             <div className="relative bg-white/90 backdrop-blur-md rounded-xl p-4 border-2 border-yellow-300 shadow-2xl">
