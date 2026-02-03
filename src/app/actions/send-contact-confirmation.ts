@@ -38,7 +38,7 @@ export async function sendContactConfirmation(formData: ContactFormData) {
     <!-- Logo on the left -->
     <td align="left" valign="top" style="padding: 0;">
       <img 
-        src="${appUrl}/tele.png" 
+        src="${appUrl}/mob1.png" 
         alt="Telesys Logo" 
         width="220" 
         style="display: block; max-width: 220px; height: auto; line-height: 0; font-size: 0;" 

@@ -53,7 +53,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
             <!-- Logo on the left -->
             <td align="left" valign="top" style="padding: 0;">
               <img 
-                src="${appUrl}/tele.png" 
+                src="${appUrl}/mob1.png" 
                 alt="Telesys Logo" 
                 width="220" 
                 style="display: block; max-width: 220px; height: auto; line-height: 0; font-size: 0;" 
@@ -73,22 +73,21 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
         </table>
       </div>
 
-      <div style="padding: 40px; line-height: 1.7; font-size: 17px; font-family: 'Inter', Arial, sans-serif; color: #ffffff;">
-        <!-- Global styling for all text inside the newsletter body -->
-        <div style="color: #A8A8A8!important;">
-          <style>
-            /* Force all text inside body div to be white, including bullets/numbers */
-            div, p, span, li, a, ul, ol {
-              color: #A8A8A8 !important;
-            }
-            ul, ol {
-              padding-left: 20px !important;
-              list-style-position: inside !important;
-            }
-          </style>
-          ${payload.body}
-        </div>
-      </div>
+      <div style="padding: 40px; line-height: 1.7; font-size: 17px; color: #A8A8A8; margin: 0;">
+  <div style="color: #A8A8A8 !important; margin: 0; padding: 0;">
+    <style>
+      p, ul, ol, li, div {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      ul, ol {
+        padding-left: 20px !important;
+        list-style-position: inside !important;
+      }
+    </style>
+    ${payload.body}
+  </div>
+</div>
 
       <div style="background-color: #000; padding: 30px 40px; font-size: 12px; text-align: center;">
         <p style="margin-bottom: 15px;">
