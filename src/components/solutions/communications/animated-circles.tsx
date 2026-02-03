@@ -23,7 +23,7 @@ const profileImages = [
   '/com/8x8.png',
   '/profiles/ooma. icon.png',
   '/profiles/Ringcentral.png',
-  '/com/vonoage.png',
+  '/profiles/vonage.png',
   '/profiles/zoom.jpg',
 ];
 let circleCounter = 0;
