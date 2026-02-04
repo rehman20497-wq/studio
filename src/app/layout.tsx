@@ -73,8 +73,7 @@ export default function RootLayout({
                             "name": "Telsys Inc.",
                             "url": appUrl,
                             "logo": `${appUrl}/tele.png`,
-                            "email": "hello@telesys.com",
-                            "telephone": "+1-555-123-4567",
+                            "email": "Info@telsysinc.com",
                             "address": {
                                 "@type": "PostalAddress",
                                 "streetAddress": "1531 E Bradford Pkwy",
@@ -84,9 +83,9 @@ export default function RootLayout({
                                 "addressCountry": "US"
                             },
                             "sameAs": [
-                                "https://www.facebook.com/TelesysInc",
-                                "https://twitter.com/TelesysInc",
-                                "https://www.linkedin.com/company/telesysinc"
+                                "https://www.facebook.com/share/17t544dvNq/",
+                                "https://www.instagram.com/telsysinc?igsh=MXB0dmNjb285cXBnNw==",
+                                "https://www.linkedin.com/company/telsysinc"
                             ]
                         },
                         {

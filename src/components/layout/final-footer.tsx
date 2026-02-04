@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Linkedin, XIcon } from "lucide-react";
+import { Facebook, Linkedin, Instagram } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRef } from "react";
@@ -161,9 +161,9 @@ export default function FinalFooter() {
             animate={isInView ? "visible" : "hidden"}
         >
             <motion.div variants={slideFromLeft} className="hidden md:flex items-start gap-3">
-                <SocialIcon href="#" icon={XIcon} />
-                <SocialIcon href="#" icon={Facebook} />
-                <SocialIcon href="#" icon={Linkedin} />
+                <SocialIcon href="https://www.instagram.com/telsysinc?igsh=MXB0dmNjb285cXBnNw==" icon={Instagram} />
+                <SocialIcon href="https://www.facebook.com/share/17t544dvNq/" icon={Facebook} />
+                <SocialIcon href="https://www.linkedin.com/company/telsysinc" icon={Linkedin} />
             </motion.div>
 
             <motion.div variants={slideFromTop}>

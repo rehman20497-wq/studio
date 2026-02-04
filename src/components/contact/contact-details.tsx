@@ -81,7 +81,7 @@ export default function ContactDetails() {
       viewport={{ once: true, amount: 0.3 }}
     >
       <div className="space-y-12">
-        <InfoCard icon={Mail} title="Email Us" value="hello@telesys.com" href="mailto:hello@telesys.com" />
+        <InfoCard icon={Mail} title="Email Us" value="Info@telsysinc.com" href="mailto:Info@telsysinc.com" />
         <InfoCard icon={Phone} title="Call Us" value="(555) 123-4567" href="tel:5551234567" />
         <InfoCard icon={MapPin} title="Visit Us" value="1531 E Bradford Pkwy, Springfield MO 65804" href="https://maps.app.goo.gl/ap66WSKYBUC6tZpU8" />
       </div>
