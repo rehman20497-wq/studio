@@ -69,6 +69,16 @@ export default function RootLayout({
                             "name": "Telsys Inc.",
                             "url": appUrl,
                             "logo": `${appUrl}/tele.png`,
+                            "email": "hello@telesys.com",
+                            "telephone": "+1-555-123-4567",
+                            "address": {
+                                "@type": "PostalAddress",
+                                "streetAddress": "1531 E Bradford Pkwy",
+                                "addressLocality": "Springfield",
+                                "addressRegion": "MO",
+                                "postalCode": "65804",
+                                "addressCountry": "US"
+                            },
                             "sameAs": [
                                 "https://www.facebook.com/TelesysInc",
                                 "https://twitter.com/TelesysInc",
