@@ -1,3 +1,4 @@
+
 'use client';
 import { usePathname } from 'next/navigation';
 import './globals.css';
@@ -26,6 +27,9 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         
+        {/* <!-- Google Site Verification --> */}
+        <meta name="google-site-verification" content="KXEdky5lxc8xMkxBaH0tsuprp4ngpRJwQ5Ur4FjiCro" />
+
         {/* <!-- Primary Meta Tags --> */}
         <title>Telsys Inc. | Cloud, AI, Communications & Connectivity Solutions</title>
         <meta name="title" content="Telsys Inc. | Cloud, AI, Communications & Connectivity Solutions" />
