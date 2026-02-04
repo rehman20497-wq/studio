@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from "next/image";
@@ -206,7 +205,7 @@ export default function FinalFooter() {
             variants={containerVariants}
         >
             <motion.div variants={slideFromLeft} className="text-zinc-600 text-[14px] mb-8 md:mb-0 text-center md:text-left">
-                <p>© 2026 Copyright | All Rights Reserved</p>
+                <p>© 2024 Telsys Inc. | All Rights Reserved</p>
                 
             </motion.div>
             <motion.div 
