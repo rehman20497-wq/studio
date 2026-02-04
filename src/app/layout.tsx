@@ -1,6 +1,5 @@
 
 'use client';
-import { Analytics } from "@vercel/analytics/next"
 import { usePathname } from 'next/navigation';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
