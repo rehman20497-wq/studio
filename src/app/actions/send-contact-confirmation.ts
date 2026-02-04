@@ -18,7 +18,7 @@ export async function sendContactConfirmation(formData: ContactFormData) {
     return;
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.telsysinc.com';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
   const messageId = randomBytes(4).toString('hex').toUpperCase();
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${appUrl}/about`;
 
@@ -86,7 +86,7 @@ export async function sendContactConfirmation(formData: ContactFormData) {
           </div>
           
           <div style="background-color: #000; padding: 20px 40px; font-size: 12px; color: #666; text-align: center;">
-            <p><strong>Telesys Inc.</strong> | 401 N Michigan Ave, Chicago, IL | <a href="mailto:support@telesys.com" style="color: #00ADBF; text-decoration: none;">support@telesys.com</a></p>
+            <p><strong>Telesys Inc.</strong> | 401 N Michigan Ave, Chicago, IL | <a href="mailto:Info@telsysinc.com" style="color: #00ADBF; text-decoration: none;">support@telesys.com</a></p>
             <p style="margin-top: 10px;">This is an automated confirmation. No further action is required.</p>
           </div>
         </div>

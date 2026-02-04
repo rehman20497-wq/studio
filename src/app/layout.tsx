@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isAdminPage = pathname.startsWith('/admin');
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.telsysinc.com';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
 
   return (
     <html lang="en">

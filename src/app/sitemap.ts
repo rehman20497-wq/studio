@@ -13,7 +13,7 @@ type BlogPost = {
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.telsysinc.com';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
 
   try {
     const { firestore } = initializeFirebase();

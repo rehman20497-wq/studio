@@ -25,7 +25,7 @@ export async function sendBulkNewsletter(payload: NewsletterPayload) {
     throw new Error('Server configuration error.');
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.telsysinc.com';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
 
   // Initialize Firebase Client on the server
   const app = initializeClientApp();

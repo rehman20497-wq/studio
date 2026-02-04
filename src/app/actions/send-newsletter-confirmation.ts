@@ -9,7 +9,7 @@ export async function sendNewsletterConfirmation(email: string) {
     return;
   }
   
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.telsysinc.com';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
 
   // Email to the user
   await sendEmail({
