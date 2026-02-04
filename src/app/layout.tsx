@@ -9,6 +9,8 @@ import FinalFooter from '@/components/layout/final-footer';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import BlogSection from '@/components/blog-section';
 import DisableZoom from "@/components/disable-zoom";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function RootLayout({
   children,
@@ -41,7 +43,8 @@ export default function RootLayout({
           <Toaster />
         </FirebaseClientProvider>
         <DisableZoom />
-        
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
