@@ -18,7 +18,7 @@ export async function sendContactConfirmation(formData: ContactFormData) {
     return;
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:9002';
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.telsysinc.com';
   const messageId = randomBytes(4).toString('hex').toUpperCase();
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${appUrl}/about`;
 
