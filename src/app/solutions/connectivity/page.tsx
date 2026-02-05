@@ -1,5 +1,6 @@
-'use client';
 
+'use client';
+import type { Metadata } from 'next';
 import Header from "@/components/layout/header";
 import Hero from "@/components/solutions/connectivity/hero";
 import OurApproachSection from "@/components/solutions/connectivity/our-approach";
@@ -15,6 +16,11 @@ import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrialsss from "@/components/solutions/cloud/risk-free-trialsss";
 import CloudFaqSectionf from "@/components/solutions/cloud/faq-sectionf";
 import FeaturedGuideSectionss from "@/components/solutions/communications/featured-guide-sectionss";
+
+// This is a Client Component, so we cannot use the metadata export directly.
+// For full SEO, this page could be refactored to move client logic to a child component.
+// However, the root layout will provide default metadata.
+
 export default function ConnectivitySolutionsPage() {
   return (
     <div className="bg-[#FCFBF8]">

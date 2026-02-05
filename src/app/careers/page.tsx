@@ -1,4 +1,5 @@
 
+import type { Metadata } from 'next';
 import Header from "@/components/layout/header";
 import Hero from "@/components/careers/hero";
 import TeamnSection from "@/components/careers/teamn";
@@ -9,6 +10,10 @@ import BaselineSection from "@/components/careers/baseline-section";
 import WhyChooseSection from "@/components/careers/why-choose-section";
 import OurValuesSection from "@/components/about/our-values-section";
 
+export const metadata: Metadata = {
+  title: 'Careers at Telsys Inc.',
+  description: 'Join our global community and shape the future of work. Explore open roles in cloud, AI, and communications and discover a career where better begins.',
+};
 
 export default function CareersPage() {
   return (

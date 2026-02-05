@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next';
 import { initializeFirebase } from '@/firebase/server-init';
-import { collection, getDocs, query, where } from 'firebase/firestore';
 
 type Provider = {
   id: string;
@@ -18,10 +17,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { firestore } = initializeFirebase();
 
-    // Fetch dynamic routes
-    const providersRef = collection(firestore, 'providers');
-    const providersQuery = query(providersRef, where('published', '==', true));
-    const providersSnapshot = await getDocs(providersQuery);
+    // Fetch dynamic routes using Admin SDK syntax
+    const providersRef = firestore.collection('providers');
+    const providersQuery = providersRef.where('published', '==', true);
+    const providersSnapshot = await providersQuery.get();
     const providerUrls = providersSnapshot.docs.map(doc => {
       const data = doc.data() as Provider;
       return {
@@ -30,9 +29,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
     
-    const blogsRef = collection(firestore, 'blog_posts');
-    const blogsQuery = query(blogsRef, where('published', '==', true));
-    const blogsSnapshot = await getDocs(blogsQuery);
+    const blogsRef = firestore.collection('blog_posts');
+    const blogsQuery = blogsRef.where('published', '==', true);
+    const blogsSnapshot = await blogsQuery.get();
     const blogUrls = blogsSnapshot.docs.map(doc => {
       const data = doc.data() as BlogPost;
       return {

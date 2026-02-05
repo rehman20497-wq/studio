@@ -1,4 +1,5 @@
 
+import type { Metadata } from 'next';
 import Header from "@/components/layout/header";
 import Hero from "@/components/solutions/cloud/hero";
 import CloudLogoMarquee from "@/components/solutions/cloud/cloud-logo-marquee";
@@ -22,6 +23,12 @@ import PartnerMarquee from "@/components/partner-marquee";
 import RiskFreeTrial from "@/components/solutions/cloud/risk-free-trial";
 import SuccessMissionSection from "@/components/solutions/cloud/success-mission-section";
 import CloudFaqSection from "@/components/solutions/cloud/faq-section";
+
+export const metadata: Metadata = {
+  title: 'Cloud Solutions',
+  description: 'Power your business with flexible, secure cloud solutions from Telsys Inc. built for performance and growth, from seamless scalability to disaster recovery.',
+};
+
 export default function CloudSolutionsPage() {
   return (
     <div className="bg-[#FCFBF8]">
