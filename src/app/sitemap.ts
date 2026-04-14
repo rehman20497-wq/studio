@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { initializeFirebase } from '@/firebase/server-init';
 
+const appUrl = 'https://telsysinc.com';
+
 type Provider = {
   id: string;
   updatedAt?: { seconds: number };
@@ -12,12 +14,10 @@ type BlogPost = {
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
-
   try {
     const { firestore } = initializeFirebase();
 
-    // Fetch dynamic routes using Admin SDK syntax
+    // Fetch dynamic routes
     const providersRef = firestore.collection('providers');
     const providersQuery = providersRef.where('published', '==', true);
     const providersSnapshot = await providersQuery.get();
@@ -26,6 +26,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return {
         url: `${appUrl}/providers/${doc.id}`,
         lastModified: data.updatedAt ? new Date(data.updatedAt.seconds * 1000) : new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
       };
     });
     
@@ -37,11 +39,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return {
         url: `${appUrl}/blogs/${doc.id}`,
         lastModified: data.updatedAt ? new Date(data.updatedAt.seconds * 1000) : new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
       };
     });
 
     const staticRoutes = [
-      '/',
+      '',
       '/about',
       '/careers',
       '/contact',
@@ -59,28 +63,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const staticUrls = staticRoutes.map(route => ({
       url: `${appUrl}${route}`,
       lastModified: new Date(),
-      priority: route === '/' ? 1.0 : 0.8
+      changeFrequency: 'monthly' as const,
+      priority: route === '' ? 1.0 : 0.8
     }));
 
     return [...staticUrls, ...providerUrls, ...blogUrls];
   } catch (error) {
     console.error("Error generating sitemap:", error);
-    // Return a basic sitemap if Firestore fetch fails
-    const staticRoutes = [
-      '/',
-      '/about',
-      '/careers',
-      '/contact',
-      '/blogs',
-      '/providers',
-      '/faq',
-      '/privacy-policy',
-      '/terms-and-conditions',
-      '/solutions/cloud',
-      '/solutions/communications',
-      '/solutions/ai-solutions',
-      '/solutions/connectivity',
-    ];
+    // Basic fallback
+    const staticRoutes = ['', '/about', '/contact', '/blogs', '/providers', '/faq'];
     return staticRoutes.map(route => ({
       url: `${appUrl}${route}`,
       lastModified: new Date(),

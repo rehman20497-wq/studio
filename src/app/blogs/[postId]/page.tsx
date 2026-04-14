@@ -84,15 +84,44 @@ export default function SingleBlogPage() {
     );
   }
 
+  // Article Schema
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": post.featuredImageUrl,
+    "author": {
+      "@type": "Person",
+      "name": post.authorName,
+      "image": post.authorImageUrl
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Telsys Inc.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://telsysinc.com/tele.png"
+      }
+    },
+    "datePublished": new Date(post.createdAt.seconds * 1000).toISOString(),
+    "description": post.content.replace(/<[^>]*>?/gm, '').substring(0, 160)
+  };
+
   return (
     <div className="bg-[#FCFBF8]">
       <ClientOnly>
         <Header />
       </ClientOnly>
+      <head>
+        <title>{`${post.title} | Telsys Inc. Blog`}</title>
+        <meta name="description" content={post.content.replace(/<[^>]*>?/gm, '').substring(0, 160)} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+      </head>
       <main className="relative overflow-visible">
         <Hero post={post} />
-
-        {/* Sticky-safe isolation layer */}
         <div className="relative overflow-visible">
             <BlogContent post={post} />
         </div>

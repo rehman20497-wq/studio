@@ -79,11 +79,33 @@ export default function SingleProviderPage() {
                         : providerData?.solutions?.[0]?.toLowerCase().includes('connect') ? 'connectivity'
                         : 'cloud'; // Default to cloud
 
+  // Service Schema
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": providerData.name,
+    "provider": {
+      "@type": "Organization",
+      "name": "Telsys Inc."
+    },
+    "description": providerData.description.replace(/<[^>]*>?/gm, '').substring(0, 160),
+    "category": providerData.solutions.join(', '),
+    "image": providerData.logoUrl
+  };
+
   return (
     <div className="bg-[#FCFBF8] pb-[2%]">
       <ClientOnly>
         <Header />
       </ClientOnly>
+      <head>
+        <title>{`${providerData.name} | Technology Partners | Telsys Inc.`}</title>
+        <meta name="description" content={providerData.description.replace(/<[^>]*>?/gm, '').substring(0, 160)} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        />
+      </head>
       <main>
         <Hero 
           solutionType={primarySolution}
@@ -98,8 +120,6 @@ export default function SingleProviderPage() {
           description={providerData.description}
           bannerImage={providerData.bannerImageUrl || 'https://picsum.photos/seed/default-banner/800/600'}
         />
-        
-       
       </main>
     </div>
   );
