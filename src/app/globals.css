@@ -213,6 +213,46 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
+
+  /* Modern Table Styles for Rich Text and Frontend */
+  .prose table, .ql-editor table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95em;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+  }
+
+  .prose th, .ql-editor th {
+    background-color: #f9fafb;
+    color: #111827;
+    font-weight: 700;
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .prose td, .ql-editor td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+  }
+
+  .prose tr:nth-of-type(even), .ql-editor tr:nth-of-type(even) {
+    background-color: #fcfcfd;
+  }
+
+  .prose tr:last-of-type, .ql-editor tr:last-of-type {
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  .prose tr:hover, .ql-editor tr:hover {
+    background-color: #f3f4f6;
+    transition: background-color 0.2s ease;
+  }
 }
 
 .line-draw {
