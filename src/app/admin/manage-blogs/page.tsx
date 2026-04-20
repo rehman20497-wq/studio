@@ -16,12 +16,16 @@ import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import EditBlogForm from '@/components/admin/edit-blog-form';
 
 type BlogPost = {
   id: string;
   title: string;
   authorName: string;
+  authorImageUrl: string;
   category: string;
+  content: string;
+  quote?: string | null;
   createdAt: { seconds: number; nanoseconds: number; };
   featuredImageUrl: string;
   views: number;
@@ -135,6 +139,7 @@ function ManageBlogsContent() {
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [isStatsDialogOpen, setIsStatsDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
     const memoizedQuery = useMemoFirebase(
@@ -155,6 +160,11 @@ function ManageBlogsContent() {
     const openStatsDialog = (post: BlogPost) => {
         setSelectedPost(post);
         setIsStatsDialogOpen(true);
+    };
+
+    const openEditDialog = (post: BlogPost) => {
+        setSelectedPost(post);
+        setIsEditDialogOpen(true);
     };
     
     const handleTogglePublish = (post: BlogPost) => {
@@ -274,7 +284,16 @@ function ManageBlogsContent() {
                             </div>
                             
                             <div className="flex items-center gap-2 mt-6 flex-wrap">
-                                <Button size="sm" variant="outline" className="rounded-full" disabled={!hasPermission('manage-blogs', 'edit')}><Edit className="w-4 h-4 mr-2" />Edit</Button>
+                                <Button 
+                                    size="sm" 
+                                    variant="outline" 
+                                    className="rounded-full" 
+                                    onClick={() => openEditDialog(post)}
+                                    disabled={!hasPermission('manage-blogs', 'edit')}
+                                >
+                                    <Edit className="w-4 h-4 mr-2" />
+                                    Edit
+                                </Button>
                                 <Button size="sm" variant="destructive" className="rounded-full" onClick={() => openDeleteDialog(post)} disabled={!hasPermission('manage-blogs', 'delete')}><Trash2 className="w-4 h-4 mr-2" />Delete</Button>
                                 <Button size="sm" variant="secondary" className="rounded-full" onClick={() => openStatsDialog(post)}><BarChart3 className="w-4 h-4 mr-2" />Stats</Button>
                                 <Button 
@@ -325,6 +344,18 @@ function ManageBlogsContent() {
                     <div className="mt-4">
                         <BlogPostStatsView post={selectedPost} />
                     </div>
+                )}
+            </DialogContent>
+        </Dialog>
+
+        {/* Edit Blog Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+            <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle>Edit Blog Post: {selectedPost?.title}</DialogTitle>
+                </DialogHeader>
+                {selectedPost && (
+                    <EditBlogForm post={selectedPost} onFinished={() => setIsEditDialogOpen(false)} />
                 )}
             </DialogContent>
         </Dialog>

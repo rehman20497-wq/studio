@@ -90,7 +90,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         [{ 'header': [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-        ['link', 'image'],
+        ['link', 'image', 'video'],
         [{ 'color': [] }, { 'background': [] }],
         ['clean']
       ],
@@ -98,6 +98,9 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         image: imageHandler,
       },
     },
+    // Note: Standard react-quill doesn't include the table module by default 
+    // in the same way as Quill 2.0. However, adding basic formatting 
+    // is the first step. For advanced comparisons, HTML mode is also accessible.
   }), [imageHandler]);
 
   return (
