@@ -1,15 +1,12 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Header from "@/components/layout/header";
 import Hero from "@/components/single-provider/hero";
 import Details from "@/components/single-provider/details";
-import { useDoc, useFirestore, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
-import { doc, increment } from 'firebase/firestore';
 import ProviderFilter from '@/components/providers/provider-filter';
 import ClientOnly from '@/components/client-only';
-import { useEffect } from 'react';
-
+import { initializeFirebase } from '@/firebase/server-init';
+import ImpressionTracker from '@/components/single-provider/impression-tracker';
 
 type ProviderData = {
   id: string;
@@ -18,66 +15,85 @@ type ProviderData = {
   description: string;
   bannerImageUrl?: string;
   logoUrl: string;
+  slug?: string;
   impressions?: number;
   clicks?: number;
 };
 
-export default function SingleProviderPage() {
-  const params = useParams();
-  const providerId = params.providerId as string;
-  const firestore = useFirestore();
+interface PageProps {
+  params: Promise<{ providerId: string }>;
+}
 
-  const providerRef = useMemoFirebase(
-    () => (firestore && providerId ? doc(firestore, 'providers', providerId) : null),
-    [firestore, providerId]
-  );
-  
-  const { data: providerData, isLoading, error } = useDoc<ProviderData>(providerRef);
-
-  // Track impression
-  useEffect(() => {
-    if (firestore && providerId) {
-      const docRef = doc(firestore, 'providers', providerId);
-      updateDocumentNonBlocking(docRef, {
-        impressions: increment(1)
-      });
-    }
-  }, [firestore, providerId]);
-
-  if (isLoading) {
-    return (
-        <div className="bg-[#FCFBF8] min-h-screen">
-          <ClientOnly>
-            <Header />
-          </ClientOnly>
-            <main className="flex items-center justify-center h-[50vh]">
-                <p>Loading provider details...</p>
-            </main>
-        </div>
-    );
+async function getProvider(providerId: string): Promise<ProviderData | null> {
+  try {
+    const { firestore } = initializeFirebase();
+    const doc = await firestore.collection('providers').doc(providerId).get();
+    
+    if (!doc.exists) return null;
+    
+    return {
+      ...doc.data(),
+      id: doc.id,
+    } as ProviderData;
+  } catch (error) {
+    console.error("Error fetching provider on server:", error);
+    return null;
   }
+}
 
-  if (error || !providerData) {
-     return (
-        <div className="bg-[#FCFBF8] min-h-screen">
-            <ClientOnly>
-              <Header />
-            </ClientOnly>
-            <main className="flex items-center justify-center h-[50vh]">
-                <p className="text-red-500">
-                    {error ? "Error: Could not load provider. Please check the ID or try again later." : "Provider Loading....."}
-                </p>
-            </main>
-        </div>
-    );
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { providerId } = await params;
+  const provider = await getProvider(providerId);
+
+  if (!provider) return { title: 'Provider Not Found' };
+
+  const description = provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
+
+  return {
+    title: `${provider.name} | Technology Partners | Telsys Inc.`,
+    description,
+    alternates: {
+      canonical: `https://telsysinc.com/providers/${providerId}`,
+    },
+    openGraph: {
+      title: `${provider.name} Solutions`,
+      description,
+      url: `https://telsysinc.com/providers/${providerId}`,
+      siteName: 'Telsys Inc.',
+      images: [
+        {
+          url: provider.logoUrl,
+          width: 800,
+          height: 600,
+          alt: provider.name,
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: provider.name,
+      description,
+      images: [provider.logoUrl],
+    },
+  };
+}
+
+export default async function SingleProviderPage({ params }: PageProps) {
+  const { providerId } = await params;
+  const providerData = await getProvider(providerId);
+
+  if (!providerData) {
+    notFound();
   }
 
   // Determine a primary solution for the hero/testimonial sections
-  const primarySolution = providerData?.solutions?.[0]?.toLowerCase().includes('cloud') ? 'cloud'
-                        : providerData?.solutions?.[0]?.toLowerCase().includes('comm') ? 'communications'
-                        : providerData?.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
-                        : providerData?.solutions?.[0]?.toLowerCase().includes('connect') ? 'connectivity'
-                        : 'cloud'; // Default to cloud
+  const primarySolution = providerData.solutions?.[0]?.toLowerCase().includes('cloud') ? 'cloud'
+                        : providerData.solutions?.[0]?.toLowerCase().includes('comm') ? 'communications'
+                        : providerData.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
+                        : providerData.solutions?.[0]?.toLowerCase().includes('connect') ? 'connectivity'
+                        : 'cloud';
 
   // Service Schema
   const serviceSchema = {
@@ -86,29 +102,34 @@ export default function SingleProviderPage() {
     "name": providerData.name,
     "provider": {
       "@type": "Organization",
-      "name": "Telsys Inc."
+      "name": "Telsys Inc.",
+      "url": "https://telsysinc.com"
     },
     "description": providerData.description.replace(/<[^>]*>?/gm, '').substring(0, 160),
     "category": providerData.solutions.join(', '),
-    "image": providerData.logoUrl
+    "image": providerData.logoUrl,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://telsysinc.com/providers/${providerId}`
+    }
   };
 
   return (
     <div className="bg-[#FCFBF8] pb-[2%]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      
+      <ImpressionTracker providerId={providerId} />
+      
       <ClientOnly>
         <Header />
       </ClientOnly>
-      <head>
-        <title>{`${providerData.name} | Technology Partners | Telsys Inc.`}</title>
-        <meta name="description" content={providerData.description.replace(/<[^>]*>?/gm, '').substring(0, 160)} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-        />
-      </head>
+
       <main>
         <Hero 
-          solutionType={primarySolution}
+          solutionType={primarySolution as any}
           logoUrl={providerData.logoUrl}
         />
         <div className="bg-[#FCFBF8] px-[3%]">
