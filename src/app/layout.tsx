@@ -20,9 +20,6 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  alternates: {
-    canonical: '/',
-  },
   verification: {
     google: 'KXEdky5lxc8xMkxBaH0tsuprp4ngpRJwQ5Ur4FjiCro',
   },
