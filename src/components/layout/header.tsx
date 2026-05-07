@@ -108,11 +108,11 @@ export default function Header() {
             <NavigationMenu>
               <NavigationMenuList className="group">
                 <NavigationMenuItem className="group">
-                  <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-sm lg:text-base xl:text-lg")}>
+                  <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-sm lg:text-base xl:text-lg")}>
+                    <Link href="/">
                       Home
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
                  
@@ -145,11 +145,11 @@ export default function Header() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                  <NavigationMenuItem className="group">
-                  <Link href="/providers" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-sm lg:text-base xl:text-lg")}>
+                  <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-sm lg:text-base xl:text-lg")}>
+                    <Link href="/providers">
                      Providers
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className={cn("transition-all duration-300 text-sm lg:text-base xl:text-lg")}>Company</NavigationMenuTrigger>
