@@ -12,15 +12,15 @@ interface RichTextEditorProps {
   placeholder?: string;
 }
 
+/**
+ * Fix for React 19 compatibility with react-quill
+ */
 function fixFindDomNode() {
   if (typeof window !== 'undefined') {
     const ReactDOM = require("react-dom");
-    // @ts-ignore
     if (!ReactDOM.findDOMNode) {
-      // @ts-ignore
-      ReactDOM.findDOMNode = function (component) {
-        // @ts-ignore
-        return component.sort ? component[0] : component;
+      ReactDOM.findDOMNode = function (component: any) {
+        return component?.sort ? component[0] : component;
       };
     }
   }
@@ -28,10 +28,14 @@ function fixFindDomNode() {
 fixFindDomNode();
 
 export default function RichTextEditor({ value, onChange, placeholder }: RichTextEditorProps) {
+  // Dynamically import ReactQuill to avoid SSR issues
   const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
   const quillRef = useRef<any>(null);
   const { toast } = useToast();
 
+  /**
+   * Handles image uploads to Cloudinary from within the editor
+   */
   const uploadToCloudinary = async (file: File): Promise<string> => {
     if (!cloudinaryConfig.uploadPreset) {
       throw new Error('Cloudinary upload preset is not configured.');
@@ -54,6 +58,9 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
     return data.secure_url;
   };
 
+  /**
+   * Custom image handler for the toolbar
+   */
   const imageHandler = useCallback(() => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -84,6 +91,9 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
     };
   }, [toast]);
 
+  /**
+   * Quill editor modules configuration
+   */
   const modules = useMemo(() => ({
     toolbar: {
       container: [
@@ -91,7 +101,6 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
         ['link', 'image', 'video'],
-        ['table'], // Added table button
         [{ 'color': [] }, { 'background': [] }],
         ['clean']
       ],
@@ -99,11 +108,10 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         image: imageHandler,
       },
     },
-    table: true, // Enable table module
   }), [imageHandler]);
 
   return (
-    <div className="bg-white rounded-lg h-full flex flex-col">
+    <div className="bg-white rounded-lg h-full flex flex-col min-h-[300px]">
       <ReactQuill
         ref={quillRef}
         theme="snow"
@@ -111,7 +119,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         onChange={onChange}
         modules={modules}
         placeholder={placeholder}
-        className="[&_.ql-container]:min-h-[250px] [&_.ql-container]:rounded-b-lg [&_.ql-toolbar]:rounded-t-lg flex-grow flex flex-col"
+        className="flex-grow flex flex-col [&_.ql-container]:flex-grow [&_.ql-container]:min-h-[250px] [&_.ql-container]:rounded-b-lg [&_.ql-toolbar]:rounded-t-lg"
       />
     </div>
   );
