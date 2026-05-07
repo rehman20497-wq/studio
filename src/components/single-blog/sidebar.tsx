@@ -22,6 +22,7 @@ import { useToast } from '@/hooks/use-toast';
 type BlogPost = {
   id: string;
   title: string;
+  slug: string;
   category: string;
 };
 
@@ -92,14 +93,10 @@ export default function Sidebar({
 
   const blogUrl =
     typeof window !== 'undefined'
-      ? `${window.location.origin}/blogs/${currentPostId}`
+      ? `${window.location.origin}/blogs/${relatedPosts?.find(p => p.id === currentPostId)?.slug || currentPostId}`
       : '';
 
-  const blogTitle =
-    relatedPosts?.find((p) => p.id === currentPostId)?.title ??
-    'Check out this blog';
-
-    const shareText = blogUrl;
+  const shareText = blogUrl;
 
   const shareOnWhatsApp = () => {
     window.open(
@@ -150,7 +147,7 @@ export default function Sidebar({
                 className="border-b border-yellow-300 pb-2 last:border-b-0"
               >
                 <Link
-                  href={`/blogs/${post.id}`}
+                  href={`/blogs/${post.slug || post.id}`}
                   className="text-zinc-700 hover:text-black hover:underline underline-offset-2 transition-colors"
                 >
                   {post.title}

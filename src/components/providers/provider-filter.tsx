@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion } from 'framer-motion';
@@ -40,7 +41,8 @@ export default function ProviderFilter({
 }: ProviderFilterProps) {
     const router = useRouter();
     const pathname = usePathname();
-    const isSingleProviderPage = pathname.includes('/providers/') && pathname.length > '/providers/'.length && !pathname.includes('?');
+    // Adjusted check for single provider page with slug routing
+    const isSingleProviderPage = pathname.startsWith('/providers/') && pathname.split('/').length > 2;
 
     const handleFilterChange = (value: string) => {
         const slug = value.toLowerCase().replace(/ /g, '-');

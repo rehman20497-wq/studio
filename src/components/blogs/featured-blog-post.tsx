@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -14,6 +15,7 @@ import { Skeleton } from '../ui/skeleton';
 type BlogPost = {
   id: string;
   title: string;
+  slug: string;
   category: string;
   createdAt: { seconds: number; nanoseconds: number };
   featuredImageUrl: string;
@@ -136,7 +138,7 @@ export default function FeaturedBlogPost() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
     >
-      <Link href={`/blogs/${randomPost.id}`} className="block group">
+      <Link href={`/blogs/${randomPost.slug || randomPost.id}`} className="block group">
         <motion.div
           className="relative p-6 border-2 border-yellow-300/50 bg-white/50 rounded-2xl flex flex-col md:flex-row gap-8 items-start transition-shadow duration-300 group-hover:shadow-xl"
           variants={contentContainer}

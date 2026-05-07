@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useAnimation } from 'framer-motion';
@@ -14,6 +15,7 @@ import Link from 'next/link';
 type BlogPost = {
   id: string;
   title: string;
+  slug: string;
   category: string;
   createdAt: { seconds: number; nanoseconds: number };
   featuredImageUrl: string;
@@ -95,6 +97,7 @@ export default function BlogSection() {
       .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
       .map(post => ({
         id: post.id,
+        slug: post.slug,
         type: 'article',
         date: format(
           new Date(post.createdAt.seconds * 1000),
@@ -214,7 +217,7 @@ export default function BlogSection() {
                 key={index}
                 className="flex-shrink-0 w-[80vw] sm:w-[45vw] lg:w-[30vw]"
               >
-                <Link href={`/blogs/${post.id}`}>
+                <Link href={`/blogs/${post.slug || post.id}`}>
                   <BlogCard {...post} />
                 </Link>
               </div>

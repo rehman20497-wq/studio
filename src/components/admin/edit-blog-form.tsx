@@ -1,8 +1,9 @@
+
 'use client';
 
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
-import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, Shield, X } from 'lucide-react';
+import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, Shield, X, Globe } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -22,6 +23,7 @@ import { Switch } from '@/components/ui/switch';
 
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
+  slug: z.string().min(1, 'Slug is required.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   category: z.string().min(1, 'Category is required.'),
   featuredImageUrl: z.string().url('A featured image is required.'),
   content: z.string().min(50, 'Content must be at least 50 characters.'),
@@ -36,6 +38,7 @@ type BlogPostFormValues = z.infer<typeof blogPostSchema>;
 type BlogPost = {
   id: string;
   title: string;
+  slug?: string;
   category: string;
   featuredImageUrl: string;
   content: string;
@@ -54,10 +57,11 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
   const [authorImagePreview, setAuthorImagePreview] = useState<string | null>(post.authorImageUrl);
   const [authorImageProgress, setAuthorImageProgress] = useState(0);
 
-  const { register, handleSubmit, control, setValue, trigger, formState: { errors, isSubmitting } } = useForm<BlogPostFormValues>({
+  const { register, handleSubmit, control, setValue, watch, trigger, formState: { errors, isSubmitting } } = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostSchema),
     defaultValues: {
       title: post.title,
+      slug: post.slug || post.id, // Fallback to ID if no slug exists
       category: post.category,
       featuredImageUrl: post.featuredImageUrl,
       content: post.content,
@@ -67,6 +71,19 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
       published: post.published ?? false,
     },
   });
+
+  const title = watch('title');
+
+  // Auto-generate slug if it doesn't exist yet
+  useEffect(() => {
+    if (title && !post.slug) {
+      const generatedSlug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      setValue('slug', generatedSlug, { shouldValidate: true });
+    }
+  }, [title, post.slug, setValue]);
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
       if (!cloudinaryConfig.uploadPreset) {
@@ -165,6 +182,13 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
             <label htmlFor="title" className="font-semibold text-zinc-700">Blog Title</label>
             <Input id="title" placeholder="e.g., The Future of AI in Tech" {...register('title')} />
             {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="slug" className="font-semibold text-zinc-700 flex items-center gap-2">
+                <Globe className="w-4 h-4" /> SEO Slug
+            </label>
+            <Input id="slug" placeholder="e.g., future-of-ai-tech" {...register('slug')} />
+            {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>}
           </div>
           <div>
             <label htmlFor="category" className="font-semibold text-zinc-700">Category</label>

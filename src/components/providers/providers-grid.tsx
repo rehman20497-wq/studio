@@ -1,3 +1,4 @@
+
 'use client';
 
 import { motion, useInView } from 'framer-motion';
@@ -6,14 +7,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, where } from 'firebase/firestore';
+import { useCollection, useFirestore, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
+import { collection, query, where, doc, increment } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
 import ProviderFilter from './provider-filter';
 
 type Provider = {
   id: string;
   name: string;
+  slug: string;
   logoUrl: string;
   solutions: string[];
   published?: boolean;
@@ -82,6 +84,7 @@ export default function ProvidersGrid() {
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const router = useRouter();
   const searchParams = useSearchParams();
+  const firestore = useFirestore();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [solutionFilter, setSolutionFilter] = useState(searchParams.get('solution') || 'all');
@@ -104,7 +107,14 @@ export default function ProvidersGrid() {
     setCurrentPage(0);
   };
 
-  const firestore = useFirestore();
+  const handleProviderClick = (providerId: string) => {
+    if (firestore) {
+      const docRef = doc(firestore, 'providers', providerId);
+      updateDocumentNonBlocking(docRef, {
+        clicks: increment(1)
+      });
+    }
+  };
 
   const providersQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -164,8 +174,8 @@ export default function ProvidersGrid() {
             Array.from({ length: 8 }).map((_, i) => <ProviderCardSkeleton key={i} />)
         ) : (
             paginatedProviders.map((provider) => (
-            <motion.div key={provider.id} variants={cardVariants}>
-                <Link href={`/providers/${provider.id}`} className="block group">
+            <motion.div key={provider.id} variants={cardVariants} onClick={() => handleProviderClick(provider.id)}>
+                <Link href={`/providers/${provider.slug || provider.id}`} className="block group">
                 <div className="relative bg-white rounded-2xl p-4 flex items-center justify-center h-48 shadow-md border border-zinc-100 transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:border-yellow-400 group-hover:-translate-y-2 overflow-hidden">
                     <Image
                     src={provider.logoUrl}

@@ -15,6 +15,7 @@ import Link from 'next/link';
 type BlogPost = {
   id: string;
   title: string;
+  slug: string;
   category: string;
   createdAt: { seconds: number; nanoseconds: number; };
   featuredImageUrl: string;
@@ -136,7 +137,7 @@ export default function BlogsGrid({ searchTerm, categoryFilter }: { searchTerm: 
                 {firstRowPosts.map(post => (
                     <motion.div key={post.id} variants={cardVariants} className="w-full flex">
                         <div className="flex-1">
-                          <Link href={`/blogs/${post.id}`} className="block group w-full h-full">
+                          <Link href={`/blogs/${post.slug || post.id}`} className="block group w-full h-full">
                             <BlogCard 
                                 type="article"
                                 date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}
@@ -153,7 +154,7 @@ export default function BlogsGrid({ searchTerm, categoryFilter }: { searchTerm: 
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center" variants={containerVariants}>
                 {remainingPosts.map(post => (
                     <motion.div key={post.id} variants={cardVariants} className="w-full max-w-[480px]">
-                        <Link href={`/blogs/${post.id}`} className="block group w-full h-full">
+                        <Link href={`/blogs/${post.slug || post.id}`} className="block group w-full h-full">
                           <BlogCard 
                               type="article"
                               date={format(new Date(post.createdAt.seconds * 1000), 'MMMM d, yyyy').toUpperCase()}

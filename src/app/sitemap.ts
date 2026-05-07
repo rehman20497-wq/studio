@@ -1,3 +1,4 @@
+
 import { MetadataRoute } from 'next';
 import { initializeFirebase } from '@/firebase/server-init';
 
@@ -5,11 +6,13 @@ const appUrl = 'https://telsysinc.com';
 
 type Provider = {
   id: string;
+  slug: string;
   updatedAt?: { seconds: number };
 };
 
 type BlogPost = {
   id: string;
+  slug: string;
   updatedAt?: { seconds: number };
 };
 
@@ -24,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const providerUrls = providersSnapshot.docs.map(doc => {
       const data = doc.data() as Provider;
       return {
-        url: `${appUrl}/providers/${doc.id}`,
+        url: `${appUrl}/providers/${data.slug || doc.id}`,
         lastModified: data.updatedAt ? new Date(data.updatedAt.seconds * 1000) : new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.7,
@@ -37,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogUrls = blogsSnapshot.docs.map(doc => {
       const data = doc.data() as BlogPost;
       return {
-        url: `${appUrl}/blogs/${doc.id}`,
+        url: `${appUrl}/blogs/${data.slug || doc.id}`,
         lastModified: data.updatedAt ? new Date(data.updatedAt.seconds * 1000) : new Date(),
         changeFrequency: 'monthly' as const,
         priority: 0.6,

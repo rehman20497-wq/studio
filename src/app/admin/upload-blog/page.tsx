@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
-import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen, Shield } from 'lucide-react';
+import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen, Shield, Globe } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -26,6 +27,7 @@ import { useRouter } from 'next/navigation';
 
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
+  slug: z.string().min(1, 'Slug is required.').regex(/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens.'),
   category: z.string().min(1, 'Category is required.'),
   featuredImageUrl: z.string().url('A featured image is required.'),
   content: z.string().min(50, 'Content must be at least 50 characters.'),
@@ -143,7 +145,7 @@ function UploadBlogContent() {
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
-  const { register, handleSubmit, control, setValue, reset, trigger, formState: { errors, isSubmitting, isValid } } = useForm<BlogPostFormValues>({
+  const { register, handleSubmit, control, setValue, watch, reset, trigger, formState: { errors, isSubmitting, isValid } } = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostSchema),
     mode: 'onChange',
     defaultValues: {
@@ -151,11 +153,24 @@ function UploadBlogContent() {
     },
   });
 
+  const title = watch('title');
+
   useEffect(() => {
     if (session?.user?.name) {
       setValue('authorName', session.user.name);
     }
   }, [session, setValue]);
+
+  // Auto-generate slug from title
+  useEffect(() => {
+    if (title) {
+      const generatedSlug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      setValue('slug', generatedSlug, { shouldValidate: true });
+    }
+  }, [title, setValue]);
 
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -287,12 +302,20 @@ function UploadBlogContent() {
             <AdminHeader userName={session?.user.name || 'Admin'} />
             <div className="mt-12">
                 <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto space-y-16" onMouseMove={handleMouseMove}>
-                    <SectionWrapper title="Title & Category" step={1} icon={Type}>
+                    <SectionWrapper title="Title & Slug" step={1} icon={Type}>
                         <div className="space-y-4">
                             <div>
                                 <label htmlFor="title" className="font-semibold text-zinc-700">Blog Title</label>
                                 <Input id="title" placeholder="e.g., The Future of AI in Tech" {...register('title')} />
                                 {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+                            </div>
+                            <div>
+                                <label htmlFor="slug" className="font-semibold text-zinc-700 flex items-center gap-2">
+                                    <Globe className="w-4 h-4" /> SEO Slug
+                                </label>
+                                <Input id="slug" placeholder="e.g., future-of-ai-tech" {...register('slug')} />
+                                {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>}
+                                <p className="text-xs text-zinc-500">The URL will be: telsysinc.com/blogs/{"{slug}"}</p>
                             </div>
                             <div>
                                 <label htmlFor="category" className="font-semibold text-zinc-700">Category</label>
@@ -356,8 +379,14 @@ function UploadBlogContent() {
                             onFileChange={(e) => handleFileChange(e, 'authorImageUrl')}
                             />
                             <div className="space-y-4">
+                                {session?.user?.name && (
+                                  <div className="bg-zinc-50 p-4 rounded-lg border border-zinc-200">
+                                      <p className="text-xs text-zinc-500 uppercase font-bold">Author</p>
+                                      <p className="text-lg font-medium">{session.user.name}</p>
+                                  </div>
+                                )}
                                 <div>
-                                <label htmlFor="authorName" className="font-semibold text-zinc-700">Author's Name</label>
+                                <label htmlFor="authorName" className="font-semibold text-zinc-700">Display Author Name</label>
                                 <Input id="authorName" placeholder="e.g., Jane Doe" {...register('authorName')} />
                                 {errors.authorName && <p className="text-red-500 text-sm mt-1">{errors.authorName.message}</p>}
                                 </div>

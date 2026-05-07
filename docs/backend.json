@@ -178,6 +178,10 @@
           "type": "string",
           "description": "The title of the blog post."
         },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the blog post."
+        },
         "category": {
           "type": "string",
           "description": "The category of the blog post."
@@ -225,11 +229,16 @@
           "type": "string",
           "format": "date-time",
           "description": "The timestamp when the post was last updated."
+        },
+        "published": {
+          "type": "boolean",
+          "description": "Indicates if the post is visible to the public."
         }
       },
       "required": [
         "id",
         "title",
+        "slug",
         "category",
         "featuredImageUrl",
         "content",
