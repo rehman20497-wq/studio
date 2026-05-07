@@ -14,17 +14,20 @@ function getFirebaseAdminApp(): App | null {
   const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
   if (!serviceAccountKey) {
-    // Log error but don't throw to avoid crashing the build/metadata generation
-    console.error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set. Server-side operations will be limited.');
+    // Only log in production to avoid cluttering local logs where it's expected to be missing
+    if (process.env.NODE_ENV === 'production') {
+        console.error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set. Server-side operations will be limited.');
+    }
     return null;
   }
 
   try {
-    // Parse the JSON string from environment variables
-    const serviceAccount = JSON.parse(serviceAccountKey);
+    // Parse the JSON string from environment variables. 
+    // trim() helps if there's trailing whitespace from copy-pasting.
+    const serviceAccount = JSON.parse(serviceAccountKey.trim());
 
     // Vercel often escapes newlines in environment variables. 
-    // We must ensure the private key has actual newlines.
+    // We must ensure the private key has actual newlines for the RSA parser.
     if (serviceAccount.private_key) {
       serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
     }
