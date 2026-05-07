@@ -2,11 +2,10 @@ import { initializeApp, getApp, getApps, cert, type App } from 'firebase-admin/a
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
 
 /**
- * Initializes the Firebase Admin SDK in a robust, server-side manner.
- * Handles environment variable parsing for Vercel and prevents multiple initializations.
+ * Initializes the Firebase Admin SDK for server-side use.
+ * Uses a global check to prevent multiple initializations in serverless environments.
  */
 function getFirebaseAdminApp(): App | null {
-  // Prevent re-initialization if the app already exists
   if (getApps().length > 0) {
     return getApp();
   }
@@ -14,20 +13,14 @@ function getFirebaseAdminApp(): App | null {
   const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
   if (!serviceAccountKey) {
-    // Only log in production to avoid cluttering local logs where it's expected to be missing
-    if (process.env.NODE_ENV === 'production') {
-        console.error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set. Server-side operations will be limited.');
-    }
+    // Graceful exit for local dev without keys
     return null;
   }
 
   try {
-    // Parse the JSON string from environment variables. 
-    // trim() helps if there's trailing whitespace from copy-pasting.
+    // Robust parsing for Vercel environment variables
     const serviceAccount = JSON.parse(serviceAccountKey.trim());
 
-    // Vercel often escapes newlines in environment variables. 
-    // We must ensure the private key has actual newlines for the RSA parser.
     if (serviceAccount.private_key) {
       serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
     }
@@ -36,28 +29,23 @@ function getFirebaseAdminApp(): App | null {
       credential: cert(serviceAccount),
     });
   } catch (error) {
-    console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY or initialize Firebase Admin SDK:', error);
+    console.error('Firebase Admin initialization failed:', error);
     return null;
   }
 }
 
 /**
- * Provides access to Firestore using the Admin SDK.
- * Safely handles cases where initialization might fail by returning null.
+ * Provides access to Firestore on the server.
+ * Returns null if initialization fails to avoid hanging components.
  */
 export function initializeFirebase(): { firestore: Firestore | null } {
   const app = getFirebaseAdminApp();
-  
-  if (!app) {
-    return { firestore: null };
-  }
+  if (!app) return { firestore: null };
 
   try {
-    return {
-      firestore: getFirestore(app),
-    };
+    return { firestore: getFirestore(app) };
   } catch (error) {
-    console.error('Error obtaining Firestore instance from Admin SDK:', error);
+    console.error('Error getting Firestore instance:', error);
     return { firestore: null };
   }
 }
