@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Header from "@/components/layout/header";
@@ -17,32 +16,28 @@ type ProviderData = {
   description: string;
   bannerImageUrl?: string;
   logoUrl: string;
-  impressions?: number;
-  clicks?: number;
+  published: boolean;
 };
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-async function getProvider(slug: string): Promise<ProviderData | null> {
+/**
+ * Fetches a technology provider by its SEO slug using the Firebase Admin SDK.
+ */
+async function getProviderBySlug(slug: string): Promise<ProviderData | null> {
+  const { firestore } = initializeFirebase();
+  if (!firestore) return null;
+
   try {
-    const { firestore } = initializeFirebase();
-    // Query by slug instead of ID
+    // Strictly query by slug field. No ID fallback.
     const snapshot = await firestore.collection('providers')
       .where('slug', '==', slug)
       .limit(1)
       .get();
     
     if (snapshot.empty) {
-      // Fallback: Check if the slug is actually an ID (for legacy links)
-      const doc = await firestore.collection('providers').doc(slug).get();
-      if (doc.exists) {
-        return {
-          ...doc.data(),
-          id: doc.id,
-        } as ProviderData;
-      }
       return null;
     }
     
@@ -52,59 +47,63 @@ async function getProvider(slug: string): Promise<ProviderData | null> {
       id: doc.id,
     } as ProviderData;
   } catch (error) {
-    console.error("Error fetching provider on server:", error);
+    console.error("Error fetching provider by slug:", error);
     return null;
   }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const provider = await getProvider(slug);
+  try {
+    const { slug } = await params;
+    const provider = await getProviderBySlug(slug);
 
-  if (!provider) return { title: 'Provider Not Found' };
+    if (!provider) {
+      return { 
+        title: 'Provider Not Found | Telsys Inc.',
+        description: 'The requested technology provider could not be found.'
+      };
+    }
 
-  const description = provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
+    const description = provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
 
-  return {
-    title: `${provider.name} | Technology Partners | Telsys Inc.`,
-    description,
-    alternates: {
-      canonical: `https://telsysinc.com/providers/${provider.slug || provider.id}`,
-    },
-    openGraph: {
-      title: `${provider.name} Solutions`,
+    return {
+      title: `${provider.name} | Technology Partners | Telsys Inc.`,
       description,
-      url: `https://telsysinc.com/providers/${provider.slug || provider.id}`,
-      siteName: 'Telsys Inc.',
-      images: [
-        {
-          url: provider.logoUrl,
-          width: 800,
-          height: 600,
-          alt: provider.name,
-        },
-      ],
-      locale: 'en_US',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: provider.name,
-      description,
-      images: [provider.logoUrl],
-    },
-  };
+      alternates: {
+        canonical: `https://telsysinc.com/providers/${provider.slug}`,
+      },
+      openGraph: {
+        title: `${provider.name} Solutions`,
+        description,
+        url: `https://telsysinc.com/providers/${provider.slug}`,
+        siteName: 'Telsys Inc.',
+        images: [{ url: provider.logoUrl, width: 800, height: 600, alt: provider.name }],
+        locale: 'en_US',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: provider.name,
+        description,
+        images: [provider.logoUrl],
+      },
+    };
+  } catch (error) {
+    console.error("Metadata generation error for provider:", error);
+    return { title: 'Technology Partners | Telsys Inc.' };
+  }
 }
 
 export default async function SingleProviderPage({ params }: PageProps) {
   const { slug } = await params;
-  const providerData = await getProvider(slug);
+  const providerData = await getProviderBySlug(slug);
 
-  if (!providerData) {
+  // Handle missing provider or unpublished status in production
+  if (!providerData || (process.env.NODE_ENV === 'production' && providerData.published === false)) {
     notFound();
   }
 
-  // Determine a primary solution for the hero/testimonial sections
+  // Determine a primary solution for layout mapping
   const primarySolution = providerData.solutions?.[0]?.toLowerCase().includes('cloud') ? 'cloud'
                         : providerData.solutions?.[0]?.toLowerCase().includes('comm') ? 'communications'
                         : providerData.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
@@ -126,7 +125,7 @@ export default async function SingleProviderPage({ params }: PageProps) {
     "image": providerData.logoUrl,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://telsysinc.com/providers/${providerData.slug || providerData.id}`
+      "@id": `https://telsysinc.com/providers/${providerData.slug}`
     }
   };
 
@@ -137,7 +136,7 @@ export default async function SingleProviderPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
       
-      {/* Tracker uses internal ID */}
+      {/* Non-blocking interaction tracker using internal ID */}
       <ImpressionTracker providerId={providerData.id} />
       
       <ClientOnly>
