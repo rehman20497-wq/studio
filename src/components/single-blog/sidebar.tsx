@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
@@ -18,6 +17,7 @@ import {
 import MagneticButton from '../magnetic-button';
 import { Skeleton } from '../ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect } from 'react';
 
 type BlogPost = {
   id: string;
@@ -64,13 +64,21 @@ const SocialIcon = ({
 
 export default function Sidebar({
   currentPostId,
+  slug,
   category,
 }: {
   currentPostId: string;
+  slug: string;
   category: string;
 }) {
   const firestore = useFirestore();
   const { toast } = useToast();
+  const [blogUrl, setBlogUrl] = useState('');
+
+  useEffect(() => {
+    // Safely get the origin on the client to avoid hydration mismatch
+    setBlogUrl(`${window.location.origin}/blogs/${slug}`);
+  }, [slug]);
 
   const relatedQuery = useMemoFirebase(
     () => {
@@ -91,14 +99,10 @@ export default function Sidebar({
   const articles =
     relatedPosts?.filter((p) => p.id !== currentPostId).slice(0, 2) || [];
 
-  const blogUrl =
-    typeof window !== 'undefined'
-      ? `${window.location.origin}/blogs/${relatedPosts?.find(p => p.id === currentPostId)?.slug || currentPostId}`
-      : '';
-
   const shareText = blogUrl;
 
   const shareOnWhatsApp = () => {
+    if (!shareText) return;
     window.open(
       `https://wa.me/?text=${encodeURIComponent(shareText)}`,
       '_blank'
@@ -106,6 +110,7 @@ export default function Sidebar({
   };
 
   const copyToClipboard = async () => {
+    if (!shareText) return;
     try {
       await navigator.clipboard.writeText(shareText);
       toast({
@@ -207,23 +212,23 @@ export default function Sidebar({
           <span className="text-testimonialName font-semibold">SHARE</span>
 
           <SocialIcon
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-              shareText
-            )}`}
+            href={blogUrl ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+              blogUrl
+            )}` : undefined}
             icon={XIcon}
           />
 
           <SocialIcon
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+            href={blogUrl ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
               blogUrl
-            )}`}
+            )}` : undefined}
             icon={Facebook}
           />
 
           <SocialIcon
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+            href={blogUrl ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
               blogUrl
-            )}`}
+            )}` : undefined}
             icon={Linkedin}
           />
 

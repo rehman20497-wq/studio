@@ -11,6 +11,7 @@ import MobileSidebar from './mobile-sidebar';
 type BlogPost = {
   id: string;
   title: string;
+  slug: string;
   category: string;
   content: string;
   quote?: string;
@@ -78,7 +79,7 @@ export default function BlogContent({ post }: { post: BlogPost }) {
     >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-12 items-start">
             <div className="hidden md:block md:col-span-4">
-                <Sidebar currentPostId={post.id} category={post.category} />
+                <Sidebar currentPostId={post.id} slug={post.slug} category={post.category} />
             </div>
             <div className="w-full md:col-span-8 space-y-8">
             <ContentBlock htmlContent={contentPart1} />
@@ -94,7 +95,7 @@ export default function BlogContent({ post }: { post: BlogPost }) {
 
         {/* Mobile Sidebar Trigger */}
         <div className="md:hidden">
-            <MobileSidebar currentPostId={post.id} category={post.category} />
+            <MobileSidebar currentPostId={post.id} slug={post.slug} category={post.category} />
         </div>
     </motion.div>
   );

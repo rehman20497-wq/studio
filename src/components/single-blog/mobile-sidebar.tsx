@@ -18,7 +18,7 @@ const triggerVariants = {
     tap: { scale: 0.95 }
 };
 
-export default function MobileSidebar({ currentPostId, category }: { currentPostId: string; category: string; }) {
+export default function MobileSidebar({ currentPostId, slug, category }: { currentPostId: string; slug: string; category: string; }) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -38,7 +38,7 @@ export default function MobileSidebar({ currentPostId, category }: { currentPost
             </SheetTrigger>
             <SheetContent side="left" className="p-0 w-[85%] max-w-sm">
                 <div className="bg-[#FEF9F2] h-full overflow-y-auto p-6 pt-12">
-                   <Sidebar currentPostId={currentPostId} category={category} />
+                   <Sidebar currentPostId={currentPostId} slug={slug} category={category} />
                 </div>
             </SheetContent>
         </Sheet>
