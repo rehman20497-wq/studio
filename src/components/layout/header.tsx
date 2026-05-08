@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -17,13 +18,10 @@ import {
   Building,
   Briefcase,
   BookOpen,
-  Newspaper,
-  MessageCircleQuestion,
-  Cloud,
   Wifi,
+  Cloud,
   Cpu,
   Zap,
-  Sparkles,
   ChevronDown
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from "@/components/ui/sheet";
@@ -113,9 +111,6 @@ export default function Header() {
                       Home
                     </Link>
                   </NavigationMenuLink>
-                </NavigationMenuItem>
-                 <NavigationMenuItem className="group">
-                 
                 </NavigationMenuItem>
                 <NavigationMenuItem className="group">
                   <NavigationMenuTrigger className={cn("transition-all duration-300 text-sm lg:text-base xl:text-lg")}>Solutions</NavigationMenuTrigger>
@@ -207,111 +202,117 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         <div className="md:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent h-auto w-auto">
-                <Image src="/ham.svg" alt="menu" width={65} height={65} unoptimized />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="top" className="p-0 bg-transparent border-none">
-                <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
-                <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
-                    <Link href="/">
-                        <Image src="/mob.png" alt="Telesys Logo" width={120} height={30} className="h-auto" />
-                    </Link>
-                    <SheetClose asChild>
-                        <button className="h-10 w-10">
-                            <CloseIcon className="w-10 h-10" />
-                            <span className="sr-only">Close menu</span>
-                        </button>
-                    </SheetClose>
-                </div>
-                <div className="bg-[#FEF9F2] h-[calc(100vh-90px)] flex flex-col">
-                     <div className="flex-grow overflow-y-auto px-6 pt-8">
-                        <Accordion type="multiple" className="w-full">
-                            <AccordionItem value="Home" className="border-b border-yellow-200">
-                                <Link href="/" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
-                                    <Home className="w-8 h-8" />
-                                    Home
-                                </Link>
-                            </AccordionItem>
-                             
-                            
-                            <AccordionItem value="Solutions" className="border-b border-yellow-200 group">
-                                <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
-                                    <div className="flex items-center gap-4">
-                                        <Zap className="w-8 h-8" />
-                                        Solutions
-                                    </div>
-                                    <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                                </AccordionTrigger>
-                                <AccordionContent className="pl-16">
-                                    <ul className="space-y-4">
-                                        {solutions.map(item => (
-                                            <li key={item.title}>
-                                                <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </AccordionContent>
-                            </AccordionItem>
-                            <AccordionItem value="Providers" className="border-b border-yellow-200">
-                                <Link href="/providers" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
-                                    <Building className="w-8 h-8" />
-                                    Providers
-                                </Link>
-                            </AccordionItem>
-                            <AccordionItem value="Company" className="border-b border-yellow-200 group">
-                                <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
-                                    <div className="flex items-center gap-4">
-                                        <Building className="w-8 h-8" />
-                                        Company
-                                    </div>
-                                    <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                                </AccordionTrigger>
-                                <AccordionContent className="pl-16">
-                                    <ul className="space-y-4">
-                                        {company.map(item => (
-                                            <li key={item.title}>
-                                                <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </AccordionContent>
-                            </AccordionItem>
-                            <AccordionItem value="Resources" className="border-b-0 group">
-                                <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
-                                    <div className="flex items-center gap-4">
-                                        <BookOpen className="w-8 h-8" />
-                                        Resources
-                                    </div>
-                                     <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                                </AccordionTrigger>
-                                <AccordionContent className="pl-16">
-                                    <ul className="space-y-4">
-                                        {resources.map(item => (
-                                            <li key={item.title}>
-                                                <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
-                     </div>
+          {!isMounted ? (
+            <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent h-auto w-auto">
+              <Image src="/ham.svg" alt="menu" width={65} height={65} unoptimized />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          ) : (
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent active:bg-transparent h-auto w-auto">
+                  <Image src="/ham.svg" alt="menu" width={65} height={65} unoptimized />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="top" className="p-0 bg-transparent border-none">
+                  <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
+                  <div className="bg-[#F5D34A] h-[90px] px-[4%] flex items-center justify-between">
+                      <Link href="/">
+                          <Image src="/mob.png" alt="Telesys Logo" width={120} height={30} className="h-auto" />
+                      </Link>
+                      <SheetClose asChild>
+                          <button className="h-10 w-10">
+                              <CloseIcon className="w-10 h-10" />
+                              <span className="sr-only">Close menu</span>
+                          </button>
+                      </SheetClose>
+                  </div>
+                  <div className="bg-[#FEF9F2] h-[calc(100vh-90px)] flex flex-col">
+                       <div className="flex-grow overflow-y-auto px-6 pt-8">
+                          <Accordion type="multiple" className="w-full">
+                              <AccordionItem value="Home" className="border-b border-yellow-200">
+                                  <Link href="/" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
+                                      <Home className="w-8 h-8" />
+                                      Home
+                                  </Link>
+                              </AccordionItem>
+                              
+                              <AccordionItem value="Solutions" className="border-b border-yellow-200 group">
+                                  <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
+                                      <div className="flex items-center gap-4">
+                                          <Zap className="w-8 h-8" />
+                                          Solutions
+                                      </div>
+                                      <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                                  </AccordionTrigger>
+                                  <AccordionContent className="pl-16">
+                                      <ul className="space-y-4">
+                                          {solutions.map(item => (
+                                              <li key={item.title}>
+                                                  <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                              </li>
+                                          ))}
+                                      </ul>
+                                  </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="Providers" className="border-b border-yellow-200">
+                                  <Link href="/providers" className="flex items-center gap-4 w-full py-4 text-3xl font-normal">
+                                      <Building className="w-8 h-8" />
+                                      Providers
+                                  </Link>
+                              </AccordionItem>
+                              <AccordionItem value="Company" className="border-b border-yellow-200 group">
+                                  <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
+                                      <div className="flex items-center gap-4">
+                                          <Building className="w-8 h-8" />
+                                          Company
+                                      </div>
+                                      <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                                  </AccordionTrigger>
+                                  <AccordionContent className="pl-16">
+                                      <ul className="space-y-4">
+                                          {company.map(item => (
+                                              <li key={item.title}>
+                                                  <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                              </li>
+                                          ))}
+                                      </ul>
+                                  </AccordionContent>
+                              </AccordionItem>
+                              <AccordionItem value="Resources" className="border-b-0 group">
+                                  <AccordionTrigger className="w-full py-4 text-3xl font-normal hover:no-underline">
+                                      <div className="flex items-center gap-4">
+                                          <BookOpen className="w-8 h-8" />
+                                          Resources
+                                      </div>
+                                       <ChevronDown className="w-8 h-8 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                                  </AccordionTrigger>
+                                  <AccordionContent className="pl-16">
+                                      <ul className="space-y-4">
+                                          {resources.map(item => (
+                                              <li key={item.title}>
+                                                  <Link href={item.href} className="text-2xl font-normal">{item.title}</Link>
+                                              </li>
+                                          ))}
+                                      </ul>
+                                  </AccordionContent>
+                              </AccordionItem>
+                          </Accordion>
+                       </div>
 
-                    <div className="relative mt-auto">
-                        <div className="bg-[#F5D34A] rounded-t-[40px] pt-12 pb-8 px-6 text-center">
-                            <h3 className="text-4xl font-normal">Book a Demo</h3>
-                            <Button asChild className="rounded-full bg-black text-white hover:bg-zinc-800 px-8 py-6 text-lg mt-4 w-full">
-                                <Link href="/contact">Talk to an Expert</Link>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </SheetContent>
-          </Sheet>
+                      <div className="relative mt-auto">
+                          <div className="bg-[#F5D34A] rounded-t-[40px] pt-12 pb-8 px-6 text-center">
+                              <h3 className="text-4xl font-normal">Book a Demo</h3>
+                              <Button asChild className="rounded-full bg-black text-white hover:bg-zinc-800 px-8 py-6 text-lg mt-4 w-full">
+                                  <Link href="/contact">Talk to an Expert</Link>
+                              </Button>
+                          </div>
+                      </div>
+                  </div>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
       </div>
     </header>
