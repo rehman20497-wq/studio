@@ -30,7 +30,6 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   if (!firestore) return null;
 
   try {
-    // Add a race condition to prevent infinite hanging
     const timeout = new Promise<null>((_, reject) => 
       setTimeout(() => reject(new Error('Firestore timeout')), 5000)
     );
@@ -47,10 +46,18 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const doc = snapshot.docs[0];
     const data = doc.data();
     
+    // Explicitly convert Timestamp objects to plain objects for Next.js serialization
     return {
       ...data,
       id: doc.id,
-      createdAt: { seconds: data?.createdAt?._seconds || data?.createdAt?.seconds || 0 }
+      createdAt: data.createdAt ? { 
+        seconds: data.createdAt._seconds ?? data.createdAt.seconds || 0,
+        nanoseconds: data.createdAt._nanoseconds ?? data.createdAt.nanoseconds || 0
+      } : { seconds: 0, nanoseconds: 0 },
+      updatedAt: data.updatedAt ? { 
+        seconds: data.updatedAt._seconds ?? data.updatedAt.seconds || 0,
+        nanoseconds: data.updatedAt._nanoseconds ?? data.updatedAt.nanoseconds || 0
+      } : undefined
     } as BlogPost;
   } catch (error) {
     console.error("Error fetching blog post:", error);

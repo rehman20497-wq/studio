@@ -42,9 +42,20 @@ async function getProviderBySlug(slug: string): Promise<ProviderData | null> {
     if (!snapshot || snapshot.empty) return null;
     
     const doc = snapshot.docs[0];
+    const data = doc.data();
+
+    // Explicitly convert Timestamp objects to plain objects for Next.js serialization
     return {
-      ...doc.data(),
+      ...data,
       id: doc.id,
+      createdAt: data.createdAt ? { 
+        seconds: data.createdAt._seconds ?? data.createdAt.seconds || 0,
+        nanoseconds: data.createdAt._nanoseconds ?? data.createdAt.nanoseconds || 0
+      } : undefined,
+      updatedAt: data.updatedAt ? { 
+        seconds: data.updatedAt._seconds ?? data.updatedAt.seconds || 0,
+        nanoseconds: data.updatedAt._nanoseconds ?? data.updatedAt.nanoseconds || 0
+      } : undefined
     } as ProviderData;
   } catch (error) {
     console.error("Error fetching provider:", error);
