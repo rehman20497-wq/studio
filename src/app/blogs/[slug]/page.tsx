@@ -47,31 +47,34 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       createdAt: { seconds: data?.createdAt?._seconds || data?.createdAt?.seconds || 0 }
     } as any;
   } catch (error) {
+    console.error("Error fetching blog post:", error);
     return null;
   }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  
+  try {
+    const post = await getPostBySlug(slug);
+    if (!post) return { title: 'Post Not Found' };
 
-  if (!post) {
-    return { title: 'Post Not Found' };
+    return {
+      title: `${post.title} | Telsys Inc. Blog`,
+      description: post.content.replace(/<[^>]*>?/gm, '').substring(0, 160),
+      alternates: {
+        canonical: `https://telsysinc.com/blogs/${post.slug}`,
+      },
+      openGraph: {
+        title: post.title,
+        url: `https://telsysinc.com/blogs/${post.slug}`,
+        images: [{ url: post.featuredImageUrl }],
+        type: 'article',
+      },
+    };
+  } catch (e) {
+    return { title: 'Telsys Inc. Blog' };
   }
-
-  return {
-    title: `${post.title} | Telsys Inc. Blog`,
-    description: post.content.replace(/<[^>]*>?/gm, '').substring(0, 160),
-    alternates: {
-      canonical: `https://telsysinc.com/blogs/${post.slug}`,
-    },
-    openGraph: {
-      title: post.title,
-      url: `https://telsysinc.com/blogs/${post.slug}`,
-      images: [{ url: post.featuredImageUrl }],
-      type: 'article',
-    },
-  };
 }
 
 export default async function SingleBlogPage({ params }: PageProps) {

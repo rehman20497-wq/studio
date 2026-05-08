@@ -14,17 +14,15 @@ function getFirebaseAdminApp(): App | null {
   const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
   if (!serviceAccountKey) {
-    // Graceful exit for local dev without keys
     console.error('FIREBASE_SERVICE_ACCOUNT_KEY is not defined in environment variables.');
     return null;
   }
 
   try {
     // Robust parsing for Vercel environment variables
-    // Vercel might sometimes double-escape or wrap the JSON in quotes
     let sanitizedKey = serviceAccountKey.trim();
     
-    // If it starts and ends with double quotes, it might be a double-stringified JSON from some CI tools
+    // Handle double-stringified JSON which can happen in some CI/CD pipelines
     if (sanitizedKey.startsWith('"') && sanitizedKey.endsWith('"')) {
       sanitizedKey = sanitizedKey.substring(1, sanitizedKey.length - 1).replace(/\\"/g, '"');
     }
@@ -32,7 +30,7 @@ function getFirebaseAdminApp(): App | null {
     const serviceAccount = JSON.parse(sanitizedKey);
 
     if (serviceAccount.private_key) {
-      // Ensure newline characters are correctly interpreted
+      // Ensure newline characters are correctly interpreted (Google's requirement)
       serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
     }
 

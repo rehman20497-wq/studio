@@ -24,7 +24,7 @@ export default async function CheckStatusPage() {
       // Attempt a very simple query with a timeout
       const testQuery = firestore.collection('blog_posts').limit(1).get();
       
-      // Create a timeout promise
+      // Create a timeout promise to identify hangs
       const timeout = new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Firestore query timed out after 5 seconds')), 5000)
       );
@@ -77,9 +77,9 @@ export default async function CheckStatusPage() {
           <section>
             <h2 className="text-xl font-bold text-green-600 mb-2">3. Diagnosis Help</h2>
             <div className="text-sm space-y-2 text-zinc-600">
-              <p>• If <strong>List Pages</strong> work but <strong>Single Pages</strong> hang: The issue is the Admin SDK initialization on the server. List pages typically use the Client SDK (browser).</p>
-              <p>• If <strong>Firestore Test</strong> shows "timed out": The server is unable to reach Google's database from the Vercel execution environment, or the credentials are invalid.</p>
-              <p>• If <strong>FIREBASE_SERVICE_ACCOUNT_KEY</strong> is MISSING: You need to add it to your Vercel Environment Variables.</p>
+              <p>• If <strong>List Pages</strong> work but <strong>Single Pages</strong> hang: The issue is the Admin SDK initialization on the server. Vercel requires specific multiline key handling.</p>
+              <p>• If <strong>Firestore Test</strong> shows "timed out": The server is unable to reach Google's database from the Vercel environment, or credentials are invalid.</p>
+              <p>• If <strong>FIREBASE_SERVICE_ACCOUNT_KEY</strong> is MISSING: Ensure it is set in Vercel Project Settings > Environment Variables.</p>
             </div>
           </section>
 

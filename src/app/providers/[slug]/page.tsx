@@ -42,25 +42,28 @@ async function getProviderBySlug(slug: string): Promise<ProviderData | null> {
       id: doc.id,
     } as ProviderData;
   } catch (error) {
+    console.error("Error fetching provider:", error);
     return null;
   }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const provider = await getProviderBySlug(slug);
+  
+  try {
+    const provider = await getProviderBySlug(slug);
+    if (!provider) return { title: 'Provider Not Found' };
 
-  if (!provider) {
-    return { title: 'Provider Not Found' };
+    return {
+      title: `${provider.name} | Technology Partners`,
+      description: provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160),
+      alternates: {
+        canonical: `https://telsysinc.com/providers/${provider.slug}`,
+      },
+    };
+  } catch (e) {
+    return { title: 'Technology Partner | Telsys Inc.' };
   }
-
-  return {
-    title: `${provider.name} | Technology Partners`,
-    description: provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160),
-    alternates: {
-      canonical: `https://telsysinc.com/providers/${provider.slug}`,
-    },
-  };
 }
 
 export default async function SingleProviderPage({ params }: PageProps) {
