@@ -17,7 +17,7 @@ type BlogPost = {
   quote?: string;
   authorName: string;
   authorImageUrl: string;
-  createdAt: { seconds: number };
+  createdAt: { seconds: number; nanoseconds: number };
   published: boolean;
 };
 
@@ -51,12 +51,12 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       ...data,
       id: doc.id,
       createdAt: data.createdAt ? { 
-        seconds: data.createdAt._seconds ?? data.createdAt.seconds || 0,
-        nanoseconds: data.createdAt._nanoseconds ?? data.createdAt.nanoseconds || 0
+        seconds: (data.createdAt._seconds ?? data.createdAt.seconds) || 0,
+        nanoseconds: (data.createdAt._nanoseconds ?? data.createdAt.nanoseconds) || 0
       } : { seconds: 0, nanoseconds: 0 },
       updatedAt: data.updatedAt ? { 
-        seconds: data.updatedAt._seconds ?? data.updatedAt.seconds || 0,
-        nanoseconds: data.updatedAt._nanoseconds ?? data.updatedAt.nanoseconds || 0
+        seconds: (data.updatedAt._seconds ?? data.updatedAt.seconds) || 0,
+        nanoseconds: (data.updatedAt._nanoseconds ?? data.updatedAt.nanoseconds) || 0
       } : undefined
     } as BlogPost;
   } catch (error) {

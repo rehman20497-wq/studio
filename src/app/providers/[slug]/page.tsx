@@ -17,6 +17,7 @@ type ProviderData = {
   bannerImageUrl?: string;
   logoUrl: string;
   published: boolean;
+  createdAt: { seconds: number; nanoseconds: number };
 };
 
 interface PageProps {
@@ -49,12 +50,12 @@ async function getProviderBySlug(slug: string): Promise<ProviderData | null> {
       ...data,
       id: doc.id,
       createdAt: data.createdAt ? { 
-        seconds: data.createdAt._seconds ?? data.createdAt.seconds || 0,
-        nanoseconds: data.createdAt._nanoseconds ?? data.createdAt.nanoseconds || 0
-      } : undefined,
+        seconds: (data.createdAt._seconds ?? data.createdAt.seconds) || 0,
+        nanoseconds: (data.createdAt._nanoseconds ?? data.createdAt.nanoseconds) || 0
+      } : { seconds: 0, nanoseconds: 0 },
       updatedAt: data.updatedAt ? { 
-        seconds: data.updatedAt._seconds ?? data.updatedAt.seconds || 0,
-        nanoseconds: data.updatedAt._nanoseconds ?? data.updatedAt.nanoseconds || 0
+        seconds: (data.updatedAt._seconds ?? data.updatedAt.seconds) || 0,
+        nanoseconds: (data.updatedAt._nanoseconds ?? data.updatedAt.nanoseconds) || 0
       } : undefined
     } as ProviderData;
   } catch (error) {
