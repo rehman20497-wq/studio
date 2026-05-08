@@ -1,4 +1,3 @@
-
 import { initializeFirebase } from '@/firebase/server-init';
 import Header from '@/components/layout/header';
 import ClientOnly from '@/components/client-only';
@@ -6,10 +5,12 @@ import ClientOnly from '@/components/client-only';
 export const dynamic = 'force-dynamic';
 
 export default async function CheckStatusPage() {
+  const keyEnv = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
   const envStatus = {
-    hasKey: !!process.env.FIREBASE_SERVICE_ACCOUNT_KEY,
-    keyLength: process.env.FIREBASE_SERVICE_ACCOUNT_KEY?.length || 0,
+    hasKey: !!keyEnv,
+    keyLength: keyEnv?.length || 0,
     nodeEnv: process.env.NODE_ENV,
+    keyPreview: keyEnv ? `${keyEnv.substring(0, 10)}...${keyEnv.substring(keyEnv.length - 10)}` : 'N/A'
   };
 
   let firebaseStatus = 'Not Attempted';
@@ -19,7 +20,7 @@ export default async function CheckStatusPage() {
   try {
     const { firestore } = initializeFirebase();
     if (firestore) {
-      firebaseStatus = 'Initialized Successfully';
+      firebaseStatus = 'Admin SDK Initialized Successfully';
       
       // Attempt a very simple query with a timeout
       const testQuery = firestore.collection('blog_posts').limit(1).get();
@@ -33,10 +34,10 @@ export default async function CheckStatusPage() {
         const snapshot = await Promise.race([testQuery, timeout]) as any;
         firestoreTest = `Success! Found ${snapshot.size} documents in blog_posts.`;
       } catch (e: any) {
-        firestoreTest = `Failed: ${e.message}`;
+        firestoreTest = `Query Failed: ${e.message}`;
       }
     } else {
-      firebaseStatus = 'Failed to get Firestore instance (Check server logs)';
+      firebaseStatus = 'Failed to initialize Admin SDK (Check server logs for parsing errors)';
     }
   } catch (e: any) {
     firebaseStatus = 'Crash during initialization';
@@ -57,29 +58,30 @@ export default async function CheckStatusPage() {
             <div className="bg-zinc-50 p-4 rounded-lg border">
               <p><strong>FIREBASE_SERVICE_ACCOUNT_KEY:</strong> {envStatus.hasKey ? 'SET' : 'MISSING'}</p>
               <p><strong>Key Length:</strong> {envStatus.keyLength} characters</p>
+              <p><strong>Key Preview:</strong> {envStatus.keyPreview}</p>
               <p><strong>NODE_ENV:</strong> {envStatus.nodeEnv}</p>
             </div>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-purple-600 mb-2">2. Firebase Admin SDK</h2>
+            <h2 className="text-xl font-bold text-purple-600 mb-2">2. Firebase Admin SDK (Server-Side)</h2>
             <div className="bg-zinc-50 p-4 rounded-lg border">
-              <p><strong>Status:</strong> {firebaseStatus}</p>
-              <p><strong>Firestore Test:</strong> {firestoreTest}</p>
+              <p><strong>Init Status:</strong> {firebaseStatus}</p>
+              <p><strong>Firestore Connection:</strong> {firestoreTest}</p>
               {error && (
                 <div className="mt-4 p-3 bg-red-100 text-red-700 rounded border border-red-200">
-                  <strong>Error:</strong> {error}
+                  <strong>Error Trace:</strong> {error}
                 </div>
               )}
             </div>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-green-600 mb-2">3. Diagnosis Help</h2>
+            <h2 className="text-xl font-bold text-green-600 mb-2">3. Common Issues & Fixes</h2>
             <div className="text-sm space-y-2 text-zinc-600">
-              <p>• If <strong>List Pages</strong> work but <strong>Single Pages</strong> hang: The issue is the Admin SDK initialization on the server. Vercel requires specific multiline key handling.</p>
-              <p>• If <strong>Firestore Test</strong> shows "timed out": The server is unable to reach Google's database from the Vercel environment, or credentials are invalid.</p>
-              <p>• If <strong>FIREBASE_SERVICE_ACCOUNT_KEY</strong> is MISSING: Ensure it is set in Vercel Project Settings > Environment Variables.</p>
+              <p>• <strong>MISSING Key</strong>: Ensure <code>FIREBASE_SERVICE_ACCOUNT_KEY</code> is added to Vercel Project Settings.</p>
+              <p>• <strong>Timed Out</strong>: Usually means the SDK initialized but cannot reach Google servers or credentials lack permission to read the database.</p>
+              <p>• <strong>Infinite Loading</strong>: Fixed by adding <code>firebase-admin</code> to package.json and implementing race-conditioned timeouts.</p>
             </div>
           </section>
 

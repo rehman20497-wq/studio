@@ -1,4 +1,3 @@
-
 import { initializeApp, getApp, getApps, cert, type App } from 'firebase-admin/app';
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
 
@@ -19,27 +18,29 @@ function getFirebaseAdminApp(): App | null {
   }
 
   try {
-    let keyStr = serviceAccountKey.trim();
+    let parsedKey;
     
-    // Vercel sometimes provides a double-escaped string
-    if (keyStr.startsWith('"') && keyStr.endsWith('"')) {
+    // Vercel sometimes double-escapes strings in JSON env vars
+    if (typeof serviceAccountKey === 'string') {
       try {
-        keyStr = JSON.parse(keyStr);
+        const firstPass = JSON.parse(serviceAccountKey.trim());
+        parsedKey = typeof firstPass === 'string' ? JSON.parse(firstPass) : firstPass;
       } catch (e) {
-        // Not double-escaped, just starts/ends with quotes
-        keyStr = keyStr.slice(1, -1);
+        // Fallback for non-JSON strings (unlikely for this key)
+        console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY JSON:', e);
+        return null;
       }
+    } else {
+      parsedKey = serviceAccountKey;
     }
 
-    const serviceAccount = typeof keyStr === 'string' ? JSON.parse(keyStr) : keyStr;
-
-    if (serviceAccount.private_key) {
-      // Standard Firebase requirement for newline characters
-      serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+    if (parsedKey && parsedKey.private_key) {
+      // Ensure newline characters are correctly handled for the private key
+      parsedKey.private_key = parsedKey.private_key.replace(/\\n/g, '\n');
     }
 
     return initializeApp({
-      credential: cert(serviceAccount),
+      credential: cert(parsedKey),
     });
   } catch (error: any) {
     console.error('Firebase Admin SDK Initialization Error:', error.message);
