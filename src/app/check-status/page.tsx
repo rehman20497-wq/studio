@@ -10,7 +10,7 @@ export default async function CheckStatusPage() {
     hasKey: !!keyEnv,
     keyLength: keyEnv?.length || 0,
     nodeEnv: process.env.NODE_ENV,
-    keyPreview: keyEnv ? `${keyEnv.substring(0, 10)}...${keyEnv.substring(keyEnv.length - 10)}` : 'N/A'
+    keyPreview: keyEnv ? `${keyEnv.substring(0, 15)}...${keyEnv.substring(keyEnv.length - 15)}` : 'N/A'
   };
 
   let firebaseStatus = 'Not Attempted';
@@ -22,22 +22,22 @@ export default async function CheckStatusPage() {
     if (firestore) {
       firebaseStatus = 'Admin SDK Initialized Successfully';
       
-      // Attempt a very simple query with a timeout
+      // Attempt a very simple query with a timeout to catch hangs
       const testQuery = firestore.collection('blog_posts').limit(1).get();
       
       // Create a timeout promise to identify hangs
       const timeout = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Firestore query timed out after 5 seconds')), 5000)
+        setTimeout(() => reject(new Error('Firestore query timed out after 5 seconds - Check credentials/network')), 5000)
       );
 
       try {
         const snapshot = await Promise.race([testQuery, timeout]) as any;
-        firestoreTest = `Success! Found ${snapshot.size} documents in blog_posts.`;
+        firestoreTest = `Success! Found ${snapshot.size} documents in blog_posts. Database is reachable.`;
       } catch (e: any) {
         firestoreTest = `Query Failed: ${e.message}`;
       }
     } else {
-      firebaseStatus = 'Failed to initialize Admin SDK (Check server logs for parsing errors)';
+      firebaseStatus = 'Failed to initialize Admin SDK (Key might be invalid or missing)';
     }
   } catch (e: any) {
     firebaseStatus = 'Crash during initialization';
@@ -57,8 +57,8 @@ export default async function CheckStatusPage() {
             <h2 className="text-xl font-bold text-blue-600 mb-2">1. Environment Variables</h2>
             <div className="bg-zinc-50 p-4 rounded-lg border">
               <p><strong>FIREBASE_SERVICE_ACCOUNT_KEY:</strong> {envStatus.hasKey ? 'SET' : 'MISSING'}</p>
-              <p><strong>Key Length:</strong> {envStatus.keyLength} characters</p>
-              <p><strong>Key Preview:</strong> {envStatus.keyPreview}</p>
+              <p><strong>Key Length:</strong> {envStatus.keyLength} characters (Should be approx 2300+)</p>
+              <p><strong>Key Preview:</strong> <code className="bg-zinc-200 px-1">{envStatus.keyPreview}</code></p>
               <p><strong>NODE_ENV:</strong> {envStatus.nodeEnv}</p>
             </div>
           </section>
@@ -77,11 +77,11 @@ export default async function CheckStatusPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-green-600 mb-2">3. Common Issues & Fixes</h2>
+            <h2 className="text-xl font-bold text-green-600 mb-2">3. Troubleshooting Action</h2>
             <div className="text-sm space-y-2 text-zinc-600">
-              <p>• <strong>MISSING Key</strong>: Ensure <code>FIREBASE_SERVICE_ACCOUNT_KEY</code> is added to Vercel Project Settings.</p>
-              <p>• <strong>Timed Out</strong>: Usually means the SDK initialized but cannot reach Google servers or credentials lack permission to read the database.</p>
-              <p>• <strong>Infinite Loading</strong>: Fixed by adding <code>firebase-admin</code> to package.json and implementing race-conditioned timeouts.</p>
+              <p>• <strong>If status is MISSING</strong>: You must add <code>FIREBASE_SERVICE_ACCOUNT_KEY</code> to your environment. In local dev, use <code>.env.local</code>. In Vercel, use Project Settings.</p>
+              <p>• <strong>If status is Success but pages don't load</strong>: Clear your browser cache and check the slug values in your database.</p>
+              <p>• <strong>If status is Timed Out</strong>: The SDK cannot reach Google. Verify the <code>private_key</code> in your JSON hasn't been corrupted by copy-pasting.</p>
             </div>
           </section>
 

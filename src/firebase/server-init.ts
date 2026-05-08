@@ -13,20 +13,29 @@ function getFirebaseAdminApp(): App | null {
   const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
   if (!serviceAccountKey) {
-    console.error('FIREBASE_SERVICE_ACCOUNT_KEY is MISSING.');
+    // Only log in production to keep dev logs clean if they haven't set it yet
+    if (process.env.NODE_ENV === 'production') {
+        console.error('FIREBASE_SERVICE_ACCOUNT_KEY is MISSING.');
+    }
     return null;
   }
 
   try {
     let parsedKey;
     
-    // Vercel sometimes double-escapes strings in JSON env vars
+    // Vercel sometimes double-escapes strings in JSON env vars or wraps them in extra quotes
     if (typeof serviceAccountKey === 'string') {
+      const trimmed = serviceAccountKey.trim();
       try {
-        const firstPass = JSON.parse(serviceAccountKey.trim());
-        parsedKey = typeof firstPass === 'string' ? JSON.parse(firstPass) : firstPass;
+        // Attempt standard parse
+        parsedKey = JSON.parse(trimmed);
+        
+        // If the result is still a string (double escaped), parse again
+        if (typeof parsedKey === 'string') {
+            parsedKey = JSON.parse(parsedKey);
+        }
       } catch (e) {
-        // Fallback for non-JSON strings (unlikely for this key)
+        // Fallback for non-JSON strings
         console.error('Failed to parse FIREBASE_SERVICE_ACCOUNT_KEY JSON:', e);
         return null;
       }
@@ -34,8 +43,14 @@ function getFirebaseAdminApp(): App | null {
       parsedKey = serviceAccountKey;
     }
 
-    if (parsedKey && parsedKey.private_key) {
-      // Ensure newline characters are correctly handled for the private key
+    if (!parsedKey || !parsedKey.private_key) {
+      console.error('Invalid service account key format: missing private_key');
+      return null;
+    }
+
+    // CRITICAL: Ensure newline characters are correctly handled for the private key
+    // This is the most common cause of hangs/failures on Vercel
+    if (typeof parsedKey.private_key === 'string') {
       parsedKey.private_key = parsedKey.private_key.replace(/\\n/g, '\n');
     }
 
@@ -56,7 +71,10 @@ export function initializeFirebase(): { firestore: Firestore | null } {
   try {
     const app = getFirebaseAdminApp();
     if (!app) return { firestore: null };
-    return { firestore: getFirestore(app) };
+    
+    const db = getFirestore(app);
+    // Optional: Settings to handle environment specific needs
+    return { firestore: db };
   } catch (error) {
     console.error('Error getting Firestore instance:', error);
     return { firestore: null };
