@@ -29,12 +29,18 @@ async function getProviderBySlug(slug: string): Promise<ProviderData | null> {
   if (!firestore) return null;
 
   try {
-    const snapshot = await firestore.collection('providers')
+    const timeout = new Promise<null>((_, reject) => 
+      setTimeout(() => reject(new Error('Firestore timeout')), 5000)
+    );
+
+    const fetchTask = firestore.collection('providers')
       .where('slug', '==', slug)
       .limit(1)
       .get();
+
+    const snapshot = await Promise.race([fetchTask, timeout]) as any;
     
-    if (snapshot.empty) return null;
+    if (!snapshot || snapshot.empty) return null;
     
     const doc = snapshot.docs[0];
     return {

@@ -31,12 +31,19 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   if (!firestore) return null;
 
   try {
-    const snapshot = await firestore.collection('blog_posts')
+    // Add a race condition to prevent infinite hanging
+    const timeout = new Promise<null>((_, reject) => 
+      setTimeout(() => reject(new Error('Firestore timeout')), 5000)
+    );
+
+    const fetchTask = firestore.collection('blog_posts')
       .where('slug', '==', slug)
       .limit(1)
       .get();
+
+    const snapshot = await Promise.race([fetchTask, timeout]) as any;
     
-    if (snapshot.empty) return null;
+    if (!snapshot || snapshot.empty) return null;
     
     const doc = snapshot.docs[0];
     const data = doc.data();
@@ -45,7 +52,7 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       ...data,
       id: doc.id,
       createdAt: { seconds: data?.createdAt?._seconds || data?.createdAt?.seconds || 0 }
-    } as any;
+    } as BlogPost;
   } catch (error) {
     console.error("Error fetching blog post:", error);
     return null;

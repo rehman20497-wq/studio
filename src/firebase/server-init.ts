@@ -4,7 +4,7 @@ import { getFirestore, type Firestore } from 'firebase-admin/firestore';
 
 /**
  * Initializes the Firebase Admin SDK for server-side use.
- * Uses a global check to prevent multiple initializations in serverless environments.
+ * Optimized for Vercel's environment variable handling.
  */
 function getFirebaseAdminApp(): App | null {
   if (getApps().length > 0) {
@@ -14,23 +14,27 @@ function getFirebaseAdminApp(): App | null {
   const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
   if (!serviceAccountKey) {
-    console.error('FIREBASE_SERVICE_ACCOUNT_KEY is not defined in environment variables.');
+    console.error('FIREBASE_SERVICE_ACCOUNT_KEY is MISSING.');
     return null;
   }
 
   try {
-    // Robust parsing for Vercel environment variables
-    let sanitizedKey = serviceAccountKey.trim();
+    let keyStr = serviceAccountKey.trim();
     
-    // Handle double-stringified JSON which can happen in some CI/CD pipelines
-    if (sanitizedKey.startsWith('"') && sanitizedKey.endsWith('"')) {
-      sanitizedKey = sanitizedKey.substring(1, sanitizedKey.length - 1).replace(/\\"/g, '"');
+    // Vercel sometimes provides a double-escaped string
+    if (keyStr.startsWith('"') && keyStr.endsWith('"')) {
+      try {
+        keyStr = JSON.parse(keyStr);
+      } catch (e) {
+        // Not double-escaped, just starts/ends with quotes
+        keyStr = keyStr.slice(1, -1);
+      }
     }
 
-    const serviceAccount = JSON.parse(sanitizedKey);
+    const serviceAccount = typeof keyStr === 'string' ? JSON.parse(keyStr) : keyStr;
 
     if (serviceAccount.private_key) {
-      // Ensure newline characters are correctly interpreted (Google's requirement)
+      // Standard Firebase requirement for newline characters
       serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
     }
 
@@ -38,7 +42,7 @@ function getFirebaseAdminApp(): App | null {
       credential: cert(serviceAccount),
     });
   } catch (error: any) {
-    console.error('Firebase Admin initialization failed:', error.message);
+    console.error('Firebase Admin SDK Initialization Error:', error.message);
     return null;
   }
 }
