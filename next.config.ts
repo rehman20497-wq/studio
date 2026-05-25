@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    unoptimized: true,  // ← YEH LINE ADD KARO
     remotePatterns: [
       {
         protocol: 'https',
