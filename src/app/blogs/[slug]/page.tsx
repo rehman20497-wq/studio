@@ -1,3 +1,4 @@
+
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Header from '@/components/layout/header';
@@ -18,7 +19,12 @@ type BlogPost = {
   authorName: string;
   authorImageUrl: string;
   createdAt: { seconds: number; nanoseconds: number };
+  updatedAt?: { seconds: number; nanoseconds: number };
   published: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string[];
+  tags?: string[];
 };
 
 interface PageProps {
@@ -46,7 +52,6 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const doc = snapshot.docs[0];
     const data = doc.data();
     
-    // Explicitly convert Timestamp objects to plain objects for Next.js serialization
     return {
       ...data,
       id: doc.id,
@@ -67,23 +72,41 @@ async function getPostBySlug(slug: string): Promise<BlogPost | null> {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
   
   try {
     const post = await getPostBySlug(slug);
     if (!post) return { title: 'Post Not Found' };
 
+    const title = post.metaTitle || `${post.title} | Telsys Inc. Blog`;
+    const description = post.metaDescription || post.content.replace(/<[^>]*>?/gm, '').substring(0, 160);
+    const pageUrl = `${baseUrl}/blogs/${post.slug}`;
+
     return {
-      title: `${post.title} | Telsys Inc. Blog`,
-      description: post.content.replace(/<[^>]*>?/gm, '').substring(0, 160),
+      title,
+      description,
+      keywords: post.keywords?.join(', '),
       alternates: {
-        canonical: `https://telsysinc.com/blogs/${post.slug}`,
+        canonical: pageUrl,
       },
       openGraph: {
-        title: post.title,
-        url: `https://telsysinc.com/blogs/${post.slug}`,
+        title,
+        description,
+        url: pageUrl,
         images: [{ url: post.featuredImageUrl }],
         type: 'article',
+        publishedTime: new Date(post.createdAt.seconds * 1000).toISOString(),
+        modifiedTime: post.updatedAt ? new Date(post.updatedAt.seconds * 1000).toISOString() : undefined,
+        authors: [post.authorName],
+        section: post.category,
+        tags: post.tags,
       },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [post.featuredImageUrl],
+      }
     };
   } catch (e) {
     return { title: 'Telsys Inc. Blog' };
@@ -98,8 +121,39 @@ export default async function SingleBlogPage({ params }: PageProps) {
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": post.featuredImageUrl,
+    "author": {
+      "@type": "Person",
+      "name": post.authorName,
+      "image": post.authorImageUrl
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Telsys Inc.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://telsysinc.com/tele.png"
+      }
+    },
+    "datePublished": new Date(post.createdAt.seconds * 1000).toISOString(),
+    "dateModified": post.updatedAt ? new Date(post.updatedAt.seconds * 1000).toISOString() : new Date(post.createdAt.seconds * 1000).toISOString(),
+    "description": post.metaDescription || post.content.replace(/<[^>]*>?/gm, '').substring(0, 160),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://telsysinc.com/blogs/${post.slug}`
+    }
+  };
+
   return (
     <div className="bg-[#FCFBF8]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ViewTracker postId={post.id} />
       <ClientOnly>
         <Header />

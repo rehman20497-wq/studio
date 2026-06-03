@@ -25,13 +25,48 @@ import SuccessMissionSection from "@/components/solutions/cloud/success-mission-
 import CloudFaqSection from "@/components/solutions/cloud/faq-section";
 
 export const metadata: Metadata = {
-  title: 'Cloud Solutions',
-  description: 'Power your business with flexible, secure cloud solutions from Telsys Inc. built for performance and growth, from seamless scalability to disaster recovery.',
+  title: 'Managed Cloud Solutions & Scalable Infrastructure | Telsys Inc.',
+  description: 'Power your business with flexible, secure cloud solutions from Telsys Inc. Built for performance, security, and growth. ISO 27001 & SOC2 Compliant.',
+  alternates: {
+    canonical: 'https://telsysinc.com/solutions/cloud',
+  },
+  openGraph: {
+    title: 'Managed Cloud Solutions & Scalable Infrastructure | Telsys Inc.',
+    description: 'Expert-driven cloud solutions built for performance and growth. ISO 27001 & SOC2 Compliant.',
+    url: 'https://telsysinc.com/solutions/cloud',
+    type: 'website',
+  }
 };
 
 export default function CloudSolutionsPage() {
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Cloud Solutions",
+    "provider": {
+      "@type": "Organization",
+      "name": "Telsys Inc.",
+      "url": "https://telsysinc.com"
+    },
+    "description": "Flexible, secure cloud solutions built for performance and growth, from seamless scalability to disaster recovery.",
+    "areaServed": "US",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Cloud Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Data Backup" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Disaster Recovery" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Security Monitoring" } }
+      ]
+    }
+  };
+
   return (
     <div className="bg-[#FCFBF8]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
       <Header />
       <main>
         <Hero />

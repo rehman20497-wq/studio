@@ -4,7 +4,7 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap, BarChart3 } from 'lucide-react';
+import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap, BarChart3, Search, Tag, Globe } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -19,6 +19,7 @@ import { collection, serverTimestamp } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import { useRouter } from 'next/navigation';
+import { Textarea } from '../ui/textarea';
 
 const providerSchema = z.object({
     name: z.string().min(1, 'Provider name is required.'),
@@ -29,6 +30,10 @@ const providerSchema = z.object({
     bannerImageUrl: z.string().url('Banner image is optional.').optional(),
     impressions: z.number().int().min(0).optional(),
     clicks: z.number().int().min(0).optional(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+    keywords: z.string().optional(),
+    tags: z.string().optional(),
 });
 
 type ProviderFormValues = z.infer<typeof providerSchema>;
@@ -46,7 +51,6 @@ const SectionWrapper = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
-
   return (
     <motion.div
       ref={ref}
@@ -78,7 +82,6 @@ export default function UploadProviderForm() {
   const { toast } = useToast();
   const firestore = useFirestore();
   const router = useRouter();
-
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoUploadProgress, setLogoUploadProgress] = useState(0);
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
@@ -86,47 +89,25 @@ export default function UploadProviderForm() {
 
   const { register, handleSubmit, control, setValue, getValues, formState: { errors, isSubmitting } } = useForm<ProviderFormValues>({
       resolver: zodResolver(providerSchema),
-      defaultValues: {
-          solutions: [],
-          impressions: 0,
-          clicks: 0,
-      }
+      defaultValues: { solutions: [], impressions: 0, clicks: 0 }
   });
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
-      if (!cloudinaryConfig.uploadPreset) {
-        throw new Error('Cloudinary upload preset is not configured. Please check src/lib/cloudinary.ts');
-      }
-
+      if (!cloudinaryConfig.uploadPreset) throw new Error('Cloudinary preset missing.');
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', cloudinaryConfig.uploadPreset);
-
       return new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
           xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`, true);
-
           xhr.upload.onprogress = (event) => {
-              if (event.lengthComputable) {
-                  const percentCompleted = Math.round((event.loaded * 100) / event.total);
-                  onProgress(percentCompleted);
-              }
+              if (event.lengthComputable) onProgress(Math.round((event.loaded * 100) / event.total));
           };
-
           xhr.onload = () => {
-              if (xhr.status >= 200 && xhr.status < 300) {
-                  const response = JSON.parse(xhr.responseText);
-                  resolve(response.secure_url);
-              } else {
-                  const response = JSON.parse(xhr.responseText);
-                  reject(new Error(response.error.message || 'Cloudinary upload failed'));
-              }
+              if (xhr.status >= 200 && xhr.status < 300) resolve(JSON.parse(xhr.responseText).secure_url);
+              else reject(new Error('Cloudinary upload failed'));
           };
-
-          xhr.onerror = () => {
-              reject(new Error('Network error during upload.'));
-          };
-
+          xhr.onerror = () => reject(new Error('Network error.'));
           xhr.send(formData);
       });
   };
@@ -134,27 +115,19 @@ export default function UploadProviderForm() {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>, fieldName: 'logoUrl' | 'bannerImageUrl') => {
       const file = e.target.files?.[0];
       if (!file) return;
-
       const setPreview = fieldName === 'logoUrl' ? setLogoPreview : setBannerPreview;
       const setProgress = fieldName === 'logoUrl' ? setLogoUploadProgress : setBannerUploadProgress;
-
       setPreview(URL.createObjectURL(file));
       setProgress(0);
-
       try {
           const imageUrl = await uploadToCloudinary(file, setProgress);
           setValue(fieldName, imageUrl, { shouldValidate: true });
       } catch (error: any) {
-          toast({
-              variant: 'destructive',
-              title: 'Upload Failed',
-              description: error.message || 'Could not upload image.',
-          });
+          toast({ variant: 'destructive', title: 'Upload Failed', description: error.message });
           setProgress(0);
           setPreview(null);
       }
   };
-
 
   const toggleSolution = (solutionName: string) => {
     const currentSolutions = getValues('solutions');
@@ -165,37 +138,23 @@ export default function UploadProviderForm() {
   }
 
   const onSubmit = async (data: ProviderFormValues) => {
-    if (!firestore) {
-      toast({
-        variant: 'destructive',
-        title: 'Firestore not available',
-        description: 'Please try again later.',
-      });
-      return;
-    }
+    if (!firestore) return;
     try {
         const providersCollection = collection(firestore, 'providers');
-        
+        const keywordsArray = data.keywords ? data.keywords.split(',').map(k => k.trim()) : [];
+        const tagsArray = data.tags ? data.tags.split(',').map(t => t.trim()) : [];
         await addDocumentNonBlocking(providersCollection, {
             ...data,
+            keywords: keywordsArray,
+            tags: tagsArray,
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
-            published: true, // Default to published
+            published: true,
         });
-
-        toast({
-            title: 'Provider Published!',
-            description: `${data.name} has been successfully added to the database.`,
-        });
-
+        toast({ title: 'Provider Published!', description: `${data.name} added.` });
         router.push('/admin/manage');
-
     } catch (error: any) {
-        toast({
-            variant: 'destructive',
-            title: 'Submission Failed',
-            description: error.message || 'An unexpected error occurred.',
-        });
+        toast({ variant: 'destructive', title: 'Submission Failed', description: error.message });
     }
   };
 
@@ -205,162 +164,73 @@ export default function UploadProviderForm() {
         <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
                 <label htmlFor="logo-upload" className="cursor-pointer group">
-                    <div className={cn(
-                        "w-full h-64 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-colors",
-                        logoPreview ? "border-green-500 bg-green-50" : "border-zinc-300 hover:border-yellow-400 hover:bg-yellow-50",
-                        errors.logoUrl && "border-red-500"
-                    )}>
+                    <div className={cn("w-full h-64 border-2 border-dashed rounded-xl flex flex-col items-center justify-center", logoPreview ? "border-green-500 bg-green-50" : "border-zinc-300", errors.logoUrl && "border-red-500")}>
                         {logoPreview ? (
                             <div className="relative w-full h-full">
-                                <Image src={logoPreview} alt="Logo preview" fill className="object-contain p-4" />
-                                {logoUploadProgress > 0 && logoUploadProgress < 100 && (
-                                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                        <Progress value={logoUploadProgress} className="w-3/4" />
-                                    </div>
-                                )}
-                                {logoUploadProgress === 100 && (
-                                    <div className="absolute top-2 right-2 p-1 bg-white rounded-full">
-                                        <CheckCircle className="w-8 h-8 text-green-600" />
-                                    </div>
-                                )}
+                                <Image src={logoPreview} alt="Logo" fill className="object-contain p-4" />
                             </div>
                         ) : (
                             <>
-                                <UploadCloud className="w-12 h-12 text-zinc-400 group-hover:text-yellow-500 transition-colors" />
+                                <UploadCloud className="w-12 h-12 text-zinc-400" />
                                 <p className="mt-2 text-zinc-600">Click to upload logo</p>
-                                <p className="text-xs text-zinc-500">Any image format up to 5MB</p>
                             </>
                         )}
                     </div>
                 </label>
                 <input id="logo-upload" type="file" className="sr-only" onChange={(e) => handleFileChange(e, 'logoUrl')} accept="image/*" />
-                {errors.logoUrl && <p className="text-red-500 text-sm mt-2">{errors.logoUrl.message}</p>}
             </div>
             <div className="space-y-4">
-                <div>
-                    <label htmlFor="provider-name" className="font-semibold text-zinc-700">Provider Name</label>
-                    <Input id="provider-name" placeholder="e.g., Stellar Cloud Services" {...register('name')} />
-                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
-                </div>
-                <div>
-                    <label htmlFor="provider-slug" className="font-semibold text-zinc-700">Provider Slug</label>
-                    <Input id="provider-slug" placeholder="e.g., stellar-cloud" {...register('slug')} />
-                    {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>}
-                    <p className="text-xs text-zinc-500 mt-1">This will be used in the URL. Must be unique and lowercase.</p>
-                </div>
+                <Input placeholder="Provider Name" {...register('name')} />
+                <Input placeholder="Provider Slug" {...register('slug')} />
             </div>
         </div>
       </SectionWrapper>
 
-      <SectionWrapper title="Select Solutions" step={2} icon={Palette}>
+      <SectionWrapper title="SEO Configuration" step={2} icon={Globe}>
+        <div className="space-y-4">
+            <Input placeholder="SEO Meta Title" {...register('metaTitle')} />
+            <Textarea placeholder="SEO Meta Description" {...register('metaDescription')} />
+            <Input placeholder="Keywords (comma separated)" {...register('keywords')} />
+            <Input placeholder="Tags (comma separated)" {...register('tags')} />
+        </div>
+      </SectionWrapper>
+
+      <SectionWrapper title="Select Solutions" step={3} icon={Palette}>
          <Controller
             name="solutions"
             control={control}
             render={({ field }) => (
-                <>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {solutions.map(({ name, icon: Icon }) => {
-                        const isSelected = field.value.includes(name);
-                        return (
-                            <motion.div 
-                                key={name}
-                                onClick={() => toggleSolution(name)}
-                                className={cn(
-                                    "relative cursor-pointer p-6 rounded-xl border-2 transition-all duration-300",
-                                    isSelected ? "bg-yellow-100 border-yellow-400 shadow-lg" : "bg-zinc-50 hover:border-zinc-300"
-                                )}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <div className="flex flex-col items-center justify-center gap-3">
-                                    <Icon className={cn("w-10 h-10", isSelected ? "text-yellow-600" : "text-zinc-500")} />
-                                    <p className={cn("font-semibold text-center", isSelected ? "text-zinc-900" : "text-zinc-700")}>{name}</p>
-                                </div>
-                                {isSelected && (
-                                    <div className="absolute top-2 right-2 bg-white rounded-full">
-                                        <CheckCircle className="w-6 h-6 text-yellow-500" />
-                                    </div>
-                                )}
-                            </motion.div>
-                        )
-                    })}
+                    {solutions.map(({ name, icon: Icon }) => (
+                        <div 
+                            key={name}
+                            onClick={() => toggleSolution(name)}
+                            className={cn("cursor-pointer p-6 rounded-xl border-2 transition-all", field.value.includes(name) ? "bg-yellow-100 border-yellow-400" : "bg-zinc-50 border-transparent")}
+                        >
+                            <div className="flex flex-col items-center gap-3">
+                                <Icon className="w-8 h-8" />
+                                <p className="text-sm font-semibold">{name}</p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                {errors.solutions && <p className="text-red-500 text-sm mt-4">{errors.solutions.message}</p>}
-                </>
             )}
         />
       </SectionWrapper>
       
-      <SectionWrapper title="Provider Description" step={3} icon={FileText}>
+      <SectionWrapper title="Description" step={4} icon={FileText}>
         <Controller
             name="description"
             control={control}
             render={({ field }) => (
-                <>
-                <RichTextEditor
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="Write a detailed description of the provider..."
-                />
-                 {errors.description && <p className="text-red-500 text-sm mt-2">{errors.description.message}</p>}
-                </>
+                <RichTextEditor value={field.value} onChange={field.onChange} />
             )}
         />
       </SectionWrapper>
 
-      <SectionWrapper title="Upload Banner (Optional)" step={4} icon={ImageIcon}>
-         <label htmlFor="banner-upload" className="cursor-pointer group">
-            <div className={cn("w-full h-48 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-colors hover:border-yellow-400 hover:bg-yellow-50", bannerPreview ? "border-green-500 bg-green-50" : "border-zinc-300")}>
-                {bannerPreview ? (
-                     <div className="relative w-full h-full">
-                        <Image src={bannerPreview} alt="Banner preview" fill className="object-contain p-4" />
-                        {bannerUploadProgress > 0 && bannerUploadProgress < 100 && (
-                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                <Progress value={bannerUploadProgress} className="w-3/4" />
-                            </div>
-                        )}
-                        {bannerUploadProgress === 100 && (
-                            <div className="absolute top-2 right-2 p-1 bg-white rounded-full">
-                                <CheckCircle className="w-8 h-8 text-green-600" />
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <>
-                        <UploadCloud className="w-10 h-10 text-zinc-400 group-hover:text-yellow-500 transition-colors" />
-                        <p className="mt-2 text-zinc-600">Click to upload a banner image</p>
-                        <p className="text-xs text-zinc-500">Recommended size: 1200x400px</p>
-                    </>
-                )}
-            </div>
-        </label>
-        <input id="banner-upload" type="file" className="sr-only" onChange={(e) => handleFileChange(e, 'bannerImageUrl')} accept="image/*" />
-      </SectionWrapper>
-
-      <SectionWrapper title="Initial Analytics" step={5} icon={BarChart3}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-            <label htmlFor="impressions" className="font-semibold text-zinc-700">Impressions</label>
-            <Input id="impressions" type="number" placeholder="e.g., 1250345" {...register('impressions', { valueAsNumber: true })} />
-            {errors.impressions && <p className="text-red-500 text-sm mt-1">{errors.impressions.message}</p>}
-            </div>
-            <div>
-            <label htmlFor="clicks" className="font-semibold text-zinc-700">Clicks</label>
-            <Input id="clicks" type="number" placeholder="e.g., 8432" {...register('clicks', { valueAsNumber: true })} />
-            {errors.clicks && <p className="text-red-500 text-sm mt-1">{errors.clicks.message}</p>}
-            </div>
-        </div>
-      </SectionWrapper>
-
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 1, delay: 0.5 }}
-        className="flex justify-end"
-    >
-        <Button size="lg" type="submit" className="bg-zinc-900 hover:bg-zinc-700 text-white rounded-full px-10 py-6 text-lg font-bold" disabled={isSubmitting}>
-            {isSubmitting ? 'Publishing...' : 'Publish Provider'}
+      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="flex justify-end">
+        <Button size="lg" type="submit" className="bg-zinc-900 text-white rounded-full px-10">
+            Publish Provider
         </Button>
       </motion.div>
     </form>

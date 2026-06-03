@@ -1,3 +1,4 @@
+
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Header from "@/components/layout/header";
@@ -18,6 +19,10 @@ type ProviderData = {
   logoUrl: string;
   published: boolean;
   createdAt: { seconds: number; nanoseconds: number };
+  updatedAt?: { seconds: number; nanoseconds: number };
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string[];
 };
 
 interface PageProps {
@@ -45,7 +50,6 @@ async function getProviderBySlug(slug: string): Promise<ProviderData | null> {
     const doc = snapshot.docs[0];
     const data = doc.data();
 
-    // Explicitly convert Timestamp objects to plain objects for Next.js serialization
     return {
       ...data,
       id: doc.id,
@@ -66,17 +70,36 @@ async function getProviderBySlug(slug: string): Promise<ProviderData | null> {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://telsysinc.com';
   
   try {
     const provider = await getProviderBySlug(slug);
     if (!provider) return { title: 'Provider Not Found' };
 
+    const title = provider.metaTitle || `${provider.name} Managed IT & Cloud Solutions Partner | Telsys`;
+    const description = provider.metaDescription || provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
+    const pageUrl = `${baseUrl}/providers/${provider.slug}`;
+
     return {
-      title: `${provider.name} | Technology Partners`,
-      description: provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160),
+      title,
+      description,
+      keywords: provider.keywords?.join(', '),
       alternates: {
-        canonical: `https://telsysinc.com/providers/${provider.slug}`,
+        canonical: pageUrl,
       },
+      openGraph: {
+        title,
+        description,
+        url: pageUrl,
+        images: [{ url: provider.logoUrl }],
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [provider.logoUrl],
+      }
     };
   } catch (e) {
     return { title: 'Technology Partner | Telsys Inc.' };
@@ -96,8 +119,26 @@ export default async function SingleProviderPage({ params }: PageProps) {
                         : providerData.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
                         : 'connectivity';
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": providerData.name,
+    "provider": {
+      "@type": "Organization",
+      "name": "Telsys Inc.",
+      "url": "https://telsysinc.com"
+    },
+    "description": providerData.description.replace(/<[^>]*>?/gm, '').substring(0, 200),
+    "areaServed": "US",
+    "category": providerData.solutions.join(', ')
+  };
+
   return (
     <div className="bg-[#FCFBF8] pb-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ImpressionTracker providerId={providerData.id} />
       <ClientOnly>
         <Header />

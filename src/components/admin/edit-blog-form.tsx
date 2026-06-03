@@ -3,7 +3,7 @@
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
-import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, Shield, X, Globe } from 'lucide-react';
+import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, Shield, X, Globe, Search, Tag } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -31,6 +31,10 @@ const blogPostSchema = z.object({
   authorName: z.string().min(1, "Author's name is required."),
   authorImageUrl: z.string().url("Author's image is required."),
   published: z.boolean().default(false),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
+  keywords: z.string().optional(),
+  tags: z.string().optional(),
 });
 
 type BlogPostFormValues = z.infer<typeof blogPostSchema>;
@@ -46,6 +50,10 @@ type BlogPost = {
   authorName: string;
   authorImageUrl: string;
   published?: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string[];
+  tags?: string[];
 };
 
 export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onFinished: () => void }) {
@@ -61,7 +69,7 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
     resolver: zodResolver(blogPostSchema),
     defaultValues: {
       title: post.title,
-      slug: post.slug || post.id, // Fallback to ID if no slug exists
+      slug: post.slug || post.id,
       category: post.category,
       featuredImageUrl: post.featuredImageUrl,
       content: post.content,
@@ -69,12 +77,15 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
       authorName: post.authorName,
       authorImageUrl: post.authorImageUrl,
       published: post.published ?? false,
+      metaTitle: post.metaTitle || '',
+      metaDescription: post.metaDescription || '',
+      keywords: post.keywords?.join(', ') || '',
+      tags: post.tags?.join(', ') || '',
     },
   });
 
   const title = watch('title');
 
-  // Auto-generate slug if it doesn't exist yet
   useEffect(() => {
     if (title && !post.slug) {
       const generatedSlug = title
@@ -87,12 +98,11 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
       if (!cloudinaryConfig.uploadPreset) {
-        throw new Error('Cloudinary upload preset is not configured. Please check src/lib/cloudinary.ts');
+        throw new Error('Cloudinary upload preset is not configured.');
       }
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', cloudinaryConfig.uploadPreset);
-
       return new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
           xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`, true);
@@ -118,23 +128,16 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>, fieldName: 'featuredImageUrl' | 'authorImageUrl') => {
       const file = e.target.files?.[0];
       if (!file) return;
-
       const setPreview = fieldName === 'featuredImageUrl' ? setFeaturedImagePreview : setAuthorImagePreview;
       const setProgress = fieldName === 'featuredImageUrl' ? setFeaturedImageProgress : setAuthorImageProgress;
-
       setPreview(URL.createObjectURL(file));
       setProgress(0);
-
       try {
           const imageUrl = await uploadToCloudinary(file, setProgress);
           setValue(fieldName, imageUrl, { shouldValidate: true });
           await trigger(fieldName);
       } catch (error: any) {
-          toast({
-              variant: 'destructive',
-              title: 'Upload Failed',
-              description: error.message,
-          });
+          toast({ variant: 'destructive', title: 'Upload Failed', description: error.message });
           setPreview(null);
           setProgress(0);
           setValue(fieldName, '', { shouldValidate: true });
@@ -143,34 +146,24 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
 
   const onSubmit = async (data: BlogPostFormValues) => {
     if (!firestore) {
-        toast({
-            variant: 'destructive',
-            title: 'Database connection failed',
-            description: 'Could not connect to Firestore. Please try again.',
-        });
+        toast({ variant: 'destructive', title: 'Database connection failed' });
         return;
     }
-    
     try {
         const postRef = doc(firestore, 'blog_posts', post.id);
+        const keywordsArray = data.keywords ? data.keywords.split(',').map(k => k.trim()) : [];
+        const tagsArray = data.tags ? data.tags.split(',').map(t => t.trim()) : [];
         
         updateDocumentNonBlocking(postRef, {
             ...data,
+            keywords: keywordsArray,
+            tags: tagsArray,
             updatedAt: serverTimestamp(),
         });
-
-        toast({
-            title: `Blog Post ${data.published ? 'Published' : 'Saved as Draft'}!`,
-            description: `"${data.title}" has been successfully updated.`,
-        });
-
+        toast({ title: `Blog Post Updated!`, description: `"${data.title}" has been saved.` });
         onFinished();
     } catch (error: any) {
-         toast({
-            variant: 'destructive',
-            title: 'Update Failed',
-            description: error.message || "An unexpected error occurred while saving the post.",
-        });
+         toast({ variant: 'destructive', title: 'Update Failed', description: error.message });
     }
   };
 
@@ -226,6 +219,28 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
         </div>
       </div>
 
+      <div className="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 space-y-4">
+          <h3 className="text-lg font-bold flex items-center gap-2"><Search className="w-5 h-5 text-yellow-600" /> Search Engine Optimization (SEO)</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                  <label htmlFor="metaTitle" className="text-sm font-semibold text-zinc-700">Meta Title</label>
+                  <Input id="metaTitle" placeholder="Google Title" {...register('metaTitle')} />
+              </div>
+              <div>
+                  <label htmlFor="keywords" className="text-sm font-semibold text-zinc-700">Focus Keywords</label>
+                  <Input id="keywords" placeholder="keyword1, keyword2" {...register('keywords')} />
+              </div>
+          </div>
+          <div>
+              <label htmlFor="metaDescription" className="text-sm font-semibold text-zinc-700">Meta Description</label>
+              <Textarea id="metaDescription" placeholder="Search result summary..." {...register('metaDescription')} />
+          </div>
+          <div>
+              <label htmlFor="tags" className="text-sm font-semibold text-zinc-700">Tags</label>
+              <Input id="tags" placeholder="tag1, tag2" {...register('tags')} />
+          </div>
+      </div>
+
       <div>
         <label className="font-semibold text-zinc-700">Content</label>
         <Controller
@@ -242,20 +257,6 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
                 </div>
             )}
         />
-      </div>
-
-      <div>
-        <label className="font-semibold text-zinc-700">Pull-Quote (Optional)</label>
-        <div className="relative mt-2">
-            <Textarea 
-                placeholder="Enter a powerful quote to feature in your post..." 
-                {...register('quote')}
-                className="pl-10 text-lg italic"
-            />
-            <div className="absolute top-4 left-3 text-zinc-400">
-                <MessageSquare className="w-5 h-5" />
-            </div>
-        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 items-start">
