@@ -15,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fallback date for static pages (Site Launch)
   // We use a fixed date in the past rather than new Date() to avoid 
   // "Last Modified" churn on pages that haven't actually changed.
-  const staticLaunchDate = new Date('2024-01-01');
+  const staticLaunchDate = new Date('2025-05-20');
   
   // 1. Define Static Routes
   const staticRoutes = [
