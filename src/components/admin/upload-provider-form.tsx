@@ -4,8 +4,8 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap, BarChart3, Search, Tag, Globe } from 'lucide-react';
-import { useForm, Controller } from 'react-hook-form';
+import { UploadCloud, FileText, Palette, Image as ImageIcon, CheckCircle, Cloud, Cpu, Wifi, Zap, BarChart3, Search, Tag, Globe, Plus, Trash2, MessageSquare } from 'lucide-react';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '../ui/button';
@@ -20,6 +20,8 @@ import { useToast } from '@/hooks/use-toast';
 import { cloudinaryConfig } from '@/lib/cloudinary';
 import { useRouter } from 'next/navigation';
 import { Textarea } from '../ui/textarea';
+import { Label } from '../ui/label';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const providerSchema = z.object({
     name: z.string().min(1, 'Provider name is required.'),
@@ -31,9 +33,14 @@ const providerSchema = z.object({
     impressions: z.number().int().min(0).optional(),
     clicks: z.number().int().min(0).optional(),
     metaTitle: z.string().optional(),
-    metaDescription: z.string().optional(),
-    keywords: z.string().optional(),
+    metaDescription: z.string().max(160, 'Meta description should be under 160 characters').optional(),
+    primaryKeyword: z.string().optional(),
+    secondaryKeywords: z.string().optional(),
     tags: z.string().optional(),
+    faqs: z.array(z.object({
+      question: z.string().min(1, 'Question is required'),
+      answer: z.string().min(1, 'Answer is required')
+    })).optional()
 });
 
 type ProviderFormValues = z.infer<typeof providerSchema>;
@@ -87,10 +94,17 @@ export default function UploadProviderForm() {
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
   const [bannerUploadProgress, setBannerUploadProgress] = useState(0);
 
-  const { register, handleSubmit, control, setValue, getValues, formState: { errors, isSubmitting } } = useForm<ProviderFormValues>({
+  const { register, handleSubmit, control, setValue, getValues, watch, formState: { errors, isSubmitting } } = useForm<ProviderFormValues>({
       resolver: zodResolver(providerSchema),
-      defaultValues: { solutions: [], impressions: 0, clicks: 0 }
+      defaultValues: { solutions: [], impressions: 0, clicks: 0, faqs: [{ question: '', answer: '' }] }
   });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "faqs"
+  });
+
+  const metaDescription = watch('metaDescription');
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
       if (!cloudinaryConfig.uploadPreset) throw new Error('Cloudinary preset missing.');
@@ -141,11 +155,11 @@ export default function UploadProviderForm() {
     if (!firestore) return;
     try {
         const providersCollection = collection(firestore, 'providers');
-        const keywordsArray = data.keywords ? data.keywords.split(',').map(k => k.trim()) : [];
+        const secondaryKeywordsArray = data.secondaryKeywords ? data.secondaryKeywords.split(',').map(k => k.trim()) : [];
         const tagsArray = data.tags ? data.tags.split(',').map(t => t.trim()) : [];
         await addDocumentNonBlocking(providersCollection, {
             ...data,
-            keywords: keywordsArray,
+            secondaryKeywords: secondaryKeywordsArray,
             tags: tagsArray,
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp(),
@@ -186,16 +200,55 @@ export default function UploadProviderForm() {
         </div>
       </SectionWrapper>
 
-      <SectionWrapper title="SEO Configuration" step={2} icon={Globe}>
-        <div className="space-y-4">
-            <Input placeholder="SEO Meta Title" {...register('metaTitle')} />
-            <Textarea placeholder="SEO Meta Description" {...register('metaDescription')} />
-            <Input placeholder="Keywords (comma separated)" {...register('keywords')} />
-            <Input placeholder="Tags (comma separated)" {...register('tags')} />
+      <SectionWrapper title="Advanced SEO" step={2} icon={Globe}>
+        <div className="space-y-6">
+            <Input placeholder="SEO Meta Title (Google Title)" {...register('metaTitle')} />
+            <div>
+                <div className="flex justify-between items-center mb-1">
+                    <label className="text-sm font-semibold text-zinc-700">Meta Description</label>
+                    <span className={cn("text-xs", (metaDescription?.length || 0) > 160 ? "text-red-500" : "text-zinc-500")}>
+                        {metaDescription?.length || 0}/160
+                    </span>
+                </div>
+                <Textarea placeholder="Search result summary..." {...register('metaDescription')} />
+                {errors.metaDescription && <p className="text-red-500 text-sm mt-1">{errors.metaDescription.message}</p>}
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+                <Input placeholder="Primary Keyword" {...register('primaryKeyword')} />
+                <Input placeholder="Secondary Keywords (comma separated)" {...register('secondaryKeywords')} />
+            </div>
+            <Input placeholder="SEO Tags (comma separated)" {...register('tags')} />
         </div>
       </SectionWrapper>
 
-      <SectionWrapper title="Select Solutions" step={3} icon={Palette}>
+      <SectionWrapper title="FAQ Section" step={3} icon={MessageSquare}>
+          <div className="space-y-4">
+              <Accordion type="multiple" className="w-full">
+                  {fields.map((field, index) => (
+                      <AccordionItem key={field.id} value={`faq-${index}`} className="border rounded-xl px-4 mb-2 bg-white">
+                          <AccordionTrigger className="hover:no-underline">
+                              <div className="flex items-center gap-2 text-left">
+                                  <span className="bg-yellow-100 text-yellow-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">{index + 1}</span>
+                                  <span>{watch(`faqs.${index}.question`) || "New Question"}</span>
+                              </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="space-y-4 pt-2">
+                              <Input {...register(`faqs.${index}.question` as const)} placeholder="FAQ Question" />
+                              <Textarea {...register(`faqs.${index}.answer` as const)} placeholder="FAQ Answer" rows={3} />
+                              <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)} className="w-full mt-2">
+                                  <Trash2 className="w-4 h-4 mr-2" /> Remove FAQ
+                              </Button>
+                          </AccordionContent>
+                      </AccordionItem>
+                  ))}
+              </Accordion>
+              <Button type="button" variant="outline" onClick={() => append({ question: '', answer: '' })} className="w-full border-dashed py-6 bg-zinc-50 border-zinc-300">
+                  <Plus className="w-4 h-4 mr-2" /> Add FAQ Item
+              </Button>
+          </div>
+      </SectionWrapper>
+
+      <SectionWrapper title="Select Solutions" step={4} icon={Palette}>
          <Controller
             name="solutions"
             control={control}
@@ -218,7 +271,7 @@ export default function UploadProviderForm() {
         />
       </SectionWrapper>
       
-      <SectionWrapper title="Description" step={4} icon={FileText}>
+      <SectionWrapper title="Description" step={5} icon={FileText}>
         <Controller
             name="description"
             control={control}
@@ -229,7 +282,7 @@ export default function UploadProviderForm() {
       </SectionWrapper>
 
       <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="flex justify-end">
-        <Button size="lg" type="submit" className="bg-zinc-900 text-white rounded-full px-10">
+        <Button size="lg" type="submit" className="bg-zinc-900 text-white rounded-full px-10" disabled={isSubmitting}>
             Publish Provider
         </Button>
       </motion.div>

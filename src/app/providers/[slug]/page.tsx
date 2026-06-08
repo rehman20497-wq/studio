@@ -9,6 +9,11 @@ import ClientOnly from '@/components/client-only';
 import { initializeFirebase } from '@/firebase/server-init';
 import ImpressionTracker from '@/components/single-provider/impression-tracker';
 
+type FAQItem = {
+  question: string;
+  answer: string;
+};
+
 type ProviderData = {
   id: string;
   name: string;
@@ -22,7 +27,10 @@ type ProviderData = {
   updatedAt?: { seconds: number; nanoseconds: number };
   metaTitle?: string;
   metaDescription?: string;
-  keywords?: string[];
+  primaryKeyword?: string;
+  secondaryKeywords?: string[];
+  tags?: string[];
+  faqs?: FAQItem[];
 };
 
 interface PageProps {
@@ -80,10 +88,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const description = provider.metaDescription || provider.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
     const pageUrl = `${baseUrl}/providers/${provider.slug}`;
 
+    const keywords = [
+      provider.primaryKeyword,
+      ...(provider.secondaryKeywords || []),
+      ...(provider.tags || [])
+    ].filter(Boolean).join(', ');
+
     return {
       title,
       description,
-      keywords: provider.keywords?.join(', '),
+      keywords,
       alternates: {
         canonical: pageUrl,
       },
@@ -119,26 +133,46 @@ export default async function SingleProviderPage({ params }: PageProps) {
                         : providerData.solutions?.[0]?.toLowerCase().includes('ai') ? 'ai'
                         : 'connectivity';
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": providerData.name,
-    "provider": {
-      "@type": "Organization",
-      "name": "Telsys Inc.",
-      "url": "https://telsysinc.com"
-    },
-    "description": providerData.description.replace(/<[^>]*>?/gm, '').substring(0, 200),
-    "areaServed": "US",
-    "category": providerData.solutions.join(', ')
-  };
+  const jsonLd: any[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": providerData.name,
+      "provider": {
+        "@type": "Organization",
+        "name": "Telsys Inc.",
+        "url": "https://telsysinc.com"
+      },
+      "description": providerData.description.replace(/<[^>]*>?/gm, '').substring(0, 200),
+      "areaServed": "US",
+      "category": providerData.solutions.join(', ')
+    }
+  ];
+
+  if (providerData.faqs && providerData.faqs.length > 0) {
+    jsonLd.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": providerData.faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    });
+  }
 
   return (
     <div className="bg-[#FCFBF8] pb-12">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {jsonLd.map((ld, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+      ))}
       <ImpressionTracker providerId={providerData.id} />
       <ClientOnly>
         <Header />

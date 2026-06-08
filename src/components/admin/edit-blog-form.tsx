@@ -3,8 +3,8 @@
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
-import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, Shield, X, Globe, Search, Tag } from 'lucide-react';
-import { useForm, Controller } from 'react-hook-form';
+import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, Shield, X, Globe, Search, Tag, Plus, Trash2 } from 'lucide-react';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -20,6 +20,7 @@ import { updateDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { doc, serverTimestamp } from 'firebase/firestore';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
@@ -32,9 +33,14 @@ const blogPostSchema = z.object({
   authorImageUrl: z.string().url("Author's image is required."),
   published: z.boolean().default(false),
   metaTitle: z.string().optional(),
-  metaDescription: z.string().optional(),
-  keywords: z.string().optional(),
+  metaDescription: z.string().max(160, 'Meta description should be under 160 characters').optional(),
+  primaryKeyword: z.string().optional(),
+  secondaryKeywords: z.string().optional(),
   tags: z.string().optional(),
+  faqs: z.array(z.object({
+    question: z.string().min(1, 'Question is required'),
+    answer: z.string().min(1, 'Answer is required')
+  })).optional()
 });
 
 type BlogPostFormValues = z.infer<typeof blogPostSchema>;
@@ -52,8 +58,10 @@ type BlogPost = {
   published?: boolean;
   metaTitle?: string;
   metaDescription?: string;
-  keywords?: string[];
+  primaryKeyword?: string;
+  secondaryKeywords?: string[];
   tags?: string[];
+  faqs?: { question: string; answer: string }[];
 };
 
 export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onFinished: () => void }) {
@@ -79,12 +87,20 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
       published: post.published ?? false,
       metaTitle: post.metaTitle || '',
       metaDescription: post.metaDescription || '',
-      keywords: post.keywords?.join(', ') || '',
+      primaryKeyword: post.primaryKeyword || '',
+      secondaryKeywords: post.secondaryKeywords?.join(', ') || '',
       tags: post.tags?.join(', ') || '',
+      faqs: post.faqs || [{ question: '', answer: '' }]
     },
   });
 
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "faqs"
+  });
+
   const title = watch('title');
+  const metaDescription = watch('metaDescription');
 
   useEffect(() => {
     if (title && !post.slug) {
@@ -151,12 +167,12 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
     }
     try {
         const postRef = doc(firestore, 'blog_posts', post.id);
-        const keywordsArray = data.keywords ? data.keywords.split(',').map(k => k.trim()) : [];
+        const secondaryKeywordsArray = data.secondaryKeywords ? data.secondaryKeywords.split(',').map(k => k.trim()) : [];
         const tagsArray = data.tags ? data.tags.split(',').map(t => t.trim()) : [];
         
         updateDocumentNonBlocking(postRef, {
             ...data,
-            keywords: keywordsArray,
+            secondaryKeywords: secondaryKeywordsArray,
             tags: tagsArray,
             updatedAt: serverTimestamp(),
         });
@@ -220,24 +236,72 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
       </div>
 
       <div className="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 space-y-4">
-          <h3 className="text-lg font-bold flex items-center gap-2"><Search className="w-5 h-5 text-yellow-600" /> Search Engine Optimization (SEO)</h3>
+          <h3 className="text-lg font-bold flex items-center gap-2"><Search className="w-5 h-5 text-yellow-600" /> Advanced SEO</h3>
           <div className="grid md:grid-cols-2 gap-4">
               <div>
                   <label htmlFor="metaTitle" className="text-sm font-semibold text-zinc-700">Meta Title</label>
                   <Input id="metaTitle" placeholder="Google Title" {...register('metaTitle')} />
               </div>
               <div>
-                  <label htmlFor="keywords" className="text-sm font-semibold text-zinc-700">Focus Keywords</label>
-                  <Input id="keywords" placeholder="keyword1, keyword2" {...register('keywords')} />
+                <div className="flex justify-between items-center mb-1">
+                    <label htmlFor="metaDescription" className="text-sm font-semibold text-zinc-700">Meta Description</label>
+                    <span className={cn("text-xs", (metaDescription?.length || 0) > 160 ? "text-red-500" : "text-zinc-500")}>
+                        {metaDescription?.length || 0}/160
+                    </span>
+                </div>
+                <Textarea id="metaDescription" placeholder="Search result summary..." {...register('metaDescription')} />
+                {errors.metaDescription && <p className="text-red-500 text-sm mt-1">{errors.metaDescription.message}</p>}
+              </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                  <label htmlFor="primaryKeyword" className="text-sm font-semibold text-zinc-700">Primary Keyword</label>
+                  <Input id="primaryKeyword" placeholder="Main focus keyword" {...register('primaryKeyword')} />
+              </div>
+              <div>
+                  <label htmlFor="secondaryKeywords" className="text-sm font-semibold text-zinc-700">Secondary Keywords (comma separated)</label>
+                  <Input id="secondaryKeywords" placeholder="keyword1, keyword2" {...register('secondaryKeywords')} />
               </div>
           </div>
           <div>
-              <label htmlFor="metaDescription" className="text-sm font-semibold text-zinc-700">Meta Description</label>
-              <Textarea id="metaDescription" placeholder="Search result summary..." {...register('metaDescription')} />
-          </div>
-          <div>
-              <label htmlFor="tags" className="text-sm font-semibold text-zinc-700">Tags</label>
+              <label htmlFor="tags" className="text-sm font-semibold text-zinc-700">SEO Tags</label>
               <Input id="tags" placeholder="tag1, tag2" {...register('tags')} />
+          </div>
+      </div>
+
+      <div className="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 space-y-4">
+          <h3 className="text-lg font-bold flex items-center gap-2"><MessageSquare className="w-5 h-5 text-yellow-600" /> FAQ Section (Structured Data)</h3>
+          <div className="space-y-4">
+              <Accordion type="multiple" className="w-full">
+                  {fields.map((field, index) => (
+                      <AccordionItem key={field.id} value={`faq-${index}`} className="border rounded-xl px-4 mb-2 bg-white">
+                          <AccordionTrigger className="hover:no-underline">
+                              <div className="flex items-center gap-2 text-left">
+                                  <span className="bg-yellow-100 text-yellow-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">{index + 1}</span>
+                                  <span className="truncate max-w-[200px] sm:max-w-md">
+                                      {watch(`faqs.${index}.question`) || "New FAQ Question"}
+                                  </span>
+                              </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="space-y-4 pt-2">
+                              <div className="space-y-2">
+                                  <Label>Question</Label>
+                                  <Input {...register(`faqs.${index}.question` as const)} placeholder="Enter the question" />
+                              </div>
+                              <div className="space-y-2">
+                                  <Label>Answer</Label>
+                                  <Textarea {...register(`faqs.${index}.answer` as const)} placeholder="Enter the answer" rows={3} />
+                              </div>
+                              <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)} className="w-full mt-2">
+                                  <Trash2 className="w-4 h-4 mr-2" /> Remove FAQ
+                              </Button>
+                          </AccordionContent>
+                      </AccordionItem>
+                  ))}
+              </Accordion>
+              <Button type="button" variant="outline" onClick={() => append({ question: '', answer: '' })} className="w-full border-dashed py-4 bg-white border-zinc-300 hover:bg-zinc-50">
+                  <Plus className="w-4 h-4 mr-2" /> Add FAQ Item
+              </Button>
           </div>
       </div>
 
@@ -277,7 +341,7 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
                             checked={field.value}
                             onCheckedChange={field.onChange}
                         />
-                        <Label htmlFor="edit-published-status" className="flex flex-col">
+                        <Label htmlFor="edit-published-status" className="flex flex-col cursor-pointer">
                             <span className="font-semibold text-zinc-800">
                             {field.value ? 'Published' : 'Draft'}
                             </span>

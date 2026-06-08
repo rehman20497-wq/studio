@@ -76,15 +76,30 @@
           "type": "string",
           "description": "SEO Meta Description"
         },
-        "keywords": {
+        "primaryKeyword": {
+          "type": "string",
+          "description": "Main target keyword"
+        },
+        "secondaryKeywords": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "SEO Keywords"
+          "description": "Additional target keywords"
         },
         "tags": {
           "type": "array",
           "items": { "type": "string" },
           "description": "Content tags"
+        },
+        "faqs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "answer": { "type": "string" }
+            }
+          },
+          "description": "Structured FAQ section"
         }
       },
       "required": [
@@ -260,15 +275,30 @@
           "type": "string",
           "description": "SEO Meta Description"
         },
-        "keywords": {
+        "primaryKeyword": {
+          "type": "string",
+          "description": "Main target keyword"
+        },
+        "secondaryKeywords": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "SEO Keywords"
+          "description": "Additional target keywords"
         },
         "tags": {
           "type": "array",
           "items": { "type": "string" },
           "description": "Content tags"
+        },
+        "faqs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "answer": { "type": "string" }
+            }
+          },
+          "description": "Structured FAQ section"
         }
       },
       "required": [

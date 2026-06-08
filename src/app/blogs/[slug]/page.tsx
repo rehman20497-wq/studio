@@ -8,6 +8,11 @@ import Hero from '@/components/single-blog/hero';
 import BlogContent from '@/components/single-blog/blog-content';
 import ViewTracker from '@/components/single-blog/view-tracker';
 
+type FAQItem = {
+  question: string;
+  answer: string;
+};
+
 type BlogPost = {
   id: string;
   title: string;
@@ -23,8 +28,10 @@ type BlogPost = {
   published: boolean;
   metaTitle?: string;
   metaDescription?: string;
-  keywords?: string[];
+  primaryKeyword?: string;
+  secondaryKeywords?: string[];
   tags?: string[];
+  faqs?: FAQItem[];
 };
 
 interface PageProps {
@@ -81,11 +88,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const title = post.metaTitle || `${post.title} | Telsys Inc. Blog`;
     const description = post.metaDescription || post.content.replace(/<[^>]*>?/gm, '').substring(0, 160);
     const pageUrl = `${baseUrl}/blogs/${post.slug}`;
+    
+    const keywords = [
+      post.primaryKeyword,
+      ...(post.secondaryKeywords || []),
+      ...(post.tags || [])
+    ].filter(Boolean).join(', ');
 
     return {
       title,
       description,
-      keywords: post.keywords?.join(', '),
+      keywords,
       alternates: {
         canonical: pageUrl,
       },
@@ -121,39 +134,59 @@ export default async function SingleBlogPage({ params }: PageProps) {
     notFound();
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": post.title,
-    "image": post.featuredImageUrl,
-    "author": {
-      "@type": "Person",
-      "name": post.authorName,
-      "image": post.authorImageUrl
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Telsys Inc.",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://telsysinc.com/tele.png"
+  const jsonLd: any[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "image": post.featuredImageUrl,
+      "author": {
+        "@type": "Person",
+        "name": post.authorName,
+        "image": post.authorImageUrl
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Telsys Inc.",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://telsysinc.com/tele.png"
+        }
+      },
+      "datePublished": new Date(post.createdAt.seconds * 1000).toISOString(),
+      "dateModified": post.updatedAt ? new Date(post.updatedAt.seconds * 1000).toISOString() : new Date(post.createdAt.seconds * 1000).toISOString(),
+      "description": post.metaDescription || post.content.replace(/<[^>]*>?/gm, '').substring(0, 160),
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://telsysinc.com/blogs/${post.slug}`
       }
-    },
-    "datePublished": new Date(post.createdAt.seconds * 1000).toISOString(),
-    "dateModified": post.updatedAt ? new Date(post.updatedAt.seconds * 1000).toISOString() : new Date(post.createdAt.seconds * 1000).toISOString(),
-    "description": post.metaDescription || post.content.replace(/<[^>]*>?/gm, '').substring(0, 160),
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `https://telsysinc.com/blogs/${post.slug}`
     }
-  };
+  ];
+
+  if (post.faqs && post.faqs.length > 0) {
+    jsonLd.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": post.faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    });
+  }
 
   return (
     <div className="bg-[#FCFBF8]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {jsonLd.map((ld, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+      ))}
       <ViewTracker postId={post.id} />
       <ClientOnly>
         <Header />

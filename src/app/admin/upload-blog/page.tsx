@@ -4,8 +4,8 @@
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
-import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen, Shield, Globe } from 'lucide-react';
-import { useForm, Controller } from 'react-hook-form';
+import { UploadCloud, FileText, Type, Image as ImageIcon, CheckCircle, User, MessageSquare, BookOpen, Shield, Globe, Search, Tag, Plus, Trash2 } from 'lucide-react';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -24,6 +24,7 @@ import { collection, serverTimestamp } from 'firebase/firestore';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useRouter } from 'next/navigation';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const blogPostSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
@@ -35,6 +36,15 @@ const blogPostSchema = z.object({
   authorName: z.string().min(1, "Author's name is required."),
   authorImageUrl: z.string().url("Author's image is required."),
   published: z.boolean().default(false),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().max(160, 'Meta description should be under 160 characters').optional(),
+  primaryKeyword: z.string().optional(),
+  secondaryKeywords: z.string().optional(), // String converted to array on submit
+  tags: z.string().optional(), // String converted to array on submit
+  faqs: z.array(z.object({
+    question: z.string().min(1, 'Question is required'),
+    answer: z.string().min(1, 'Answer is required')
+  })).optional()
 });
 
 type BlogPostFormValues = z.infer<typeof blogPostSchema>;
@@ -150,10 +160,17 @@ function UploadBlogContent() {
     mode: 'onChange',
     defaultValues: {
       published: false,
+      faqs: [{ question: '', answer: '' }]
     },
   });
 
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "faqs"
+  });
+
   const title = watch('title');
+  const metaDescription = watch('metaDescription');
 
   useEffect(() => {
     if (session?.user?.name) {
@@ -161,7 +178,6 @@ function UploadBlogContent() {
     }
   }, [session, setValue]);
 
-  // Auto-generate slug from title
   useEffect(() => {
     if (title) {
       const generatedSlug = title
@@ -172,17 +188,13 @@ function UploadBlogContent() {
     }
   }, [title, setValue]);
 
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isValid || !buttonRef.current) return;
-
     const { clientX, clientY } = e;
     const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
-    
     const dx = clientX - (left + width / 2);
     const dy = clientY - (top + height / 2);
     const distance = Math.sqrt(dx * dx + dy * dy);
-
     const maxMove = 80;
     if (distance < 120) {
       const angle = Math.atan2(dy, dx);
@@ -197,12 +209,11 @@ function UploadBlogContent() {
 
   const uploadToCloudinary = async (file: File, onProgress: (progress: number) => void): Promise<string> => {
       if (!cloudinaryConfig.uploadPreset) {
-        throw new Error('Cloudinary upload preset is not configured. Please check src/lib/cloudinary.ts');
+        throw new Error('Cloudinary upload preset is not configured.');
       }
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', cloudinaryConfig.uploadPreset);
-
       return new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
           xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`, true);
@@ -228,23 +239,16 @@ function UploadBlogContent() {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>, fieldName: 'featuredImageUrl' | 'authorImageUrl') => {
       const file = e.target.files?.[0];
       if (!file) return;
-
       const setPreview = fieldName === 'featuredImageUrl' ? setFeaturedImagePreview : setAuthorImagePreview;
       const setProgress = fieldName === 'featuredImageUrl' ? setFeaturedImageProgress : setAuthorImageProgress;
-
       setPreview(URL.createObjectURL(file));
       setProgress(0);
-
       try {
           const imageUrl = await uploadToCloudinary(file, setProgress);
           setValue(fieldName, imageUrl, { shouldValidate: true });
           await trigger(fieldName);
       } catch (error: any) {
-          toast({
-              variant: 'destructive',
-              title: 'Upload Failed',
-              description: error.message,
-          });
+          toast({ variant: 'destructive', title: 'Upload Failed', description: error.message });
           setPreview(null);
           setProgress(0);
           setValue(fieldName, '', { shouldValidate: true });
@@ -253,19 +257,18 @@ function UploadBlogContent() {
 
   const onSubmit = async (data: BlogPostFormValues) => {
     if (!firestore) {
-        toast({
-            variant: 'destructive',
-            title: 'Database connection failed',
-            description: 'Could not connect to Firestore. Please try again.',
-        });
+        toast({ variant: 'destructive', title: 'Database connection failed' });
         return;
     }
-    
     try {
         const blogCollection = collection(firestore, 'blog_posts');
+        const secondaryKeywordsArray = data.secondaryKeywords ? data.secondaryKeywords.split(',').map(k => k.trim()) : [];
+        const tagsArray = data.tags ? data.tags.split(',').map(t => t.trim()) : [];
         
         addDocumentNonBlocking(blogCollection, {
             ...data,
+            secondaryKeywords: secondaryKeywordsArray,
+            tags: tagsArray,
             views: 0,
             comments: 0,
             shares: 0,
@@ -273,24 +276,11 @@ function UploadBlogContent() {
             updatedAt: serverTimestamp(),
         });
 
-        toast({
-            title: `Blog Post ${data.published ? 'Published' : 'Saved as Draft'}!`,
-            description: `"${data.title}" has been successfully saved.`,
-        });
-
+        toast({ title: `Blog Post ${data.published ? 'Published' : 'Saved as Draft'}!`, description: `"${data.title}" has been saved.` });
         reset();
-        setFeaturedImagePreview(null);
-        setAuthorImagePreview(null);
-        setFeaturedImageProgress(0);
-        setAuthorImageProgress(0);
         router.push('/admin/manage-blogs');
-
     } catch (error: any) {
-         toast({
-            variant: 'destructive',
-            title: 'Submission Failed',
-            description: error.message || "An unexpected error occurred while saving the post.",
-        });
+         toast({ variant: 'destructive', title: 'Submission Failed', description: error.message });
     }
   };
   
@@ -315,7 +305,6 @@ function UploadBlogContent() {
                                 </label>
                                 <Input id="slug" placeholder="e.g., future-of-ai-tech" {...register('slug')} />
                                 {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>}
-                                <p className="text-xs text-zinc-500">The URL will be: telsysinc.com/blogs/{"{slug}"}</p>
                             </div>
                             <div>
                                 <label htmlFor="category" className="font-semibold text-zinc-700">Category</label>
@@ -325,7 +314,77 @@ function UploadBlogContent() {
                         </div>
                     </SectionWrapper>
 
-                    <SectionWrapper title="Featured Image" step={2} icon={ImageIcon}>
+                    <SectionWrapper title="Advanced SEO" step={2} icon={Search}>
+                        <div className="space-y-6">
+                            <div>
+                                <label htmlFor="metaTitle" className="font-semibold text-zinc-700">SEO Meta Title (Max 60 chars)</label>
+                                <Input id="metaTitle" placeholder="Google search result title" {...register('metaTitle')} />
+                            </div>
+                            <div>
+                                <div className="flex justify-between items-center mb-1">
+                                    <label htmlFor="metaDescription" className="font-semibold text-zinc-700">Meta Description (Max 160 chars)</label>
+                                    <span className={cn("text-xs", (metaDescription?.length || 0) > 160 ? "text-red-500" : "text-zinc-500")}>
+                                        {metaDescription?.length || 0}/160
+                                    </span>
+                                </div>
+                                <Textarea id="metaDescription" placeholder="Search result summary..." {...register('metaDescription')} />
+                                {errors.metaDescription && <p className="text-red-500 text-sm mt-1">{errors.metaDescription.message}</p>}
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="primaryKeyword" className="font-semibold text-zinc-700">Primary Keyword</label>
+                                    <Input id="primaryKeyword" placeholder="Main focus keyword" {...register('primaryKeyword')} />
+                                </div>
+                                <div>
+                                    <label htmlFor="secondaryKeywords" className="font-semibold text-zinc-700">Secondary Keywords (comma separated)</label>
+                                    <Input id="secondaryKeywords" placeholder="keyword1, keyword2..." {...register('secondaryKeywords')} />
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="tags" className="font-semibold text-zinc-700 flex items-center gap-2">
+                                    <Tag className="w-4 h-4" /> SEO Tags (comma separated)
+                                </label>
+                                <Input id="tags" placeholder="tech, news, guide..." {...register('tags')} />
+                            </div>
+                        </div>
+                    </SectionWrapper>
+
+                    <SectionWrapper title="FAQ Section (Structured Data)" step={3} icon={MessageSquare}>
+                        <div className="space-y-4">
+                            <Accordion type="multiple" className="w-full">
+                                {fields.map((field, index) => (
+                                    <AccordionItem key={field.id} value={`faq-${index}`} className="border rounded-xl px-4 mb-2 bg-white">
+                                        <AccordionTrigger className="hover:no-underline">
+                                            <div className="flex items-center gap-2 text-left">
+                                                <span className="bg-yellow-100 text-yellow-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">{index + 1}</span>
+                                                <span className="truncate max-w-[200px] sm:max-w-md">
+                                                    {watch(`faqs.${index}.question`) || "New FAQ Question"}
+                                                </span>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="space-y-4 pt-2">
+                                            <div className="space-y-2">
+                                                <Label>Question</Label>
+                                                <Input {...register(`faqs.${index}.question` as const)} placeholder="Enter the question" />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>Answer</Label>
+                                                <Textarea {...register(`faqs.${index}.answer` as const)} placeholder="Enter the answer" rows={3} />
+                                            </div>
+                                            <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)} className="w-full mt-2">
+                                                <Trash2 className="w-4 h-4 mr-2" /> Remove FAQ
+                                            </Button>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                            <Button type="button" variant="outline" onClick={() => append({ question: '', answer: '' })} className="w-full border-dashed py-6 bg-zinc-50 border-zinc-300 hover:bg-zinc-100">
+                                <Plus className="w-4 h-4 mr-2" /> Add FAQ Item
+                            </Button>
+                        </div>
+                    </SectionWrapper>
+
+                    <SectionWrapper title="Featured Image" step={4} icon={ImageIcon}>
                         <ImageUploader
                         id="featured-image"
                         label="Upload Featured Image"
@@ -337,7 +396,7 @@ function UploadBlogContent() {
                         />
                     </SectionWrapper>
 
-                    <SectionWrapper title="Content" step={3} icon={FileText}>
+                    <SectionWrapper title="Content" step={5} icon={FileText}>
                         <Controller
                             name="content"
                             control={control}
@@ -354,20 +413,7 @@ function UploadBlogContent() {
                         />
                     </SectionWrapper>
 
-                    <SectionWrapper title="Pull-Quote (Optional)" step={4} icon={MessageSquare}>
-                        <div className="relative">
-                            <Textarea 
-                                placeholder="Enter a powerful quote to feature in your post..." 
-                                {...register('quote')}
-                                className="pl-10 text-lg italic"
-                            />
-                            <div className="absolute top-4 left-3 text-zinc-400">
-                            <MessageSquare className="w-5 h-5" />
-                            </div>
-                        </div>
-                    </SectionWrapper>
-
-                    <SectionWrapper title="Author" step={5} icon={User}>
+                    <SectionWrapper title="Author" step={6} icon={User}>
                     <div className="grid md:grid-cols-2 gap-8 items-start">
                         <ImageUploader
                             id="author-image"
@@ -379,12 +425,6 @@ function UploadBlogContent() {
                             onFileChange={(e) => handleFileChange(e, 'authorImageUrl')}
                             />
                             <div className="space-y-4">
-                                {session?.user?.name && (
-                                  <div className="bg-zinc-50 p-4 rounded-lg border border-zinc-200">
-                                      <p className="text-xs text-zinc-500 uppercase font-bold">Author</p>
-                                      <p className="text-lg font-medium">{session.user.name}</p>
-                                  </div>
-                                )}
                                 <div>
                                 <label htmlFor="authorName" className="font-semibold text-zinc-700">Display Author Name</label>
                                 <Input id="authorName" placeholder="e.g., Jane Doe" {...register('authorName')} />
@@ -394,7 +434,7 @@ function UploadBlogContent() {
                     </div>
                     </SectionWrapper>
                     
-                    <SectionWrapper title="Publish Status" step={6} icon={Shield}>
+                    <SectionWrapper title="Publish Status" step={7} icon={Shield}>
                         <Controller
                             name="published"
                             control={control}
@@ -405,29 +445,16 @@ function UploadBlogContent() {
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
                                 />
-                                <Label htmlFor="published-status" className="flex flex-col">
-                                    <span className="font-semibold text-zinc-800">
-                                    {field.value ? 'Published' : 'Draft'}
-                                    </span>
-                                    <span className="text-sm text-zinc-600">
-                                    {field.value
-                                        ? 'This post will be visible to the public.'
-                                        : 'This post will be saved as a draft.'}
-                                    </span>
+                                <Label htmlFor="published-status" className="flex flex-col cursor-pointer">
+                                    <span className="font-semibold text-zinc-800">{field.value ? 'Published' : 'Draft'}</span>
+                                    <span className="text-sm text-zinc-600">Toggle to set visibility status</span>
                                 </Label>
                                 </div>
                             )}
                         />
                     </SectionWrapper>
 
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true, amount: 0.5 }}
-                        transition={{ duration: 1, delay: 0.5 }}
-                        className="flex justify-end"
-                    >
+                    <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="flex justify-end">
                         <motion.button
                             ref={buttonRef}
                             style={{ x: springX, y: springY }}
