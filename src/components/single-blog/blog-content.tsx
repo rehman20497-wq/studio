@@ -42,22 +42,20 @@ const containerVariants = {
 
 const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.2 });
+    const isInView = useInView(ref, { once: true, amount: 0.1 });
   
     return (
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, ease: "easeOut" }}
+        className="w-full"
       >
-       <div
-  className="prose text-bodyySm
-  sm:text-bodyyMd
-  lg:text-bodyylg max-w-full text-zinc-700 ql-editor break-words"
-  dangerouslySetInnerHTML={{ __html: htmlContent }}
-/>
-
+        <div
+          className="prose text-bodyySm sm:text-bodyyMd lg:text-bodyylg max-w-full text-zinc-700 ql-editor break-words"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
       </motion.div>
     );
 };
@@ -65,26 +63,14 @@ const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
 
 export default function BlogContent({ post }: { post: BlogPost }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isInView = useInView(ref, { once: true, amount: 0.05 });
 
   const hasQuote = post.quote && post.quote.trim() !== '';
-  let contentPart1 = post.content;
-  let contentPart2 = '';
-
-  if (hasQuote) {
-    const paragraphs = post.content.split('</p>');
-    const splitIndex = Math.floor(paragraphs.length / 2);
-    if (paragraphs.length > 1) {
-        contentPart1 = paragraphs.slice(0, splitIndex).join('</p>') + (paragraphs.length > 1 ? '</p>' : '');
-        contentPart2 = paragraphs.slice(splitIndex).join('</p>');
-    }
-  }
-
 
   return (
     <motion.div 
       ref={ref}
-      className="px-4 sm:px-6 md:px-[6%] py-12"
+      className="px-4 sm:px-6 md:px-[6%] py-12 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
@@ -93,13 +79,22 @@ export default function BlogContent({ post }: { post: BlogPost }) {
             <div className="hidden md:block md:col-span-4">
                 <Sidebar currentPostId={post.id} slug={post.slug} category={post.category} />
             </div>
-            <div className="w-full md:col-span-8 space-y-8">
-                <ContentBlock htmlContent={contentPart1} />
-
-                {hasQuote && <QuoteSection quote={post.quote!} />}
+            <div className="w-full md:col-span-8 space-y-12">
+                {/* 
+                   ROOT CAUSE FIX: We render the content as a single block. 
+                   Manual splitting was breaking HTML tags and causing layout collapse.
+                */}
+                <ContentBlock htmlContent={post.content} />
 
                 {hasQuote && (
-                    <ContentBlock htmlContent={contentPart2} />
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <QuoteSection quote={post.quote!} />
+                  </motion.div>
                 )}
 
                 {post.faqs && post.faqs.length > 0 && (
