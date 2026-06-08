@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Header from "@/components/layout/header";
@@ -187,6 +186,7 @@ export default async function SingleProviderPage({ params }: PageProps) {
           solutions={providerData.solutions}
           description={providerData.description}
           bannerImage={providerData.bannerImageUrl || 'https://picsum.photos/seed/default/800/600'}
+          faqs={providerData.faqs}
         />
       </main>
     </div>
