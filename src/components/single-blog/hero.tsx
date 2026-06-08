@@ -121,14 +121,15 @@ export default function Hero({ post }: { post: BlogPost }) {
               </span>
             </motion.div>
 
-            <motion.h2
+            {/* Semantic H1 for Main Article Title */}
+            <motion.h1
               className="text-3xl lg:text-4xl font-headline font-medium text-zinc-900"
               variants={contentItem}
             >
               <span className="underline-draw">
                 {post.title}
               </span>
-            </motion.h2>
+            </motion.h1>
 
             <motion.p 
               className="text-md text-zinc-800 font-semibold mt-4"

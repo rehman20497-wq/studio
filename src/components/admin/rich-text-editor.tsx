@@ -93,11 +93,12 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
 
   /**
    * Quill editor modules configuration
+   * Updated to include Header 4 for proper SEO hierarchy
    */
   const modules = useMemo(() => ({
     toolbar: {
       container: [
-        [{ 'header': [1, 2, 3, false] }],
+        [{ 'header': [1, 2, 3, 4, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
         ['link', 'image', 'video'],

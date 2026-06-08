@@ -253,6 +253,49 @@
     background-color: #f3f4f6;
     transition: background-color 0.2s ease;
   }
+
+  /* SEO-optimized Heading Structure for Rich Text Content */
+  .prose h1, .ql-editor h1 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #111827;
+  }
+
+  .prose h2, .ql-editor h2 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    color: #1f2937;
+  }
+
+  .prose h3, .ql-editor h3 {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #374151;
+  }
+
+  .prose h4, .ql-editor h4 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #4b5563;
+  }
+
+  .prose p, .ql-editor p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: #374151;
+  }
 }
 
 .line-draw {
