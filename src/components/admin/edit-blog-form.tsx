@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
@@ -320,6 +319,16 @@ export default function EditBlogForm({ post, onFinished }: { post: BlogPost; onF
                  {errors.content && <p className="text-red-500 text-sm mt-2">{errors.content.message}</p>}
                 </div>
             )}
+        />
+      </div>
+
+      <div>
+        <label className="font-semibold text-zinc-700">Pull-Quote (Optional)</label>
+        <Textarea 
+            placeholder="Enter a powerful quote to feature in your post..." 
+            {...register('quote')}
+            className="mt-2 text-lg italic"
+            rows={4}
         />
       </div>
 

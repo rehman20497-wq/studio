@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import QuoteSection from './quote-section';
 import BuildTeamCta from './build-team-cta';
@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Plus, Minus } from 'lucide-react';
 
 type FAQItem = {
   question: string;
@@ -64,6 +65,7 @@ const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
 export default function BlogContent({ post }: { post: BlogPost }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.05 });
+  const [openItem, setOpenIndex] = useState<string | undefined>("faq-0");
 
   const hasQuote = post.quote && post.quote.trim() !== '';
 
@@ -80,10 +82,6 @@ export default function BlogContent({ post }: { post: BlogPost }) {
                 <Sidebar currentPostId={post.id} slug={post.slug} category={post.category} />
             </div>
             <div className="w-full md:col-span-8 space-y-12">
-                {/* 
-                   ROOT CAUSE FIX: We render the content as a single block. 
-                   Manual splitting was breaking HTML tags and causing layout collapse.
-                */}
                 <ContentBlock htmlContent={post.content} />
 
                 {hasQuote && (
@@ -105,17 +103,32 @@ export default function BlogContent({ post }: { post: BlogPost }) {
                         viewport={{ once: true }}
                     >
                         <h2 className="text-3xl font-bold font-headline text-zinc-900 mb-8">Frequently Asked Questions</h2>
-                        <Accordion type="single" collapsible className="w-full">
-                            {post.faqs.map((faq, index) => (
-                                <AccordionItem key={index} value={`faq-${index}`} className="border-b border-zinc-200 py-2">
-                                    <AccordionTrigger className="text-xl font-bold text-left hover:no-underline hover:text-yellow-600 transition-colors">
-                                        {faq.question}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="text-lg text-zinc-600 leading-relaxed pt-2">
-                                        {faq.answer}
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
+                        <Accordion 
+                            type="single" 
+                            collapsible 
+                            className="w-full"
+                            value={openItem}
+                            onValueChange={setOpenIndex}
+                        >
+                            {post.faqs.map((faq, index) => {
+                                const value = `faq-${index}`;
+                                const isOpen = openItem === value;
+                                return (
+                                    <AccordionItem key={index} value={value} className="border-b border-zinc-200 py-2">
+                                        <AccordionTrigger className="text-xl font-bold text-left hover:no-underline hover:text-yellow-600 transition-colors [&>svg]:hidden">
+                                            <div className="flex items-center justify-between w-full">
+                                                <span>{faq.question}</span>
+                                                <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-black flex-shrink-0 ml-4">
+                                                    {isOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                                                </div>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-lg text-zinc-600 leading-relaxed pt-2">
+                                            {faq.answer}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                );
+                            })}
                         </Accordion>
                     </motion.div>
                 )}
@@ -124,7 +137,6 @@ export default function BlogContent({ post }: { post: BlogPost }) {
             </div>
         </div>
 
-        {/* Mobile Sidebar Trigger */}
         <div className="md:hidden">
             <MobileSidebar currentPostId={post.id} slug={post.slug} category={post.category} />
         </div>

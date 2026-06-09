@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
@@ -413,7 +412,21 @@ function UploadBlogContent() {
                         />
                     </SectionWrapper>
 
-                    <SectionWrapper title="Author" step={6} icon={User}>
+                    <SectionWrapper title="Pull-Quote (Optional)" step={6} icon={MessageSquare}>
+                        <div className="relative">
+                            <Textarea 
+                                placeholder="Enter a powerful quote to feature in your post..." 
+                                {...register('quote')}
+                                className="pl-10 text-lg italic"
+                                rows={4}
+                            />
+                            <div className="absolute top-4 left-3 text-zinc-400">
+                              <MessageSquare className="w-5 h-5" />
+                            </div>
+                        </div>
+                    </SectionWrapper>
+
+                    <SectionWrapper title="Author" step={7} icon={User}>
                     <div className="grid md:grid-cols-2 gap-8 items-start">
                         <ImageUploader
                             id="author-image"
@@ -434,7 +447,7 @@ function UploadBlogContent() {
                     </div>
                     </SectionWrapper>
                     
-                    <SectionWrapper title="Publish Status" step={7} icon={Shield}>
+                    <SectionWrapper title="Publish Status" step={8} icon={Shield}>
                         <Controller
                             name="published"
                             control={control}
