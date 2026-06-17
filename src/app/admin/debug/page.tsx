@@ -109,24 +109,29 @@ const EmailConnectionTest = () => {
 
     const runTest = async () => {
         setTestStatus('loading');
-        setMessage('Sending test email to administrator...');
+        setMessage('Executing test-email server action...');
         setDebugData(null);
 
         try {
+            // Calling the server action
             const result = await testEmailAction();
+            
             if (result.success) {
                 setTestStatus('success');
-                setMessage('Test email sent successfully! Please check the admin inbox.');
+                setMessage('Test email sent successfully! Please check the inbox: ' + result.data?.recipient);
                 setDebugData(result.data);
             } else {
                 setTestStatus('error');
-                setMessage('Email delivery failed. Check your environment variables and SMTP configuration.');
+                setMessage(result.error?.message || 'Email delivery failed.');
                 setDebugData(result.error);
             }
         } catch (err: any) {
             setTestStatus('error');
-            setMessage('A critical error occurred during the test.');
-            setDebugData({ error: err.message });
+            setMessage('A system error occurred while calling the Server Action.');
+            setDebugData({ 
+                error: err.message,
+                hint: 'If you see "Action not found", ensure you have redeployed the app and that environment variables are set in your hosting dashboard.' 
+            });
         }
     };
 

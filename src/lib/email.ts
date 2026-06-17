@@ -1,6 +1,3 @@
-
-'use server';
-
 import nodemailer from 'nodemailer';
 import { randomBytes } from 'crypto';
 
@@ -12,15 +9,21 @@ export interface MailOptions {
   html: string;
 }
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_SERVER_USER,
-    pass: process.env.EMAIL_SERVER_PASSWORD,
-  },
-});
-
+/**
+ * Utility to send emails via SMTP.
+ * This is a server-side utility, but does not need 'use server' at the top
+ * as it is imported by Server Actions.
+ */
 export async function sendEmail(mailOptions: MailOptions) {
+  // Create transporter inside the function to ensure fresh env variables in serverless
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_SERVER_USER,
+      pass: process.env.EMAIL_SERVER_PASSWORD,
+    },
+  });
+
   try {
     let processedHtml = mailOptions.html;
     const attachments: any[] = [];
@@ -38,7 +41,7 @@ export async function sendEmail(mailOptions: MailOptions) {
         imageMap.set(fullDataUri, cid);
         
         attachments.push({
-          filename: `${cid}.png`, // Or detect mime type
+          filename: `${cid}.png`,
           path: fullDataUri,
           cid: cid,
         });
@@ -50,8 +53,10 @@ export async function sendEmail(mailOptions: MailOptions) {
       processedHtml = processedHtml.replace(new RegExp(dataUri, 'g'), `cid:${cid}`);
     }
 
+    const fromAddress = process.env.EMAIL_FROM || `Telsys Admin <${process.env.EMAIL_SERVER_USER}>`;
+
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+      from: fromAddress,
       to: mailOptions.to,
       bcc: mailOptions.bcc,
       subject: mailOptions.subject,
@@ -59,10 +64,8 @@ export async function sendEmail(mailOptions: MailOptions) {
       html: processedHtml,
       attachments: attachments,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to send email:', error);
-    // In a real app, you might want to throw a more specific error
-    // or handle it in a way that the user can be notified.
-    throw new Error('Email sending failed.');
+    throw new Error(error.message || 'Email sending failed.');
   }
 }
