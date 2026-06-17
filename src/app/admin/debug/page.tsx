@@ -1,12 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { collection, limit, query } from 'firebase/firestore';
 import { useFirestore, useMemoFirebase, useAdminUser } from '@/firebase';
 import { cloudinaryConfig } from '@/lib/cloudinary';
-import { CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { CheckCircle, XCircle, AlertTriangle, Mail, Loader2 } from 'lucide-react';
 import AdminPageWrapper, { PermissionGuard } from '@/components/admin/admin-page-wrapper';
 import AdminHeader from '@/components/admin/admin-header';
+import { Button } from '@/components/ui/button';
+import { testEmailAction } from '@/app/actions/test-email';
 
 const StatusIndicator = ({ status, title, message, data }: { status: 'loading' | 'success' | 'error'; title: string; message: string, data?: any }) => {
   const getStatusInfo = () => {
@@ -99,18 +102,71 @@ const CloudinaryConnectionTest = () => {
     return <StatusIndicator status={status} title="Cloudinary Connection" message={message} data={displayData} />;
 }
 
+const EmailConnectionTest = () => {
+    const [testStatus, setTestStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [message, setMessage] = useState('Verify SMTP connectivity by sending a test email to the administrator.');
+    const [debugData, setDebugData] = useState<any>(null);
+
+    const runTest = async () => {
+        setTestStatus('loading');
+        setMessage('Sending test email to administrator...');
+        setDebugData(null);
+
+        try {
+            const result = await testEmailAction();
+            if (result.success) {
+                setTestStatus('success');
+                setMessage('Test email sent successfully! Please check the admin inbox.');
+                setDebugData(result.data);
+            } else {
+                setTestStatus('error');
+                setMessage('Email delivery failed. Check your environment variables and SMTP configuration.');
+                setDebugData(result.error);
+            }
+        } catch (err: any) {
+            setTestStatus('error');
+            setMessage('A critical error occurred during the test.');
+            setDebugData({ error: err.message });
+        }
+    };
+
+    return (
+        <div className="space-y-4">
+            <StatusIndicator 
+                status={testStatus === 'idle' ? 'loading' : testStatus} 
+                title="Email (SMTP) Connection Test" 
+                message={message} 
+                data={debugData} 
+            />
+            <Button 
+                onClick={runTest} 
+                disabled={testStatus === 'loading'}
+                variant="secondary"
+                className="rounded-full shadow-md"
+            >
+                {testStatus === 'loading' ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                    <Mail className="w-4 h-4 mr-2" />
+                )}
+                Run Email Test
+            </Button>
+        </div>
+    );
+};
+
 function DebugContent() {
   const { session } = useAdminUser();
   return (
     <PermissionGuard pageId="debug">
       <div className="p-4 sm:p-8 md:p-12">
           <AdminHeader userName={session?.user.name || 'Admin'} />
-          <div className="mt-12 max-w-4xl mx-auto space-y-6">
+          <div className="mt-12 max-w-4xl mx-auto space-y-10">
               <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
               <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
-              <FirestoreConnectionTest collectionName="admin_users" testName="Admin Users Collection Test" />
-              <FirestoreConnectionTest collectionName="admin_roles" testName="Admin Roles Collection Test" />
+              <FirestoreConnectionTest collectionName="newsletter_subscribers" testName="Newsletter Subscribers Collection Test" />
               <CloudinaryConnectionTest />
+              <EmailConnectionTest />
           </div>
       </div>
     </PermissionGuard>
