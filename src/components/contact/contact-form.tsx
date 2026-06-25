@@ -190,7 +190,7 @@ export default function ContactForm() {
                                 {currentStep === 1 && (
                                      <div className="space-y-6">
                                          <div className="relative">
-                                             <Label htmlFor="companyName" className="text-lg font-medium">Company Name (Optional)</Label>
+                                             <Label htmlFor="companyName" className="text-lg font-medium">Company Name</Label>
                                              <Building className="absolute left-3 top-1/2 -translate-y-[-10px] w-5 h-5 text-zinc-400" />
                                              <Input id="companyName" {...methods.register('companyName')} placeholder="e.g., Acme Inc." className="pl-10 h-12 text-base" />
                                          </div>
@@ -201,10 +201,12 @@ export default function ContactForm() {
                                                     <SelectValue placeholder="Select a service" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="Customer Support">Customer Support</SelectItem>
-                                                    <SelectItem value="Digital Operations">Digital Operations</SelectItem>
-                                                    <SelectItem value="Trust & Safety">Trust & Safety</SelectItem>
-                                                    <SelectItem value="Data & AI">Data & AI</SelectItem>
+                                                    <SelectItem value="UCaaS, CcaaS and CX">UCaaS, CcaaS and CX</SelectItem>
+                                                    <SelectItem value="Security Solutions">Security Solutions</SelectItem>
+                                                    <SelectItem value="Cloud Solutions">Cloud Solutions</SelectItem>
+                                                    <SelectItem value="Ai Solutions"> Ai Solutions</SelectItem>
+                                                    <SelectItem value="Connectivity"> Connectivity</SelectItem>
+                                                    <SelectItem value="Others"> Others</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                             {errors.service && <p className="text-red-500 text-sm mt-1">{errors.service.message}</p>}

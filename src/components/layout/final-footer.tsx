@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Linkedin, Instagram } from "lucide-react";
+import { Facebook, Linkedin, Instagram,X } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRef } from "react";
@@ -164,8 +164,8 @@ export default function FinalFooter() {
                 <SocialIcon href="https://www.instagram.com/telsysinc?igsh=MXB0dmNjb285cXBnNw==" icon={Instagram} />
                 <SocialIcon href="https://www.facebook.com/share/17t544dvNq/" icon={Facebook} />
                 <SocialIcon href="https://www.linkedin.com/company/telsysinc" icon={Linkedin} />
+                <SocialIcon href="https://x.com/Telsysinc" icon={X} />
             </motion.div>
-
             <motion.div variants={slideFromTop}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Solutions</h3>
                 <ul className="space-y-3 text-zinc-700">
@@ -196,6 +196,7 @@ export default function FinalFooter() {
             <motion.div variants={slideFromBottom}>
                 <h3 className="font-bold text-zinc-900 mb-4 text-base">Headquarters</h3>
                 <p className="text-zinc-700 text-base">1531 E Bradford Pkwy,<br/>Springfield MO 65804</p>
+                <p className="text-zinc-700 text-base">info@telsysinc.com</p>
             </motion.div>
         </motion.div>
 
@@ -205,7 +206,7 @@ export default function FinalFooter() {
             variants={containerVariants}
         >
             <motion.div variants={slideFromLeft} className="text-zinc-600 text-[14px] mb-8 md:mb-0 text-center md:text-left">
-                <p>© 2024 Telsys Inc. | All Rights Reserved</p>
+                <p>© 2026 Telsys Inc. | All Rights Reserved</p>
                 
             </motion.div>
             <motion.div 
