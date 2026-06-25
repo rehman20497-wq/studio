@@ -129,6 +129,25 @@ export default function RootLayout({
                 })
             }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.ContactUsWidget = {
+                config: {
+                  uuid: "786353ee-a3f2-4f76-b79e-14a4ce428f2b",
+                  messaging_url: "https://contact-widget.ooma.com",
+                  customer_name: "",
+                },
+              };
+            `
+          }}
+        />
+        <script
+          type="text/javascript"
+          async
+          defer
+          src="https://contact-widget.ooma.com/assets/widget.js"
+        />
       </head>
       <body className="font-body antialiased overflow-x-clip">
         <MainLayout>{children}</MainLayout>
