@@ -10,6 +10,7 @@ import { useCollection, useFirestore, useMemoFirebase, updateDocumentNonBlocking
 import { collection, query, where, doc, increment } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
 import ProviderFilter from './provider-filter';
+import { fixCloudinaryUrl } from '@/lib/cloudinary';
 
 type Provider = {
   id: string;
@@ -138,7 +139,6 @@ export default function ProvidersGrid() {
       filtered = filtered.filter(provider => provider.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
     
-    // Client-side sort after filtering
     return filtered.sort((a, b) => a.name.localeCompare(b.name));
 
   }, [providers, searchTerm, solutionFilter]);
@@ -176,7 +176,7 @@ export default function ProvidersGrid() {
                 <Link href={`/providers/${provider.id}`} className="block group">
                 <div className="relative bg-white rounded-2xl p-4 flex items-center justify-center h-48 shadow-md border border-zinc-100 transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:border-yellow-400 group-hover:-translate-y-2 overflow-hidden">
                     <Image
-                    src={provider.logoUrl}
+                    src={fixCloudinaryUrl(provider.logoUrl)}
                     alt={provider.name}
                     fill
                     className="object-contain p-4"

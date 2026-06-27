@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import AdminHeader from '@/components/admin/admin-header';
+import { fixCloudinaryUrl } from '@/lib/cloudinary';
 
 type Provider = {
     id: string;
@@ -65,7 +66,6 @@ const generateMonthlyData = (totalImpressions: number, totalClicks: number) => {
         return monthNames[d.getMonth()];
     });
 
-    // Simple growth distribution
     const distribution = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25];
 
     return months.map((month, i) => ({
@@ -238,7 +238,7 @@ function ManageProvidersContent() {
                         >
                             <div className="flex flex-col sm:flex-row items-center gap-6">
                                 <div className="relative w-48 h-24 rounded-lg overflow-hidden border border-zinc-200 bg-zinc-100 flex-shrink-0">
-                                    <Image src={provider.logoUrl} alt={`${provider.name} logo`} fill className="object-contain p-2" />
+                                    <Image src={fixCloudinaryUrl(provider.logoUrl)} alt={`${provider.name} logo`} fill className="object-contain p-2" />
                                 </div>
                                 <div className="flex-grow text-center sm:text-left">
                                     <h3 className="text-2xl font-bold font-headline text-zinc-800">{provider.name}</h3>

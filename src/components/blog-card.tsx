@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { MessageSquare, Search, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { fixCloudinaryUrl } from "@/lib/cloudinary";
 
 export type BlogCardProps = {
   id?: string;
@@ -19,9 +20,8 @@ export type BlogCardProps = {
 const Badge = ({ category }: { category: string }) => {
     let Icon;
     const content = category.toUpperCase();
-    let bgColor = "bg-blue-500"; // Default color
+    let bgColor = "bg-blue-500"; 
 
-    // Simple logic to assign icon and color based on category name
     if (category.toLowerCase().includes('interview')) {
         Icon = MessageSquare;
         bgColor = "bg-orange-500";
@@ -80,15 +80,15 @@ export default function BlogCard({
   const primaryCategory = categories[0] || 'Article';
   const [imgError, setImgError] = useState(false);
 
-  // Use a reliable placeholder if the Cloudinary image is broken
+  // Apply the runtime fix to ensure legacy cloud images load from the new cloud
   const displaySrc = imgError 
     ? `https://picsum.photos/seed/${title}/800/450` 
-    : backgroundImage.src;
+    : fixCloudinaryUrl(backgroundImage.src);
     
   return (
     <div className="block group w-full h-full">
-<div className="relative flex-shrink-0 w-full h-full bg-white rounded-2xl shadow-lg p-4 mb-0 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
-<svg
+      <div className="relative flex-shrink-0 w-full h-full bg-white rounded-2xl shadow-lg p-4 mb-0 transition-transform duration-300 ease-in-out group-hover:-translate-y-2">
+        <svg
             className="absolute inset-0 pointer-events-none"
             width="100%"
             height="100%"
@@ -120,7 +120,7 @@ export default function BlogCard({
             {type === "interview" && companyLogo && (
               <div className="absolute top-1/2 left-16 -translate-y-1/2">
                 <Image
-                  src={companyLogo.src}
+                  src={fixCloudinaryUrl(companyLogo.src)}
                   alt="Company Logo"
                   width={80}
                   height={20}
@@ -144,9 +144,7 @@ export default function BlogCard({
                 </span>
               ))}
             </div>
-            <h3 className="text-bodySm
-  sm:text-bodyMd
-  lg:text-bodylg font-headline font-medium text-black mt-4">
+            <h3 className="text-bodyySm sm:text-bodyyMd lg:text-bodyylg font-headline font-medium text-black mt-4">
               <span className="relative underline-draw">
                 {title}
               </span>
