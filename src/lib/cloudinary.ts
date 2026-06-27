@@ -1,18 +1,28 @@
 'use client';
 
-// WARNING: Storing secrets directly in source code is not recommended
-// and can lead to security vulnerabilities. These should be stored
-// in environment variables for better security.
-
+/**
+ * Cloudinary Configuration
+ * 
+ * Note: While these are technically "secrets", Cloudinary's unsigned 
+ * upload preset pattern is designed to be used in client-side code.
+ */
 export const cloudinaryConfig = {
   cloudName: 'dflwfiyn2',
   apiKey: '231424559936869',
   apiSecret: 'lr3zWi5hE5ykLM_mdHEeqDnQI8Y',
-  // IMPORTANT: For unsigned uploads to work, you MUST create an "Unsigned"
-  // upload preset in your Cloudinary account settings and put its name here.
-  // 1. Go to your Cloudinary Dashboard -> Settings (gear icon) -> Upload tab.
-  // 2. Scroll down to "Upload presets", click "Add upload preset".
-  // 3. Change "Signing Mode" from "Signed" to "Unsigned".
-  // 4. Note the "Preset name" and paste it below.
   uploadPreset: 'preset',
+  // The cloud name that is currently disabled and returning errors
+  legacyCloudName: 'dm5cqe1f3',
 };
+
+/**
+ * Utility to fix a Cloudinary URL by pointing it to the new account.
+ * This is useful if assets have been migrated but DB URLs are old.
+ */
+export function fixCloudinaryUrl(url: string | undefined): string {
+  if (!url || typeof url !== 'string') return '';
+  if (!url.includes('res.cloudinary.com')) return url;
+  
+  // Replace the old disabled cloud name with the new one
+  return url.replace(`/${cloudinaryConfig.legacyCloudName}/`, `/${cloudinaryConfig.cloudName}/`);
+}

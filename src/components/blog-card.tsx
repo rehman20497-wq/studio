@@ -4,6 +4,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { MessageSquare, Search, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export type BlogCardProps = {
   id?: string;
@@ -77,6 +78,12 @@ export default function BlogCard({
   companyLogo,
 }: BlogCardProps) {
   const primaryCategory = categories[0] || 'Article';
+  const [imgError, setImgError] = useState(false);
+
+  // Use a reliable placeholder if the Cloudinary image is broken
+  const displaySrc = imgError 
+    ? `https://picsum.photos/seed/${title}/800/450` 
+    : backgroundImage.src;
     
   return (
     <div className="block group w-full h-full">
@@ -101,13 +108,14 @@ export default function BlogCard({
             </rect>
         </svg>
         <div className="w-full h-full flex flex-col">
-          <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl">
+          <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl bg-zinc-100">
             <Image
-              src={backgroundImage.src}
+              src={displaySrc}
               alt={title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               data-ai-hint={backgroundImage.hint}
+              onError={() => setImgError(true)}
             />
             {type === "interview" && companyLogo && (
               <div className="absolute top-1/2 left-16 -translate-y-1/2">
