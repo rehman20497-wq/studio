@@ -1,13 +1,13 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import QuoteSection from './quote-section';
 import BuildTeamCta from './build-team-cta';
 import Sidebar from './sidebar';
 import MobileSidebar from './mobile-sidebar';
+import CustomBlockRenderer from '../custom-block-renderer';
 import {
   Accordion,
   AccordionContent,
@@ -41,23 +41,6 @@ const containerVariants = {
   },
 };
 
-const ContentBlock = ({ htmlContent }: { htmlContent: string }) => {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full"
-      >
-        <div
-          className="prose text-bodyySm sm:text-bodyyMd lg:text-bodyylg max-w-full text-zinc-700 ql-editor break-words"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
-      </motion.div>
-    );
-};
-  
-
 export default function BlogContent({ post }: { post: BlogPost }) {
   const [openItem, setOpenIndex] = useState<string | undefined>("faq-0");
   const hasQuote = post.quote && post.quote.trim() !== '';
@@ -74,7 +57,17 @@ export default function BlogContent({ post }: { post: BlogPost }) {
                 <Sidebar currentPostId={post.id} slug={post.slug} category={post.category} />
             </div>
             <div className="w-full md:col-span-8 space-y-12">
-                <ContentBlock htmlContent={post.content} />
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="w-full"
+                >
+                  <CustomBlockRenderer 
+                    html={post.content} 
+                    className="prose text-bodyySm sm:text-bodyyMd lg:text-bodyylg max-w-full text-zinc-700 ql-editor break-words" 
+                  />
+                </motion.div>
 
                 {hasQuote && (
                   <motion.div

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Cloud, Cpu, Wifi, Zap } from 'lucide-react';
 import MagneticButton from '../magnetic-button';
 import { cn } from '@/lib/utils';
+import CustomBlockRenderer from '../custom-block-renderer';
 import {
   Accordion,
   AccordionContent,
@@ -91,7 +92,7 @@ interface DetailsProps {
   faqs?: { question: string; answer: string }[];
 }
 
-export default function Details({ providerId, solutions, description, bannerImage, faqs }: DetailsProps) {
+export default function Details({ solutions, description, bannerImage, faqs }: DetailsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.4 });
 
@@ -121,9 +122,10 @@ export default function Details({ providerId, solutions, description, bannerImag
               );
             })}
           </motion.div>
-          <div
-            className="prose max-w-none text-lg text-zinc-600 leading-relaxed ql-editor"
-            dangerouslySetInnerHTML={{ __html: description }}
+          
+          <CustomBlockRenderer 
+            html={description} 
+            className="prose max-w-none text-lg text-zinc-600 leading-relaxed ql-editor" 
           />
 
           {faqs && faqs.length > 0 && (
