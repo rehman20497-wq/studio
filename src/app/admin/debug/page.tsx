@@ -114,7 +114,6 @@ const EmailConnectionTest = () => {
         setDebugData(null);
 
         try {
-            // Calling the server action
             const result = await testEmailAction();
             
             if (result.success) {
@@ -161,124 +160,6 @@ const EmailConnectionTest = () => {
     );
 };
 
-const CloudinaryMigrationTool = () => {
-    const firestore = useFirestore();
-    const { toast } = useToast();
-    const [isScanning, setIsScanning] = useState(false);
-    const [isRepairing, setIsRepairing] = useState(false);
-    const [stats, setStats] = useState({ providers: 0, blogs: 0, brokenFound: 0 });
-
-    const runScan = async () => {
-        if (!firestore) return;
-        setIsScanning(true);
-        try {
-            let brokenCount = 0;
-            const legacy = cloudinaryConfig.legacyCloudName;
-
-            const provSnap = await getDocs(collection(firestore, 'providers'));
-            const blogSnap = await getDocs(collection(firestore, 'blog_posts'));
-
-            provSnap.forEach(doc => {
-                const d = doc.data();
-                if (d.logoUrl?.includes(legacy) || d.bannerImageUrl?.includes(legacy)) brokenCount++;
-            });
-
-            blogSnap.forEach(doc => {
-                const d = doc.data();
-                if (d.featuredImageUrl?.includes(legacy) || d.authorImageUrl?.includes(legacy)) brokenCount++;
-            });
-
-            setStats({
-                providers: provSnap.size,
-                blogs: blogSnap.size,
-                brokenFound: brokenCount
-            });
-
-            toast({ title: 'Scan Complete', description: `Found ${brokenCount} broken assets.` });
-        } catch (e: any) {
-            toast({ title: 'Scan Failed', description: e.message, variant: 'destructive' });
-        } finally {
-            setIsScanning(false);
-        }
-    };
-
-    const runRepair = async () => {
-        if (!firestore) return;
-        setIsRepairing(true);
-        try {
-            const legacy = cloudinaryConfig.legacyCloudName;
-            const current = cloudinaryConfig.cloudName;
-            let repaired = 0;
-
-            const provSnap = await getDocs(collection(firestore, 'providers'));
-            const blogSnap = await getDocs(collection(firestore, 'blog_posts'));
-
-            for (const docSnap of provSnap.docs) {
-                const d = docSnap.data();
-                const updates: any = {};
-                if (d.logoUrl?.includes(legacy)) updates.logoUrl = d.logoUrl.replace(`/${legacy}/`, `/${current}/`);
-                if (d.bannerImageUrl?.includes(legacy)) updates.bannerImageUrl = d.bannerImageUrl.replace(`/${legacy}/`, `/${current}/`);
-                
-                if (Object.keys(updates).length > 0) {
-                    updateDocumentNonBlocking(doc(firestore, 'providers', docSnap.id), updates);
-                    repaired++;
-                }
-            }
-
-            for (const docSnap of blogSnap.docs) {
-                const d = docSnap.data();
-                const updates: any = {};
-                if (d.featuredImageUrl?.includes(legacy)) updates.featuredImageUrl = d.featuredImageUrl.replace(`/${legacy}/`, `/${current}/`);
-                if (d.authorImageUrl?.includes(legacy)) updates.authorImageUrl = d.authorImageUrl.replace(`/${legacy}/`, `/${current}/`);
-                
-                if (Object.keys(updates).length > 0) {
-                    updateDocumentNonBlocking(doc(firestore, 'blog_posts', docSnap.id), updates);
-                    repaired++;
-                }
-            }
-
-            toast({ title: 'Repair Complete', description: `Updated ${repaired} assets to new cloud account.` });
-            setStats(prev => ({ ...prev, brokenFound: 0 }));
-        } catch (e: any) {
-            toast({ title: 'Repair Failed', description: e.message, variant: 'destructive' });
-        } finally {
-            setIsRepairing(false);
-        }
-    };
-
-    return (
-        <div className="space-y-4">
-             <div className="flex items-start gap-4 p-4 border rounded-lg shadow-sm bg-blue-50 border-blue-200">
-                <div className="flex-shrink-0"><ImageIcon className="w-6 h-6 text-blue-500" /></div>
-                <div className="flex-grow">
-                    <p className="font-bold text-lg text-zinc-800">Cloudinary Asset Migration</p>
-                    <p className="text-sm text-zinc-600 mt-1">
-                        If you have moved your images from account <strong>{cloudinaryConfig.legacyCloudName}</strong> to <strong>{cloudinaryConfig.cloudName}</strong>, 
-                        this tool will update the database links to prevent broken images.
-                    </p>
-                    <div className="mt-4 grid grid-cols-3 gap-4 text-center">
-                        <div className="bg-white p-2 rounded border"><p className="text-xs text-zinc-500">Providers</p><p className="font-bold">{stats.providers}</p></div>
-                        <div className="bg-white p-2 rounded border"><p className="text-xs text-zinc-500">Blog Posts</p><p className="font-bold">{stats.blogs}</p></div>
-                        <div className="bg-white p-2 rounded border border-red-200"><p className="text-xs text-red-500">Broken</p><p className="font-bold text-red-600">{stats.brokenFound}</p></div>
-                    </div>
-                </div>
-            </div>
-            <div className="flex gap-2">
-                <Button onClick={runScan} disabled={isScanning} variant="outline" className="rounded-full">
-                    {isScanning ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
-                    Scan for Broken Assets
-                </Button>
-                {stats.brokenFound > 0 && (
-                    <Button onClick={runRepair} disabled={isRepairing} variant="default" className="rounded-full bg-red-600 hover:bg-red-700">
-                        {isRepairing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <ShieldAlert className="w-4 h-4 mr-2" />}
-                        Repair All URLs
-                    </Button>
-                )}
-            </div>
-        </div>
-    )
-}
-
 function DebugContent() {
   const { session } = useAdminUser();
   return (
@@ -286,7 +167,6 @@ function DebugContent() {
       <div className="p-4 sm:p-8 md:p-12">
           <AdminHeader userName={session?.user.name || 'Admin'} />
           <div className="mt-12 max-w-4xl mx-auto space-y-10">
-              <CloudinaryMigrationTool />
               <FirestoreConnectionTest collectionName="providers" testName="Providers Collection Test" />
               <FirestoreConnectionTest collectionName="blog_posts" testName="Blog Posts Collection Test" />
               <FirestoreConnectionTest collectionName="newsletter_subscribers" testName="Newsletter Subscribers Collection Test" />

@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { fixCloudinaryUrl } from '@/lib/cloudinary';
 
 type BlogPost = {
   id: string;
@@ -94,7 +93,7 @@ export default function Hero({ post }: { post: BlogPost }) {
             variants={imageReveal}
           >
             <Image
-              src={fixCloudinaryUrl(post.featuredImageUrl)}
+              src={post.featuredImageUrl}
               alt={post.title}
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"

@@ -4,8 +4,6 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { MessageSquare, Search, FileText, BookOpen } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { fixCloudinaryUrl } from "@/lib/cloudinary";
 
 export type BlogCardProps = {
   id?: string;
@@ -78,12 +76,6 @@ export default function BlogCard({
   companyLogo,
 }: BlogCardProps) {
   const primaryCategory = categories[0] || 'Article';
-  const [imgError, setImgError] = useState(false);
-
-  // Apply the runtime fix to ensure legacy cloud images load from the new cloud
-  const displaySrc = imgError 
-    ? `https://picsum.photos/seed/${title}/800/450` 
-    : fixCloudinaryUrl(backgroundImage.src);
     
   return (
     <div className="block group w-full h-full">
@@ -110,17 +102,16 @@ export default function BlogCard({
         <div className="w-full h-full flex flex-col">
           <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl bg-zinc-100">
             <Image
-              src={displaySrc}
+              src={backgroundImage.src}
               alt={title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               data-ai-hint={backgroundImage.hint}
-              onError={() => setImgError(true)}
             />
             {type === "interview" && companyLogo && (
               <div className="absolute top-1/2 left-16 -translate-y-1/2">
                 <Image
-                  src={fixCloudinaryUrl(companyLogo.src)}
+                  src={companyLogo.src}
                   alt="Company Logo"
                   width={80}
                   height={20}
