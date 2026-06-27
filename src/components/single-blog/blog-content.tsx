@@ -56,17 +56,31 @@ export default function BlogContent({ post }: { post: BlogPost }) {
             <div className="hidden md:block md:col-span-4">
                 <Sidebar currentPostId={post.id} slug={post.slug} category={post.category} />
             </div>
-            <div className="w-full md:col-span-8 space-y-12">
+            <div className="w-full md:col-span-8 space-y-16 min-w-0">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
                   className="w-full"
                 >
+                  <div className="blog-content-area">
                   <CustomBlockRenderer 
-                    html={post.content} 
-                    className="prose text-bodyySm sm:text-bodyyMd lg:text-bodyylg max-w-full text-zinc-700 ql-editor break-words" 
-                  />
+  html={post.content} 
+  className="
+  prose 
+  prose-zinc
+  max-w-none
+  w-full
+  text-zinc-700
+  ql-editor
+  break-words
+  [&>div]:my-8
+  [&_table]:w-full
+  [&_table]:overflow-hidden
+  "
+/>
+</div>
+
                 </motion.div>
 
                 {hasQuote && (
