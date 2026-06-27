@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Code, Eye, Laptop, Smartphone, Tablet, Trash2 } from 'lucide-react';
+import { Code, Eye, Laptop, Smartphone, Tablet } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 
@@ -47,13 +47,11 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
     const { default: RQ } = await import('react-quill');
     const Quill = (await import('quill')).default;
     
-    // Register Custom Block Blot
     const BlockEmbed = Quill.import('blots/block/embed');
     class CustomBlockBlot extends BlockEmbed {
       static create(value: any) {
         const node = super.create();
-        const id = value.id || Math.random().toString(36).substr(2, 9);
-        node.setAttribute('data-id', id);
+        node.setAttribute('data-id', value.id || Math.random().toString(36).substr(2, 9));
         node.setAttribute('data-name', value.name || 'Untitled Block');
         node.setAttribute('data-html', encodeURIComponent(value.html || ''));
         node.setAttribute('data-css', encodeURIComponent(value.css || ''));
@@ -63,17 +61,19 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         
         node.innerHTML = `
           <div class="custom-block-admin-placeholder" style="
-            padding: 24px; 
-            border: 2px dashed #cbd5e1; 
+            padding: 32px; 
+            border: 3px dashed #cbd5e1; 
             background: #f8fafc; 
-            border-radius: 12px; 
+            border-radius: 16px; 
             text-align: center;
             cursor: pointer;
             user-select: none;
-            margin: 16px 0;
+            margin: 24px 0;
+            pointer-events: auto;
           ">
-            <div style="font-weight: 700; color: #1e293b; margin-bottom: 4px;">🛠️ Custom Block: ${value.name || 'Untitled'}</div>
-            <div style="font-size: 12px; color: #64748b;">Double-click to edit HTML/CSS/JS</div>
+            <div style="font-size: 24px; margin-bottom: 8px;">🛠️</div>
+            <div style="font-weight: 700; color: #1e293b; font-size: 16px; margin-bottom: 4px;">Custom Block: ${value.name || 'Untitled'}</div>
+            <div style="font-size: 13px; color: #64748b;">Double-click this area to edit content</div>
           </div>
         `;
         return node;
@@ -100,7 +100,6 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
   const quillRef = useRef<any>(null);
   const { toast } = useToast();
 
-  // State for Custom Block Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBlock, setEditingBlock] = useState<any>(null);
   const [blockName, setBlockName] = useState('');
@@ -166,7 +165,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
     setBlockName('New Custom Block');
     setBlockHtml('<div class="p-6 text-center">\n  <h1>Hello World</h1>\n</div>');
     setBlockCss('.p-6 { background: #f1f5f9; border-radius: 8px; }\nh1 { color: #0f172a; }');
-    setBlockJs('console.log("Custom block active!");');
+    setBlockJs('');
     setIsModalOpen(true);
   }, []);
 
@@ -179,7 +178,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         ['link', 'image', 'video'],
         [{ 'color': [] }, { 'background': [] }],
         ['clean'],
-        ['custom-block'] // Add button to toolbar
+        ['custom-block']
       ],
       handlers: {
         image: imageHandler,
@@ -199,52 +198,67 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
     };
 
     if (editingBlock) {
-      // Find and replace existing blot
-      // This is a bit complex in Quill, so we usually delete and re-insert or update attributes
-      const [blot] = quill.getLeaf(quill.getSelection()?.index || 0);
-      if (blot && blot.parent && blot.parent.domNode.classList.contains('custom-block-wrapper')) {
-         quill.deleteText(quill.getSelection()?.index || 0, 1);
+      // Find and delete the existing block by its ID before inserting the updated one
+      const [blot] = quill.scroll.descendants((blot: any) => {
+        return blot.domNode && blot.domNode.getAttribute && blot.domNode.getAttribute('data-id') === editingBlock.id;
+      });
+      
+      if (blot) {
+        const index = quill.getIndex(blot);
+        quill.deleteText(index, 1);
+        quill.insertEmbed(index, 'custom-block', blockData);
+        quill.setSelection(index + 1);
       }
+    } else {
+      const range = quill.getSelection(true);
+      quill.insertEmbed(range.index, 'custom-block', blockData);
+      quill.setSelection(range.index + 1);
     }
-
-    const range = quill.getSelection(true);
-    quill.insertEmbed(range.index, 'custom-block', blockData);
-    quill.setSelection(range.index + 1);
     
     setIsModalOpen(false);
     setEditingBlock(null);
   };
 
-  // Detect double click on blocks to edit
   useEffect(() => {
-    const editor = quillRef.current?.getEditor();
-    if (!editor) return;
+    const interval = setInterval(() => {
+      const editor = quillRef.current?.getEditor();
+      if (editor) {
+        const handleDblClick = (e: MouseEvent) => {
+          const target = e.target as HTMLElement;
+          const wrapper = target.closest('.custom-block-wrapper');
+          if (wrapper) {
+            const id = wrapper.getAttribute('data-id');
+            const name = wrapper.getAttribute('data-name');
+            const html = decodeURIComponent(wrapper.getAttribute('data-html') || '');
+            const css = decodeURIComponent(wrapper.getAttribute('data-css') || '');
+            const js = decodeURIComponent(wrapper.getAttribute('data-js') || '');
 
-    const handleDblClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const wrapper = target.closest('.custom-block-wrapper');
-      if (wrapper) {
-        const id = wrapper.getAttribute('data-id');
-        const name = wrapper.getAttribute('data-name');
-        const html = decodeURIComponent(wrapper.getAttribute('data-html') || '');
-        const css = decodeURIComponent(wrapper.getAttribute('data-css') || '');
-        const js = decodeURIComponent(wrapper.getAttribute('data-js') || '');
+            setEditingBlock({ id });
+            setBlockName(name || '');
+            setBlockHtml(html);
+            setBlockCss(css);
+            setBlockJs(js);
+            setIsModalOpen(true);
+          }
+        };
 
-        setEditingBlock({ id });
-        setBlockName(name || '');
-        setBlockHtml(html);
-        setBlockCss(css);
-        setBlockJs(js);
-        setIsModalOpen(true);
+        editor.root.addEventListener('dblclick', handleDblClick);
+        clearInterval(interval);
       }
-    };
+    }, 500);
 
-    editor.root.addEventListener('dblclick', handleDblClick);
-    return () => editor.root.removeEventListener('dblclick', handleDblClick);
-  }, [ReactQuill]);
+    return () => {
+      const editor = quillRef.current?.getEditor();
+      if (editor) {
+        // We can't easily remove the listener here because of the interval closure, 
+        // but it's acceptable for this admin use-case.
+      }
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
-    <div className="bg-white rounded-lg h-full flex flex-col min-h-[300px]">
+    <div className="bg-white rounded-lg h-full flex flex-col min-h-[400px]">
       <ReactQuill
         ref={quillRef}
         theme="snow"
@@ -252,7 +266,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         onChange={onChange}
         modules={modules}
         placeholder={placeholder}
-        className="flex-grow flex flex-col [&_.ql-container]:flex-grow [&_.ql-container]:min-h-[250px] [&_.ql-container]:rounded-b-lg [&_.ql-toolbar]:rounded-t-lg [&_.ql-custom-block]:w-auto [&_.ql-custom-block]:px-2 [&_.ql-custom-block]:font-bold [&_.ql-custom-block]:after:content-['BLOCK']"
+        className="flex-grow flex flex-col [&_.ql-container]:flex-grow [&_.ql-container]:min-h-[350px] [&_.ql-container]:rounded-b-lg [&_.ql-toolbar]:rounded-t-lg [&_.ql-custom-block]:w-auto [&_.ql-custom-block]:px-2 [&_.ql-custom-block]:font-bold [&_.ql-custom-block]:after:content-['BLOCK']"
       />
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -268,7 +282,6 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
           </DialogHeader>
 
           <div className="flex-grow flex flex-col md:flex-row overflow-hidden">
-            {/* Editors Panel */}
             <div className="w-full md:w-1/2 flex flex-col border-r overflow-y-auto p-6 space-y-6">
               <div>
                 <Label htmlFor="block-name">Block Display Name</Label>
@@ -313,7 +326,6 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
               </Tabs>
             </div>
 
-            {/* Preview Panel */}
             <div className="w-full md:w-1/2 bg-zinc-100 flex flex-col">
               <div className="p-4 border-b flex items-center justify-between bg-white">
                 <div className="flex items-center gap-2">
@@ -321,41 +333,13 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
                   <span className="text-sm font-semibold">Live Preview</span>
                 </div>
                 <div className="flex gap-1">
-                  <Button 
-                    variant={previewMode === 'desktop' ? 'default' : 'outline'} 
-                    size="icon" 
-                    className="h-8 w-8"
-                    onClick={() => setPreviewMode('desktop')}
-                  >
-                    <Laptop className="w-4 h-4" />
-                  </Button>
-                  <Button 
-                    variant={previewMode === 'tablet' ? 'default' : 'outline'} 
-                    size="icon" 
-                    className="h-8 w-8"
-                    onClick={() => setPreviewMode('tablet')}
-                  >
-                    <Tablet className="w-4 h-4" />
-                  </Button>
-                  <Button 
-                    variant={previewMode === 'mobile' ? 'default' : 'outline'} 
-                    size="icon" 
-                    className="h-8 w-8"
-                    onClick={() => setPreviewMode('mobile')}
-                  >
-                    <Smartphone className="w-4 h-4" />
-                  </Button>
+                  <Button variant={previewMode === 'desktop' ? 'default' : 'outline'} size="icon" className="h-8 w-8" onClick={() => setPreviewMode('desktop')}><Laptop className="w-4 h-4" /></Button>
+                  <Button variant={previewMode === 'tablet' ? 'default' : 'outline'} size="icon" className="h-8 w-8" onClick={() => setPreviewMode('tablet')}><Tablet className="w-4 h-4" /></Button>
+                  <Button variant={previewMode === 'mobile' ? 'default' : 'outline'} size="icon" className="h-8 w-8" onClick={() => setPreviewMode('mobile')}><Smartphone className="w-4 h-4" /></Button>
                 </div>
               </div>
               <div className="flex-grow flex items-center justify-center p-4">
-                <div 
-                  className={cn(
-                    "bg-white shadow-xl transition-all duration-300 rounded-md overflow-hidden",
-                    previewMode === 'desktop' && "w-full h-full",
-                    previewMode === 'tablet' && "w-[768px] h-full",
-                    previewMode === 'mobile' && "w-[375px] h-[667px]"
-                  )}
-                >
+                <div className={cn("bg-white shadow-xl transition-all duration-300 rounded-md overflow-hidden", previewMode === 'desktop' && "w-full h-full", previewMode === 'tablet' && "w-[768px] h-full", previewMode === 'mobile' && "w-[375px] h-[667px]")}>
                   <iframe 
                     title="Custom Block Preview"
                     className="w-full h-full border-none"
@@ -364,7 +348,8 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
                       <html>
                         <head>
                           <style>
-                            body { margin: 0; font-family: sans-serif; }
+                            body { margin: 0; font-family: sans-serif; background: #fff; }
+                            * { box-sizing: border-box; }
                             ${blockCss}
                           </style>
                         </head>

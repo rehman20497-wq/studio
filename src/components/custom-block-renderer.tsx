@@ -29,12 +29,22 @@ export default function CustomBlockRenderer({ html, className }: CustomBlockRend
       const rawCss = decodeURIComponent(block.getAttribute('data-css') || '');
       const rawJs = decodeURIComponent(block.getAttribute('data-js') || '');
 
+      // IMPORTANT: Clear the editor placeholder content before attaching shadow root
+      block.innerHTML = '';
+      block.style.display = 'block';
+      block.style.margin = '2rem 0';
+
       // Create Shadow Root for isolation
       const shadow = block.attachShadow({ mode: 'open' });
 
-      // Create Style element
+      // Create Style element with basic reset for consistency with preview
       const styleEl = document.createElement('style');
-      styleEl.textContent = rawCss;
+      styleEl.textContent = `
+        :host { display: block; all: initial; font-family: sans-serif; }
+        * { box-sizing: border-box; }
+        .custom-block-inner { width: 100%; }
+        ${rawCss}
+      `;
 
       // Create Content container
       const contentEl = document.createElement('div');
@@ -47,11 +57,12 @@ export default function CustomBlockRenderer({ html, className }: CustomBlockRend
       // Execute Script if present
       if (rawJs.trim()) {
         const scriptEl = document.createElement('script');
-        // Wrap JS in an IIFE and provide 'root' variable to access the shadow DOM
         scriptEl.textContent = `
           (function() {
             const blockId = "${blockId}";
-            const root = document.querySelector('[data-id="' + blockId + '"]').shadowRoot;
+            const blockHost = document.querySelector('[data-id="' + blockId + '"]');
+            if (!blockHost) return;
+            const root = blockHost.shadowRoot;
             try {
               ${rawJs}
             } catch (e) {
